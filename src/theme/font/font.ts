@@ -22,7 +22,7 @@ const PLATFORM_FONT_FAMILY = {
 	[PLATFORM.WINDOWS]: 'System'
 }
 
-export const createFont = (fontFamily?: string, codeFontFamily?: string, platform: Platform = PLATFORM.IOS): Font => ({
+export const createFont = (platform: Platform = PLATFORM.IOS, fontFamily?: string, codeFontFamily?: string): Font => ({
 	family: {
 		codeFamily: codeFontFamily || PLATFORM_CODE_FONT_FAMILY[platform] || 'System',
 		family: fontFamily || PLATFORM_FONT_FAMILY[platform] || 'System'

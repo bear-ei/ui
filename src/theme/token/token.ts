@@ -33,40 +33,40 @@ import {createTypography} from '../typography'
  *
  * The layering separates concerns, NOT for partial-application reuse.
  */
-export const createToken = ({
-	codeFontFamily,
-	density = UI_DENSITY.COMPACT,
-	fontFamily,
-	// Default to macOS — the product's primary desktop target.
-	// Windows / Linux support (future) must pass `platform` explicitly.
-	platform = PLATFORM.MACOS
-}: CreateTokenOptions = {}) => {
-	const font = createFont(fontFamily, codeFontFamily, platform)
+export const createToken = (
+	palette: PaletteType = PALETTE.NAVY,
+	{contrast = CONTRAST.STANDARD, scheme = SCHEME.LIGHT}: ColorSchemeOptions = {},
+	{
+		codeFontFamily,
+		density = UI_DENSITY.COMPACT,
+		fontFamily,
+		// Default to macOS — the product's primary desktop target.
+		// Windows / Linux support (future) must pass `platform` explicitly.
+		platform = PLATFORM.MACOS
+	}: CreateTokenOptions = {}
+): Token => {
+	const font = createFont(platform, fontFamily, codeFontFamily)
+	const createdPalette = createPalette(palette)
+	const colorScheme = createColorScheme(createdPalette, scheme, contrast)
+	const classes = {
+		classesName,
+		densityClasses,
+		processStyleVariables: rawProcessStyleVariables,
+		shapeClasses,
+		typographyClasses
+	}
 
-	return ({contrast = CONTRAST.STANDARD, scheme = SCHEME.LIGHT}: ColorSchemeOptions = {}) =>
-		(palette: PaletteType = PALETTE.NAVY): Token => {
-			const createdPalette = createPalette(palette)
-			const colorScheme = createColorScheme(createdPalette, scheme, contrast)
-			const classes = {
-				classesName,
-				densityClasses,
-				processStyleVariables: rawProcessStyleVariables,
-				shapeClasses,
-				typographyClasses
-			}
-
-			return {
-				animated: createAnimatedConfig(density),
-				border: createBorder(),
-				classes,
-				density: createDensity(density),
-				elevation: createElevation(density),
-				font,
-				opacity: createOpacity(),
-				palette: createdPalette,
-				scheme: colorScheme,
-				shape: createShape(density),
-				typography: createTypography(font, density)
-			}
-		}
+	return {
+		animated: createAnimatedConfig(density),
+		border: createBorder(),
+		classes,
+		density: createDensity(density),
+		elevation: createElevation(density),
+		font,
+		opacity: createOpacity(),
+		palette: createdPalette,
+		scheme: colorScheme,
+		shape: createShape(density),
+		typography: createTypography(font, density)
+	}
 }

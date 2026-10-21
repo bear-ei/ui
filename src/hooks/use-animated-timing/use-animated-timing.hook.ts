@@ -53,7 +53,7 @@ export const useAnimatedTiming = () => {
 						return
 					}
 
-					sharedValue.value = createAnimatedTiming({...options, bezier, duration})(callback)(toValue)
+					sharedValue.value = createAnimatedTiming(toValue, {...options, bezier, duration}, callback)
 				}
 		},
 		[token]

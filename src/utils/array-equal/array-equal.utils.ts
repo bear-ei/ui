@@ -8,12 +8,12 @@
  * @example
  * arrayEqual(prev.dependencies, next.dependencies)
  */
-export const arrayEqual = <T>(preArray?: T[], nextArray?: T[]) => {
-	if (preArray === undefined && nextArray === undefined) {
+export const arrayEqual = <T>(prevArray?: T[], nextArray?: T[]) => {
+	if (prevArray === undefined && nextArray === undefined) {
 		return true
 	}
 
 	return Boolean(
-		preArray?.length === nextArray?.length && preArray?.every((key, index) => Object.is(key, nextArray?.[index]))
+		prevArray?.length === nextArray?.length && prevArray?.every((key, index) => Object.is(key, nextArray?.[index]))
 	)
 }

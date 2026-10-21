@@ -1,6 +1,8 @@
 import {cloneElement, forwardRef, useMemo, type FC} from 'react'
 import {View} from 'react-native'
 
+import type {ButtonType, RenderButtonIconProps, RenderButtonProps} from './Button.interface'
+
 import {COMPONENT_STATUS, EVENT_NAME, LAYOUT, type EventName} from '../../constants'
 import {useTheme} from '../../hooks'
 import {
@@ -22,9 +24,7 @@ import {Elevation} from '../Elevation'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
-
 import {BUTTON_TYPE} from './Button.enum'
-import type {ButtonType, RenderButtonIconProps, RenderButtonProps} from './Button.interface'
 
 export const RenderButtonIcon: FC<RenderButtonIconProps> = ({
 	disabled,
@@ -100,7 +100,7 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 		ref
 	) => {
 		const {token} = useTheme()
-		const {densityClasses, classesName, shapeClasses, typographyClasses} = token.classes
+		const {classesName, densityClasses, shapeClasses, typographyClasses} = token.classes
 		const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)()
 		const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET)(LAYOUT.HORIZONTAL)
 		const isActiveIndicatorVisible =
@@ -152,15 +152,15 @@ export const RenderButton = forwardRef<PressableType, RenderButtonProps>(
 				accessibilityRole='button'
 				accessibilityState={{disabled}}
 				accessible={true}
-				style={style}
 				className={classesName('cursor-pointer', {
 					[`${densityControlClasses(size)} w-auto min-w-20`]: !isLink,
 					[`${typographyClasses(TYPOGRAPHY.LABEL)(TYPOGRAPHY_SIZE.SMALL)} min-w-[--density-inline-xx-small]`]:
 						isLink,
+					['pointer-events-none']: disabled,
 					['self-start']: !stretch,
-					['self-stretch']: stretch,
-					['pointer-events-none']: disabled
+					['self-stretch']: stretch
 				})}
+				style={style}
 				tabIndex={-1}
 				testID={testID ?? `button--${id}`}
 			>

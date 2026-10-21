@@ -1,10 +1,11 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import {useImmer} from 'use-immer'
 
+import type {PressableType} from '../Touchable'
+import type {ButtonBaseProps, ButtonState} from './Button.interface'
+
 import {COMPONENT_STATUS, type State} from '../../constants'
 import {type HandleStateEventChangeOptions, type StateEvent, useTheme} from '../../hooks'
-import type {PressableType} from '../Touchable'
-
 import {BUTTON_TYPE} from './Button.enum'
 import {
 	getButtonUnderlayColor,
@@ -12,7 +13,6 @@ import {
 	updateButtonDisabledState,
 	updateButtonStatus
 } from './Button.handler'
-import type {ButtonBaseProps, ButtonState} from './Button.interface'
 import {RenderButton, RenderButtonIcon} from './Button.render'
 import {useButtonAnimated} from './use-button-animated.hook'
 

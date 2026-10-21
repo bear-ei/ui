@@ -1,10 +1,10 @@
 import {forwardRef} from 'react'
 
-import {typedMemo} from '../../utils'
 import type {PressableType} from '../Touchable'
-
-import {ButtonBase} from './Button-base.component'
 import type {ButtonProps} from './Button.interface'
+
+import {typedMemo} from '../../utils'
+import {ButtonBase} from './Button-base.component'
 
 const ButtonWithRef = forwardRef<PressableType, ButtonProps>((props, ref) => (
 	<ButtonBase

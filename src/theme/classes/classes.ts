@@ -301,7 +301,6 @@ const shapeClasses = (shape: ShapeType = SHAPE.ALL, radius: RadiusType = RADIUS.
 const typographyClasses =
 	(
 		typography: TypographyType = TYPOGRAPHY.BODY,
-
 		{
 			colorClasses = 'text-[--color-on-surface]',
 			fontFamilyClasses = 'font-[family-name:var(--font-family)]'

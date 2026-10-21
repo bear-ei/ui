@@ -11,7 +11,6 @@ import type {
 import type {ThemeProps} from '../../theme'
 import type {ElevationValue} from '../Elevation'
 import type {TouchableProps} from '../Touchable'
-
 import type {BUTTON_TYPE} from './Button.enum'
 
 export type ButtonType = (typeof BUTTON_TYPE)[keyof typeof BUTTON_TYPE]

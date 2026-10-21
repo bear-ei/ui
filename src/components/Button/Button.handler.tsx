@@ -1,12 +1,7 @@
 import type {WritableDraft} from 'immer'
 import type {Updater} from 'use-immer'
 
-import {COMPONENT_STATUS, EVENT_NAME, type EventName, type State, STATE} from '../../constants'
 import type {StateEvent} from '../../hooks'
-import {DURATION, EASING, type Token} from '../../theme'
-import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
-
-import {BUTTON_TYPE} from './Button.enum'
 import type {
 	AnimateButtonOptions,
 	AnimateButtonSharedValues,
@@ -14,6 +9,11 @@ import type {
 	ButtonType,
 	HandleButtonStateChangeOptions
 } from './Button.interface'
+
+import {COMPONENT_STATUS, EVENT_NAME, type EventName, type State, STATE} from '../../constants'
+import {DURATION, EASING, type Token} from '../../theme'
+import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
+import {BUTTON_TYPE} from './Button.enum'
 
 export const updateButtonStatus = (disabled?: boolean) => (setState: Updater<ButtonState>) => (type?: ButtonType) =>
 	setState(draft => {
@@ -59,7 +59,7 @@ export const updateButtonElevation = (draft: WritableDraft<ButtonState>) => (typ
 }
 
 export const handleButtonStateChange =
-	({eventName, type, state}: HandleButtonStateChangeOptions) =>
+	({eventName, state, type}: HandleButtonStateChangeOptions) =>
 	(setState: Updater<ButtonState>) =>
 	(_event: StateEvent) => {
 		if (eventName === EVENT_NAME.LAYOUT) {

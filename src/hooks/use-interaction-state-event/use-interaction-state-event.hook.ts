@@ -37,59 +37,59 @@ export const useInteractionStateEvent = ({
 	onStateEventChange
 }: UseHandleStateEventOptions) => {
 	const interactionHandlers = useCallback(
-		(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-			handleStateEventChange({...options, disabled, onStateEventChange})(state)(event),
+		<T extends StateEvent>(event: T, state: State, options: HandleStateEventChangeOptions<T>) =>
+			handleStateEventChange(event, state, {...options, disabled, onStateEventChange}),
 		[disabled, onStateEventChange]
 	)
 
 	const onBlur = useMemo(
-		() => createPropagationStoppedHandler(handleBlurEvent({interactionHandlers})(rawOnBlur)),
+		() => createPropagationStoppedHandler(handleBlurEvent({interactionHandlers}, rawOnBlur)),
 		[interactionHandlers, rawOnBlur]
 	)
 
 	const onFocus = useMemo(
-		() => createPropagationStoppedHandler(handleFocusEvent({interactionHandlers})(rawOnFocus)),
+		() => createPropagationStoppedHandler(handleFocusEvent({interactionHandlers}, rawOnFocus)),
 		[interactionHandlers, rawOnFocus]
 	)
 
 	const onHoverIn = useMemo(
-		() => createPropagationStoppedHandler(handleHoverInEvent({interactionHandlers})(rawOnHoverIn)),
+		() => createPropagationStoppedHandler(handleHoverInEvent({interactionHandlers}, rawOnHoverIn)),
 		[interactionHandlers, rawOnHoverIn]
 	)
 
 	const onHoverOut = useMemo(
-		() => createPropagationStoppedHandler(handleHoverOutEvent({interactionHandlers})(rawOnHoverOut)),
+		() => createPropagationStoppedHandler(handleHoverOutEvent({interactionHandlers}, rawOnHoverOut)),
 		[interactionHandlers, rawOnHoverOut]
 	)
 
 	const onLongPress = useMemo(
-		() => createPropagationStoppedHandler(handleLongPressEvent({interactionHandlers})(rawOnLongPress)),
+		() => createPropagationStoppedHandler(handleLongPressEvent({interactionHandlers}, rawOnLongPress)),
 		[interactionHandlers, rawOnLongPress]
 	)
 
 	const onPress = useMemo(
 		() =>
 			createPropagationStoppedHandler(
-				handlePressEvent({interactionHandlers, mobileDevice: IS_MOBILE_DEVICE})(rawOnPress)
+				handlePressEvent({interactionHandlers, mobileDevice: IS_MOBILE_DEVICE}, rawOnPress)
 			),
 		[interactionHandlers, rawOnPress]
 	)
 
 	const onPressIn = useMemo(
-		() => createPropagationStoppedHandler(handlePressInEvent({interactionHandlers})(rawOnPressIn)),
+		() => createPropagationStoppedHandler(handlePressInEvent({interactionHandlers}, rawOnPressIn)),
 		[interactionHandlers, rawOnPressIn]
 	)
 
 	const onPressOut = useMemo(
 		() =>
 			createPropagationStoppedHandler(
-				handlePressOutEvent({interactionHandlers, mobileDevice: IS_MOBILE_DEVICE})(rawOnPressOut)
+				handlePressOutEvent({interactionHandlers, mobileDevice: IS_MOBILE_DEVICE}, rawOnPressOut)
 			),
 		[interactionHandlers, rawOnPressOut]
 	)
 
 	const onLayout = useMemo(
-		() => createPropagationStoppedHandler(handleLayoutEvent({interactionHandlers})(rawOnLayout)),
+		() => createPropagationStoppedHandler(handleLayoutEvent({interactionHandlers}, rawOnLayout)),
 		[interactionHandlers, rawOnLayout]
 	)
 

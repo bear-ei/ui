@@ -30,75 +30,89 @@ export const createPropagationStoppedHandler =
 		return handler(event)
 	}
 
-export const handleStateEventChange =
-	({callback, disabled, eventName, onStateEventChange}: HandleStateEventChangeOptions) =>
-	(state: State) =>
-	(event: StateEvent) => {
-		onStateEventChange?.({eventName})(disabled && eventName !== EVENT_NAME.LAYOUT ? STATE.DISABLED : state)(event)
+export const handleStateEventChange = <T>(
+	event: T,
+	state: State,
+	{callback, disabled, eventName, onStateEventChange}: HandleStateEventChangeOptions<T>
+) => {
+	onStateEventChange?.(event, disabled && eventName !== EVENT_NAME.LAYOUT ? STATE.DISABLED : state, {eventName})
 
-		if (!disabled || eventName === EVENT_NAME.LAYOUT) {
-			callback?.()
-		}
+	if (!disabled || eventName === EVENT_NAME.LAYOUT) {
+		callback?.(event)
 	}
+}
 
 export const handlePressInEvent =
-	({interactionHandlers}: HandleStateEventOptions) =>
-	(onPressIn?: UseHandleStateEventOptions['onPressIn']) =>
+	(
+		{interactionHandlers}: HandleStateEventOptions<GestureResponderEvent>,
+		onPressIn?: UseHandleStateEventOptions['onPressIn']
+	) =>
 	(event: GestureResponderEvent) =>
-		interactionHandlers({callback: () => onPressIn?.(event), eventName: EVENT_NAME.PRESS_IN})(STATE.PRESS_IN)(event)
+		interactionHandlers(event, STATE.PRESS_IN, {callback: onPressIn, eventName: EVENT_NAME.PRESS_IN})
 
 export const handlePressEvent =
-	({interactionHandlers, mobileDevice}: HandleStateEventOptions) =>
-	(onPress?: UseHandleStateEventOptions['onPress']) =>
+	(
+		{interactionHandlers, mobileDevice}: HandleStateEventOptions<GestureResponderEvent>,
+		onPress?: UseHandleStateEventOptions['onPress']
+	) =>
 	(event: GestureResponderEvent) =>
-		interactionHandlers({callback: () => onPress?.(event), eventName: EVENT_NAME.PRESS})(
-			mobileDevice ? STATE.ENABLED : STATE.HOVERED
-		)(event)
+		interactionHandlers(event, mobileDevice ? STATE.ENABLED : STATE.HOVERED, {
+			callback: onPress,
+			eventName: EVENT_NAME.PRESS
+		})
 
 export const handleLongPressEvent =
-	({interactionHandlers}: HandleStateEventOptions) =>
-	(onLongPress?: UseHandleStateEventOptions['onLongPress']) =>
+	(
+		{interactionHandlers}: HandleStateEventOptions<GestureResponderEvent>,
+		onLongPress?: UseHandleStateEventOptions['onLongPress']
+	) =>
 	(event: GestureResponderEvent) =>
-		interactionHandlers({callback: () => onLongPress?.(event), eventName: EVENT_NAME.LONG_PRESS})(STATE.LONG_PRESS)(
-			event
-		)
+		interactionHandlers(event, STATE.LONG_PRESS, {
+			callback: onLongPress,
+			eventName: EVENT_NAME.LONG_PRESS
+		})
 
 export const handlePressOutEvent =
-	({interactionHandlers, mobileDevice}: HandleStateEventOptions) =>
-	(onPressOut?: UseHandleStateEventOptions['onPressOut']) =>
+	(
+		{interactionHandlers, mobileDevice}: HandleStateEventOptions<GestureResponderEvent>,
+		onPressOut?: UseHandleStateEventOptions['onPressOut']
+	) =>
 	(event: GestureResponderEvent) =>
-		interactionHandlers({callback: () => onPressOut?.(event), eventName: EVENT_NAME.PRESS_OUT})(
-			mobileDevice ? STATE.ENABLED : STATE.HOVERED
-		)(event)
+		interactionHandlers(event, mobileDevice ? STATE.ENABLED : STATE.HOVERED, {
+			callback: onPressOut,
+			eventName: EVENT_NAME.PRESS_OUT
+		})
 
 export const handleHoverInEvent =
-	({interactionHandlers}: HandleStateEventOptions) =>
-	(onHoverIn?: UseHandleStateEventOptions['onHoverIn']) =>
+	({interactionHandlers}: HandleStateEventOptions<MouseEvent>, onHoverIn?: UseHandleStateEventOptions['onHoverIn']) =>
 	(event: MouseEvent) =>
-		interactionHandlers({callback: () => onHoverIn?.(event), eventName: EVENT_NAME.HOVER_IN})(STATE.HOVERED)(event)
+		interactionHandlers(event, STATE.HOVERED, {callback: onHoverIn, eventName: EVENT_NAME.HOVER_IN})
 
 export const handleHoverOutEvent =
-	({interactionHandlers}: HandleStateEventOptions) =>
-	(onHoverOut?: UseHandleStateEventOptions['onHoverOut']) =>
+	(
+		{interactionHandlers}: HandleStateEventOptions<MouseEvent>,
+		onHoverOut?: UseHandleStateEventOptions['onHoverOut']
+	) =>
 	(event: MouseEvent) =>
-		interactionHandlers({callback: () => onHoverOut?.(event), eventName: EVENT_NAME.HOVER_OUT})(STATE.ENABLED)(
-			event
-		)
+		interactionHandlers(event, STATE.ENABLED, {
+			callback: onHoverOut,
+			eventName: EVENT_NAME.HOVER_OUT
+		})
 
 export const handleFocusEvent =
-	({interactionHandlers}: HandleStateEventOptions) =>
-	(onFocus?: UseHandleStateEventOptions['onFocus']) =>
+	({interactionHandlers}: HandleStateEventOptions<FocusEvent>, onFocus?: UseHandleStateEventOptions['onFocus']) =>
 	(event: FocusEvent) =>
-		interactionHandlers({callback: () => onFocus?.(event), eventName: EVENT_NAME.FOCUS})(STATE.FOCUSED)(event)
+		interactionHandlers(event, STATE.FOCUSED, {callback: onFocus, eventName: EVENT_NAME.FOCUS})
 
 export const handleBlurEvent =
-	({interactionHandlers}: HandleStateEventOptions) =>
-	(onBlur?: UseHandleStateEventOptions['onBlur']) =>
+	({interactionHandlers}: HandleStateEventOptions<BlurEvent>, onBlur?: UseHandleStateEventOptions['onBlur']) =>
 	(event: BlurEvent) =>
-		interactionHandlers({callback: () => onBlur?.(event), eventName: EVENT_NAME.BLUR})(STATE.ENABLED)(event)
+		interactionHandlers(event, STATE.ENABLED, {callback: onBlur, eventName: EVENT_NAME.BLUR})
 
 export const handleLayoutEvent =
-	({interactionHandlers}: HandleStateEventOptions) =>
-	(onLayout?: UseHandleStateEventOptions['onLayout']) =>
+	(
+		{interactionHandlers}: HandleStateEventOptions<LayoutChangeEvent>,
+		onLayout?: UseHandleStateEventOptions['onLayout']
+	) =>
 	(event: LayoutChangeEvent) =>
-		interactionHandlers({callback: () => onLayout?.(event), eventName: EVENT_NAME.LAYOUT})(STATE.ENABLED)(event)
+		interactionHandlers(event, STATE.ENABLED, {callback: onLayout, eventName: EVENT_NAME.LAYOUT})
