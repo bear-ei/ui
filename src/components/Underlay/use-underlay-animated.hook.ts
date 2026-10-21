@@ -70,17 +70,17 @@ export const useUnderlayAnimated = ({
 	)
 
 	const runDebounceAnimateHoverState = useMemo(
-		() => debounce(animateUnderlayHoverState({activeValue, animatedTiming})(hoverLayerSharedValue), 30),
+		() => debounce(animateUnderlayHoverState(hoverLayerSharedValue, {activeValue, animatedTiming}), 30),
 		[animatedTiming, activeValue, hoverLayerSharedValue]
 	)
 
 	const runAnimateHoverState = useMemo(
-		() => animateUnderlayHoverState({activeValue, animatedTiming})(hoverLayerSharedValue),
+		() => animateUnderlayHoverState(hoverLayerSharedValue, {activeValue, animatedTiming}),
 		[animatedTiming, activeValue, hoverLayerSharedValue]
 	)
 
 	const runAnimateActiveState = useMemo(
-		() => animateUnderlayActiveState(animatedTiming)(activeLayerSharedValue),
+		() => animateUnderlayActiveState(activeLayerSharedValue, animatedTiming),
 		[animatedTiming, activeLayerSharedValue]
 	)
 

@@ -43,7 +43,10 @@ export const updateUnderlayEventName = (setState: Updater<UnderlayState>) => (ev
 		draft.eventName = eventName
 	})
 
-export const animateUnderlayHoverState = ({activeValue, animatedTiming}: AnimateUnderlayHoverStateOptions) => {
+export const animateUnderlayHoverState = (
+	sharedValue: SharedValue<number>,
+	{activeValue, animatedTiming}: AnimateUnderlayHoverStateOptions
+) => {
 	const event: Partial<Record<EventName, number>> = {
 		[EVENT_NAME.BLUR]: 0,
 		[EVENT_NAME.FOCUS]: activeValue,
@@ -56,22 +59,20 @@ export const animateUnderlayHoverState = ({activeValue, animatedTiming}: Animate
 		[EVENT_NAME.PRESS_OUT]: 1
 	}
 
-	return (hoverLayerSharedValue: SharedValue<number>) => {
-		const animateSharedValueTo = animatedTiming(hoverLayerSharedValue, {
-			duration: DURATION.SHORT_1,
-			easing: EASING.STANDARD
-		})
+	const animateSharedValueTo = animatedTiming(sharedValue, {
+		duration: DURATION.SHORT_1,
+		easing: EASING.STANDARD
+	})
 
-		return (eventName?: EventName) => {
-			if (!eventName) {
-				return
-			}
+	return (eventName?: EventName) => {
+		if (!eventName) {
+			return
+		}
 
-			const value = event[eventName]
+		const value = event[eventName]
 
-			if (typeof value === 'number') {
-				animateSharedValueTo(value)
-			}
+		if (typeof value === 'number') {
+			animateSharedValueTo(value)
 		}
 	}
 }
@@ -90,18 +91,14 @@ export const updateUnderlayActive = (setState: Updater<UnderlayState>) => (activ
 	})
 }
 
-export const animateUnderlayActiveState =
-	(animatedTiming: AnimatedTiming) => (activeLayerSharedValue: SharedValue<number>) => {
-		const animateSharedValueTo = animatedTiming(activeLayerSharedValue, {
-			duration: DURATION.SHORT_2,
-			easing: EASING.STANDARD
-		})
+export const animateUnderlayActiveState = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
+	const animateSharedValueTo = animatedTiming(sharedValue, {duration: DURATION.SHORT_2, easing: EASING.STANDARD})
 
-		return (active?: boolean) => {
-			if (typeof active !== 'boolean') {
-				return
-			}
-
-			animateSharedValueTo(active ? 1 : 0)
+	return (active?: boolean) => {
+		if (typeof active !== 'boolean') {
+			return
 		}
+
+		animateSharedValueTo(active ? 1 : 0)
 	}
+}

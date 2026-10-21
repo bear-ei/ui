@@ -4,13 +4,12 @@ import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {ComponentStatus, LayoutRectangle, PartialSize} from '../../constants'
 import type {
+	AnimatedTiming,
 	AnimatedTimingOptions,
-	AnimateSharedValueTo,
 	HandleStateEventChangeOptions,
 	InteractionHandlers
 } from '../../hooks'
-import type {Duration, Easing, ThemeProps} from '../../theme'
-
+import type {ThemeProps} from '../../theme'
 import type {LAYOUT_ANIMATED} from './Layout-animated.enum'
 
 export type LayoutAnimatedType = (typeof LAYOUT_ANIMATED)[keyof typeof LAYOUT_ANIMATED]
@@ -19,23 +18,21 @@ export interface LayoutAnimatedProps extends Omit<ViewProps & RefAttributes<View
 	contentSize?: PartialSize | number
 	defaultVisible?: boolean
 	delay?: number
-	duration?: Duration
-	easing?: Easing
 	entry?: AnimatedTimingOptions
 	exit?: AnimatedTimingOptions
 	lazy?: boolean
 	onAnimationFinished?: (visible?: boolean) => void
 	onUnmount?: () => void
-	opacity?: number
 	onVisible?: (visible?: boolean) => void
+	opacity?: number
 
 	// [ These parameters are only effective when the animation type is Collapse.
 	outputRanges?: number[]
 	scale?: boolean
-	translate?: boolean
+	style?: AnimatedStyle<ViewStyle>
 	// ]
 
-	style?: AnimatedStyle<ViewStyle>
+	translate?: boolean
 	unmount?: boolean
 	visible?: boolean
 }
@@ -88,5 +85,5 @@ export interface AnimateLayoutAnimatedOptions extends Pick<
 	UseLayoutAnimatedOptions,
 	'animatedType' | 'entry' | 'exit' | 'onAnimationFinished'
 > {
-	animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo
+	animatedTiming: AnimatedTiming
 }

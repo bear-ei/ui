@@ -114,7 +114,7 @@ export const useElevationAnimated = ({
 	})
 
 	const runAnimate = useMemo(
-		() => animateElevation({animatedTiming, entry, exit, onAnimationFinished})(shadowSharedValue),
+		() => animateElevation(shadowSharedValue, {animatedTiming, entry, exit, onAnimationFinished}),
 		[animatedTiming, onAnimationFinished, shadowSharedValue, entry, exit]
 	)
 

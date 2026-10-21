@@ -1,11 +1,13 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+
 import {useState} from 'react'
 import {View} from 'react-native'
 
-import {Button} from '../Button'
-
-import {LayoutAnimated} from './Layout-animated.component'
 import type {LayoutAnimatedProps} from './Layout-animated.interface'
+
+import {Button} from '../Button'
+import {LayoutAnimated} from './Layout-animated.component'
+import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 
 const LayoutAnimatedComponent = (props: LayoutAnimatedProps) => {
 	const [isVisible, setIsVisible] = useState(true)
@@ -15,8 +17,8 @@ const LayoutAnimatedComponent = (props: LayoutAnimatedProps) => {
 			<View className='h-60 w-80'>
 				<LayoutAnimated
 					{...props}
-					visible={isVisible}
 					unmount={true}
+					visible={isVisible}
 				>
 					<View className='h-60 w-80 bg-red-400' />
 				</LayoutAnimated>
@@ -31,8 +33,20 @@ export const Fade: StoryObj<LayoutAnimatedProps> = {
 	args: {}
 }
 
+export const CollapseX: StoryObj<LayoutAnimatedProps> = {
+	args: {animatedType: LAYOUT_ANIMATED.COLLAPSE_X, contentSize: 200}
+}
+
+export const CollapseYTranslate: StoryObj<LayoutAnimatedProps> = {
+	args: {animatedType: LAYOUT_ANIMATED.COLLAPSE_Y, contentSize: 200, translate: false}
+}
+
+export const Scale: StoryObj<LayoutAnimatedProps> = {
+	args: {animatedType: LAYOUT_ANIMATED.SCALE}
+}
+
 export default {
-	title: 'components/LayoutAnimated',
 	argTypes: {onPress: {action: 'pressed'}},
-	component: LayoutAnimatedComponent
+	component: LayoutAnimatedComponent,
+	title: 'components/LayoutAnimated'
 } as Meta<typeof LayoutAnimated>

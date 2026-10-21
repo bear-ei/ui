@@ -1,15 +1,16 @@
-import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
+
+import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
+import type {UseLayoutAnimatedOptions} from './Layout-animated.interface'
 
 import {COMPONENT_STATUS} from '../../constants'
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {DENSITY_SIZE} from '../../theme'
 import {debounce, platformValue} from '../../utils'
-
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {animateLayoutAnimated} from './Layout-animated.handler'
-import type {UseLayoutAnimatedOptions} from './Layout-animated.interface'
 
 export const useLayoutAnimated = ({
 	animatedType = LAYOUT_ANIMATED.FADE,
@@ -27,23 +28,23 @@ export const useLayoutAnimated = ({
 	width = 0
 }: UseLayoutAnimatedOptions) => {
 	const {token} = useTheme()
+	const {density, opacity} = token
 	const containerSharedValue = useSharedValue(visible ? 1 : 0)
-	const opacity = rawOpacity ?? token.opacity.level10
 	const animatedTiming = useAnimatedTiming()
 	const animateLayoutAnimatedOptions = useMemo(
-		() => ({animatedType, animatedTiming, entry, exit, onAnimationFinished}),
+		() => ({animatedTiming, animatedType, entry, exit, onAnimationFinished}),
 		[animatedTiming, entry, exit, onAnimationFinished, animatedType]
 	)
 
-	const opacityOutputRanges = useMemo(() => [token.opacity.level0, opacity], [opacity, token])
+	const opacityOutputRanges = useMemo(() => [opacity.level0, rawOpacity ?? opacity.level10], [opacity, rawOpacity])
 	const fadeAnimatedStyle = useAnimatedStyle(() => ({
 		opacity: interpolate(containerSharedValue.value, [0, 1], opacityOutputRanges)
 	}))
 
-	const widthOutputRanges = useMemo(() => [token.density.layout[DENSITY_SIZE.NONE], width], [token, width])
+	const widthOutputRanges = useMemo(() => [density.layout[DENSITY_SIZE.NONE], width], [density, width])
 	const transformXOutputRanges = useMemo(
-		() => outputRanges ?? [width, token.density.layout[DENSITY_SIZE.NONE]],
-		[outputRanges, token, width]
+		() => outputRanges ?? [width, density.layout[DENSITY_SIZE.NONE]],
+		[outputRanges, density, width]
 	)
 
 	const collapseXAnimatedStyle = useAnimatedStyle(() => {
@@ -65,10 +66,10 @@ export const useLayoutAnimated = ({
 		} as ViewStyle
 	})
 
-	const heightOutputRanges = useMemo(() => [token.density.layout[DENSITY_SIZE.NONE], height], [height, token])
+	const heightOutputRanges = useMemo(() => [density.layout[DENSITY_SIZE.NONE], height], [height, density])
 	const transformYOutputRanges = useMemo(
-		() => outputRanges ?? [height, token.density.layout[DENSITY_SIZE.NONE]],
-		[height, outputRanges, token]
+		() => outputRanges ?? [height, density.layout[DENSITY_SIZE.NONE]],
+		[height, outputRanges, density]
 	)
 
 	const collapseYAnimatedStyle = useAnimatedStyle(() => {
@@ -103,8 +104,8 @@ export const useLayoutAnimated = ({
 			[LAYOUT_ANIMATED.COLLAPSE_Y]: collapseYAnimatedStyle,
 			[LAYOUT_ANIMATED.COLLAPSE_Y_AND_FADE]: [collapseYAnimatedStyle, fadeAnimatedStyle],
 			[LAYOUT_ANIMATED.FADE]: fadeAnimatedStyle,
-			[LAYOUT_ANIMATED.SCALE]: scaleAnimatedStyle,
-			[LAYOUT_ANIMATED.NONE]: undefined
+			[LAYOUT_ANIMATED.NONE]: undefined,
+			[LAYOUT_ANIMATED.SCALE]: scaleAnimatedStyle
 		}),
 		[collapseXAnimatedStyle, fadeAnimatedStyle, scaleAnimatedStyle, collapseYAnimatedStyle]
 	)
@@ -114,8 +115,8 @@ export const useLayoutAnimated = ({
 	const runAnimate = useMemo(
 		() =>
 			(animatedType !== LAYOUT_ANIMATED.NONE ?
-				debounce(animateLayoutAnimated(animateLayoutAnimatedOptions)(containerSharedValue))(delay)
-			:	animateLayoutAnimated(animateLayoutAnimatedOptions)(containerSharedValue)) as {
+				debounce(animateLayoutAnimated(containerSharedValue, animateLayoutAnimatedOptions), delay)
+			:	animateLayoutAnimated(containerSharedValue, animateLayoutAnimatedOptions)) as {
 				(visible?: boolean | undefined): void
 				cancel?: () => void
 			},

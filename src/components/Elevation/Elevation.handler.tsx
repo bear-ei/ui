@@ -78,36 +78,37 @@ export const updateElevationLevel = (setState: Updater<ElevationState>) => (leve
  * (superseded by a newer call). This wrapper filters those out via
  * `finished && …`, so consumers only see successful completions.
  */
-export const animateElevation =
-	({animatedTiming, entry, exit, onAnimationFinished}: AnimateElevationOptions) =>
-	(shadowSharedValue: SharedValue<number>) => {
-		const entryAnimateSharedValueTo = animatedTiming(shadowSharedValue, {
-			easing: EASING.STANDARD_DECELERATE,
-			...entry,
-			callback: (finished?: boolean) => finished && onAnimationFinished?.(true)
-		})
+export const animateElevation = (
+	sharedValue: SharedValue<number>,
+	{animatedTiming, entry, exit, onAnimationFinished}: AnimateElevationOptions
+) => {
+	const entryAnimateSharedValueTo = animatedTiming(sharedValue, {
+		easing: EASING.STANDARD_DECELERATE,
+		...entry,
+		callback: (finished?: boolean) => finished && onAnimationFinished?.(true)
+	})
 
-		const exitAnimateSharedValueTo = animatedTiming(shadowSharedValue, {
-			easing: EASING.STANDARD_ACCELERATE,
-			...exit,
-			callback: (finished?: boolean) => finished && onAnimationFinished?.(false)
-		})
+	const exitAnimateSharedValueTo = animatedTiming(sharedValue, {
+		easing: EASING.STANDARD_ACCELERATE,
+		...exit,
+		callback: (finished?: boolean) => finished && onAnimationFinished?.(false)
+	})
 
-		const animateSharedValueTo = animatedTiming(shadowSharedValue, {
-			callback: (finished?: boolean) => finished && onAnimationFinished?.(),
-			duration: DURATION.SHORT_2,
-			easing: EASING.STANDARD
-		})
+	const animateSharedValueTo = animatedTiming(sharedValue, {
+		callback: (finished?: boolean) => finished && onAnimationFinished?.(),
+		duration: DURATION.SHORT_2,
+		easing: EASING.STANDARD
+	})
 
-		return (level: ElevationValue) => {
-			if (entry) {
-				const runAnimateSharedValueTo = level !== 0 ? entryAnimateSharedValueTo : exitAnimateSharedValueTo
+	return (level: ElevationValue) => {
+		if (entry) {
+			const runAnimateSharedValueTo = level !== 0 ? entryAnimateSharedValueTo : exitAnimateSharedValueTo
 
-				runAnimateSharedValueTo(level)
+			runAnimateSharedValueTo(level)
 
-				return
-			}
-
-			animateSharedValueTo(level)
+			return
 		}
+
+		animateSharedValueTo(level)
 	}
+}
