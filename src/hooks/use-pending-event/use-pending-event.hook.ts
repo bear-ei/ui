@@ -1,3 +1,5 @@
+import type {Updater} from 'use-immer'
+
 import {useEffect, useRef} from 'react'
 
 import type {UsePendingEventOptions} from './use-pending-event.interface'
@@ -11,23 +13,20 @@ import type {UsePendingEventOptions} from './use-pending-event.interface'
  *   - the state slot is cleared immediately after consumption
  *
  * @example
- *   usePendingEvent({
- *       func: onEndReached,
+ *   usePendingEvent(onEndReached,setState,{
  *       eventKey: 'pendingEndReached',
  *       pendingEvent: pendingEndReached,
- *       setState
  *   })
  *
  * Why not put `func` in deps: it changes identity every render; the
  * effect would re-fire and re-consume the same event indefinitely.
  * The latest-ref pattern decouples handler identity from the effect.
  */
-export const usePendingEvent = <Evt, E, K extends keyof E>({
-	eventKey,
-	func,
-	pendingEvent,
-	setState
-}: UsePendingEventOptions<Evt, E, K>) => {
+export const usePendingEvent = <Evt, E, K extends keyof E>(
+	func?: (event: Evt) => void,
+	setState?: Updater<E>,
+	{eventKey, pendingEvent} = {} as UsePendingEventOptions<Evt, E, K>
+) => {
 	const funcRef = useRef(func)
 
 	// Latest-ref pattern: must write during render (not in an effect) so that
@@ -36,7 +35,7 @@ export const usePendingEvent = <Evt, E, K extends keyof E>({
 	funcRef.current = func
 
 	useEffect(() => {
-		if (pendingEvent === undefined) {
+		if (pendingEvent === undefined || setState === undefined) {
 			return
 		}
 

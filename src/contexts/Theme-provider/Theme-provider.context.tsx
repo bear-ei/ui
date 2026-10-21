@@ -22,10 +22,11 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({children, token: rawToken
 	const token = useMemo(
 		() =>
 			rawToken ??
-			createToken({density: uiDensity})({
-				contrast: CONTRAST.STANDARD,
-				scheme: colorScheme === 'dark' ? SCHEME.DARK : SCHEME.LIGHT
-			})(PALETTE.NAVY),
+			createToken(
+				PALETTE.NAVY,
+				{contrast: CONTRAST.STANDARD, scheme: colorScheme === 'dark' ? SCHEME.DARK : SCHEME.LIGHT},
+				{density: uiDensity}
+			),
 		[rawToken, uiDensity, colorScheme]
 	)
 
