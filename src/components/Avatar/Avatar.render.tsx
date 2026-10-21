@@ -35,7 +35,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 	) => {
 		const {token} = useTheme()
 		const {classesName, densityClasses, shapeClasses, typographyClasses} = token.classes
-		const densityInlineClasses = densityClasses(DENSITY_TYPE.INLINE)()
+		const densityInlineClasses = densityClasses(DENSITY_TYPE.INLINE)
 		const isSVG = !!svgElement
 		const avatarStyle = useMemo(
 			() => [
@@ -57,7 +57,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 				className={classesName(
 					'pointer-events-none relative overflow-hidden bg-[--color-primary-container]',
 					densityInlineClasses(size),
-					shapeClasses(radius)(SHAPE.ALL)
+					shapeClasses(SHAPE.ALL, radius)
 				)}
 				ref={ref}
 				style={avatarStyle}
@@ -92,7 +92,7 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 										typeof size === 'number' ?
 											TYPOGRAPHY_SIZE.MEDIUM
 										:	densitySizeMapTypographySize(size)
-									)()
+									)
 								)}
 								ellipsizeMode='tail'
 								numberOfLines={1}
