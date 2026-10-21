@@ -1,6 +1,7 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo, useRef} from 'react'
 import type {TextInput} from 'react-native'
 import {useImmer} from 'use-immer'
+
 import {COMPONENT_STATUS, STATE, type State} from '../../../constants'
 import {
 	useInteractionStateEvent,
@@ -9,6 +10,7 @@ import {
 	type HandleStateEventChangeOptions,
 	type StateEvent
 } from '../../../hooks'
+
 import {
 	handleSearchTextInputStateChange,
 	updateSearchTextInputText,

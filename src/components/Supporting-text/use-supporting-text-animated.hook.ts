@@ -1,7 +1,9 @@
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {hexToRGBA} from '../../theme'
+
 import {animateSupportingText} from './Supporting-text.handler'
 import type {UseSupportingTextOptions} from './Supporting-text.interface'
 

@@ -1,6 +1,8 @@
 import {useCallback, useMemo} from 'react'
 import {Platform} from 'react-native'
+
 import {type State} from '../../constants'
+
 import {
 	createPropagationStoppedHandler,
 	handleBlurEvent,

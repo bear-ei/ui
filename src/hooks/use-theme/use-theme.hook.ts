@@ -1,4 +1,5 @@
 import {useContext} from 'react'
+
 import {EMPTY_THEME, ThemeContext} from '../../contexts'
 
 export const useTheme = () => {

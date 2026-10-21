@@ -1,8 +1,10 @@
 import {forwardRef, useMemo} from 'react'
 import {Platform, Pressable, View, type ViewStyle} from 'react-native'
+
 import {useTheme} from '../../../hooks'
-import type {RenderPopoverLayoutProps} from './Popover-pressable-layout.interface'
 import {platformValue} from '../../../utils'
+
+import type {RenderPopoverLayoutProps} from './Popover-pressable-layout.interface'
 
 export const RenderPopoverPressableLayout = forwardRef<View, RenderPopoverLayoutProps>(
 	({containerLayout, id, className, ...pressableProps}, ref) => {

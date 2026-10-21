@@ -8,6 +8,7 @@ import type {
 	PanGestureHandlerEventPayload
 } from 'react-native-gesture-handler'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+
 import type {LayoutRectangle, LayoutType} from '../../constants'
 import type {InteractionHandlers} from '../../hooks'
 

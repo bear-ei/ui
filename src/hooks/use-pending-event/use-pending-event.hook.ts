@@ -1,4 +1,5 @@
 import {useEffect, useRef} from 'react'
+
 import type {UsePendingEventOptions} from './use-pending-event.interface'
 
 /**

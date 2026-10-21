@@ -1,6 +1,7 @@
 import type {GestureResponderEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+
 import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
 import type {
 	AnimatedTimingOptions,
@@ -9,13 +10,14 @@ import type {
 	StateEvent
 } from '../../../hooks'
 import {DURATION, EASING} from '../../../theme'
+
+import {LIST_AFTER_AFFORDANCE_PHASE} from './List-after-affordance.enum'
 import type {
 	ListAfterAffordancePhase,
 	ListAfterAffordanceState,
 	TriggerListAfterAffordanceConfirmOptions,
 	UpdateListAffordanceSecondaryActionStateOptions
 } from './List-after-affordance.interface'
-import {LIST_AFTER_AFFORDANCE_PHASE} from './List-after-affordance.enum'
 
 export const triggerListAfterAffordanceConfirm =
 	({onConfirm, phase, indexKey}: TriggerListAfterAffordanceConfirmOptions) =>

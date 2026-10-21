@@ -3,8 +3,10 @@ import type {FC} from 'react'
 import {useEffect, useMemo} from 'react'
 import {View} from 'react-native'
 import {useImmer} from 'use-immer'
+
 import {PopoverContent, PopoverPressableLayout} from '../../components'
 import {typedMemo} from '../../utils'
+
 import {MODAL_TYPE} from './Modal-provider.enum'
 import {updateModals} from './Modal-provider.handler'
 import type {EmitterEvent, Modal, ModalComponentType, ModalItemProps, ModalState} from './Modal-provider.interface'

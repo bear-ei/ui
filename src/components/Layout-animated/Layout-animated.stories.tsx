@@ -1,9 +1,11 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 import {useState} from 'react'
 import {View} from 'react-native'
+
+import {Button} from '../Button'
+
 import {LayoutAnimated} from './Layout-animated.component'
 import type {LayoutAnimatedProps} from './Layout-animated.interface'
-import {Button} from '../Button'
 
 const LayoutAnimatedComponent = (props: LayoutAnimatedProps) => {
 	const [isVisible, setIsVisible] = useState(true)

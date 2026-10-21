@@ -1,10 +1,15 @@
 import type {GestureResponderEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+
 import {COMPONENT_STATUS, EVENT_NAME, type EventName, TRIGGER_ON, type TriggerOn} from '../../../constants'
 import type {AnimatedTimingOptions, AnimateSharedValueTo, StateEvent} from '../../../hooks'
+import {DURATION, EASING} from '../../../theme'
+import type {ListAfterAffordancePressOutEvent} from '../List-after-affordance'
+import {LIST_AFTER_AFFORDANCE_PHASE} from '../List-after-affordance/List-after-affordance.enum'
 import {LIST_TYPE} from '../List.enum'
 import type {ListSelectType} from '../List.interface'
+
 import type {
 	ConfirmListItemAffordanceActionOptions,
 	HandleListItemStateChangeOptions,
@@ -12,9 +17,6 @@ import type {
 	ListItemState,
 	TriggerListItemTrailingActionsOptions
 } from './List-item.interface'
-import {DURATION, EASING} from '../../../theme'
-import type {ListAfterAffordancePressOutEvent} from '../List-after-affordance'
-import {LIST_AFTER_AFFORDANCE_PHASE} from '../List-after-affordance/List-after-affordance.enum'
 
 export const compareListItemProps = (prevProps: ListItemProps, nextProps: ListItemProps) => {
 	const {

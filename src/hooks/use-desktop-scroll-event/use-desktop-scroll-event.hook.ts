@@ -1,5 +1,6 @@
 import {useEffect, useMemo, useRef} from 'react'
 import {Platform} from 'react-native'
+
 import {handleDesktopScroll} from './use-desktop-scroll-event.handler'
 import type {UseDesktopScrollEventOptions} from './use-desktop-scroll-event.interface'
 

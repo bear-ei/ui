@@ -1,8 +1,10 @@
 import {useCallback, useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
 import {COMPONENT_STATUS, STATE} from '../../constants'
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {hexToRGBA} from '../../theme'
+
 import {TEXT_INPUT_TYPE} from './Text-input.enum'
 import {
 	animateTextInput,

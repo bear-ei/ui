@@ -1,5 +1,6 @@
 import type {Contrast} from '../color'
 import type {Palette} from '../palette'
+
 import type {ColorScheme, Scheme} from './scheme.interface'
 
 const createColorScheme =

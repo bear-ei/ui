@@ -1,10 +1,12 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 import {Circle} from 'lucide-react-native'
+
+import {DENSITY_SIZE, RADIUS, SHAPE} from '../../theme'
 import {IconButton} from '../Icon-button'
+
 import {List} from './List.component'
 import {LIST_SELECT_TYPE} from './List.enum'
 import type {ListProps} from './List.interface'
-import {DENSITY_SIZE, RADIUS, SHAPE} from '../../theme'
 
 export const Leading: StoryObj<ListProps> = {
 	args: {

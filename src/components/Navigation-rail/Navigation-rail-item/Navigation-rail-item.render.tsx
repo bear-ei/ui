@@ -1,5 +1,6 @@
 import {forwardRef, useMemo} from 'react'
 import {Pressable, View} from 'react-native'
+
 import {EVENT_NAME, LAYOUT} from '../../../constants'
 import {useTheme} from '../../../hooks'
 import {
@@ -15,6 +16,7 @@ import {AnimatedText, AnimatedView} from '../../Animated'
 import type {PressableType} from '../../Touchable'
 import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
+
 import type {RenderNavigationRailItemProps} from './Navigation-rail-item.interface'
 
 export const RenderNavigationRailItem = forwardRef<PressableType, RenderNavigationRailItemProps>(

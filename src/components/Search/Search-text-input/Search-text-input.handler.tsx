@@ -1,13 +1,15 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+
 import {COMPONENT_STATUS, EVENT_NAME, STATE} from '../../../constants'
 import type {AnimatedTimingOptions, AnimateSharedValueTo, StateEvent} from '../../../hooks'
+import {DURATION, EASING} from '../../../theme'
+
 import type {
 	AnimateSearchTextInputBorderRadiusOptions,
 	HandleSearchTextInputStateChangeOptions,
 	SearchTextInputState
 } from './Search-text-input.interface'
-import {DURATION, EASING} from '../../../theme'
 
 export const handleSearchTextInputStateChange =
 	({eventName, ref, state}: HandleSearchTextInputStateChangeOptions) =>

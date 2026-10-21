@@ -2,11 +2,13 @@ import {forwardRef} from 'react'
 import {View} from 'react-native'
 import Animated from 'react-native-reanimated'
 import {Circle, Svg} from 'react-native-svg'
+
 import {useTheme} from '../../../hooks'
 import {BORDER_SIZE} from '../../../theme'
 import {platformValue} from '../../../utils'
 import {AnimatedView} from '../../Animated'
 import {PROGRESS_ANIMATED} from '../Progress.enum'
+
 import type {RenderProgressActiveIndicatorCircularProps} from './Progress-active-indicator-circular.interface'
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle)

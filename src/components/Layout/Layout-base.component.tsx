@@ -1,7 +1,9 @@
 import {forwardRef, useId} from 'react'
 import type {View} from 'react-native'
+
 import {LAYOUT} from '../../constants'
 import {LAYOUT_ANIMATED} from '../Layout-animated'
+
 import type {LayoutBaseProps} from './Layout.interface'
 import {RenderLayout} from './Layout.render'
 

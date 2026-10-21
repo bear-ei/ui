@@ -1,10 +1,8 @@
 import {cloneElement, forwardRef} from 'react'
 import {View} from 'react-native'
+
+import {EVENT_NAME} from '../../../constants'
 import {useTheme} from '../../../hooks'
-import {AnimatedText, AnimatedView} from '../../Animated'
-import {Touchable, type PressableType} from '../../Touchable'
-import {Underlay} from '../../Underlay'
-import type {RenderListAffordanceButtonProps} from './List-affordance-button.interface'
 import {
 	DENSITY_SIZE,
 	DENSITY_TYPE,
@@ -13,7 +11,11 @@ import {
 	TYPOGRAPHY
 } from '../../../theme'
 import {platformValue} from '../../../utils'
-import {EVENT_NAME} from '../../../constants'
+import {AnimatedText, AnimatedView} from '../../Animated'
+import {Touchable, type PressableType} from '../../Touchable'
+import {Underlay} from '../../Underlay'
+
+import type {RenderListAffordanceButtonProps} from './List-affordance-button.interface'
 
 export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAffordanceButtonProps>(
 	(

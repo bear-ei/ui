@@ -1,10 +1,12 @@
 import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
 import {COMPONENT_STATUS} from '../../../constants'
 import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {DENSITY_SIZE, hexToRGBA} from '../../../theme'
 import {platformValue} from '../../../utils'
+
 import {animateListItemActiveState, animateListItemAffordanceVisible} from './List-item.handler'
 import type {UseListItemAnimatedOptions} from './List-item.interface'
 

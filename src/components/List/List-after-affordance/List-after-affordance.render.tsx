@@ -1,12 +1,14 @@
 import {Check, X} from 'lucide-react-native'
 import {forwardRef, useMemo} from 'react'
 import type {View, ViewStyle} from 'react-native'
+
 import {useTheme} from '../../../hooks'
 import {DENSITY_SIZE, DURATION, EASING, UI_DENSITY} from '../../../theme'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
 import {ListAffordanceButton} from '../List-affordance-button'
-import type {RenderListAfterAffordanceProps} from './List-after-affordance.interface'
+
 import {LIST_AFTER_AFFORDANCE_PHASE} from './List-after-affordance.enum'
+import type {RenderListAfterAffordanceProps} from './List-after-affordance.interface'
 
 export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAffordanceProps>(
 	(

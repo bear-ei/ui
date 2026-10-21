@@ -5,11 +5,13 @@ import type {
 } from 'react-native-gesture-handler'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+
 import {COMPONENT_STATUS} from '../../../constants'
 import type {AnimatedTimingOptions, AnimateSharedValueTo} from '../../../hooks'
 import {DURATION, EASING} from '../../../theme'
 import {extractDragEventPayload} from '../extract-drag-event-payload.utils'
 import type {NativeDragEvent} from '../Virtual-list.interface'
+
 import type {
 	AnimateVirtualListItemTranslateOptions,
 	HandleVirtualListItemDragEndOptions,

@@ -2,7 +2,9 @@ import {nanoid} from 'nanoid'
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
+
 import {usePendingEvent} from '../../hooks'
+
 import {SIDE_SHEET_TYPE} from './Sheet.enum'
 import {emitSheetModal, emitSheetModalUnmount, updateSheetClose, updateSheetVisible} from './Sheet.handler'
 import type {SheetBaseProps, SheetState} from './Sheet.interface'

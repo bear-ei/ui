@@ -1,10 +1,12 @@
 import type {WritableDraft} from 'immer'
 import type {NativeSyntheticEvent, TargetedEvent, TextInput} from 'react-native'
 import type {Updater} from 'use-immer'
+
 import {textSearch} from '../../utils'
 import type {ListItemData} from '../List'
-import type {HandleSearchActiveKeyOptions, SearchState, UpdateSearchDataOptions} from './Search.interface'
 import type {VirtualListCloseEvent} from '../Virtual-list'
+
+import type {HandleSearchActiveKeyOptions, SearchState, UpdateSearchDataOptions} from './Search.interface'
 
 export const updateSearchText =
 	(onChangeText?: (text: string) => void) => (setState: Updater<SearchState>) => (value: string) =>

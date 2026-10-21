@@ -1,11 +1,13 @@
 import {forwardRef, useMemo} from 'react'
 import type {View} from 'react-native'
+
 import {LAYOUT} from '../../constants'
-import {AnimatedView} from '../Animated'
-import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
-import type {RenderSkeletonProps} from './Skeleton.interface'
 import {useTheme} from '../../hooks'
 import {DURATION, EASING} from '../../theme'
+import {AnimatedView} from '../Animated'
+import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
+
+import type {RenderSkeletonProps} from './Skeleton.interface'
 
 export const RenderSkeleton = forwardRef<View, RenderSkeletonProps>(
 	(

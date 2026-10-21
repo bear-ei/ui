@@ -1,5 +1,6 @@
 import {forwardRef, useId} from 'react'
 import type {View} from 'react-native'
+
 import type {DividerBaseProps} from './Divider.interface'
 import {RenderDivider} from './Divider.render'
 

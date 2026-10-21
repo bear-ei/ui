@@ -1,7 +1,10 @@
 import {forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
+
+import {usePendingEvent} from '../../hooks'
 import {POPOVER_TYPE} from '../Popover'
+
 import {
 	handleMenuKeyDown,
 	handleMenuKeyDownEvent,
@@ -11,7 +14,6 @@ import {
 } from './Menu.handler'
 import type {MenuBaseProps, MenuState} from './Menu.interface'
 import {RenderMenu} from './Menu.render'
-import {usePendingEvent} from '../../hooks'
 
 export const MenuBase = forwardRef<View, MenuBaseProps>(
 	(

@@ -1,5 +1,6 @@
 import {Easing, withDelay, withRepeat, withTiming, type AnimationCallback} from 'react-native-reanimated'
 import {scheduleOnRN} from 'react-native-worklets'
+
 import type {CreateAnimatedTimingOptions} from './use-animated-timing.interface'
 
 export const createAnimatedTiming =

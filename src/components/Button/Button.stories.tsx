@@ -1,9 +1,11 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 import {Circle} from 'lucide-react-native'
+
+import {DENSITY_SIZE} from '../../theme'
+
 import {Button} from './Button.component'
 import {BUTTON_TYPE} from './Button.enum'
 import type {ButtonProps} from './Button.interface'
-import {DENSITY_SIZE} from '../../theme'
 
 export const Filled: StoryObj<ButtonProps> = {
 	args: {

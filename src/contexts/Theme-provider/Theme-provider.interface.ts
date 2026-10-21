@@ -1,4 +1,5 @@
 import type {ReactNode} from 'react'
+
 import type {Token, UIDensity} from '../../theme'
 
 export interface ThemeProviderProps {

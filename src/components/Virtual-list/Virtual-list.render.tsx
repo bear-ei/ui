@@ -1,12 +1,14 @@
 import {cloneElement, forwardRef, useMemo, type Ref} from 'react'
 import {ScrollView, Text, View, type ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
+
 import {COMPONENT_STATUS, LAYOUT} from '../../constants'
 import {useTheme} from '../../hooks'
 import {DURATION, EASING, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '../../theme'
 import {platformValue} from '../../utils'
 import {AnimatedView} from '../Animated'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
+
 import {VirtualListItem} from './Virtual-list-item'
 import type {
 	RenderVirtualListItemInfo,

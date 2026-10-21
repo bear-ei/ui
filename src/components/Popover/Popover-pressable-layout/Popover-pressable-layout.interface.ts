@@ -1,5 +1,6 @@
 import type {RefAttributes} from 'react'
 import type {LayoutRectangle, PressableProps} from 'react-native'
+
 import type {InteractionHandlers} from '../../../hooks'
 import type {PressableType} from '../../Touchable'
 

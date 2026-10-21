@@ -1,6 +1,7 @@
 import {Circle} from 'lucide-react-native'
 import {cloneElement, forwardRef, useMemo, type FC} from 'react'
 import {View} from 'react-native'
+
 import {EVENT_NAME} from '../../constants'
 import {useTheme} from '../../hooks'
 import {
@@ -21,6 +22,7 @@ import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 import {Progress, PROGRESS_ANIMATED, PROGRESS_TYPE} from '../Progress'
 import {Touchable, type PressableType} from '../Touchable'
 import {ACTIVE_ANIMATED, Underlay} from '../Underlay'
+
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import type {IconButtonType, RenderIconButtonIconProps, RenderIconButtonProps} from './Icon-button.interface'
 

@@ -1,8 +1,10 @@
 import {forwardRef} from 'react'
 import {Text, View} from 'react-native'
+
 import {LAYOUT} from '../../constants'
 import {useTheme} from '../../hooks'
 import {DENSITY_SIZE, DENSITY_TYPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '../../theme'
+
 import type {RenderDividerProps} from './Divider.interface'
 
 export const RenderDivider = forwardRef<View, RenderDividerProps>(

@@ -1,9 +1,11 @@
 import type {WritableDraft} from 'immer'
 import type {Updater} from 'use-immer'
+
 import {COMPONENT_STATUS, EVENT_NAME, type EventName, type State, STATE} from '../../constants'
 import type {StateEvent} from '../../hooks'
 import {DURATION, EASING, type Token} from '../../theme'
 import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
+
 import {BUTTON_TYPE} from './Button.enum'
 import type {
 	AnimateButtonOptions,

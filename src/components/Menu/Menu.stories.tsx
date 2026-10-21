@@ -2,8 +2,10 @@ import type {Meta} from '@storybook/react-native-web-vite'
 import {Circle} from 'lucide-react-native'
 import {useMemo, useState} from 'react'
 import {View} from 'react-native'
+
 import {ICON_BUTTON_TYPE, IconButton} from '../Icon-button'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List'
+
 import {Menu} from './Menu.component'
 
 export const Select = () => {

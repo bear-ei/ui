@@ -1,9 +1,11 @@
 import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {BORDER_SIZE, hexToRGBA} from '../../theme'
 import {platformValue} from '../../utils'
+
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import {animateIconButton} from './Icon-button.handler'
 import type {UseIconButtonAnimatedOptions} from './Icon-button.interface'

@@ -1,7 +1,9 @@
 import type {Meta} from '@storybook/react-native-web-vite'
 import {Circle} from 'lucide-react-native'
 import {View} from 'react-native'
+
 import {ICON_BUTTON_TYPE, IconButton} from '../Icon-button'
+
 import {Popover} from './Popover.component'
 import {POPOVER_CONTENT_POSITION} from './Popover.enum'
 

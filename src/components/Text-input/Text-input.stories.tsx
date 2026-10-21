@@ -1,7 +1,9 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 import {Circle} from 'lucide-react-native'
+
 import {DENSITY_SIZE} from '../../theme'
 import {IconButton} from '../Icon-button'
+
 import {TextInput} from './Text-input.component'
 import type {TextInputProps} from './Text-input.interface'
 

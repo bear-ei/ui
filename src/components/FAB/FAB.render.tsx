@@ -1,5 +1,6 @@
 import {cloneElement, forwardRef, type FC} from 'react'
 import {View} from 'react-native'
+
 import {COMPONENT_STATUS, EVENT_NAME, LAYOUT} from '../../constants'
 import {useTheme} from '../../hooks'
 import {
@@ -17,6 +18,7 @@ import {AnimatedText, AnimatedView} from '../Animated'
 import {Elevation} from '../Elevation'
 import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
+
 import {FAB_TYPE} from './FAB.enum'
 import type {FABType, RenderFABIconProps, RenderFABProps} from './FAB.interface'
 

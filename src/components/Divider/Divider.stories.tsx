@@ -1,6 +1,8 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+
 import {LAYOUT} from '../../constants'
 import {DENSITY_SIZE} from '../../theme'
+
 import {Divider} from './Divider.component'
 import type {DividerProps} from './Divider.interface'
 

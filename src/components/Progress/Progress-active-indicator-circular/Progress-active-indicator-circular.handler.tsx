@@ -1,5 +1,6 @@
 import {cancelAnimation} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+
 import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
 import type {
 	AnimatedTimingOptions,
@@ -8,6 +9,7 @@ import type {
 	StateEvent
 } from '../../../hooks'
 import {EASING, LOOP} from '../../../theme'
+
 import type {
 	AnimateProgressActiveIndicatorCircularSharedValues,
 	ProgressActiveIndicatorCircularState

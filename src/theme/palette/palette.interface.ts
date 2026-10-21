@@ -1,5 +1,6 @@
 import type {Contrast} from '../color'
 import type {SCHEME} from '../scheme'
+
 import type {PALETTE} from './palette.enum'
 
 export type PaletteType = (typeof PALETTE)[keyof typeof PALETTE]

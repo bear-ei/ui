@@ -1,6 +1,7 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo, useRef} from 'react'
 import type {TextInput} from 'react-native'
 import {useImmer} from 'use-immer'
+
 import {COMPONENT_STATUS, type State, STATE} from '../../constants'
 import {
 	type HandleStateEventChangeOptions,
@@ -10,6 +11,7 @@ import {
 	usePendingEvent
 } from '../../hooks'
 import {debounce} from '../../utils'
+
 import {TEXT_INPUT_TYPE} from './Text-input.enum'
 import {
 	blurTextInputIfEditable,

@@ -1,5 +1,6 @@
 import {forwardRef, useId} from 'react'
 import type {View} from 'react-native'
+
 import {PROGRESS_TYPE} from './Progress.enum'
 import type {ProgressBaseProps} from './Progress.interface'
 import {RenderProgress} from './Progress.render'

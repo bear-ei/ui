@@ -1,10 +1,12 @@
 import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
 import {COMPONENT_STATUS} from '../../../constants'
 import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {DENSITY_SIZE} from '../../../theme'
 import {platformValue} from '../../../utils'
+
 import {animateListAfterAffordance} from './List-after-affordance.handler'
 import type {UseListAfterAffordanceAnimatedOptions} from './List-after-affordance.interface'
 

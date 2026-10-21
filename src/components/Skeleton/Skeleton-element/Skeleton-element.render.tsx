@@ -1,8 +1,10 @@
 import {forwardRef} from 'react'
 import {View} from 'react-native'
+
 import {LAYOUT} from '../../../constants'
 import {useTheme} from '../../../hooks'
 import {DENSITY_SIZE, DENSITY_TYPE} from '../../../theme'
+
 import type {RenderSkeletonElementProps} from './Skeleton-element.interface'
 
 export const RenderSkeletonElement = forwardRef<View, RenderSkeletonElementProps>(

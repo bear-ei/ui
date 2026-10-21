@@ -1,15 +1,16 @@
 import type {RefAttributes} from 'react'
 import type {LayoutRectangle, View, ViewProps, ViewStyle} from 'react-native'
-import type {AnimatedStyle} from 'react-native-reanimated'
-import type {ComponentStatus} from '../../../constants'
-import type {AnimatedTimingOptions, AnimateSharedValueTo} from '../../../hooks'
-import type {DragRef} from '../../Drag'
-import type {NativeDragEvent, Item, RenderVirtualListProps} from '../Virtual-list.interface'
 import type {
 	GestureStateChangeEvent,
 	GestureUpdateEvent,
 	PanGestureHandlerEventPayload
 } from 'react-native-gesture-handler'
+import type {AnimatedStyle} from 'react-native-reanimated'
+
+import type {ComponentStatus} from '../../../constants'
+import type {AnimatedTimingOptions, AnimateSharedValueTo} from '../../../hooks'
+import type {DragRef} from '../../Drag'
+import type {NativeDragEvent, Item, RenderVirtualListProps} from '../Virtual-list.interface'
 
 export interface VirtualListItemProps<T = Record<string, unknown>>
 	extends

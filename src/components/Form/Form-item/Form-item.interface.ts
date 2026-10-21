@@ -1,6 +1,7 @@
 import type {ValidationError, ValidatorOptions} from 'class-validator'
 import type {RefAttributes} from 'react'
 import type {NativeSyntheticEvent, TargetedEvent, View, ViewProps} from 'react-native'
+
 import type {ComponentStatus} from '../../../constants'
 import type {FormProps, FormStore, ValidationRule} from '../Form.interface'
 

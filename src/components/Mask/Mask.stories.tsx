@@ -1,9 +1,11 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 import {useState} from 'react'
 import {View} from 'react-native'
+
+import {Button} from '../Button'
+
 import {Mask} from './Mask.component'
 import type {MaskProps} from './Mask.interface'
-import {Button} from '../Button'
 
 const MaskComponent = (props: MaskProps) => {
 	const [isVisible, setIsVisible] = useState(true)

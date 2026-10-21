@@ -1,5 +1,6 @@
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+
 import type {ComponentStatus, EventName} from '../../../constants'
 import type {
 	AnimatedTimingOptions,

@@ -1,13 +1,15 @@
 import type {WritableDraft} from 'immer'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+
 import {COMPONENT_STATUS, EVENT_NAME, STATE, type State} from '../../constants'
 import type {Theme} from '../../contexts'
 import type {AnimatedTimingOptions, AnimateSharedValueTo, StateEvent} from '../../hooks'
+import {DURATION, EASING} from '../../theme'
+import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
+
 import {FAB_TYPE} from './FAB.enum'
 import type {FABState, FABType, HandleFABStateChangeOptions} from './FAB.interface'
-import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
-import {DURATION, EASING} from '../../theme'
 
 export const updateFABStatus = (disabled?: boolean) => (setState: Updater<FABState>) => (elevated?: boolean) =>
 	setState(draft => {

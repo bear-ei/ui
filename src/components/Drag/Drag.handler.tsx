@@ -6,9 +6,11 @@ import type {
 } from 'react-native-gesture-handler'
 import {scheduleOnRN} from 'react-native-worklets'
 import type {Updater} from 'use-immer'
+
 import {EVENT_NAME, LAYOUT, type LayoutRectangle} from '../../constants'
 import type {AnimatedTimingOptions, AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {DURATION, EASING} from '../../theme'
+
 import type {
 	AnimateDragOptions,
 	DragState,

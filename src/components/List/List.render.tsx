@@ -1,11 +1,13 @@
 import {forwardRef, type FC} from 'react'
 import {View, type ScrollView} from 'react-native'
+
 import {LAYOUT} from '../../constants'
-import {VirtualList} from '../Virtual-list'
-import {ListItem} from './List-item'
-import type {RenderListItemOptions, RenderListProps} from './List.interface'
 import {useTheme} from '../../hooks'
 import {DENSITY_SIZE, DENSITY_TYPE} from '../../theme'
+import {VirtualList} from '../Virtual-list'
+
+import {ListItem} from './List-item'
+import type {RenderListItemOptions, RenderListProps} from './List.interface'
 
 export const RenderDefaultListItem: FC<RenderListItemOptions> = ({id, item, supportingTextNumberOfLines, ...props}) => (
 	<ListItem

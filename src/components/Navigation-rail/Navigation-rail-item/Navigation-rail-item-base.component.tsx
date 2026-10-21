@@ -1,6 +1,7 @@
 import {Circle} from 'lucide-react-native'
 import {cloneElement, forwardRef, useCallback, useId, useRef} from 'react'
 import {useImmer} from 'use-immer'
+
 import {COMPONENT_STATUS, type State} from '../../../constants'
 import {
 	useInteractionStateEvent,
@@ -14,6 +15,7 @@ import {DENSITY_SIZE} from '../../../theme'
 import {platformValue} from '../../../utils'
 import type {PressableType} from '../../Touchable'
 import {NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
+
 import {handleNavigationRailItemStateChange} from './Navigation-rail-item.handler'
 import type {NavigationRailItemBaseProps, NavigationRailItemState} from './Navigation-rail-item.interface'
 import {RenderNavigationRailItem} from './Navigation-rail-item.render'

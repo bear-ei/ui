@@ -9,6 +9,7 @@ import type {
 	PressableProps,
 	TargetedEvent
 } from 'react-native'
+
 import type {EventName, State} from '../../constants'
 
 /**

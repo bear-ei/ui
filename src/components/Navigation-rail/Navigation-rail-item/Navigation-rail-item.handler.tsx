@@ -1,8 +1,10 @@
 import type {Updater} from 'use-immer'
+
 import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
 import type {StateEvent} from '../../../hooks'
 import {DURATION, EASING} from '../../../theme'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
+
 import type {
 	AnimateNavigationRailItemOptions,
 	AnimateNavigationRailItemSharedValues,

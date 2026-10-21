@@ -1,5 +1,6 @@
 import {cloneElement, forwardRef, useMemo} from 'react'
 import {Image, Text, View, type ViewStyle} from 'react-native'
+
 import {useTheme} from '../../hooks'
 import {
 	DENSITY_SIZE,
@@ -11,6 +12,7 @@ import {
 	TYPOGRAPHY_SIZE
 } from '../../theme'
 import {platformValue} from '../../utils'
+
 import type {RenderAvatarProps} from './Avatar.interface'
 
 export const RenderAvatar = forwardRef<View, RenderAvatarProps>(

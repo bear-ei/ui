@@ -1,6 +1,7 @@
 import {Search} from 'lucide-react-native'
 import {cloneElement, forwardRef, useMemo} from 'react'
 import {Pressable, TextInput, View} from 'react-native'
+
 import {EVENT_NAME, LAYOUT} from '../../../constants'
 import {useTheme} from '../../../hooks'
 import {
@@ -13,11 +14,12 @@ import {
 	SHAPE,
 	TYPOGRAPHY
 } from '../../../theme'
+import {platformValue} from '../../../utils'
 import {AnimatedTextInput, AnimatedView} from '../../Animated'
 import {ICON_BUTTON_TYPE} from '../../Icon-button'
 import {Underlay} from '../../Underlay'
+
 import type {RenderSearchTextInputProps} from './Search-text-input.interface'
-import {platformValue} from '../../../utils'
 
 export const RenderSearchTextInput = forwardRef<TextInput, RenderSearchTextInputProps>(
 	(

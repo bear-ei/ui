@@ -1,9 +1,11 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 import {Circle} from 'lucide-react-native'
+
+import {DENSITY_SIZE} from '../../theme'
+
 import {Fab} from './FAB.component'
 import {FAB_TYPE} from './FAB.enum'
 import type {FABProps} from './FAB.interface'
-import {DENSITY_SIZE} from '../../theme'
 
 export const Primary: StoryObj<FABProps> = {
 	args: {

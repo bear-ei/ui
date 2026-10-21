@@ -1,9 +1,11 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+
 import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../../constants'
 import type {AnimatedTimingOptions, AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import type {AnimateUnderlayHoverStateOptions, UnderlayState} from './Underlay.interface'
 import {DURATION, EASING} from '../../theme'
+
+import type {AnimateUnderlayHoverStateOptions, UnderlayState} from './Underlay.interface'
 
 export const handleUnderlayStateChange =
 	({eventName}: HandleStateEventChangeOptions) =>

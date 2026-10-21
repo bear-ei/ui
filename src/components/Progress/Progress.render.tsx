@@ -1,11 +1,13 @@
 import {forwardRef} from 'react'
 import {View} from 'react-native'
+
+import {useTheme} from '../../hooks'
 import {DENSITY_SIZE, DENSITY_TYPE} from '../../theme'
+
 import {ProgressActiveIndicatorCircular} from './Progress-active-indicator-circular'
 import {ProgressActiveIndicatorLinear} from './Progress-active-indicator-linear'
 import {PROGRESS_ANIMATED, PROGRESS_TYPE} from './Progress.enum'
 import type {RenderProgressProps} from './Progress.interface'
-import {useTheme} from '../../hooks'
 
 export const RenderProgress = forwardRef<View, RenderProgressProps>(
 	(

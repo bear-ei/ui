@@ -1,5 +1,6 @@
 import {cloneElement, forwardRef, isValidElement, useMemo} from 'react'
 import {Platform, Pressable, Text, View, type ViewStyle} from 'react-native'
+
 import {POPOVER_CONTENT_POSITION, POPOVER_TYPE} from '..'
 import {LAYOUT, OFF_SCREEN_LAYOUT} from '../../../constants'
 import {useTheme} from '../../../hooks'
@@ -9,6 +10,7 @@ import {Elevation} from '../../Elevation'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
 import {Mask} from '../../Mask'
 import type {MenuProps} from '../../Menu'
+
 import {getSafeMenuPosition} from './Popover-content.handler'
 import type {RenderPopoverContentProps} from './Popover-content.interface'
 

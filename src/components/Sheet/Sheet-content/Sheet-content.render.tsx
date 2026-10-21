@@ -1,6 +1,7 @@
 import {ArrowLeft, ArrowRight, X} from 'lucide-react-native'
 import {forwardRef, useMemo, type FC} from 'react'
 import {Text, View} from 'react-native'
+
 import {LAYOUT} from '../../../constants'
 import {useTheme} from '../../../hooks'
 import {
@@ -19,6 +20,7 @@ import {Divider} from '../../Divider'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
 import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Sheet.enum'
+
 import type {
 	RenderSheetContentLeadingProps,
 	RenderSheetContentProps,

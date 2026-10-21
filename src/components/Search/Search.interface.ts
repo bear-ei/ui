@@ -1,5 +1,6 @@
 import type {RefAttributes} from 'react'
 import type {PressableProps, TextInput, TextInputProps} from 'react-native'
+
 import type {InteractionHandlers} from '../../hooks'
 import type {ThemeProps} from '../../theme'
 import type {ListItemData} from '../List'

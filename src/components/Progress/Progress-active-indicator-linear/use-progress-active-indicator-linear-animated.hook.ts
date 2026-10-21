@@ -1,8 +1,10 @@
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
 import {COMPONENT_STATUS} from '../../../constants'
 import {useAnimatedTiming} from '../../../hooks'
 import {debounce} from '../../../utils'
+
 import {animateProgressActiveIndicatorLinear} from './Progress-active-indicator-linear.handler'
 import type {UseProgressActiveIndicatorLinearAnimatedOptions} from './Progress-active-indicator-linear.interface'
 

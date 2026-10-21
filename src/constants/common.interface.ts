@@ -1,5 +1,7 @@
 import type {LayoutRectangle as RNLayoutRectangle} from 'react-native'
+
 import type {ALIGNMENT, COMPONENT_STATUS, EVENT_NAME, LAYOUT, STATE, TRIGGER_ON} from './common.enum'
+
 export type Alignment = (typeof ALIGNMENT)[keyof typeof ALIGNMENT]
 export type ComponentStatus = (typeof COMPONENT_STATUS)[keyof typeof COMPONENT_STATUS]
 export type EventName = (typeof EVENT_NAME)[keyof typeof EVENT_NAME]

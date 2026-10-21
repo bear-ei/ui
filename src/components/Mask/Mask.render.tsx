@@ -1,8 +1,10 @@
 import {forwardRef, useMemo} from 'react'
 import {Pressable, View} from 'react-native'
+
 import {useTheme} from '../../hooks'
 import {DURATION, EASING, hexToRGBA} from '../../theme'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
+
 import type {RenderMaskProps} from './Mask.interface'
 
 export const RenderMask = forwardRef<View, RenderMaskProps>(

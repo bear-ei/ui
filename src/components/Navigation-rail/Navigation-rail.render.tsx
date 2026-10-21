@@ -1,8 +1,10 @@
 import {forwardRef, type FC} from 'react'
 import {View} from 'react-native'
+
 import {LAYOUT} from '../../constants'
 import {useTheme} from '../../hooks'
 import {DENSITY_SIZE, DENSITY_TYPE, densityClasses} from '../../theme'
+
 import {NavigationRailItem} from './Navigation-rail-item'
 import {NAVIGATION_DESTINATION_POSITION} from './Navigation-rail.enum'
 import type {RenderNavigationRailItemOptions, RenderNavigationRailProps} from './Navigation-rail.interface'

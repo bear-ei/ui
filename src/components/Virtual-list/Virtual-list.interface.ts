@@ -1,12 +1,13 @@
 import type {RefAttributes, RefObject} from 'react'
 import type {ScrollView, ScrollViewProps, ViewStyle} from 'react-native'
+import type {NativeScrollEvent} from 'react-native'
 import type {PanGestureHandlerEventPayload} from 'react-native-gesture-handler'
 import type {AnimatedStyle} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+
 import type {ComponentStatus, LayoutRectangle, LayoutType} from '../../constants'
 import type {InteractionHandlers} from '../../hooks'
 import type {ThemeProps} from '../../theme'
-import type {NativeScrollEvent} from 'react-native'
 
 export interface Item {
 	dependencies?: string[]

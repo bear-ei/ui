@@ -1,4 +1,5 @@
 import type {SharedValue} from 'react-native-reanimated'
+
 import type {AnimatedTimingOptions, AnimateSharedValueTo} from '../../../hooks'
 import {DURATION, EASING} from '../../../theme'
 

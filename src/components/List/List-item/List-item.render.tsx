@@ -1,6 +1,7 @@
 import {Ellipsis, X} from 'lucide-react-native'
 import {cloneElement, forwardRef, isValidElement, useCallback, useMemo, type FC} from 'react'
 import {Pressable, Text, View} from 'react-native'
+
 import {EVENT_NAME, LAYOUT, TRIGGER_ON} from '../../../constants'
 import {useTheme} from '../../../hooks'
 import {
@@ -13,6 +14,7 @@ import {
 	TYPOGRAPHY,
 	type DensitySizeScale
 } from '../../../theme'
+import {platformValue} from '../../../utils'
 import {AnimatedText, AnimatedView} from '../../Animated'
 import {Divider} from '../../Divider'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
@@ -22,8 +24,8 @@ import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
 import {ListAfterAffordance} from '../List-after-affordance'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
 import type {ListType} from '../List.interface'
+
 import type {ListItemRef, RenderListItemProps, RenderListItemTrailingProps} from './List-item.interface'
-import {platformValue} from '../../../utils'
 
 export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	afterAffordance,

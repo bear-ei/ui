@@ -1,6 +1,7 @@
 import {Square, SquareCheckBig, SquareMinus} from 'lucide-react-native'
 import {forwardRef, useMemo} from 'react'
 import {View} from 'react-native'
+
 import {COMPONENT_STATUS, EVENT_NAME} from '../../constants'
 import {useTheme} from '../../hooks'
 import {
@@ -17,6 +18,7 @@ import {platformValue} from '../../utils'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
+
 import {CHECKBOX_VALUE} from './Checkbox.enum'
 import type {RenderCheckboxProps} from './Checkbox.interface'
 

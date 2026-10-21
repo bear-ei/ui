@@ -1,4 +1,5 @@
 import {useWindowDimensions} from '../use-window-dimensions'
+
 import {resolveWindowSize} from './use-responsive-size.handler'
 
 export const useResponsiveSize = () => {

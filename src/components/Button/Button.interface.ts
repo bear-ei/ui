@@ -1,5 +1,6 @@
 import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+
 import type {ComponentStatus, EventName} from '../../constants'
 import type {
 	AnimatedTimingOptions,
@@ -10,6 +11,7 @@ import type {
 import type {ThemeProps} from '../../theme'
 import type {ElevationValue} from '../Elevation'
 import type {TouchableProps} from '../Touchable'
+
 import type {BUTTON_TYPE} from './Button.enum'
 
 export type ButtonType = (typeof BUTTON_TYPE)[keyof typeof BUTTON_TYPE]

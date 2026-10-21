@@ -1,6 +1,8 @@
 import {forwardRef} from 'react'
+
 import {typedMemo} from '../../utils'
 import type {PressableType} from '../Touchable'
+
 import {CheckboxBase} from './Checkbox-base.component'
 import type {CheckboxProps} from './Checkbox.interface'
 

@@ -1,5 +1,6 @@
 import type {LayoutRectangle, ViewProps} from 'react-native'
 import type {Updater} from 'use-immer'
+
 import type {PopoverProps} from '..'
 import type {HandleStateEventChangeOptions, InteractionHandlers, UseHandleStateEventOptions} from '../../../hooks'
 import type {Token} from '../../../theme'

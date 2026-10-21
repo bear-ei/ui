@@ -1,8 +1,10 @@
 import type {Updater} from 'use-immer'
+
 import {EVENT_NAME} from '../../constants'
 import type {Theme} from '../../contexts'
 import type {StateEvent} from '../../hooks'
 import {DURATION, EASING} from '../../theme'
+
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import type {
 	AnimateIconButtonOptions,

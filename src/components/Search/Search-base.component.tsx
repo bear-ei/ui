@@ -1,7 +1,9 @@
 import {forwardRef, useEffect, useId, useMemo, useRef} from 'react'
 import type {TextInput} from 'react-native'
 import {useImmer} from 'use-immer'
+
 import {useMergeRefs, usePendingEvent} from '../../hooks'
+
 import {
 	handleSearchActiveKey,
 	handleSearchFocus,

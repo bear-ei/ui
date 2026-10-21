@@ -1,6 +1,8 @@
 import {forwardRef, useId} from 'react'
 import type {View} from 'react-native'
+
 import {SIDE_SHEET_POSITION} from '../Sheet.enum'
+
 import type {SheetContentProps} from './Sheet-content.interface'
 import {RenderSheetContent, RenderSheetContentLeading, RenderSheetContentTrailing} from './Sheet-content.render'
 import {useSheetContentAnimated} from './use-sheet-content-animated.hook'

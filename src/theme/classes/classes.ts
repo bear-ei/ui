@@ -1,13 +1,15 @@
 import {clsx, type ClassValue} from 'clsx'
 import {vars} from 'nativewind'
 import {twMerge} from 'tailwind-merge'
+
 import {LAYOUT, type LayoutType} from '../../constants'
+import {platformValue} from '../../utils'
 import {DENSITY_SIZE, DENSITY_TYPE, LAYOUT_DENSITY, type DensitySize, type DensityType} from '../density'
 import {RADIUS, SHAPE, type RadiusType, type ShapeType} from '../shape'
 import type {Token} from '../token'
 import {TYPOGRAPHY, TYPOGRAPHY_SIZE, type Typography, type TypographySize, type TypographyType} from '../typography'
+
 import type {TypographyClassesOptions} from './classes.interface'
-import {platformValue} from '../../utils'
 
 const SHAPE_TYPE = {
 	[RADIUS.XX_LARGE]: {

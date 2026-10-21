@@ -1,6 +1,7 @@
 import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+
 import type {ComponentStatus} from '../../../constants'
 import type {InteractionHandlers} from '../../../hooks'
 import type {ProgressProps} from '../Progress.interface'

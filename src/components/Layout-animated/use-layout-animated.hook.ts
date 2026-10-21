@@ -1,13 +1,15 @@
 import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
 import {COMPONENT_STATUS} from '../../constants'
 import {useAnimatedTiming, useTheme} from '../../hooks'
+import {DENSITY_SIZE} from '../../theme'
 import {debounce, platformValue} from '../../utils'
+
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {animateLayoutAnimated} from './Layout-animated.handler'
 import type {UseLayoutAnimatedOptions} from './Layout-animated.interface'
-import {DENSITY_SIZE} from '../../theme'
 
 export const useLayoutAnimated = ({
 	animatedType = LAYOUT_ANIMATED.FADE,

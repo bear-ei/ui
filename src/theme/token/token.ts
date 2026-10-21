@@ -18,7 +18,8 @@ import {createColorScheme, SCHEME} from '../scheme'
 import {createShape} from '../shape'
 import {PLATFORM} from '../theme.enum'
 import {createTypography} from '../typography'
-import type {CreateTokenOptions, ColorSchemeOptions, Token} from './token.interface'
+
+import type {ColorSchemeOptions, CreateTokenOptions, Token} from './token.interface'
 
 /**
  * Token factory — curried in three layers by change frequency:

@@ -1,9 +1,11 @@
 import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
 import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {BORDER_SIZE, hexToRGBA} from '../../theme'
 import {platformValue} from '../../utils'
+
 import {BUTTON_TYPE} from './Button.enum'
 import {animateButton} from './Button.handler'
 import type {ButtonType, UseButtonAnimatedOptions} from './Button.interface'

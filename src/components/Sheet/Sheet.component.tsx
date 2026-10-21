@@ -1,6 +1,8 @@
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
+
 import {typedMemo} from '../../utils'
+
 import {SheetBase} from './Sheet-base.component'
 import type {SheetProps} from './Sheet.interface'
 

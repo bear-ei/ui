@@ -1,4 +1,5 @@
 import type {NativeScrollEvent, NativeSyntheticEvent} from 'react-native'
+
 import type {HandleDesktopScrollOptions} from './use-desktop-scroll-event.interface'
 
 export const handleDesktopScroll =

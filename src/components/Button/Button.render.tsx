@@ -1,5 +1,6 @@
 import {cloneElement, forwardRef, useMemo, type FC} from 'react'
 import {View} from 'react-native'
+
 import {COMPONENT_STATUS, EVENT_NAME, LAYOUT, type EventName} from '../../constants'
 import {useTheme} from '../../hooks'
 import {
@@ -15,14 +16,15 @@ import {
 	TYPOGRAPHY,
 	TYPOGRAPHY_SIZE
 } from '../../theme'
+import {platformValue} from '../../utils'
 import {AnimatedText, AnimatedView} from '../Animated'
 import {Elevation} from '../Elevation'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
+
 import {BUTTON_TYPE} from './Button.enum'
 import type {ButtonType, RenderButtonIconProps, RenderButtonProps} from './Button.interface'
-import {platformValue} from '../../utils'
 
 export const RenderButtonIcon: FC<RenderButtonIconProps> = ({
 	disabled,

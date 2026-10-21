@@ -1,6 +1,8 @@
 import {forwardRef} from 'react'
+
 import {typedMemo} from '../../utils'
 import type {PressableType} from '../Touchable'
+
 import {IconButtonBase} from './Icon-button-base.component'
 import type {IconButtonProps} from './Icon-button.interface'
 

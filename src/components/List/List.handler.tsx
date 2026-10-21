@@ -1,8 +1,10 @@
 import type {WritableDraft} from 'immer'
 import type {Updater} from 'use-immer'
+
 import {DENSITY_SIZE, type DensitySizeScale, type Token} from '../../theme'
 import {arrayEqual} from '../../utils'
 import type {RenderVirtualListItemInfo, VirtualListCloseEvent} from '../Virtual-list'
+
 import type {ListItemData} from './List-item'
 import {LIST_SELECT_TYPE} from './List.enum'
 import type {

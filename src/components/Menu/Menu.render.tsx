@@ -1,7 +1,9 @@
 import {forwardRef} from 'react'
 import {View} from 'react-native'
+
 import {RADIUS, SHAPE} from '../../theme'
 import {Popover, POPOVER_TYPE} from '../Popover'
+
 import {MenuList} from './Menu-list'
 import type {RenderMenuProps} from './Menu.interface'
 

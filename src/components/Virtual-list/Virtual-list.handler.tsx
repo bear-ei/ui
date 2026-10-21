@@ -2,9 +2,12 @@ import type {WritableDraft} from 'immer'
 import type {LayoutChangeEvent, NativeScrollEvent, NativeSyntheticEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+
 import {COMPONENT_STATUS, EVENT_NAME, LAYOUT, type LayoutRectangle} from '../../constants'
 import type {AnimatedTimingOptions, AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import {DURATION, EASING} from '../../theme'
+
+import {extractDragEventPayload} from './extract-drag-event-payload.utils'
 import type {
 	CalculateVirtualListVisibleRangeOptions,
 	CloseVirtualListOptions,
@@ -18,7 +21,6 @@ import type {
 	VirtualListData,
 	VirtualListState
 } from './Virtual-list.interface'
-import {extractDragEventPayload} from './extract-drag-event-payload.utils'
 
 const calculateVirtualListVisibleRange =
 	({itemSize = 0, layoutType, scrollOffsetRef}: UpdateVirtualListLayoutOptions) =>

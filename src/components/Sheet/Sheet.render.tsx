@@ -1,5 +1,6 @@
 import {forwardRef} from 'react'
 import {View} from 'react-native'
+
 import {SheetContent} from './Sheet-content'
 import {SIDE_SHEET_TYPE} from './Sheet.enum'
 import type {RenderSheetProps} from './Sheet.interface'

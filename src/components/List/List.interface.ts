@@ -1,9 +1,11 @@
 import type {ForwardedRef} from 'react'
 import type {ScrollView} from 'react-native'
+
 import type {TriggerOn} from '../../constants'
 import type {InteractionHandlers} from '../../hooks'
 import type {ThemeProps} from '../../theme'
 import type {RenderVirtualListItemInfo, VirtualListCloseEvent, VirtualListProps} from '../Virtual-list'
+
 import type {ListAfterAffordancePressOutEvent} from './List-after-affordance'
 import type {ListItemData} from './List-item'
 import {LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'

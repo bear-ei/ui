@@ -1,8 +1,10 @@
 import {forwardRef, useMemo} from 'react'
 import {View} from 'react-native'
+
 import {useTheme} from '../../hooks'
 import {RADIUS, SHAPE} from '../../theme'
 import {AnimatedView} from '../Animated'
+
 import type {RenderUnderlayProps} from './Underlay.interface'
 
 export const RenderUnderlay = forwardRef<View, RenderUnderlayProps>(

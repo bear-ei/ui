@@ -1,6 +1,8 @@
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
 import {useAnimatedTiming, useTheme} from '../../hooks'
+
 import {animateSkeleton} from './Skeleton.handler'
 import type {UseSkeletonAnimatedOptions} from './Skeleton.interface'
 

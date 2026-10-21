@@ -1,8 +1,10 @@
 import {nanoid} from 'nanoid'
 import type {GestureResponderEvent} from 'react-native'
 import type {Updater} from 'use-immer'
+
 import {EVENT_NAME} from '../../constants'
 import type {StateEvent} from '../../hooks'
+
 import type {AddTouchableRippleOptions, HandleTouchableStateChangeOptions, TouchableState} from './Touchable.interface'
 
 export const handleTouchableStateChange =

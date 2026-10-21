@@ -1,5 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 import {View} from 'react-native'
+
 import {Touchable} from './Touchable.component'
 import type {TouchableProps} from './Touchable.interface'
 

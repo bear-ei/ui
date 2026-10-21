@@ -1,7 +1,9 @@
 import {forwardRef, useEffect, useId, useRef} from 'react'
 import type {View} from 'react-native'
+
 import {useMergeRefs} from '../../../hooks'
 import {POPOVER_TYPE} from '../../Popover'
+
 import type {MenuListBaseProps} from './Menu-list.interface'
 import {RenderMenuList} from './Menu-list.render'
 

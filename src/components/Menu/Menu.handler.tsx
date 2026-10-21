@@ -1,7 +1,9 @@
 import type {TextInputKeyPressEvent} from 'react-native'
 import type {Updater} from 'use-immer'
+
 import {arrayEqual} from '../../utils'
 import {POPOVER_TYPE} from '../Popover'
+
 import type {
 	HandleMenuKeyDownEventOptions,
 	HandleMenuKeyDownOptions,

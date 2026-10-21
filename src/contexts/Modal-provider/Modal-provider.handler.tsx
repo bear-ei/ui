@@ -1,5 +1,6 @@
 import {original} from 'immer'
 import type {Updater} from 'use-immer'
+
 import type {Modal, ModalState} from './Modal-provider.interface'
 
 export const updateModals = (setState: Updater<ModalState>) => (modal: Modal) => {

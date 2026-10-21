@@ -1,10 +1,12 @@
 import {cloneElement, forwardRef, useEffect, useId, useMemo} from 'react'
 import type {View} from 'react-native'
 import {useImmer} from 'use-immer'
+
 import {usePendingEvent} from '../../hooks'
 import {DENSITY_SIZE} from '../../theme'
 import type {FABProps} from '../FAB'
 import type {IconButtonProps} from '../Icon-button'
+
 import {NAVIGATION_DESTINATION_POSITION} from './Navigation-rail.enum'
 import {updateNavigationRailActiveKey, updateNavigationRailData} from './Navigation-rail.handler'
 import type {NavigationRailBaseProps, NavigationRailState} from './Navigation-rail.interface'

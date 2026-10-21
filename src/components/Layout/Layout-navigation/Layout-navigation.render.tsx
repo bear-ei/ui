@@ -1,8 +1,10 @@
 import {forwardRef, useMemo} from 'react'
 import type {View} from 'react-native'
+
 import {useTheme} from '../../../hooks'
 import {DURATION, EASING} from '../../../theme'
 import {LayoutAnimated} from '../../Layout-animated'
+
 import type {RenderLayoutNavigationProps} from './Layout-navigation.interface'
 
 export const RenderLayoutNavigation = forwardRef<View, RenderLayoutNavigationProps>(

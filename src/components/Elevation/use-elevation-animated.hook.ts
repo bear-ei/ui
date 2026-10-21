@@ -1,12 +1,14 @@
 import {useEffect, useMemo} from 'react'
 import {Platform} from 'react-native'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
+import {COMPONENT_STATUS} from '../../constants'
 import {useAnimatedTiming, useTheme} from '../../hooks'
+import {ELEVATION_LEVEL, hexToRGBA} from '../../theme'
+
 import {ELEVATION_VALUE} from './Elevation.enum'
 import {animateElevation, getWebBoxShadow} from './Elevation.handler'
 import type {UseElevationAnimatedOptions} from './Elevation.interface'
-import {COMPONENT_STATUS} from '../../constants'
-import {ELEVATION_LEVEL, hexToRGBA} from '../../theme'
 
 const INPUT_RANGES = [0, 1, 2, 3, 4, 5]
 export const useElevationAnimated = ({

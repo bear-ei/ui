@@ -1,6 +1,7 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo, useRef} from 'react'
 import {type LayoutRectangle, type View} from 'react-native'
 import {useImmer} from 'use-immer'
+
 import {POPOVER_TYPE, type PopoverType} from '..'
 import {type State} from '../../../constants'
 import {
@@ -13,6 +14,7 @@ import {
 	type StateEvent
 } from '../../../hooks'
 import {DENSITY_SIZE, UI_DENSITY} from '../../../theme'
+
 import {
 	getPopoverContentPosition,
 	handleMaskPressOut,

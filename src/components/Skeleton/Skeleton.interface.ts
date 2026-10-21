@@ -1,9 +1,11 @@
 import type {ReactNode} from 'react'
 import type {ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
+
 import type {LayoutType} from '../../constants'
 import type {AnimatedTimingOptions, AnimateSharedValueTo, HandleStateEventChangeOptions} from '../../hooks'
 import type {LayoutAnimatedProps} from '../Layout-animated'
+
 import type {SkeletonElementProps} from './Skeleton-element'
 
 export interface SkeletonProps extends Omit<LayoutAnimatedProps, 'duration'> {

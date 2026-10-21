@@ -1,10 +1,12 @@
 import {forwardRef, useMemo} from 'react'
 import {View} from 'react-native'
+
 import {ALIGNMENT, LAYOUT} from '../../constants'
 import {useTheme} from '../../hooks'
 import {DENSITY_SIZE, DENSITY_TYPE, DURATION, EASING, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '../../theme'
 import {AnimatedText} from '../Animated'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
+
 import type {RenderSupportingTextProps} from './Supporting-text.interface'
 
 export const RenderSupportingText = forwardRef<View, RenderSupportingTextProps>(

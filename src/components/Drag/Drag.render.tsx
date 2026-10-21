@@ -1,7 +1,9 @@
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 import {GestureDetector} from 'react-native-gesture-handler'
+
 import {AnimatedView} from '../Animated'
+
 import type {RenderDragProps} from './Drag.interface'
 
 export const RenderDrag = forwardRef<View, RenderDragProps>(

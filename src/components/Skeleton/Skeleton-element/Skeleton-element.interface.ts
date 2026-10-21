@@ -1,5 +1,6 @@
 import type {RefAttributes} from 'react'
 import type {View, ViewProps} from 'react-native'
+
 import type {ThemeProps} from '../../../theme'
 import type {RenderSkeletonProps} from '../Skeleton.interface'
 

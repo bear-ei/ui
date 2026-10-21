@@ -8,9 +8,11 @@ import Animated, {
 	useAnimatedStyle,
 	useSharedValue
 } from 'react-native-reanimated'
+
 import {LAYOUT} from '../../constants'
 import {useAnimatedTiming} from '../../hooks'
 import {platformValue} from '../../utils'
+
 import {animateVirtualList} from './Virtual-list.handler'
 import type {UseVirtualListScrollAnimatedOptions} from './Virtual-list.interface'
 

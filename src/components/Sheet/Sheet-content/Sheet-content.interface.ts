@@ -1,6 +1,7 @@
 import type {JSX} from 'react'
 import type {ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
+
 import type {SheetProps} from '../Sheet.interface'
 
 export type SheetContentProps = SheetProps

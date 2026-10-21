@@ -1,4 +1,5 @@
 import type {Updater} from 'use-immer'
+
 import type {
 	NavigationRailData,
 	NavigationRailState,

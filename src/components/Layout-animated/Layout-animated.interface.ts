@@ -1,6 +1,7 @@
 import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
+
 import type {ComponentStatus, LayoutRectangle, PartialSize} from '../../constants'
 import type {
 	AnimatedTimingOptions,
@@ -9,6 +10,7 @@ import type {
 	InteractionHandlers
 } from '../../hooks'
 import type {Duration, Easing, ThemeProps} from '../../theme'
+
 import type {LAYOUT_ANIMATED} from './Layout-animated.enum'
 
 export type LayoutAnimatedType = (typeof LAYOUT_ANIMATED)[keyof typeof LAYOUT_ANIMATED]

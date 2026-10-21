@@ -1,8 +1,10 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+
+import {DENSITY_SIZE} from '../../theme'
+
 import {Progress} from './Progress.component'
 import {PROGRESS_ANIMATED, PROGRESS_TYPE} from './Progress.enum'
 import type {ProgressProps} from './Progress.interface'
-import {DENSITY_SIZE} from '../../theme'
 
 export const LinearDeterminate: StoryObj<ProgressProps> = {
 	args: {

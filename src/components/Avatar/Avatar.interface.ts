@@ -1,5 +1,6 @@
 import type {JSX, RefAttributes} from 'react'
 import type {ImageSourcePropType, ImageURISource, View, ViewProps} from 'react-native'
+
 import type {ThemeProps, DensitySizeScale} from '../../theme'
 
 export interface AvatarProps extends ViewProps, RefAttributes<View>, Omit<ThemeProps, 'size'> {

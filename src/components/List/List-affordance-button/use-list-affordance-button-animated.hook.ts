@@ -1,7 +1,9 @@
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
 import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {hexToRGBA} from '../../../theme'
+
 import {animateListAffordanceButton} from './List-affordance-button.handler'
 import type {UseListAffordanceButtonAnimatedOptions} from './List-affordance-button.interface'
 

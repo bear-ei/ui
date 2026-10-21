@@ -1,5 +1,6 @@
 import type {GestureResponderEvent, PanResponderInstance, TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
+
 import type {ComponentStatus, EventName, State} from '../../../constants'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {PressableType, TouchableProps} from '../../Touchable'

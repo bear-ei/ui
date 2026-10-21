@@ -1,6 +1,7 @@
-import type {View, ViewProps} from 'react-native'
-import type {MODAL_TYPE} from './Modal-provider.enum'
 import type {ForwardRefExoticComponent, RefAttributes} from 'react'
+import type {View, ViewProps} from 'react-native'
+
+import type {MODAL_TYPE} from './Modal-provider.enum'
 
 export type ModalType = (typeof MODAL_TYPE)[keyof typeof MODAL_TYPE]
 export interface Modal {

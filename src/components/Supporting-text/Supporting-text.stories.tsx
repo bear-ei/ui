@@ -1,6 +1,7 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
-import type {SupportingTextProps} from './Supporting-text.interface'
+
 import {SupportingText} from './Supporting-text.component'
+import type {SupportingTextProps} from './Supporting-text.interface'
 
 export const Supporting: StoryObj<SupportingTextProps> = {
 	args: {

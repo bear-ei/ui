@@ -1,5 +1,6 @@
 import {forwardRef, useId} from 'react'
 import type {View} from 'react-native'
+
 import type {AvatarBaseProps} from './Avatar.interface'
 import {RenderAvatar} from './Avatar.render'
 

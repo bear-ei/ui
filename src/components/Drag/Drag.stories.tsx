@@ -1,6 +1,8 @@
 import type {Meta} from '@storybook/react-native-web-vite'
 import {View} from 'react-native'
+
 import {Avatar} from '../Avatar'
+
 import {Drag} from './Drag.component'
 
 export const DragAvatar = () => (

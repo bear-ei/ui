@@ -1,7 +1,9 @@
 import {forwardRef} from 'react'
 import {View} from 'react-native'
-import type {RenderFormItemProps} from './Form-item.interface'
+
 import {useTheme} from '../../../hooks'
+
+import type {RenderFormItemProps} from './Form-item.interface'
 
 export const RenderFormItem = forwardRef<View, RenderFormItemProps>(
 	({controlElement, testID, id, className, ...containerProps}, ref) => {

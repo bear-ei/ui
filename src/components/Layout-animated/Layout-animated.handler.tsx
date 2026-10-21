@@ -1,9 +1,11 @@
 import type {LayoutChangeEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+
 import {COMPONENT_STATUS, EVENT_NAME, type LayoutRectangle, type PartialSize} from '../../constants'
 import type {StateEvent} from '../../hooks'
 import {EASING} from '../../theme'
+
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import type {
 	AnimateLayoutAnimatedOptions,

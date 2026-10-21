@@ -1,8 +1,10 @@
 import {forwardRef} from 'react'
 import {View} from 'react-native'
+
 import {useTheme} from '../../hooks'
 import {SHAPE} from '../../theme'
 import {AnimatedView} from '../Animated'
+
 import type {RenderElevationProps} from './Elevation.interface'
 
 export const RenderElevation = forwardRef<View, RenderElevationProps>(

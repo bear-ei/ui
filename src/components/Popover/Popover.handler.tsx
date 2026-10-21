@@ -1,9 +1,11 @@
 import {View, type MouseEvent, type PressableProps} from 'react-native'
 import type {Updater} from 'use-immer'
+
 import {EVENT_NAME, TRIGGER_ON, type EventName, type TriggerOn} from '../../constants'
 import {emitter, MODAL_TYPE} from '../../contexts'
 import type {StateEvent} from '../../hooks'
 import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
+
 import type {PopoverContentProps} from './Popover-content'
 import {POPOVER_TYPE} from './Popover.enum'
 import type {

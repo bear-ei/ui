@@ -1,9 +1,11 @@
 import {forwardRef} from 'react'
 import {View} from 'react-native'
+
 import {useTheme} from '../../../hooks'
 import {RADIUS, SHAPE} from '../../../theme'
 import {AnimatedView} from '../../Animated'
 import {PROGRESS_ANIMATED} from '../Progress.enum'
+
 import type {RenderProgressActiveIndicatorLinearProps} from './Progress-active-indicator-linear.interface'
 
 export const RenderProgressActiveIndicatorLinear = forwardRef<View, RenderProgressActiveIndicatorLinearProps>(

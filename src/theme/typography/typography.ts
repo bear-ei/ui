@@ -1,5 +1,6 @@
 import {DENSITY_SIZE, UI_DENSITY, type DensitySizeScale, type UIDensity} from '../density'
 import type {Font, FontLineHeight} from '../font'
+
 import {TYPOGRAPHY, TYPOGRAPHY_SIZE} from './typography.enum'
 import type {CreateBuildStyleOptions, FontStyle, Typography} from './typography.interface'
 

@@ -1,9 +1,11 @@
 import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
+
 import type {ComponentStatus} from '../../constants'
 import type {AnimatedTimingOptions, AnimateSharedValueTo} from '../../hooks'
 import type {ThemeProps} from '../../theme'
+
 import type {ELEVATION_VALUE} from './Elevation.enum'
 
 export type ElevationValue = (typeof ELEVATION_VALUE)[keyof typeof ELEVATION_VALUE]

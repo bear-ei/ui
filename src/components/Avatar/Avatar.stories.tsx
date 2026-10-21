@@ -1,5 +1,7 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+
 import {DENSITY_SIZE} from '../../theme'
+
 import {Avatar} from './Avatar.component'
 import type {AvatarProps} from './Avatar.interface'
 

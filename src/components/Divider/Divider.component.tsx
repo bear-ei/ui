@@ -1,6 +1,8 @@
 import {forwardRef} from 'react'
 import type {View} from 'react-native'
+
 import {typedMemo} from '../../utils'
+
 import {DividerBase} from './Divider-base.component'
 import type {DividerProps} from './Divider.interface'
 

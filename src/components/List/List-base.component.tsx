@@ -1,8 +1,10 @@
 import {forwardRef, useEffect, useId, useMemo, useRef} from 'react'
 import type {ScrollView} from 'react-native'
 import {useImmer} from 'use-immer'
+
 import {LAYOUT} from '../../constants'
 import {useMergeRefs, usePendingEvent, useTheme} from '../../hooks'
+
 import {LIST_TYPE} from './List.enum'
 import {
 	createListItemRenderer,

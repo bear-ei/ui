@@ -1,5 +1,6 @@
 import type {TextStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
+
 import type {Alignment} from '../../constants'
 import type {LayoutAnimatedProps} from '../Layout-animated'
 

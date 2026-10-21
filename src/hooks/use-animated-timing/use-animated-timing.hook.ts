@@ -1,13 +1,15 @@
 import {useCallback} from 'react'
 import {scheduleOnRN} from 'react-native-worklets'
+
+import {DURATION, EASING} from '../../theme'
+import {useTheme} from '../use-theme'
+
 import {createAnimatedTiming} from './use-animated-timing.handler'
 import type {
 	AnimatedTimingOptions,
 	AnimateSharedValueTo,
 	AnimateSharedValueToOptions
 } from './use-animated-timing.interface'
-import {DURATION, EASING} from '../../theme'
-import {useTheme} from '../use-theme'
 
 /**
  * Returns an `animatedTiming` factory that drives a `SharedValue` toward a target.

@@ -1,7 +1,9 @@
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {hexToRGBA} from '../../theme'
+
 import {FAB_TYPE} from './FAB.enum'
 import {animateFAB} from './FAB.handler'
 import type {UseFABAnimatedOptions} from './FAB.interface'

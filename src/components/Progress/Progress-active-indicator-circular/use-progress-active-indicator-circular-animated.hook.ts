@@ -1,8 +1,10 @@
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedProps, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
 import {COMPONENT_STATUS} from '../../../constants'
 import {useAnimatedTiming} from '../../../hooks'
 import {platformValue} from '../../../utils'
+
 import {
 	animateProgressActiveIndicatorCircular,
 	computeProgressStrokeDashoffset

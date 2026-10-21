@@ -1,4 +1,5 @@
 import type {AnimationCallback, SharedValue, WithTimingConfig} from 'react-native-reanimated'
+
 import type {Bezier, Duration, Easing, Loop} from '../../theme'
 
 export interface CreateAnimatedTimingOptions extends Omit<

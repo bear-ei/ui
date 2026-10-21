@@ -1,6 +1,7 @@
 import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
 import type {LayoutRectangle, View} from 'react-native'
 import {useImmer} from 'use-immer'
+
 import {COMPONENT_STATUS, type State} from '../../constants'
 import {
 	type HandleStateEventChangeOptions,
@@ -8,6 +9,7 @@ import {
 	useInteractionStateEvent,
 	usePendingEvent
 } from '../../hooks'
+
 import {LAYOUT_ANIMATED} from './Layout-animated.enum'
 import {
 	finalizeLayoutAnimatedVisibleChange,

@@ -1,5 +1,7 @@
 import {forwardRef} from 'react'
+
 import {typedMemo} from '../../utils'
+
 import {TouchableBase} from './Touchable-base.component'
 import type {PressableType, TouchableProps} from './Touchable.interface'
 

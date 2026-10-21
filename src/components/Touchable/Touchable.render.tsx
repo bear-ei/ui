@@ -1,9 +1,11 @@
 import {forwardRef, type FC} from 'react'
 import {Pressable, View} from 'react-native'
+
 import {useTheme} from '../../hooks'
+import {SHAPE} from '../../theme'
+
 import {TouchableRipple} from './Touchable-ripple'
 import type {PressableType, RenderTouchableProps, RenderTouchableRippleProps} from './Touchable.interface'
-import {SHAPE} from '../../theme'
 
 export const RenderTouchableRipples: FC<RenderTouchableRippleProps> = ({
 	centered,

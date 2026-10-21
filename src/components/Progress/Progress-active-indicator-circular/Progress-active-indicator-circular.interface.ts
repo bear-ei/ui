@@ -2,6 +2,7 @@ import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedProps, AnimatedStyle, SharedValue} from 'react-native-reanimated'
 import type {CircleProps} from 'react-native-svg'
+
 import type {ComponentStatus} from '../../../constants'
 import type {InteractionHandlers} from '../../../hooks'
 import type {ThemeProps} from '../../../theme'

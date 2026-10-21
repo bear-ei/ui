@@ -1,5 +1,6 @@
 import {cloneElement, forwardRef, useMemo} from 'react'
 import {Pressable, TextInput, View, type ViewStyle} from 'react-native'
+
 import {LAYOUT} from '../../constants'
 import {useTheme} from '../../hooks'
 import {
@@ -12,12 +13,13 @@ import {
 	SHAPE,
 	TYPOGRAPHY
 } from '../../theme'
+import {platformValue} from '../../utils'
 import {AnimatedTextInput, AnimatedView} from '../Animated'
 import {ICON_BUTTON_TYPE} from '../Icon-button'
 import {SupportingText} from '../Supporting-text'
 import {Underlay} from '../Underlay'
+
 import type {RenderTextInputProps} from './Text-input.interface'
-import {platformValue} from '../../utils'
 
 /**
  * TODO: Support Multiline

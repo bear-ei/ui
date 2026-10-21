@@ -1,6 +1,8 @@
 import {cancelAnimation, type SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
+
 import {EASING, LOOP} from '../../theme'
+
 import type {AnimateSkeletonOptions, SkeletonState} from './Skeleton.interface'
 
 export const updateSkeletonVisible = (setState: Updater<SkeletonState>) => {

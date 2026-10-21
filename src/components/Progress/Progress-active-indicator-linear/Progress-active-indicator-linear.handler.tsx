@@ -1,4 +1,5 @@
 import type {Updater} from 'use-immer'
+
 import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
 import type {
 	AnimatedTimingOptions,
@@ -7,6 +8,7 @@ import type {
 	StateEvent
 } from '../../../hooks'
 import {DURATION, EASING} from '../../../theme'
+
 import type {
 	AnimateProgressActiveIndicatorLinearSharedValues,
 	ProgressActiveIndicatorLinearState

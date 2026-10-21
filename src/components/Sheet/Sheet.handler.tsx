@@ -1,5 +1,7 @@
 import type {Updater} from 'use-immer'
+
 import {emitter, MODAL_TYPE} from '../../contexts'
+
 import {SIDE_SHEET_TYPE} from './Sheet.enum'
 import type {EmitSheetModalOptions, SheetProps, SheetState, SheetType} from './Sheet.interface'
 

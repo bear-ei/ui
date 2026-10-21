@@ -1,9 +1,11 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 import {Circle} from 'lucide-react-native'
+
 import {TRIGGER_ON} from '../../constants'
 import {DENSITY_SIZE} from '../../theme'
 import {IconButton} from '../Icon-button'
 import {LIST_SELECT_TYPE} from '../List'
+
 import {Search} from './Search.component'
 import type {SearchProps} from './Search.interface'
 

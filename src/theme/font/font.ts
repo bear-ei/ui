@@ -1,5 +1,6 @@
 import {PLATFORM} from '../theme.enum'
 import type {Platform} from '../theme.interface'
+
 import type {Font} from './font.interface'
 
 const PLATFORM_CODE_FONT_FAMILY = {

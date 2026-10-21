@@ -1,4 +1,5 @@
 import {SCHEME} from '../scheme'
+
 import {CONTRAST} from './color.enum'
 
 export const navy = {

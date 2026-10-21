@@ -1,8 +1,10 @@
 import type {TextInput, TextInputContentSizeChangeEvent} from 'react-native'
 import type {Updater} from 'use-immer'
+
 import {COMPONENT_STATUS, EVENT_NAME, STATE, type State} from '../../constants'
 import type {AnimatedTimingOptions, AnimateSharedValueTo, StateEvent} from '../../hooks'
 import {DURATION, EASING} from '../../theme'
+
 import type {
 	AnimateTextInputOptions,
 	CreateTextInputDisabledSharedValues,

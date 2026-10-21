@@ -1,4 +1,5 @@
 import {UI_DENSITY, type UIDensity} from '../density'
+
 import {RADIUS, SHAPE} from './shape.enum'
 import type {Shape} from './shape.interface'
 

@@ -1,4 +1,5 @@
 import {UI_DENSITY, type UIDensity} from '../density'
+
 import {DURATION, EASING, LOOP} from './animated.enum'
 import type {Animated, AnimatedLoop, CreateAnimatedConfigOptions, Duration, Loop} from './animated.interface'
 

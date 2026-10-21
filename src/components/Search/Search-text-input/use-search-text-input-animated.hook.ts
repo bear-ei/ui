@@ -1,9 +1,11 @@
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
 import {useAnimatedTiming, useTheme} from '../../../hooks'
+import {hexToRGBA, RADIUS} from '../../../theme'
+
 import {animateSearchBorderRadius, animateSearchColor} from './Search-text-input.handler'
 import type {UseSearchTextInputAnimatedOptions} from './Search-text-input.interface'
-import {hexToRGBA, RADIUS} from '../../../theme'
 
 export const useSearchTextInputAnimated = ({disabled, expanded}: UseSearchTextInputAnimatedOptions) => {
 	const {token} = useTheme()

@@ -1,4 +1,5 @@
 import {navy} from '../color'
+
 import {PALETTE} from './palette.enum'
 import type {Palette, PaletteType} from './palette.interface'
 

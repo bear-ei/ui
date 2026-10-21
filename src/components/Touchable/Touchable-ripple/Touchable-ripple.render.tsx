@@ -1,8 +1,10 @@
 import {forwardRef, useMemo} from 'react'
 import {View, type ViewStyle} from 'react-native'
+
 import {classesName, RADIUS, SHAPE, shapeClasses} from '../../../theme'
 import {platformValue} from '../../../utils'
 import {AnimatedView} from '../../Animated'
+
 import type {RenderTouchableRippleProps} from './Touchable-ripple.interface'
 
 export const RenderTouchableRipple = forwardRef<View, RenderTouchableRippleProps>(

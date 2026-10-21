@@ -1,10 +1,12 @@
 import {forwardRef} from 'react'
 import {TextInput} from 'react-native'
+
 import {TRIGGER_ON} from '../../constants'
 import {useTheme} from '../../hooks'
 import {DENSITY_TYPE, RADIUS, SHAPE} from '../../theme'
 import {Menu} from '../Menu'
 import {POPOVER_CONTENT_POSITION, POPOVER_TYPE} from '../Popover'
+
 import {SearchTextInput} from './Search-text-input'
 import type {RenderSearchProps} from './Search.interface'
 

@@ -1,9 +1,11 @@
 import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
+
 import type {ComponentStatus, EventName, State} from '../../constants'
 import type {AnimatedTimingOptions, AnimateSharedValueTo, InteractionHandlers} from '../../hooks'
 import type {ThemeProps, RadiusType} from '../../theme'
+
 import type {ACTIVE_ANIMATED} from './Underlay.enum'
 
 export type ActiveAnimatedType = (typeof ACTIVE_ANIMATED)[keyof typeof ACTIVE_ANIMATED]

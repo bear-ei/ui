@@ -1,8 +1,10 @@
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
 import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../../constants'
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {debounce} from '../../utils'
+
 import {ACTIVE_ANIMATED} from './Underlay.enum'
 import {animateUnderlayActiveState, animateUnderlayHoverState} from './Underlay.handler'
 import type {UseUnderlayAnimatedOptions} from './Underlay.interface'

@@ -1,10 +1,12 @@
 import type {RefAttributes} from 'react'
 import type {GestureResponderEvent, View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
+
 import type {ComponentStatus} from '../../../constants'
 import type {InteractionHandlers} from '../../../hooks'
 import type {ListItemProps} from '../List-item'
 import type {ListProps} from '../List.interface'
+
 import type {LIST_AFTER_AFFORDANCE_PHASE} from './List-after-affordance.enum'
 
 export type ListAfterAffordancePhase = (typeof LIST_AFTER_AFFORDANCE_PHASE)[keyof typeof LIST_AFTER_AFFORDANCE_PHASE]

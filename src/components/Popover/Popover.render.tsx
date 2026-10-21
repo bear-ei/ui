@@ -1,6 +1,8 @@
 import {forwardRef} from 'react'
 import {View} from 'react-native'
+
 import {useTheme} from '../../hooks'
+
 import {POPOVER_TYPE} from './Popover.enum'
 import type {RenderPopoverProps} from './Popover.interface'
 

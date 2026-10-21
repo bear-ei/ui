@@ -2,6 +2,7 @@ import type {ForwardedRef, Ref} from 'react'
 import {forwardRef, useCallback, useEffect, useId, useMemo, useRef} from 'react'
 import type {ScrollView} from 'react-native'
 import {useImmer} from 'use-immer'
+
 import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '../../constants'
 import {
 	type HandleStateEventChangeOptions,
@@ -13,6 +14,7 @@ import {
 } from '../../hooks'
 import {debounce} from '../../utils'
 import {rafSchedule} from '../../utils/raf-schedule/raf-schedule.utils'
+
 import {useVirtualListAnimated} from './use-virtual-list-animated.hook'
 import {
 	closeVirtualList,

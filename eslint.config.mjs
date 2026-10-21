@@ -4,6 +4,7 @@ import typescriptEslint from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
 import path from 'node:path'
 import {fileURLToPath} from 'node:url'
+import importPlugin from 'eslint-plugin-import'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -23,11 +24,23 @@ const configs = [
 	),
 	{
 		plugins: {
-			'@typescript-eslint': typescriptEslint
+			'@typescript-eslint': typescriptEslint,
+			import: importPlugin
+		},
+		settings: {
+			'import/resolver': {
+				typescript: {
+					project: './tsconfig.json',
+					alwaysTryTypes: true
+				},
+				node: {
+					extensions: ['.js', '.jsx', '.ts', '.tsx']
+				}
+			}
 		},
 		languageOptions: {
 			parser: tsParser,
-			ecmaVersion: 6,
+			ecmaVersion: 'latest',
 			sourceType: 'module',
 			parserOptions: {
 				project: ['./tsconfig.json'],
@@ -36,6 +49,16 @@ const configs = [
 			}
 		},
 		rules: {
+			'import/order': [
+				'error',
+				{
+					groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+					pathGroups: [{pattern: '@/**', group: 'internal', position: 'after'}],
+					'newlines-between': 'always',
+					alphabetize: {order: 'asc', caseInsensitive: true}
+				}
+			],
+			'import/newline-after-import': 'error',
 			'@typescript-eslint/no-unnecessary-condition': 'warn',
 			'@typescript-eslint/explicit-function-return-type': 'off',
 			'@typescript-eslint/explicit-module-boundary-types': 'off',

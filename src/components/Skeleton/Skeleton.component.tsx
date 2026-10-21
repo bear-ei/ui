@@ -1,8 +1,11 @@
 import {forwardRef, useMemo} from 'react'
 import type {View} from 'react-native'
+import type {ViewStyle} from 'react-native'
+
 import {useTheme} from '../../hooks'
 import {DENSITY_SIZE, DENSITY_TYPE, RADIUS, SHAPE} from '../../theme'
 import {platformValue, typedMemo} from '../../utils'
+
 import {SkeletonBase} from './Skeleton-base.component'
 import {SkeletonElement} from './Skeleton-element'
 import type {
@@ -11,7 +14,6 @@ import type {
 	SkeletonRectangularProps,
 	SkeletonSquareProps
 } from './Skeleton.interface'
-import type {ViewStyle} from 'react-native'
 
 const SkeletonWithRef = forwardRef<View, SkeletonProps>((props, ref) => (
 	<SkeletonBase
