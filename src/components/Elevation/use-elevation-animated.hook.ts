@@ -2,13 +2,13 @@ import {useEffect, useMemo} from 'react'
 import {Platform} from 'react-native'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 
+import type {UseElevationAnimatedOptions} from './Elevation.interface'
+
 import {COMPONENT_STATUS} from '../../constants'
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {ELEVATION_LEVEL, hexToRGBA} from '../../theme'
-
 import {ELEVATION_VALUE} from './Elevation.enum'
 import {animateElevation, getWebBoxShadow} from './Elevation.handler'
-import type {UseElevationAnimatedOptions} from './Elevation.interface'
 
 const INPUT_RANGES = [0, 1, 2, 3, 4, 5]
 export const useElevationAnimated = ({
@@ -92,7 +92,7 @@ export const useElevationAnimated = ({
 		const shadowOffsetY = interpolate(shadowSharedValue.value, INPUT_RANGES, shadowOffsetYOutputRanges)
 		const shadowOpacity = interpolate(shadowSharedValue.value, INPUT_RANGES, shadowOpacityOutputRanges)
 		const shadowRadius = interpolate(shadowSharedValue.value, INPUT_RANGES, shadowRadiusOutputRanges)
-		const shadowColor = Platform.select({web: hexToRGBA(shadow)(shadowOpacity), default: shadow})
+		const shadowColor = Platform.select({default: shadow, web: hexToRGBA(shadow, shadowOpacity)})
 		return Platform.select({
 			default: {
 				elevation: interpolate(shadowSharedValue.value, INPUT_RANGES, elevationOutputRanges),
@@ -114,7 +114,7 @@ export const useElevationAnimated = ({
 	})
 
 	const runAnimate = useMemo(
-		() => animateElevation({animatedTiming, onAnimationFinished, entry, exit})(shadowSharedValue),
+		() => animateElevation({animatedTiming, entry, exit, onAnimationFinished})(shadowSharedValue),
 		[animatedTiming, onAnimationFinished, shadowSharedValue, entry, exit]
 	)
 

@@ -1,10 +1,6 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import {COMPONENT_STATUS} from '../../constants'
-import {DURATION, EASING, hexToRGBA} from '../../theme'
-import {platformValue} from '../../utils'
-
 import type {
 	AnimateElevationOptions,
 	ElevationState,
@@ -12,8 +8,12 @@ import type {
 	GetWebBoxShadowOptions
 } from './Elevation.interface'
 
-export const getWebBoxShadow = ({offsetX, offsetY, blurRadius, opacity, color}: GetWebBoxShadowOptions) => {
-	const shadowColor = hexToRGBA(color)(opacity)
+import {COMPONENT_STATUS} from '../../constants'
+import {DURATION, EASING, hexToRGBA} from '../../theme'
+import {platformValue} from '../../utils'
+
+export const getWebBoxShadow = ({blurRadius, color, offsetX, offsetY, opacity}: GetWebBoxShadowOptions) => {
+	const shadowColor = hexToRGBA(color, opacity)
 
 	return [
 		{
@@ -79,25 +79,25 @@ export const updateElevationLevel = (setState: Updater<ElevationState>) => (leve
  * `finished && …`, so consumers only see successful completions.
  */
 export const animateElevation =
-	({animatedTiming, onAnimationFinished, entry, exit}: AnimateElevationOptions) =>
+	({animatedTiming, entry, exit, onAnimationFinished}: AnimateElevationOptions) =>
 	(shadowSharedValue: SharedValue<number>) => {
-		const entryAnimateSharedValueTo = animatedTiming({
+		const entryAnimateSharedValueTo = animatedTiming(shadowSharedValue, {
 			easing: EASING.STANDARD_DECELERATE,
 			...entry,
 			callback: (finished?: boolean) => finished && onAnimationFinished?.(true)
-		})({sharedValue: shadowSharedValue})
+		})
 
-		const exitAnimateSharedValueTo = animatedTiming({
+		const exitAnimateSharedValueTo = animatedTiming(shadowSharedValue, {
 			easing: EASING.STANDARD_ACCELERATE,
 			...exit,
 			callback: (finished?: boolean) => finished && onAnimationFinished?.(false)
-		})({sharedValue: shadowSharedValue})
+		})
 
-		const animateSharedValueTo = animatedTiming({
+		const animateSharedValueTo = animatedTiming(shadowSharedValue, {
 			callback: (finished?: boolean) => finished && onAnimationFinished?.(),
 			duration: DURATION.SHORT_2,
 			easing: EASING.STANDARD
-		})({sharedValue: shadowSharedValue})
+		})
 
 		return (level: ElevationValue) => {
 			if (entry) {

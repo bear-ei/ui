@@ -1,9 +1,11 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+
 import {View} from 'react-native'
+
+import type {ElevationProps} from './Elevation.interface'
 
 import {Elevation} from './Elevation.component'
 import {ELEVATION_VALUE} from './Elevation.enum'
-import type {ElevationProps} from './Elevation.interface'
 
 const ElevationComponent = (props: ElevationProps) => (
 	<View className='h-20 w-80 bg-[#ececf0]'>
@@ -48,7 +50,7 @@ export const Level5: StoryObj<ElevationProps> = {
 }
 
 export default {
-	title: 'components/Elevation',
 	argTypes: {onPress: {action: 'pressed'}},
-	component: ElevationComponent
+	component: ElevationComponent,
+	title: 'components/Elevation'
 } as Meta<typeof Elevation>

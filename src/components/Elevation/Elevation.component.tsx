@@ -1,18 +1,7 @@
-import {forwardRef} from 'react'
-import type {View} from 'react-native'
-
-import {typedMemo} from '../../utils'
-
-import {ElevationBase} from './Elevation-base.component'
 import type {ElevationProps} from './Elevation.interface'
 
-const ElevationWithRef = forwardRef<View, ElevationProps>((props, ref) => (
-	<ElevationBase
-		{...props}
-		ref={ref}
-	/>
-))
+import {typedMemo} from '../../utils'
+import {ElevationBase} from './Elevation-base.component'
 
-ElevationWithRef.displayName = 'Elevation'
-
-export const Elevation = typedMemo(ElevationWithRef)
+export const Elevation = typedMemo((props: ElevationProps) => <ElevationBase {...props} />)
+Elevation.displayName = 'Elevation'
