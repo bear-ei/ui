@@ -1,11 +1,9 @@
+import type {SharedValue} from 'react-native-reanimated'
+
 import {useCallback} from 'react'
 import {scheduleOnRN} from 'react-native-worklets'
 
-import type {
-	AnimatedTimingOptions,
-	AnimateSharedValueTo,
-	AnimateSharedValueToOptions
-} from './use-animated-timing.interface'
+import type {AnimatedTimingOptions, AnimateSharedValueTo} from './use-animated-timing.interface'
 
 import {DURATION, EASING} from '../../theme'
 import {useTheme} from '../use-theme'
@@ -26,35 +24,36 @@ export const useAnimatedTiming = () => {
 	const {token} = useTheme()
 	const animatedTiming = useCallback(
 		(
+			sharedValue: SharedValue<number>,
 			{
 				callback,
 				duration: rawDuration = DURATION.MEDIUM_0,
 				easing = EASING.STANDARD,
+				immediate,
 				...options
-			} = {} as AnimatedTimingOptions
+			}: AnimatedTimingOptions = {}
 		): AnimateSharedValueTo => {
 			const {bezier, duration} = token.animated({duration: rawDuration, easing})
 
-			return ({immediate, sharedValue}: AnimateSharedValueToOptions) =>
-				(toValue: number) => {
-					'worklet'
+			return (toValue: number) => {
+				'worklet'
 
-					if (sharedValue.value === toValue) {
-						return
-					}
-
-					if (immediate) {
-						sharedValue.value = toValue
-
-						if (callback) {
-							scheduleOnRN(callback, true)
-						}
-
-						return
-					}
-
-					sharedValue.value = createAnimatedTiming(toValue, {...options, bezier, duration}, callback)
+				if (sharedValue.value === toValue) {
+					return
 				}
+
+				if (immediate) {
+					sharedValue.value = toValue
+
+					if (callback) {
+						scheduleOnRN(callback, true)
+					}
+
+					return
+				}
+
+				sharedValue.value = createAnimatedTiming(toValue, {...options, bezier, duration}, callback)
+			}
 		},
 		[token]
 	)

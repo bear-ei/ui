@@ -1,22 +1,19 @@
-import type {View} from 'react-native'
-
-import {forwardRef, useId} from 'react'
+import {useId, type FC} from 'react'
 
 import type {AvatarBaseProps} from './Avatar.interface'
 
 import {RenderAvatar} from './Avatar.render'
 
-export const AvatarBase = forwardRef<View, AvatarBaseProps>(({labelText = 'A', ...renderAvatarProps}, ref) => {
+export const AvatarBase: FC<AvatarBaseProps> = ({ref, ...renderAvatarProps}) => {
 	const id = useId()
 
 	return (
 		<RenderAvatar
 			{...renderAvatarProps}
 			id={id}
-			labelText={labelText}
 			ref={ref}
 		/>
 	)
-})
+}
 
 AvatarBase.displayName = 'AvatarBase'

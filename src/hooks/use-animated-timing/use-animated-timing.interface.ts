@@ -19,7 +19,7 @@ export interface AnimatedTimingOptions extends Omit<WithTimingConfig, 'duration'
 	repeat?: number
 }
 
-export type AnimateSharedValueTo = (options: AnimateSharedValueToOptions) => (toValue: number) => void
+export type AnimateSharedValueTo = (toValue: number) => void
 
 /**
  * Animated timing factory — curried in three layers.
@@ -52,10 +52,6 @@ export type AnimateSharedValueTo = (options: AnimateSharedValueToOptions) => (to
  *
  * @example
  *   // One-shot usage — currying still reads naturally:
- *   animatedTiming()({sharedValue: sv})(1)
+ *   animatedTiming({sharedValue: sv})(1)
  */
-export type AnimatedTiming = (options?: AnimatedTimingOptions) => AnimateSharedValueTo
-export interface AnimateSharedValueToOptions {
-	immediate?: boolean
-	sharedValue: SharedValue<number>
-}
+export type AnimatedTiming = (sharedValue: SharedValue<number>, options?: AnimatedTimingOptions) => AnimateSharedValueTo

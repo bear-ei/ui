@@ -1,13 +1,13 @@
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 
+import type {UseUnderlayAnimatedOptions} from './Underlay.interface'
+
 import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../../constants'
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {debounce} from '../../utils'
-
 import {ACTIVE_ANIMATED} from './Underlay.enum'
 import {animateUnderlayActiveState, animateUnderlayHoverState} from './Underlay.handler'
-import type {UseUnderlayAnimatedOptions} from './Underlay.interface'
 
 export const useUnderlayAnimated = ({
 	active,
@@ -20,10 +20,10 @@ export const useUnderlayAnimated = ({
 	const {token} = useTheme()
 	const opacities = useMemo(
 		() => rawOpacities ?? [token.opacity.level0, token.opacity.level1, token.opacity.level2],
-		[rawOpacities, token]
+		[rawOpacities, token.opacity.level0, token.opacity.level1, token.opacity.level2]
 	)
 
-	const {scaleX = 1.2, scaleY = 1.2, scale = 1.2} = activeScale ?? {}
+	const {scale = 1.2, scaleX = 1.2, scaleY = 1.2} = activeScale ?? {}
 	const defaultScaleValue = active ? 1 : 0
 	const activeValue = opacities.length - 1
 	const hoverLayerSharedValue = useSharedValue(0)
@@ -39,29 +39,37 @@ export const useUnderlayAnimated = ({
 	}))
 
 	const activeLayerScaleXAnimatedStyle = useAnimatedStyle(() => ({
-		transform: [{scaleX: interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleX])}],
-		opacity: interpolate(activeLayerSharedValue.value, [0, 1], [token.opacity.level0, token.opacity.level10])
+		opacity: interpolate(activeLayerSharedValue.value, [0, 1], [token.opacity.level0, token.opacity.level10]),
+		transform: [{scaleX: interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleX])}]
 	}))
 
 	const activeLayerScaleYAnimatedStyle = useAnimatedStyle(() => ({
-		transform: [{scaleY: interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleY])}],
-		opacity: interpolate(activeLayerSharedValue.value, [0, 1], [token.opacity.level0, token.opacity.level10])
+		opacity: interpolate(activeLayerSharedValue.value, [0, 1], [token.opacity.level0, token.opacity.level10]),
+		transform: [{scaleY: interpolate(activeLayerSharedValue.value, [0, 1], [0, scaleY])}]
 	}))
 
 	const activeLayerScaleAnimatedStyle = useAnimatedStyle(() => ({
-		transform: [{scale: interpolate(activeLayerSharedValue.value, [0, 1], [0, scale])}],
-		opacity: interpolate(activeLayerSharedValue.value, [0, 1], [token.opacity.level0, token.opacity.level10])
+		opacity: interpolate(activeLayerSharedValue.value, [0, 1], [token.opacity.level0, token.opacity.level10]),
+		transform: [{scale: interpolate(activeLayerSharedValue.value, [0, 1], [0, scale])}]
 	}))
 
-	const activeLayerAnimated = {
-		[ACTIVE_ANIMATED.FADE]: activeLayerFadeAnimatedStyle,
-		[ACTIVE_ANIMATED.SCALE]: activeLayerScaleAnimatedStyle,
-		[ACTIVE_ANIMATED.SCALE_X]: activeLayerScaleXAnimatedStyle,
-		[ACTIVE_ANIMATED.SCALE_Y]: activeLayerScaleYAnimatedStyle
-	}
+	const activeLayerAnimated = useMemo(
+		() => ({
+			[ACTIVE_ANIMATED.FADE]: activeLayerFadeAnimatedStyle,
+			[ACTIVE_ANIMATED.SCALE]: activeLayerScaleAnimatedStyle,
+			[ACTIVE_ANIMATED.SCALE_X]: activeLayerScaleXAnimatedStyle,
+			[ACTIVE_ANIMATED.SCALE_Y]: activeLayerScaleYAnimatedStyle
+		}),
+		[
+			activeLayerFadeAnimatedStyle,
+			activeLayerScaleAnimatedStyle,
+			activeLayerScaleXAnimatedStyle,
+			activeLayerScaleYAnimatedStyle
+		]
+	)
 
 	const runDebounceAnimateHoverState = useMemo(
-		() => debounce(animateUnderlayHoverState({activeValue, animatedTiming})(hoverLayerSharedValue))(30),
+		() => debounce(animateUnderlayHoverState({activeValue, animatedTiming})(hoverLayerSharedValue), 30),
 		[animatedTiming, activeValue, hoverLayerSharedValue]
 	)
 
@@ -108,5 +116,5 @@ export const useUnderlayAnimated = ({
 		[activeLayerSharedValue, hoverLayerSharedValue]
 	)
 
-	return {hoverLayerAnimatedStyle, activeLayerAnimatedStyle: activeLayerAnimated[activeAnimatedType]}
+	return {activeLayerAnimatedStyle: activeLayerAnimated[activeAnimatedType], hoverLayerAnimatedStyle}
 }

@@ -1,2 +1,5 @@
 export * from './Touchable'
 export * from './Popover'
+export * from './Animated'
+export * from './Avatar'
+export * from './Underlay'

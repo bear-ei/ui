@@ -1,26 +1,27 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../../constants'
-import type {AnimatedTimingOptions, AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import {DURATION, EASING} from '../../theme'
-
+import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
 import type {AnimateUnderlayHoverStateOptions, UnderlayState} from './Underlay.interface'
 
-export const handleUnderlayStateChange =
-	({eventName}: HandleStateEventChangeOptions) =>
-	(setState: Updater<UnderlayState>) =>
-	(_event: StateEvent) => {
-		if (eventName !== EVENT_NAME.LAYOUT) {
-			return
-		}
+import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../../constants'
+import {DURATION, EASING} from '../../theme'
 
-		setState(draft => {
-			if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
-				draft.status = COMPONENT_STATUS.SUCCEEDED
-			}
-		})
+export const handleUnderlayStateChange = (
+	_event: StateEvent,
+	setState: Updater<UnderlayState>,
+	{eventName}: HandleStateEventChangeOptions
+) => {
+	if (eventName !== EVENT_NAME.LAYOUT) {
+		return
 	}
+
+	setState(draft => {
+		if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+			draft.status = COMPONENT_STATUS.SUCCEEDED
+		}
+	})
+}
 
 const EVENT_NAMES = [EVENT_NAME.BLUR, EVENT_NAME.PRESS_IN] as readonly EventName[]
 export const updateUnderlayEventName = (setState: Updater<UnderlayState>) => (eventName?: EventName) =>
@@ -42,7 +43,7 @@ export const updateUnderlayEventName = (setState: Updater<UnderlayState>) => (ev
 		draft.eventName = eventName
 	})
 
-export const animateUnderlayHoverState = ({animatedTiming, activeValue}: AnimateUnderlayHoverStateOptions) => {
+export const animateUnderlayHoverState = ({activeValue, animatedTiming}: AnimateUnderlayHoverStateOptions) => {
 	const event: Partial<Record<EventName, number>> = {
 		[EVENT_NAME.BLUR]: 0,
 		[EVENT_NAME.FOCUS]: activeValue,
@@ -56,8 +57,9 @@ export const animateUnderlayHoverState = ({animatedTiming, activeValue}: Animate
 	}
 
 	return (hoverLayerSharedValue: SharedValue<number>) => {
-		const animateSharedValueTo = animatedTiming({easing: EASING.STANDARD, duration: DURATION.SHORT_1})({
-			sharedValue: hoverLayerSharedValue
+		const animateSharedValueTo = animatedTiming(hoverLayerSharedValue, {
+			duration: DURATION.SHORT_1,
+			easing: EASING.STANDARD
 		})
 
 		return (eventName?: EventName) => {
@@ -89,10 +91,10 @@ export const updateUnderlayActive = (setState: Updater<UnderlayState>) => (activ
 }
 
 export const animateUnderlayActiveState =
-	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
-	(activeLayerSharedValue: SharedValue<number>) => {
-		const animateSharedValueTo = animatedTiming({easing: EASING.STANDARD, duration: DURATION.SHORT_2})({
-			sharedValue: activeLayerSharedValue
+	(animatedTiming: AnimatedTiming) => (activeLayerSharedValue: SharedValue<number>) => {
+		const animateSharedValueTo = animatedTiming(activeLayerSharedValue, {
+			duration: DURATION.SHORT_2,
+			easing: EASING.STANDARD
 		})
 
 		return (active?: boolean) => {

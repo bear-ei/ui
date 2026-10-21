@@ -3,9 +3,8 @@ import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {ComponentStatus, EventName, State} from '../../constants'
-import type {AnimatedTimingOptions, AnimateSharedValueTo, InteractionHandlers} from '../../hooks'
-import type {ThemeProps, RadiusType} from '../../theme'
-
+import type {AnimatedTiming, InteractionHandlers} from '../../hooks'
+import type {RadiusType, ThemeProps} from '../../theme'
 import type {ACTIVE_ANIMATED} from './Underlay.enum'
 
 export type ActiveAnimatedType = (typeof ACTIVE_ANIMATED)[keyof typeof ACTIVE_ANIMATED]
@@ -14,8 +13,6 @@ export interface UnderlayProps extends ViewProps, RefAttributes<View>, ThemeProp
 	activeAnimatedType?: ActiveAnimatedType
 	activeColor?: string
 	activeRadius?: RadiusType
-	defaultActive?: boolean
-
 	/**
 	 * Scale factors for the active layer, keyed by `activeAnimatedType`:
 	 *   - `scale`  → used by ACTIVE_ANIMATED.SCALE (uniform)
@@ -26,7 +23,8 @@ export interface UnderlayProps extends ViewProps, RefAttributes<View>, ThemeProp
 	 * shape may differ from its container's, so it needs to scale slightly
 	 * beyond the container bounds to cover it visually.
 	 */
-	activeScale?: {scaleX?: number; scaleY?: number; scale?: number}
+	activeScale?: {scale?: number; scaleX?: number; scaleY?: number}
+	defaultActive?: boolean
 	eventName?: EventName
 	opacities?: [number, number, number] | [number, number]
 	underlayColor?: string
@@ -55,5 +53,5 @@ export interface UseUnderlayAnimatedOptions extends Pick<
 
 export interface AnimateUnderlayHoverStateOptions {
 	activeValue: number
-	animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo
+	animatedTiming: AnimatedTiming
 }
