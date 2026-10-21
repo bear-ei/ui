@@ -22,28 +22,24 @@ const SHADOW_TABLE = {
 	}
 }
 
-const createShadow =
-	(spec: ShadowSpec) =>
-	(elevation: number): Shadow => ({
-		elevation,
-		shadowOffset: {height: spec.offset, width: 0},
-		shadowOpacity: spec.opacity,
-		shadowRadius: spec.radius
-	})
+const createShadow = (spec: ShadowSpec, elevation: number): Shadow => ({
+	elevation,
+	shadowOffset: {height: spec.offset, width: 0},
+	shadowOpacity: spec.opacity,
+	shadowRadius: spec.radius
+})
 
 export const createElevation = (uiDensity: UIDensity): Elevation => {
 	const table = SHADOW_TABLE[uiDensity]
-	const resolveShadow =
-		(level: keyof typeof table) =>
-		(elevation: number): Shadow =>
-			createShadow(table[level])(elevation)
+	const resolveShadow = (level: keyof typeof table, elevation: number): Shadow =>
+		createShadow(table[level], elevation)
 
 	return {
-		[ELEVATION_LEVEL.LEVEL_0]: resolveShadow(ELEVATION_LEVEL.LEVEL_0)(0),
-		[ELEVATION_LEVEL.LEVEL_1]: resolveShadow(ELEVATION_LEVEL.LEVEL_1)(1),
-		[ELEVATION_LEVEL.LEVEL_2]: resolveShadow(ELEVATION_LEVEL.LEVEL_2)(2),
-		[ELEVATION_LEVEL.LEVEL_3]: resolveShadow(ELEVATION_LEVEL.LEVEL_3)(3),
-		[ELEVATION_LEVEL.LEVEL_4]: resolveShadow(ELEVATION_LEVEL.LEVEL_4)(4),
-		[ELEVATION_LEVEL.LEVEL_5]: resolveShadow(ELEVATION_LEVEL.LEVEL_5)(5)
+		[ELEVATION_LEVEL.LEVEL_0]: resolveShadow(ELEVATION_LEVEL.LEVEL_0, 0),
+		[ELEVATION_LEVEL.LEVEL_1]: resolveShadow(ELEVATION_LEVEL.LEVEL_1, 1),
+		[ELEVATION_LEVEL.LEVEL_2]: resolveShadow(ELEVATION_LEVEL.LEVEL_2, 2),
+		[ELEVATION_LEVEL.LEVEL_3]: resolveShadow(ELEVATION_LEVEL.LEVEL_3, 3),
+		[ELEVATION_LEVEL.LEVEL_4]: resolveShadow(ELEVATION_LEVEL.LEVEL_4, 4),
+		[ELEVATION_LEVEL.LEVEL_5]: resolveShadow(ELEVATION_LEVEL.LEVEL_5, 5)
 	}
 }

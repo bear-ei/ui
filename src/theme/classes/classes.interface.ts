@@ -13,11 +13,13 @@ export interface TypographyClassesOptions {
 export interface Classes {
 	classesName: (...inputs: ClassValue[]) => string
 	densityClasses: (
-		type: Exclude<DensityType, 'LAYOUT'>
-	) => (layout?: LayoutType) => (size?: Exclude<DensitySize, 'TIGHT' | 'SNUG'> | number) => string
+		type: Exclude<DensityType, 'LAYOUT'>,
+		layout?: LayoutType
+	) => (size?: Exclude<DensitySize, 'TIGHT' | 'SNUG'> | number) => string
 
-	shapeClasses: (radius?: RadiusType) => (shape?: ShapeType) => string
+	shapeClasses: (shape?: ShapeType, radius?: RadiusType) => string
 	typographyClasses: (
-		typography?: TypographyType
-	) => (size?: TypographySize) => (options?: TypographyClassesOptions) => string
+		typography?: TypographyType,
+		options?: TypographyClassesOptions
+	) => (size?: TypographySize) => string
 }

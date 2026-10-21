@@ -41,12 +41,12 @@ export const createToken = ({
 	// Windows / Linux support (future) must pass `platform` explicitly.
 	platform = PLATFORM.MACOS
 }: CreateTokenOptions = {}) => {
-	const font = createFont(fontFamily)(codeFontFamily)(platform)
+	const font = createFont(fontFamily, codeFontFamily, platform)
 
 	return ({contrast = CONTRAST.STANDARD, scheme = SCHEME.LIGHT}: ColorSchemeOptions = {}) =>
 		(palette: PaletteType = PALETTE.NAVY): Token => {
 			const createdPalette = createPalette(palette)
-			const colorScheme = createColorScheme(createdPalette)(scheme)(contrast)
+			const colorScheme = createColorScheme(createdPalette, scheme, contrast)
 			const classes = {
 				classesName,
 				densityClasses,
@@ -66,7 +66,7 @@ export const createToken = ({
 				palette: createdPalette,
 				scheme: colorScheme,
 				shape: createShape(density),
-				typography: createTypography(font)(density)
+				typography: createTypography(font, density)
 			}
 		}
 }

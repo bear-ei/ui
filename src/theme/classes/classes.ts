@@ -231,27 +231,26 @@ const toKebabCase = (value: string) =>
 		.toLowerCase()
 		.replace(/^-/, '')
 
-const createCssVariables =
-	<T extends object>(obj: T) =>
-	(prefix: string) =>
-	(platformValueKeys?: string[]) =>
-		Object.entries(obj).reduce(
-			(accumulator, [key, value]) => ({
-				...accumulator,
-				[`${prefix}-${toKebabCase(key)}`]:
-					platformValueKeys ?
-						platformValueKeys.includes(key) && typeof value === 'number' ?
-							platformValue(value)
-						:	value
+const createCssVariables = <T extends object>(obj: T, prefix: string, platformValueKeys?: string[]) =>
+	Object.entries(obj).reduce(
+		(accumulator, [key, value]) => ({
+			...accumulator,
+			[`${prefix}-${toKebabCase(key)}`]:
+				platformValueKeys ?
+					platformValueKeys.includes(key) && typeof value === 'number' ?
+						platformValue(value)
 					:	value
-			}),
-			{}
-		)
+				:	value
+		}),
+		{}
+	)
 
 const buildTypographyStyleVariables = (typography: Typography) =>
 	Object.entries(typography).flatMap(([type, sizes]) =>
 		Object.entries(sizes).map(([size, style]) =>
-			createCssVariables(style)(`typography-${toKebabCase(type)}-${toKebabCase(size)}`)(
+			createCssVariables(
+				style,
+				`typography-${toKebabCase(type)}-${toKebabCase(size)}`,
 				TYPOGRAPHY_PLATFORM_VALUE_KEYS
 			)
 		)
@@ -267,24 +266,23 @@ const processStyleVariables = ({
 	typography
 }: Omit<Token, 'styleVariables'>) =>
 	vars({
-		...createCssVariables(border)('border')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(density.control)('density-control')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(density.icon)('density-icon')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(density.inline)('density-inline')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(density.inset)('density-inset')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(density.layout)('density-layout')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(density.spacing)('density-spacing')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(font.family)('font')(),
-		...createCssVariables(opacity)('opacity')(),
-		...createCssVariables(scheme)('color')(),
-		...createCssVariables(shape.radius)('radius')(TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables(border, 'border', TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables(density.control, 'density-control', TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables(density.icon, 'density-icon', TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables(density.inline, 'density-inline', TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables(density.inset, 'density-inset', TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables(density.layout, 'density-layout', TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables(density.spacing, 'density-spacing', TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables(font.family, 'font'),
+		...createCssVariables(opacity, 'opacity'),
+		...createCssVariables(scheme, 'color'),
+		...createCssVariables(shape.radius, 'radius', TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...buildTypographyStyleVariables(typography)
 	})
 
 const classesName = (...inputs: ClassValue[]) => twMerge(clsx(inputs))
 const densityClasses =
-	(type: Exclude<DensityType, 'LAYOUT'>) =>
-	(layout: LayoutType = LAYOUT.HORIZONTAL) =>
+	(type: Exclude<DensityType, 'LAYOUT'>, layout: LayoutType = LAYOUT.HORIZONTAL) =>
 	(size: Exclude<DensitySize, 'TIGHT' | 'SNUG'> | number = DENSITY_SIZE.MEDIUM) => {
 		if (typeof size === 'number') {
 			return ''
@@ -299,20 +297,17 @@ const densityClasses =
 		return (DENSITY[type] as typeof DENSITY_CONTROL)[size]
 	}
 
-const shapeClasses =
-	(radius: RadiusType = RADIUS.NONE) =>
-	(shape: ShapeType = SHAPE.ALL) =>
-		SHAPE_TYPE[radius][shape]
-
+const shapeClasses = (shape: ShapeType = SHAPE.ALL, radius: RadiusType = RADIUS.NONE) => SHAPE_TYPE[radius][shape]
 const typographyClasses =
-	(typography: TypographyType = TYPOGRAPHY.BODY) =>
-	(size: TypographySize = TYPOGRAPHY_SIZE.MEDIUM) =>
 	(
+		typography: TypographyType = TYPOGRAPHY.BODY,
+
 		{
 			colorClasses = 'text-[--color-on-surface]',
 			fontFamilyClasses = 'font-[family-name:var(--font-family)]'
 		} = {} as TypographyClassesOptions
 	) =>
+	(size: TypographySize = TYPOGRAPHY_SIZE.MEDIUM) =>
 		clsx(TYPOGRAPHY_TYPE[typography][size], fontFamilyClasses, colorClasses)
 
 export {classesName, densityClasses, processStyleVariables, shapeClasses, typographyClasses}

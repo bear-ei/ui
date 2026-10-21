@@ -63,7 +63,6 @@ export const createAnimatedConfig =
 	(density: UIDensity = UI_DENSITY.COMPACT) =>
 	({duration = DURATION.MEDIUM_1, easing = EASING.STANDARD}: CreateAnimatedConfigOptions): Animated => {
 		const isLoop = typeof duration !== 'number' && duration in ANIMATED_LOOP_DURATION[density]
-
 		const baseDuration =
 			typeof duration === 'number' ? duration
 			: isLoop ? ANIMATED_LOOP_DURATION[density][duration as Loop]
@@ -72,8 +71,9 @@ export const createAnimatedConfig =
 		return {bezier: ANIMATED_BEZIER[easing], duration: baseDuration}
 	}
 
-export const createAnimatedLoopConfig =
-	(density: UIDensity = UI_DENSITY.COMPACT) =>
-	(loop: Loop = LOOP.LOOP_0): AnimatedLoop => ({
-		duration: ANIMATED_LOOP_DURATION[density][loop]
-	})
+export const createAnimatedLoopConfig = (
+	density: UIDensity = UI_DENSITY.COMPACT,
+	loop: Loop = LOOP.LOOP_0
+): AnimatedLoop => ({
+	duration: ANIMATED_LOOP_DURATION[density][loop]
+})

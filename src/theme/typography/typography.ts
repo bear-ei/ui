@@ -217,43 +217,41 @@ const TYPOGRAPHY_CONFIG = {
 	}
 }
 
-const createBuildStyle =
-	(font: Font) =>
-	({height, letterSpacing, prominent, size, weight}: CreateBuildStyleOptions): FontStyle => {
-		const index = size.replace('size', '')
-		const lineHeight = `lineHeight${index}` as FontLineHeight
-		const lineHeightRatio = font.lineHeight[lineHeight]
+const buildStyle = (
+	font: Font,
+	{height, letterSpacing, prominent, size, weight}: CreateBuildStyleOptions
+): FontStyle => {
+	const index = size.replace('size', '')
+	const lineHeight = `lineHeight${index}` as FontLineHeight
+	const lineHeightRatio = font.lineHeight[lineHeight]
 
-		return {
-			...(prominent && {prominentWeight: font.weight[prominent]}),
-			height: font.height[height],
-			letterSpacing: font.letterSpacing[letterSpacing],
-			lineHeight: Math.round(font.size[size] * lineHeightRatio),
-			size: font.size[size],
-			style: font.style.normal,
-			weight: font.weight[weight]
-		}
+	return {
+		...(prominent && {prominentWeight: font.weight[prominent]}),
+		height: font.height[height],
+		letterSpacing: font.letterSpacing[letterSpacing],
+		lineHeight: Math.round(font.size[size] * lineHeightRatio),
+		size: font.size[size],
+		style: font.style.normal,
+		weight: font.weight[weight]
 	}
+}
 
-const createTypography =
-	(font: Font) =>
-	(density: UIDensity = UI_DENSITY.COMPACT): Typography => {
-		const buildStyle = createBuildStyle(font)
-		const config = TYPOGRAPHY_CONFIG[density]
-		const map = Object.fromEntries(
-			Object.entries(config).map(([type, sizes]) => [
-				type,
-				Object.fromEntries(
-					Object.entries(sizes).map(([size, options]) => [
-						size,
-						buildStyle(options as CreateBuildStyleOptions)
-					])
-				)
-			])
-		) as Typography
+const createTypography = (font: Font, density: UIDensity = UI_DENSITY.COMPACT): Typography => {
+	const config = TYPOGRAPHY_CONFIG[density]
+	const map = Object.fromEntries(
+		Object.entries(config).map(([type, sizes]) => [
+			type,
+			Object.fromEntries(
+				Object.entries(sizes).map(([size, options]) => [
+					size,
+					buildStyle(font, options as CreateBuildStyleOptions)
+				])
+			)
+		])
+	) as Typography
 
-		return map
-	}
+	return map
+}
 
 const densitySizeMapTypographySize = (size: DensitySizeScale) => {
 	const typographySize = {

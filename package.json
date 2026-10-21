@@ -75,7 +75,6 @@
 		"class-validator": "^0.14.2",
 		"eslint": "^8.19.0",
 		"eslint-config-prettier": "^10.1.8",
-		"eslint-import-resolver-typescript": "^4.4.5",
 		"eslint-plugin-perfectionist": "^5.13.0",
 		"eslint-plugin-prettier": "^5.5.4",
 		"eslint-plugin-storybook": "^10.0.6",
