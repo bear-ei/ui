@@ -28,9 +28,9 @@ export const EVENT_NAME = {
 	LAYOUT: 'LAYOUT',
 	LONG_PRESS: 'LONG_PRESS',
 	NONE: 'NONE',
+	PRESS: 'PRESS',
 	PRESS_IN: 'PRESS_IN',
-	PRESS_OUT: 'PRESS_OUT',
-	PRESS: 'PRESS'
+	PRESS_OUT: 'PRESS_OUT'
 } as const
 
 export const TRIGGER_ON = {

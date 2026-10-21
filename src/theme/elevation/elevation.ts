@@ -1,24 +1,24 @@
-import {UI_DENSITY, type UIDensity} from '../density'
-
-import {ELEVATION_LEVEL} from './elevation.enum'
 import type {Elevation, Shadow, ShadowSpec} from './elevation.interface'
 
+import {UI_DENSITY, type UIDensity} from '../density'
+import {ELEVATION_LEVEL} from './elevation.enum'
+
 const SHADOW_TABLE = {
-	[UI_DENSITY.COMPACT]: {
-		[ELEVATION_LEVEL.LEVEL_0]: {offset: 0, radius: 0, opacity: 0},
-		[ELEVATION_LEVEL.LEVEL_1]: {offset: 1, radius: 2, opacity: 0.06},
-		[ELEVATION_LEVEL.LEVEL_2]: {offset: 2, radius: 4, opacity: 0.08},
-		[ELEVATION_LEVEL.LEVEL_3]: {offset: 3, radius: 8, opacity: 0.1},
-		[ELEVATION_LEVEL.LEVEL_4]: {offset: 4, radius: 12, opacity: 0.12},
-		[ELEVATION_LEVEL.LEVEL_5]: {offset: 6, radius: 16, opacity: 0.14}
-	},
 	[UI_DENSITY.COMFORTABLE]: {
-		[ELEVATION_LEVEL.LEVEL_0]: {offset: 0, radius: 0, opacity: 0},
-		[ELEVATION_LEVEL.LEVEL_1]: {offset: 1, radius: 2, opacity: 0.08},
-		[ELEVATION_LEVEL.LEVEL_2]: {offset: 2, radius: 4, opacity: 0.1},
-		[ELEVATION_LEVEL.LEVEL_3]: {offset: 3, radius: 8, opacity: 0.12},
-		[ELEVATION_LEVEL.LEVEL_4]: {offset: 4, radius: 12, opacity: 0.14},
-		[ELEVATION_LEVEL.LEVEL_5]: {offset: 6, radius: 16, opacity: 0.16}
+		[ELEVATION_LEVEL.LEVEL_0]: {offset: 0, opacity: 0, radius: 0},
+		[ELEVATION_LEVEL.LEVEL_1]: {offset: 1, opacity: 0.08, radius: 2},
+		[ELEVATION_LEVEL.LEVEL_2]: {offset: 2, opacity: 0.1, radius: 4},
+		[ELEVATION_LEVEL.LEVEL_3]: {offset: 3, opacity: 0.12, radius: 8},
+		[ELEVATION_LEVEL.LEVEL_4]: {offset: 4, opacity: 0.14, radius: 12},
+		[ELEVATION_LEVEL.LEVEL_5]: {offset: 6, opacity: 0.16, radius: 16}
+	},
+	[UI_DENSITY.COMPACT]: {
+		[ELEVATION_LEVEL.LEVEL_0]: {offset: 0, opacity: 0, radius: 0},
+		[ELEVATION_LEVEL.LEVEL_1]: {offset: 1, opacity: 0.06, radius: 2},
+		[ELEVATION_LEVEL.LEVEL_2]: {offset: 2, opacity: 0.08, radius: 4},
+		[ELEVATION_LEVEL.LEVEL_3]: {offset: 3, opacity: 0.1, radius: 8},
+		[ELEVATION_LEVEL.LEVEL_4]: {offset: 4, opacity: 0.12, radius: 12},
+		[ELEVATION_LEVEL.LEVEL_5]: {offset: 6, opacity: 0.14, radius: 16}
 	}
 }
 

@@ -56,6 +56,6 @@ export type AnimateSharedValueTo = (options: AnimateSharedValueToOptions) => (to
  */
 export type AnimatedTiming = (options?: AnimatedTimingOptions) => AnimateSharedValueTo
 export interface AnimateSharedValueToOptions {
-	sharedValue: SharedValue<number>
 	immediate?: boolean
+	sharedValue: SharedValue<number>
 }

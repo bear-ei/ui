@@ -15,4 +15,4 @@ export interface LayoutRectangle extends RNLayoutRectangle {
 	top?: number
 }
 
-export type PartialSize = {width?: number; height?: number}
+export type PartialSize = {height?: number; width?: number}

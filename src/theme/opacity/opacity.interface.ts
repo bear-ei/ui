@@ -1,6 +1,7 @@
 export interface Opacity {
 	level0: number
 	level1: number
+	level10: number
 	level2: number
 	level3: number
 	level4: number
@@ -9,5 +10,4 @@ export interface Opacity {
 	level7: number
 	level8: number
 	level9: number
-	level10: number
 }

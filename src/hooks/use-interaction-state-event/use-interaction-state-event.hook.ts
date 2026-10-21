@@ -1,8 +1,13 @@
 import {useCallback, useMemo} from 'react'
 import {Platform} from 'react-native'
 
-import {type State} from '../../constants'
+import type {
+	HandleStateEventChangeOptions,
+	StateEvent,
+	UseHandleStateEventOptions
+} from './use-interaction-state-event.interface'
 
+import {type State} from '../../constants'
 import {
 	createPropagationStoppedHandler,
 	handleBlurEvent,
@@ -16,11 +21,6 @@ import {
 	handlePressOutEvent,
 	handleStateEventChange
 } from './use-interaction-state-event.handler'
-import type {
-	HandleStateEventChangeOptions,
-	StateEvent,
-	UseHandleStateEventOptions
-} from './use-interaction-state-event.interface'
 
 const IS_MOBILE_DEVICE = ['ios', 'android'].includes(Platform.OS)
 export const useInteractionStateEvent = ({

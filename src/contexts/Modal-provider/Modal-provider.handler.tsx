@@ -1,10 +1,11 @@
-import {original} from 'immer'
 import type {Updater} from 'use-immer'
+
+import {original} from 'immer'
 
 import type {Modal, ModalState} from './Modal-provider.interface'
 
 export const updateModals = (setState: Updater<ModalState>) => (modal: Modal) => {
-	const {id, unmount: isUnmount, props} = modal
+	const {id, props, unmount: isUnmount} = modal
 
 	setState(draft => {
 		if (isUnmount) {

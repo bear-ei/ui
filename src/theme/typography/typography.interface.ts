@@ -1,5 +1,4 @@
 import type {Font, FontHeight, FontLetterSpacing, FontSize} from '../font'
-
 import type {TYPOGRAPHY, TYPOGRAPHY_SIZE} from './typography.enum'
 
 export type TypographyType = (typeof TYPOGRAPHY)[keyof typeof TYPOGRAPHY]

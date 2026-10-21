@@ -3,10 +3,10 @@ import {createContext, useId, useMemo, type FC} from 'react'
 import {View} from 'react-native'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
 
+import type {Theme, ThemeProviderProps} from './Theme-provider.interface'
+
 import {CONTRAST, createToken, PALETTE, processStyleVariables, SCHEME, UI_DENSITY, type Token} from '../../theme'
 import {ModalProvider} from '../Modal-provider'
-
-import type {Theme, ThemeProviderProps} from './Theme-provider.interface'
 
 /**
  * Sentinel value used to detect "used outside ThemeProvider".

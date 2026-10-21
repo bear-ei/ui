@@ -1,23 +1,9 @@
-import {UI_DENSITY, type UIDensity} from '../density'
-
-import {DURATION, EASING, LOOP} from './animated.enum'
 import type {Animated, AnimatedLoop, CreateAnimatedConfigOptions, Duration, Loop} from './animated.interface'
 
+import {UI_DENSITY, type UIDensity} from '../density'
+import {DURATION, EASING, LOOP} from './animated.enum'
+
 const ANIMATED_DURATION = {
-	[UI_DENSITY.COMPACT]: {
-		[DURATION.EXTRA_LONG_0]: 500,
-		[DURATION.EXTRA_LONG_1]: 600,
-		[DURATION.EXTRA_LONG_2]: 700,
-		[DURATION.EXTRA_LONG_3]: 800,
-		[DURATION.MEDIUM_0]: 180,
-		[DURATION.MEDIUM_1]: 220,
-		[DURATION.MEDIUM_2]: 260,
-		[DURATION.MEDIUM_3]: 300,
-		[DURATION.SHORT_0]: 50,
-		[DURATION.SHORT_1]: 80,
-		[DURATION.SHORT_2]: 120,
-		[DURATION.SHORT_3]: 150
-	},
 	[UI_DENSITY.COMFORTABLE]: {
 		[DURATION.EXTRA_LONG_0]: 700,
 		[DURATION.EXTRA_LONG_1]: 800,
@@ -31,21 +17,35 @@ const ANIMATED_DURATION = {
 		[DURATION.SHORT_1]: 100,
 		[DURATION.SHORT_2]: 150,
 		[DURATION.SHORT_3]: 200
+	},
+	[UI_DENSITY.COMPACT]: {
+		[DURATION.EXTRA_LONG_0]: 500,
+		[DURATION.EXTRA_LONG_1]: 600,
+		[DURATION.EXTRA_LONG_2]: 700,
+		[DURATION.EXTRA_LONG_3]: 800,
+		[DURATION.MEDIUM_0]: 180,
+		[DURATION.MEDIUM_1]: 220,
+		[DURATION.MEDIUM_2]: 260,
+		[DURATION.MEDIUM_3]: 300,
+		[DURATION.SHORT_0]: 50,
+		[DURATION.SHORT_1]: 80,
+		[DURATION.SHORT_2]: 120,
+		[DURATION.SHORT_3]: 150
 	}
 }
 
 const ANIMATED_LOOP_DURATION = {
-	[UI_DENSITY.COMPACT]: {
-		[LOOP.LOOP_0]: 1200,
-		[LOOP.LOOP_1]: 1400,
-		[LOOP.LOOP_2]: 1600,
-		[LOOP.LOOP_3]: 1800
-	},
 	[UI_DENSITY.COMFORTABLE]: {
 		[LOOP.LOOP_0]: 1500,
 		[LOOP.LOOP_1]: 1750,
 		[LOOP.LOOP_2]: 2000,
 		[LOOP.LOOP_3]: 2250
+	},
+	[UI_DENSITY.COMPACT]: {
+		[LOOP.LOOP_0]: 1200,
+		[LOOP.LOOP_1]: 1400,
+		[LOOP.LOOP_2]: 1600,
+		[LOOP.LOOP_3]: 1800
 	}
 }
 
@@ -61,7 +61,7 @@ const ANIMATED_BEZIER = {
 
 export const createAnimatedConfig =
 	(density: UIDensity = UI_DENSITY.COMPACT) =>
-	({easing = EASING.STANDARD, duration = DURATION.MEDIUM_1}: CreateAnimatedConfigOptions): Animated => {
+	({duration = DURATION.MEDIUM_1, easing = EASING.STANDARD}: CreateAnimatedConfigOptions): Animated => {
 		const isLoop = typeof duration !== 'number' && duration in ANIMATED_LOOP_DURATION[density]
 
 		const baseDuration =

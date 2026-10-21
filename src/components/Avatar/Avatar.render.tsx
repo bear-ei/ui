@@ -1,6 +1,8 @@
 import {cloneElement, forwardRef, useMemo} from 'react'
 import {Image, Text, View, type ViewStyle} from 'react-native'
 
+import type {RenderAvatarProps} from './Avatar.interface'
+
 import {useTheme} from '../../hooks'
 import {
 	DENSITY_SIZE,
@@ -12,8 +14,6 @@ import {
 	TYPOGRAPHY_SIZE
 } from '../../theme'
 import {platformValue} from '../../utils'
-
-import type {RenderAvatarProps} from './Avatar.interface'
 
 export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 	(
@@ -34,14 +34,14 @@ export const RenderAvatar = forwardRef<View, RenderAvatarProps>(
 		ref
 	) => {
 		const {token} = useTheme()
-		const {densityClasses, classesName, shapeClasses, typographyClasses} = token.classes
+		const {classesName, densityClasses, shapeClasses, typographyClasses} = token.classes
 		const densityInlineClasses = densityClasses(DENSITY_TYPE.INLINE)()
 		const isSVG = !!svgElement
 		const avatarStyle = useMemo(
 			() => [
 				{
 					...(backgroundColor && {backgroundColor}),
-					...(typeof size === 'number' && {width: platformValue(size), height: platformValue(size)})
+					...(typeof size === 'number' && {height: platformValue(size), width: platformValue(size)})
 				} as ViewStyle,
 				style
 			],

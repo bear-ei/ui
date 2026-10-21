@@ -1,13 +1,13 @@
 import type {BlurEvent, FocusEvent, GestureResponderEvent, LayoutChangeEvent, MouseEvent} from 'react-native'
 
-import {EVENT_NAME, STATE, type State} from '../../constants'
-
 import type {
 	HandleStateEventChangeOptions,
 	HandleStateEventOptions,
 	StateEvent,
 	UseHandleStateEventOptions
 } from './use-interaction-state-event.interface'
+
+import {EVENT_NAME, STATE, type State} from '../../constants'
 
 /**
  * Wrap a handler to stop event propagation.

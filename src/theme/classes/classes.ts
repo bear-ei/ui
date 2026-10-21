@@ -2,82 +2,90 @@ import {clsx, type ClassValue} from 'clsx'
 import {vars} from 'nativewind'
 import {twMerge} from 'tailwind-merge'
 
+import type {Token} from '../token'
+import type {TypographyClassesOptions} from './classes.interface'
+
 import {LAYOUT, type LayoutType} from '../../constants'
 import {platformValue} from '../../utils'
 import {DENSITY_SIZE, DENSITY_TYPE, LAYOUT_DENSITY, type DensitySize, type DensityType} from '../density'
 import {RADIUS, SHAPE, type RadiusType, type ShapeType} from '../shape'
-import type {Token} from '../token'
 import {TYPOGRAPHY, TYPOGRAPHY_SIZE, type Typography, type TypographySize, type TypographyType} from '../typography'
 
-import type {TypographyClassesOptions} from './classes.interface'
-
 const SHAPE_TYPE = {
-	[RADIUS.XX_LARGE]: {
-		[SHAPE.ALL]: 'rounded-[--radius-xx-large]',
-		[SHAPE.TOP]: 'rounded-t-[--radius-xx-large] rounded-b-[--radius-none]',
-		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-xx-large]',
-		[SHAPE.START]: 'rounded-l-[--radius-xx-large] rounded-r-[--radius-none]',
-		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-xx-large]'
-	},
-	[RADIUS.XX_SMALL]: {
-		[SHAPE.ALL]: 'rounded-[--radius-xx-small]',
-		[SHAPE.TOP]: 'rounded-t-[--radius-xx-small] rounded-b-[--radius-none]',
-		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-xx-small]',
-		[SHAPE.START]: 'rounded-l-[--radius-xx-small] rounded-r-[--radius-none]',
-		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-xx-small]'
-	},
 	[RADIUS.FULL]: {
 		[SHAPE.ALL]: 'rounded-[--radius-full]',
-		[SHAPE.TOP]: 'rounded-t-[--radius-full] rounded-b-[--radius-none]',
 		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-full]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-full]',
 		[SHAPE.START]: 'rounded-l-[--radius-full] rounded-r-[--radius-none]',
-		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-full]'
-	},
-	[RADIUS.X_LARGE]: {
-		[SHAPE.ALL]: 'rounded-[--radius-x-large]',
-		[SHAPE.TOP]: 'rounded-t-[--radius-x-large] rounded-b-[--radius-none]',
-		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-x-large]',
-		[SHAPE.START]: 'rounded-l-[--radius-x-large] rounded-r-[--radius-none]',
-		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-x-large]'
-	},
-	[RADIUS.X_SMALL]: {
-		[SHAPE.ALL]: 'rounded-[--radius-x-small]',
-		[SHAPE.TOP]: 'rounded-t-[--radius-x-small] rounded-b-[--radius-none]',
-		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-x-small]',
-		[SHAPE.START]: 'rounded-l-[--radius-x-small] rounded-r-[--radius-none]',
-		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-x-small]'
+		[SHAPE.TOP]: 'rounded-t-[--radius-full] rounded-b-[--radius-none]'
 	},
 	[RADIUS.LARGE]: {
 		[SHAPE.ALL]: 'rounded-[--radius-large]',
-		[SHAPE.TOP]: 'rounded-t-[--radius-large] rounded-b-[--radius-none]',
 		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-large]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-large]',
 		[SHAPE.START]: 'rounded-l-[--radius-large] rounded-r-[--radius-none]',
-		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-large]'
+		[SHAPE.TOP]: 'rounded-t-[--radius-large] rounded-b-[--radius-none]'
 	},
 	[RADIUS.MEDIUM]: {
 		[SHAPE.ALL]: 'rounded-[--radius-medium]',
-		[SHAPE.TOP]: 'rounded-t-[--radius-medium] rounded-b-[--radius-none]',
 		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-medium]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-medium]',
 		[SHAPE.START]: 'rounded-l-[--radius-medium] rounded-r-[--radius-none]',
-		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-medium]'
+		[SHAPE.TOP]: 'rounded-t-[--radius-medium] rounded-b-[--radius-none]'
 	},
 	[RADIUS.NONE]: {
 		[SHAPE.ALL]: 'rounded-[--radius-none]',
-		[SHAPE.TOP]: 'rounded-t-[--radius-none] rounded-b-[--radius-none]',
 		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-none]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-none]',
 		[SHAPE.START]: 'rounded-l-[--radius-none] rounded-r-[--radius-none]',
-		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-none]'
+		[SHAPE.TOP]: 'rounded-t-[--radius-none] rounded-b-[--radius-none]'
 	},
 	[RADIUS.SMALL]: {
 		[SHAPE.ALL]: 'rounded-[--radius-small]',
-		[SHAPE.TOP]: 'rounded-t-[--radius-small] rounded-b-[--radius-none]',
 		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-small]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-small]',
 		[SHAPE.START]: 'rounded-l-[--radius-small] rounded-r-[--radius-none]',
-		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-small]'
+		[SHAPE.TOP]: 'rounded-t-[--radius-small] rounded-b-[--radius-none]'
+	},
+	[RADIUS.X_LARGE]: {
+		[SHAPE.ALL]: 'rounded-[--radius-x-large]',
+		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-x-large]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-x-large]',
+		[SHAPE.START]: 'rounded-l-[--radius-x-large] rounded-r-[--radius-none]',
+		[SHAPE.TOP]: 'rounded-t-[--radius-x-large] rounded-b-[--radius-none]'
+	},
+	[RADIUS.X_SMALL]: {
+		[SHAPE.ALL]: 'rounded-[--radius-x-small]',
+		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-x-small]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-x-small]',
+		[SHAPE.START]: 'rounded-l-[--radius-x-small] rounded-r-[--radius-none]',
+		[SHAPE.TOP]: 'rounded-t-[--radius-x-small] rounded-b-[--radius-none]'
+	},
+	[RADIUS.XX_LARGE]: {
+		[SHAPE.ALL]: 'rounded-[--radius-xx-large]',
+		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-xx-large]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-xx-large]',
+		[SHAPE.START]: 'rounded-l-[--radius-xx-large] rounded-r-[--radius-none]',
+		[SHAPE.TOP]: 'rounded-t-[--radius-xx-large] rounded-b-[--radius-none]'
+	},
+	[RADIUS.XX_SMALL]: {
+		[SHAPE.ALL]: 'rounded-[--radius-xx-small]',
+		[SHAPE.BOTTOM]: 'rounded-t-[--radius-none] rounded-b-[--radius-xx-small]',
+		[SHAPE.END]: 'rounded-l-[--radius-none] rounded-r-[--radius-xx-small]',
+		[SHAPE.START]: 'rounded-l-[--radius-xx-small] rounded-r-[--radius-none]',
+		[SHAPE.TOP]: 'rounded-t-[--radius-xx-small] rounded-b-[--radius-none]'
 	}
 }
 
 const TYPOGRAPHY_TYPE = {
+	[TYPOGRAPHY.BODY]: {
+		[TYPOGRAPHY_SIZE.LARGE]:
+			'text-[length:var(--typography-body-large-size)] h-[--typography-body-large-height] leading-[--typography-body-large-line-height] tracking-[--typography-body-large-letter-spacing] --typography-body-large-style font-[--typography-body-large-weight]',
+		[TYPOGRAPHY_SIZE.MEDIUM]:
+			'text-[length:var(--typography-body-medium-size)] h-[--typography-body-medium-height] leading-[--typography-body-medium-line-height] tracking-[--typography-body-medium-letter-spacing] --typography-body-medium-style font-[--typography-body-medium-weight]',
+		[TYPOGRAPHY_SIZE.SMALL]:
+			'text-[length:var(--typography-body-small-size)] h-[--typography-body-small-height] leading-[--typography-body-small-line-height] tracking-[--typography-body-small-letter-spacing] --typography-body-small-style font-[--typography-body-small-weight]'
+	},
 	[TYPOGRAPHY.DISPLAY]: {
 		[TYPOGRAPHY_SIZE.LARGE]:
 			'text-[length:var(--typography-display-large-size)] h-[--typography-display-large-height] leading-[--typography-display-large-line-height] tracking-[--typography-display-large-letter-spacing] --typography-display-large-style font-[--typography-display-large-weight]',
@@ -94,22 +102,6 @@ const TYPOGRAPHY_TYPE = {
 		[TYPOGRAPHY_SIZE.SMALL]:
 			'text-[--typography-headline-small-size] h-[--typography-headline-small-height] leading-[--typography-headline-small-line-height] tracking-[--typography-headline-small-letter-spacing] --typography-headline-small-style font-[--typography-headline-small-weight]'
 	},
-	[TYPOGRAPHY.TITLE]: {
-		[TYPOGRAPHY_SIZE.LARGE]:
-			'text-[length:var(--typography-title-large-size)] h-[--typography-title-large-height] leading-[--typography-title-large-line-height] tracking-[--typography-title-large-letter-spacing] --typography-title-large-style font-[--typography-title-large-weight]',
-		[TYPOGRAPHY_SIZE.MEDIUM]:
-			'text-[length:var(--typography-title-medium-size)] h-[--typography-title-medium-height] leading-[--typography-title-medium-line-height] tracking-[--typography-title-medium-letter-spacing] --typography-title-medium-style font-[--typography-title-medium-weight]',
-		[TYPOGRAPHY_SIZE.SMALL]:
-			'text-[length:var(--typography-title-small-size)] h-[--typography-title-small-height] leading-[--typography-title-small-line-height] tracking-[--typography-title-small-letter-spacing] --typography-title-small-style font-[--typography-title-small-weight]'
-	},
-	[TYPOGRAPHY.BODY]: {
-		[TYPOGRAPHY_SIZE.LARGE]:
-			'text-[length:var(--typography-body-large-size)] h-[--typography-body-large-height] leading-[--typography-body-large-line-height] tracking-[--typography-body-large-letter-spacing] --typography-body-large-style font-[--typography-body-large-weight]',
-		[TYPOGRAPHY_SIZE.MEDIUM]:
-			'text-[length:var(--typography-body-medium-size)] h-[--typography-body-medium-height] leading-[--typography-body-medium-line-height] tracking-[--typography-body-medium-letter-spacing] --typography-body-medium-style font-[--typography-body-medium-weight]',
-		[TYPOGRAPHY_SIZE.SMALL]:
-			'text-[length:var(--typography-body-small-size)] h-[--typography-body-small-height] leading-[--typography-body-small-line-height] tracking-[--typography-body-small-letter-spacing] --typography-body-small-style font-[--typography-body-small-weight]'
-	},
 	[TYPOGRAPHY.LABEL]: {
 		[TYPOGRAPHY_SIZE.LARGE]:
 			'text-[length:var(--typography-label-large-size)] h-[--typography-label-large-height] leading-[--typography-label-large-line-height] tracking-[--typography-label-large-letter-spacing] --typography-label-large-style font-[--typography-label-large-weight]',
@@ -117,6 +109,14 @@ const TYPOGRAPHY_TYPE = {
 			'text-[length:var(--typography-label-medium-size)] h-[--typography-label-medium-height] leading-[--typography-label-medium-line-height] tracking-[--typography-label-medium-letter-spacing] --typography-label-medium-style font-[--typography-label-medium-weight]',
 		[TYPOGRAPHY_SIZE.SMALL]:
 			'text-[length:var(--typography-label-small-size)] h-[--typography-label-small-height] leading-[--typography-label-small-line-height] tracking-[--typography-label-small-letter-spacing] --typography-label-small-style font-[--typography-label-small-weight]'
+	},
+	[TYPOGRAPHY.TITLE]: {
+		[TYPOGRAPHY_SIZE.LARGE]:
+			'text-[length:var(--typography-title-large-size)] h-[--typography-title-large-height] leading-[--typography-title-large-line-height] tracking-[--typography-title-large-letter-spacing] --typography-title-large-style font-[--typography-title-large-weight]',
+		[TYPOGRAPHY_SIZE.MEDIUM]:
+			'text-[length:var(--typography-title-medium-size)] h-[--typography-title-medium-height] leading-[--typography-title-medium-line-height] tracking-[--typography-title-medium-letter-spacing] --typography-title-medium-style font-[--typography-title-medium-weight]',
+		[TYPOGRAPHY_SIZE.SMALL]:
+			'text-[length:var(--typography-title-small-size)] h-[--typography-title-small-height] leading-[--typography-title-small-line-height] tracking-[--typography-title-small-letter-spacing] --typography-title-small-style font-[--typography-title-small-weight]'
 	}
 }
 

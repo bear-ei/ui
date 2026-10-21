@@ -1,13 +1,14 @@
 import {useEffect, useMemo, useRef} from 'react'
 import {Platform} from 'react-native'
 
-import {handleDesktopScroll} from './use-desktop-scroll-event.handler'
 import type {UseDesktopScrollEventOptions} from './use-desktop-scroll-event.interface'
 
-export const useDesktopScrollEvent = ({onScroll, onMomentumScrollEnd}: UseDesktopScrollEventOptions) => {
+import {handleDesktopScroll} from './use-desktop-scroll-event.handler'
+
+export const useDesktopScrollEvent = ({onMomentumScrollEnd, onScroll}: UseDesktopScrollEventOptions) => {
 	const momentumScrollEndTimer = useRef<ReturnType<typeof setTimeout>>(null)
 	const onDesktopScroll = useMemo(
-		() => handleDesktopScroll({momentumScrollEndTimer, onScroll, onMomentumScrollEnd}),
+		() => handleDesktopScroll({momentumScrollEndTimer, onMomentumScrollEnd, onScroll}),
 		[onMomentumScrollEnd, onScroll]
 	)
 
@@ -22,7 +23,7 @@ export const useDesktopScrollEvent = ({onScroll, onMomentumScrollEnd}: UseDeskto
 	)
 
 	return {
-		onScroll: ['macos', 'web', 'windows'].includes(Platform.OS) ? onDesktopScroll : onScroll,
-		onMomentumScrollEnd
+		onMomentumScrollEnd,
+		onScroll: ['macos', 'web', 'windows'].includes(Platform.OS) ? onDesktopScroll : onScroll
 	}
 }

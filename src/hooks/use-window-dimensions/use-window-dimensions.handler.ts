@@ -1,10 +1,11 @@
-import {type ScaledSize} from 'react-native'
 import type {Updater} from 'use-immer'
+
+import {type ScaledSize} from 'react-native'
 
 export const updateWindowScaledSize =
 	(setState: Updater<ScaledSize>) =>
 	({window}: {window: ScaledSize}) => {
-		const {width, height, scale, fontScale} = window
+		const {fontScale, height, scale, width} = window
 
 		setState(draft => {
 			draft.fontScale = fontScale

@@ -4,7 +4,7 @@ import {scheduleOnRN} from 'react-native-worklets'
 import type {CreateAnimatedTimingOptions} from './use-animated-timing.interface'
 
 export const createAnimatedTiming =
-	({duration, repeat, bezier, delay, ...config}: CreateAnimatedTimingOptions) =>
+	({bezier, delay, duration, repeat, ...config}: CreateAnimatedTimingOptions) =>
 	(callback?: AnimationCallback) =>
 	(toValue: number) => {
 		'worklet'

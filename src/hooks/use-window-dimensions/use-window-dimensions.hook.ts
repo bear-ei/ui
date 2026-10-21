@@ -1,12 +1,13 @@
-import {useEffect, useMemo} from 'react'
 import type {ScaledSize} from 'react-native'
+
+import {useEffect, useMemo} from 'react'
 import {Dimensions} from 'react-native'
 import {useImmer} from 'use-immer'
 
-import {debounce} from '../../utils'
-
-import {updateWindowScaledSize} from './use-window-dimensions.handler'
 import type {UseWindowDimensionsOptions} from './use-window-dimensions.interface'
+
+import {debounce} from '../../utils'
+import {updateWindowScaledSize} from './use-window-dimensions.handler'
 
 /**
  * Window dimensions with desktop-aware debouncing.

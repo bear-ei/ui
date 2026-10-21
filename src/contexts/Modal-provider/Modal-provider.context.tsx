@@ -1,15 +1,16 @@
-import mitt from 'mitt'
 import type {FC} from 'react'
+
+import mitt from 'mitt'
 import {useEffect, useMemo} from 'react'
 import {View} from 'react-native'
 import {useImmer} from 'use-immer'
 
+import type {EmitterEvent, Modal, ModalComponentType, ModalItemProps, ModalState} from './Modal-provider.interface'
+
 import {PopoverContent, PopoverPressableLayout} from '../../components'
 import {typedMemo} from '../../utils'
-
 import {MODAL_TYPE} from './Modal-provider.enum'
 import {updateModals} from './Modal-provider.handler'
-import type {EmitterEvent, Modal, ModalComponentType, ModalItemProps, ModalState} from './Modal-provider.interface'
 
 const COMPONENT = {
 	[MODAL_TYPE.POPOVER]: PopoverContent,
@@ -17,7 +18,7 @@ const COMPONENT = {
 	[MODAL_TYPE.SIDE_SHEET]: View
 }
 
-const ModalItem = typedMemo(({type, componentProps, testID}: ModalItemProps) => {
+const ModalItem = typedMemo(({componentProps, testID, type}: ModalItemProps) => {
 	if (!type) {
 		return <></>
 	}
@@ -93,7 +94,7 @@ export const ModalProvider: FC = () => {
 
 	return (
 		<>
-			{modals.map(({type, props, id}) => (
+			{modals.map(({id, props, type}) => (
 				<ModalItem
 					componentProps={props}
 					key={id}

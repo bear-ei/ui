@@ -1,6 +1,5 @@
 import type {Contrast} from '../color'
 import type {SCHEME} from '../scheme'
-
 import type {PALETTE} from './palette.enum'
 
 export type PaletteType = (typeof PALETTE)[keyof typeof PALETTE]
@@ -57,8 +56,8 @@ export type ColorRole =
 
 export type CoreColor = 'primary' | 'tertiary' | 'error'
 export interface Palette {
-	[SCHEME.LIGHT]: Record<Contrast, Record<ColorRole, string>>
 	[SCHEME.DARK]: Record<Contrast, Record<ColorRole, string>>
+	[SCHEME.LIGHT]: Record<Contrast, Record<ColorRole, string>>
 	coreColor: Record<CoreColor, string>
 	seed: string
 }

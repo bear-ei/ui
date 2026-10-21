@@ -25,9 +25,9 @@ export type StateEventChangeHandler = (
 
 export interface UseHandleStateEventOptions extends Omit<InteractionHandlers, 'onBlur' | 'onFocus'> {
 	disabled?: boolean
-	onStateEventChange?: StateEventChangeHandler
 	onBlur?: ((e: BlurEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void) | null
 	onFocus?: ((e: FocusEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void) | null
+	onStateEventChange?: StateEventChangeHandler
 }
 
 export interface HandleStateEventChangeOptions extends Pick<
@@ -40,8 +40,8 @@ export interface HandleStateEventChangeOptions extends Pick<
 }
 
 export interface HandleStateEventOptions {
-	mobileDevice?: boolean
 	interactionHandlers: (options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) => void
+	mobileDevice?: boolean
 }
 
 export interface InteractionHandlers extends Pick<

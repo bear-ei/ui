@@ -1,4 +1,4 @@
 export const SCHEME = {
-	LIGHT: 'LIGHT',
-	DARK: 'DARK'
+	DARK: 'DARK',
+	LIGHT: 'LIGHT'
 } as const

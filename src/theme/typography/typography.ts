@@ -1,71 +1,11 @@
-import {DENSITY_SIZE, UI_DENSITY, type DensitySizeScale, type UIDensity} from '../density'
 import type {Font, FontLineHeight} from '../font'
-
-import {TYPOGRAPHY, TYPOGRAPHY_SIZE} from './typography.enum'
 import type {CreateBuildStyleOptions, FontStyle, Typography} from './typography.interface'
 
+import {DENSITY_SIZE, UI_DENSITY, type DensitySizeScale, type UIDensity} from '../density'
+import {TYPOGRAPHY, TYPOGRAPHY_SIZE} from './typography.enum'
+
 const TYPOGRAPHY_CONFIG = {
-	[UI_DENSITY.COMPACT]: {
-		[TYPOGRAPHY.DISPLAY]: {
-			[TYPOGRAPHY_SIZE.LARGE]: {
-				height: 'height10',
-				letterSpacing: 'letterSpacing1',
-				size: 'size10',
-				weight: 'regular'
-			},
-			[TYPOGRAPHY_SIZE.MEDIUM]: {
-				height: 'height9',
-				letterSpacing: 'letterSpacing1',
-				size: 'size9',
-				weight: 'regular'
-			},
-			[TYPOGRAPHY_SIZE.SMALL]: {
-				height: 'height8',
-				letterSpacing: 'letterSpacing1',
-				size: 'size8',
-				weight: 'regular'
-			}
-		},
-		[TYPOGRAPHY.HEADLINE]: {
-			[TYPOGRAPHY_SIZE.LARGE]: {
-				height: 'height7',
-				letterSpacing: 'letterSpacing1',
-				size: 'size7',
-				weight: 'regular'
-			},
-			[TYPOGRAPHY_SIZE.MEDIUM]: {
-				height: 'height6',
-				letterSpacing: 'letterSpacing1',
-				size: 'size6',
-				weight: 'regular'
-			},
-			[TYPOGRAPHY_SIZE.SMALL]: {
-				height: 'height5',
-				letterSpacing: 'letterSpacing2',
-				size: 'size5',
-				weight: 'regular'
-			}
-		},
-		[TYPOGRAPHY.TITLE]: {
-			[TYPOGRAPHY_SIZE.LARGE]: {
-				height: 'height4',
-				letterSpacing: 'letterSpacing2',
-				size: 'size4',
-				weight: 'medium'
-			},
-			[TYPOGRAPHY_SIZE.MEDIUM]: {
-				height: 'height3',
-				letterSpacing: 'letterSpacing2',
-				size: 'size3',
-				weight: 'medium'
-			},
-			[TYPOGRAPHY_SIZE.SMALL]: {
-				height: 'height2',
-				letterSpacing: 'letterSpacing2',
-				size: 'size2',
-				weight: 'medium'
-			}
-		},
+	[UI_DENSITY.COMFORTABLE]: {
 		[TYPOGRAPHY.BODY]: {
 			[TYPOGRAPHY_SIZE.LARGE]: {
 				height: 'height3',
@@ -86,30 +26,6 @@ const TYPOGRAPHY_CONFIG = {
 				weight: 'regular'
 			}
 		},
-		[TYPOGRAPHY.LABEL]: {
-			[TYPOGRAPHY_SIZE.LARGE]: {
-				height: 'height2',
-				letterSpacing: 'letterSpacing2',
-				prominent: 'bold',
-				size: 'size2',
-				weight: 'medium'
-			},
-			[TYPOGRAPHY_SIZE.MEDIUM]: {
-				height: 'height1',
-				letterSpacing: 'letterSpacing2',
-				prominent: 'bold',
-				size: 'size1',
-				weight: 'medium'
-			},
-			[TYPOGRAPHY_SIZE.SMALL]: {
-				height: 'height0',
-				letterSpacing: 'letterSpacing2',
-				size: 'size0',
-				weight: 'medium'
-			}
-		}
-	},
-	[UI_DENSITY.COMFORTABLE]: {
 		[TYPOGRAPHY.DISPLAY]: {
 			[TYPOGRAPHY_SIZE.LARGE]: {
 				height: 'height12',
@@ -150,6 +66,28 @@ const TYPOGRAPHY_CONFIG = {
 				weight: 'regular'
 			}
 		},
+		[TYPOGRAPHY.LABEL]: {
+			[TYPOGRAPHY_SIZE.LARGE]: {
+				height: 'height2',
+				letterSpacing: 'letterSpacing2',
+				prominent: 'bold',
+				size: 'size2',
+				weight: 'medium'
+			},
+			[TYPOGRAPHY_SIZE.MEDIUM]: {
+				height: 'height1',
+				letterSpacing: 'letterSpacing2',
+				prominent: 'bold',
+				size: 'size1',
+				weight: 'medium'
+			},
+			[TYPOGRAPHY_SIZE.SMALL]: {
+				height: 'height0',
+				letterSpacing: 'letterSpacing2',
+				size: 'size0',
+				weight: 'medium'
+			}
+		},
 		[TYPOGRAPHY.TITLE]: {
 			[TYPOGRAPHY_SIZE.LARGE]: {
 				height: 'height6',
@@ -171,7 +109,9 @@ const TYPOGRAPHY_CONFIG = {
 				size: 'size2',
 				weight: 'medium'
 			}
-		},
+		}
+	},
+	[UI_DENSITY.COMPACT]: {
 		[TYPOGRAPHY.BODY]: {
 			[TYPOGRAPHY_SIZE.LARGE]: {
 				height: 'height3',
@@ -189,6 +129,46 @@ const TYPOGRAPHY_CONFIG = {
 				height: 'height1',
 				letterSpacing: 'letterSpacing2',
 				size: 'size1',
+				weight: 'regular'
+			}
+		},
+		[TYPOGRAPHY.DISPLAY]: {
+			[TYPOGRAPHY_SIZE.LARGE]: {
+				height: 'height10',
+				letterSpacing: 'letterSpacing1',
+				size: 'size10',
+				weight: 'regular'
+			},
+			[TYPOGRAPHY_SIZE.MEDIUM]: {
+				height: 'height9',
+				letterSpacing: 'letterSpacing1',
+				size: 'size9',
+				weight: 'regular'
+			},
+			[TYPOGRAPHY_SIZE.SMALL]: {
+				height: 'height8',
+				letterSpacing: 'letterSpacing1',
+				size: 'size8',
+				weight: 'regular'
+			}
+		},
+		[TYPOGRAPHY.HEADLINE]: {
+			[TYPOGRAPHY_SIZE.LARGE]: {
+				height: 'height7',
+				letterSpacing: 'letterSpacing1',
+				size: 'size7',
+				weight: 'regular'
+			},
+			[TYPOGRAPHY_SIZE.MEDIUM]: {
+				height: 'height6',
+				letterSpacing: 'letterSpacing1',
+				size: 'size6',
+				weight: 'regular'
+			},
+			[TYPOGRAPHY_SIZE.SMALL]: {
+				height: 'height5',
+				letterSpacing: 'letterSpacing2',
+				size: 'size5',
 				weight: 'regular'
 			}
 		},
@@ -213,13 +193,33 @@ const TYPOGRAPHY_CONFIG = {
 				size: 'size0',
 				weight: 'medium'
 			}
+		},
+		[TYPOGRAPHY.TITLE]: {
+			[TYPOGRAPHY_SIZE.LARGE]: {
+				height: 'height4',
+				letterSpacing: 'letterSpacing2',
+				size: 'size4',
+				weight: 'medium'
+			},
+			[TYPOGRAPHY_SIZE.MEDIUM]: {
+				height: 'height3',
+				letterSpacing: 'letterSpacing2',
+				size: 'size3',
+				weight: 'medium'
+			},
+			[TYPOGRAPHY_SIZE.SMALL]: {
+				height: 'height2',
+				letterSpacing: 'letterSpacing2',
+				size: 'size2',
+				weight: 'medium'
+			}
 		}
 	}
 }
 
 const createBuildStyle =
 	(font: Font) =>
-	({size, height, letterSpacing, weight, prominent}: CreateBuildStyleOptions): FontStyle => {
+	({height, letterSpacing, prominent, size, weight}: CreateBuildStyleOptions): FontStyle => {
 		const index = size.replace('size', '')
 		const lineHeight = `lineHeight${index}` as FontLineHeight
 		const lineHeightRatio = font.lineHeight[lineHeight]

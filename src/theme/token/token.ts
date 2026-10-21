@@ -1,3 +1,6 @@
+import type {PaletteType} from '../palette'
+import type {ColorSchemeOptions, CreateTokenOptions, Token} from './token.interface'
+
 import {createAnimatedConfig} from '../animated'
 import {createBorder} from '../border'
 import {
@@ -12,14 +15,11 @@ import {createDensity, UI_DENSITY} from '../density'
 import {createElevation} from '../elevation'
 import {createFont} from '../font'
 import {createOpacity} from '../opacity'
-import type {PaletteType} from '../palette'
 import {createPalette, PALETTE} from '../palette'
 import {createColorScheme, SCHEME} from '../scheme'
 import {createShape} from '../shape'
 import {PLATFORM} from '../theme.enum'
 import {createTypography} from '../typography'
-
-import type {ColorSchemeOptions, CreateTokenOptions, Token} from './token.interface'
 
 /**
  * Token factory — curried in three layers by change frequency:
@@ -43,7 +43,7 @@ export const createToken = ({
 }: CreateTokenOptions = {}) => {
 	const font = createFont(fontFamily)(codeFontFamily)(platform)
 
-	return ({scheme = SCHEME.LIGHT, contrast = CONTRAST.STANDARD}: ColorSchemeOptions = {}) =>
+	return ({contrast = CONTRAST.STANDARD, scheme = SCHEME.LIGHT}: ColorSchemeOptions = {}) =>
 		(palette: PaletteType = PALETTE.NAVY): Token => {
 			const createdPalette = createPalette(palette)
 			const colorScheme = createColorScheme(createdPalette)(scheme)(contrast)

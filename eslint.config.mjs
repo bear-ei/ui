@@ -4,7 +4,7 @@ import typescriptEslint from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
 import path from 'node:path'
 import {fileURLToPath} from 'node:url'
-import importPlugin from 'eslint-plugin-import'
+import perfectionist from 'eslint-plugin-perfectionist'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -25,18 +25,7 @@ const configs = [
 	{
 		plugins: {
 			'@typescript-eslint': typescriptEslint,
-			import: importPlugin
-		},
-		settings: {
-			'import/resolver': {
-				typescript: {
-					project: './tsconfig.json',
-					alwaysTryTypes: true
-				},
-				node: {
-					extensions: ['.js', '.jsx', '.ts', '.tsx']
-				}
-			}
+			perfectionist
 		},
 		languageOptions: {
 			parser: tsParser,
@@ -49,20 +38,14 @@ const configs = [
 			}
 		},
 		rules: {
-			'import/order': [
-				'error',
-				{
-					groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
-					pathGroups: [{pattern: '@/**', group: 'internal', position: 'after'}],
-					'newlines-between': 'always',
-					alphabetize: {order: 'asc', caseInsensitive: true}
-				}
-			],
-			'import/newline-after-import': 'error',
+			'perfectionist/sort-objects': ['error', {type: 'alphabetical'}],
+			'perfectionist/sort-interfaces': ['error', {type: 'alphabetical'}],
+			'perfectionist/sort-object-types': ['error', {type: 'alphabetical'}],
+			'perfectionist/sort-jsx-props': ['error', {type: 'alphabetical'}],
+			'perfectionist/sort-imports': ['error', {type: 'alphabetical'}],
 			'@typescript-eslint/no-unnecessary-condition': 'warn',
 			'@typescript-eslint/explicit-function-return-type': 'off',
 			'@typescript-eslint/explicit-module-boundary-types': 'off',
-			'@typescript-eslint/interface-name-prefix': 'off',
 			'@typescript-eslint/no-explicit-any': ['error', {ignoreRestArgs: true}],
 			'@typescript-eslint/no-extraneous-class': 'off',
 			'@typescript-eslint/no-shadow': ['warn'],
