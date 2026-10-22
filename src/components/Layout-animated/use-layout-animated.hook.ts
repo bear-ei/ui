@@ -32,8 +32,8 @@ export const useLayoutAnimated = ({
 	const containerSharedValue = useSharedValue(visible ? 1 : 0)
 	const animatedTiming = useAnimatedTiming()
 	const animateLayoutAnimatedOptions = useMemo(
-		() => ({animatedTiming, animatedType, entry, exit, onAnimationFinished}),
-		[animatedTiming, entry, exit, onAnimationFinished, animatedType]
+		() => ({animatedType, entry, exit, onAnimationFinished}),
+		[entry, exit, onAnimationFinished, animatedType]
 	)
 
 	const opacityOutputRanges = useMemo(() => [opacity.level0, rawOpacity ?? opacity.level10], [opacity, rawOpacity])
@@ -115,12 +115,15 @@ export const useLayoutAnimated = ({
 	const runAnimate = useMemo(
 		() =>
 			(animatedType !== LAYOUT_ANIMATED.NONE ?
-				debounce(animateLayoutAnimated(containerSharedValue, animateLayoutAnimatedOptions), delay)
-			:	animateLayoutAnimated(containerSharedValue, animateLayoutAnimatedOptions)) as {
+				debounce(
+					animateLayoutAnimated(containerSharedValue, animatedTiming, animateLayoutAnimatedOptions),
+					delay
+				)
+			:	animateLayoutAnimated(containerSharedValue, animatedTiming, animateLayoutAnimatedOptions)) as {
 				(visible?: boolean | undefined): void
 				cancel?: () => void
 			},
-		[animateLayoutAnimatedOptions, containerSharedValue, delay, animatedType]
+		[animateLayoutAnimatedOptions, containerSharedValue, delay, animatedType, animatedTiming]
 	)
 
 	useEffect(() => {

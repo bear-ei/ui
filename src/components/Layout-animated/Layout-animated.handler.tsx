@@ -2,7 +2,7 @@ import type {LayoutChangeEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import type {StateEvent} from '../../hooks'
+import type {AnimatedTiming, StateEvent} from '../../hooks'
 import type {
 	AnimateLayoutAnimatedOptions,
 	FinalizeLayoutAnimatedVisibleChangeOptions,
@@ -98,7 +98,8 @@ export const updateLayoutAnimatedVisible =
 
 export const animateLayoutAnimated = (
 	sharedValue: SharedValue<number>,
-	{animatedTiming, animatedType, entry, exit, onAnimationFinished}: AnimateLayoutAnimatedOptions
+	animatedTiming: AnimatedTiming,
+	{animatedType, entry, exit, onAnimationFinished}: AnimateLayoutAnimatedOptions
 ) => {
 	const entryAnimateSharedValueTo = animatedTiming(sharedValue, {
 		easing: EASING.STANDARD_DECELERATE,

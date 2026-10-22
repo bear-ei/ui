@@ -3,12 +3,7 @@ import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {ComponentStatus, LayoutRectangle, PartialSize} from '../../constants'
-import type {
-	AnimatedTiming,
-	AnimatedTimingOptions,
-	HandleStateEventChangeOptions,
-	InteractionHandlers
-} from '../../hooks'
+import type {AnimatedTimingOptions, HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {ThemeProps} from '../../theme'
 import type {LAYOUT_ANIMATED} from './Layout-animated.enum'
 
@@ -81,9 +76,7 @@ export interface UseLayoutAnimatedOptions extends Pick<
 	width?: number
 }
 
-export interface AnimateLayoutAnimatedOptions extends Pick<
+export type AnimateLayoutAnimatedOptions = Pick<
 	UseLayoutAnimatedOptions,
 	'animatedType' | 'entry' | 'exit' | 'onAnimationFinished'
-> {
-	animatedTiming: AnimatedTiming
-}
+>

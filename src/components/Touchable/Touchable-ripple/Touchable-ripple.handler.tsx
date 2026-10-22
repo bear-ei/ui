@@ -1,7 +1,7 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import type {HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
+import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
 import type {
 	AnimateTouchableRippleOptions,
 	TouchableRippleProps,
@@ -60,7 +60,8 @@ export const handleTouchableRippleStateChange = (
 
 export const animateTouchableRipple = (
 	[opacitySharedValue, scaleSharedValue]: [SharedValue<number>, SharedValue<number>],
-	{animatedTiming, indexKey, onAnimateFinished}: AnimateTouchableRippleOptions
+	animatedTiming: AnimatedTiming,
+	{indexKey, onAnimateFinished}: AnimateTouchableRippleOptions
 ) => {
 	const entryAnimateSharedValueTo = animatedTiming(scaleSharedValue, {
 		duration: DURATION.SHORT_2,

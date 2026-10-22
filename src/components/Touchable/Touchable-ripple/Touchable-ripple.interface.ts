@@ -3,7 +3,7 @@ import type {NativeTouchEvent, View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {ComponentStatus, LayoutRectangle} from '../../../constants'
-import type {AnimatedTiming, InteractionHandlers} from '../../../hooks'
+import type {InteractionHandlers} from '../../../hooks'
 import type {TouchableProps} from '../Touchable.interface'
 
 export interface TouchableRippleProps
@@ -33,6 +33,4 @@ export interface UseTouchableRippleAnimatedOptions
 	status: ComponentStatus
 }
 
-export interface AnimateTouchableRippleOptions extends Pick<TouchableRippleProps, 'onAnimateFinished' | 'indexKey'> {
-	animatedTiming: AnimatedTiming
-}
+export type AnimateTouchableRippleOptions = Pick<TouchableRippleProps, 'onAnimateFinished' | 'indexKey'>

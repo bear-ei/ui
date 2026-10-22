@@ -35,8 +35,7 @@ export const useTouchableRippleAnimated = ({
 
 	const runAnimate = useMemo(
 		() =>
-			animateTouchableRipple([opacitySharedValue, scaleSharedValue], {
-				animatedTiming,
+			animateTouchableRipple([opacitySharedValue, scaleSharedValue], animatedTiming, {
 				indexKey,
 				onAnimateFinished
 			}),
