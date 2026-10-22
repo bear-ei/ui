@@ -4,7 +4,6 @@ import type {NativeTouchEvent, Pressable, PressableProps, View, ViewStyle} from 
 import type {LayoutRectangle, State} from '../../constants'
 import type {HandleStateEventChangeOptions, InteractionHandlers, StateEventChangeHandler} from '../../hooks'
 import type {ThemeProps} from '../../theme'
-
 import type {TouchableRippleProps} from './Touchable-ripple'
 
 export type PressableType = typeof Pressable & View

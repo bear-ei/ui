@@ -1,15 +1,15 @@
+import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
 import type {HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
-import {DURATION, EASING} from '../../../theme'
-
 import type {
 	AnimateTouchableRippleOptions,
-	AnimateTouchableRippleSharedValues,
 	TouchableRippleProps,
 	TouchableRippleState
 } from './Touchable-ripple.interface'
+
+import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
+import {DURATION, EASING} from '../../../theme'
 
 // Re-render the ripple when the container resizes so its center / radius
 // stay accurate. Ripples are typically short-lived, so the extra renders
@@ -42,33 +42,42 @@ export const compareTouchableRippleProps = (prevProps: TouchableRippleProps, nex
 	].some(Boolean)
 }
 
-export const handleTouchableRippleStateChange =
-	({eventName}: HandleStateEventChangeOptions) =>
-	(setState: Updater<TouchableRippleState>) =>
-	(_event: StateEvent) =>
-		setState(draft => {
-			if (eventName === EVENT_NAME.LAYOUT && draft.status !== COMPONENT_STATUS.SUCCEEDED) {
-				draft.status = COMPONENT_STATUS.SUCCEEDED
-			}
-		})
+export const handleTouchableRippleStateChange = (
+	_event: StateEvent,
+	setState: Updater<TouchableRippleState>,
+	{eventName}: HandleStateEventChangeOptions
+) => {
+	console.info(eventName, 'eventName======>')
 
-export const animateTouchableRipple =
-	({animatedTiming, onAnimateFinished, indexKey}: AnimateTouchableRippleOptions) =>
-	({opacitySharedValue, scaleSharedValue}: AnimateTouchableRippleSharedValues) => {
-		const entryAnimateSharedValueTo = animatedTiming({
-			duration: DURATION.SHORT_2,
-			easing: EASING.STANDARD_DECELERATE
-		})({sharedValue: scaleSharedValue})
-
-		const exitAnimateSharedValueTo = animatedTiming({
-			delay: 75,
-			duration: DURATION.SHORT_3,
-			easing: EASING.STANDARD_ACCELERATE,
-			callback: (finished?: boolean) => finished && indexKey && onAnimateFinished?.(indexKey)
-		})({sharedValue: opacitySharedValue})
-
-		return () => {
-			entryAnimateSharedValueTo(1)
-			exitAnimateSharedValueTo(0)
-		}
+	if (eventName !== EVENT_NAME.LAYOUT) {
+		return
 	}
+
+	setState(draft => {
+		if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+			draft.status = COMPONENT_STATUS.SUCCEEDED
+		}
+	})
+}
+
+export const animateTouchableRipple = (
+	[opacitySharedValue, scaleSharedValue]: [SharedValue<number>, SharedValue<number>],
+	{animatedTiming, indexKey, onAnimateFinished}: AnimateTouchableRippleOptions
+) => {
+	const entryAnimateSharedValueTo = animatedTiming(scaleSharedValue, {
+		duration: DURATION.SHORT_2,
+		easing: EASING.STANDARD_DECELERATE
+	})
+
+	const exitAnimateSharedValueTo = animatedTiming(opacitySharedValue, {
+		callback: (finished?: boolean) => finished && indexKey && onAnimateFinished?.(indexKey),
+		delay: 75,
+		duration: DURATION.SHORT_3,
+		easing: EASING.STANDARD_ACCELERATE
+	})
+
+	return () => {
+		entryAnimateSharedValueTo(1)
+		exitAnimateSharedValueTo(0)
+	}
+}

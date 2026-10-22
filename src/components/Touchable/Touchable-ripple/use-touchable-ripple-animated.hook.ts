@@ -1,13 +1,14 @@
-import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
+
+import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
+import type {UseTouchableRippleAnimatedOptions} from './Touchable-ripple.interface'
 
 import {COMPONENT_STATUS} from '../../../constants'
 import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {platformValue} from '../../../utils'
-
 import {animateTouchableRipple} from './Touchable-ripple.handler'
-import type {UseTouchableRippleAnimatedOptions} from './Touchable-ripple.interface'
 
 export const useTouchableRippleAnimated = ({
 	indexKey,
@@ -16,13 +17,14 @@ export const useTouchableRippleAnimated = ({
 	status
 }: UseTouchableRippleAnimatedOptions) => {
 	const {token} = useTheme()
+	const {opacity} = token
 	const opacitySharedValue = useSharedValue(1)
 	const scaleSharedValue = useSharedValue(0)
 	const animatedTiming = useAnimatedTiming()
 	const containerAnimatedStyle = useAnimatedStyle(
 		() =>
 			({
-				opacity: interpolate(opacitySharedValue.value, [0, 1], [token.opacity.level0, token.opacity.level2]),
+				opacity: interpolate(opacitySharedValue.value, [0, 1], [opacity.level0, opacity.level2]),
 				transform: [
 					{translateX: platformValue(-radius)},
 					{translateY: platformValue(-radius)},
@@ -33,9 +35,10 @@ export const useTouchableRippleAnimated = ({
 
 	const runAnimate = useMemo(
 		() =>
-			animateTouchableRipple({animatedTiming, onAnimateFinished, indexKey})({
-				opacitySharedValue,
-				scaleSharedValue
+			animateTouchableRipple([opacitySharedValue, scaleSharedValue], {
+				animatedTiming,
+				indexKey,
+				onAnimateFinished
 			}),
 		[animatedTiming, onAnimateFinished, opacitySharedValue, scaleSharedValue, indexKey]
 	)

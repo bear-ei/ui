@@ -1,56 +1,50 @@
-import {nanoid} from 'nanoid'
 import type {GestureResponderEvent} from 'react-native'
 import type {Updater} from 'use-immer'
 
-import {EVENT_NAME} from '../../constants'
-import type {StateEvent} from '../../hooks'
+import {nanoid} from 'nanoid'
 
+import type {StateEvent} from '../../hooks'
 import type {AddTouchableRippleOptions, HandleTouchableStateChangeOptions, TouchableState} from './Touchable.interface'
 
-export const handleTouchableStateChange =
-	({
-		enableTouchableRipple,
-		eventName,
-		onStateEventChange,
-		ref,
-		state,
-		...options
-	}: HandleTouchableStateChangeOptions) =>
-	(setState: Updater<TouchableState>) => {
-		const addTouchableRipple = ({touchableLocation, contentLayout}: AddTouchableRippleOptions) => {
-			const {width, height} = contentLayout
-			const indexKey = nanoid()
+import {EVENT_NAME} from '../../constants'
 
-			setState(draft => {
-				draft.contentLayout.height = height
-				draft.contentLayout.width = width
-				draft.rippleSequence[indexKey] = touchableLocation
-			})
-		}
+export const handleTouchableStateChange = (
+	event: StateEvent,
+	setState: Updater<TouchableState>,
+	{enableTouchableRipple, eventName, onStateEventChange, ref, state, ...options}: HandleTouchableStateChangeOptions
+) => {
+	const addTouchableRipple = ({contentLayout, touchableLocation}: AddTouchableRippleOptions) => {
+		const {height, width} = contentLayout
+		const indexKey = nanoid()
 
-		const createTouchablePressInHandler = (event: GestureResponderEvent) => {
-			ref.current?.focus()
+		setState(draft => {
+			draft.contentLayout.height = height
+			draft.contentLayout.width = width
+			draft.rippleSequence[indexKey] = touchableLocation
+		})
+	}
 
-			const {locationX, locationY} = event.nativeEvent
+	const createTouchablePressInHandler = (gestureEvent: GestureResponderEvent) => {
+		ref.current?.focus()
 
-			if (enableTouchableRipple) {
-				ref.current?.measure((_x, _y, width, height) =>
-					addTouchableRipple({
-						contentLayout: {width, height},
-						touchableLocation: {locationX, locationY}
-					})
-				)
-			}
-		}
+		const {locationX, locationY} = gestureEvent.nativeEvent
 
-		return (event: StateEvent) => {
-			if (eventName === EVENT_NAME.PRESS_IN) {
-				createTouchablePressInHandler(event as GestureResponderEvent)
-			}
-
-			onStateEventChange?.({...options, eventName})(state)(event)
+		if (enableTouchableRipple) {
+			ref.current?.measure((_x, _y, width, height) =>
+				addTouchableRipple({
+					contentLayout: {height, width},
+					touchableLocation: {locationX, locationY}
+				})
+			)
 		}
 	}
+
+	if (eventName === EVENT_NAME.PRESS_IN) {
+		createTouchablePressInHandler(event as GestureResponderEvent)
+	}
+
+	onStateEventChange?.(event, state, {...options, eventName})
+}
 
 export const deleteTouchableRippleByIndex = (setState: Updater<TouchableState>) => (index?: string) => {
 	if (!index) {

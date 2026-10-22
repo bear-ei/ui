@@ -1,69 +1,65 @@
-import {forwardRef, useCallback, useId, useMemo, useRef} from 'react'
+import {useCallback, useId, useMemo, useRef, type FC} from 'react'
 import {useImmer} from 'use-immer'
 
 import type {LayoutRectangle, State} from '../../constants'
-import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent, useMergeRefs} from '../../hooks'
-
-import {deleteTouchableRippleByIndex, handleTouchableStateChange} from './Touchable.handler'
 import type {PressableType, TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
+
+import {useInteractionStateEvent, useMergeRefs, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {deleteTouchableRippleByIndex, handleTouchableStateChange} from './Touchable.handler'
 import {RenderTouchable, RenderTouchableRipples} from './Touchable.render'
 
-export const TouchableBase = forwardRef<PressableType, TouchableBaseProps>(
-	(
-		{
-			centered,
-			disabled,
-			enableTouchableRipple = true,
-			onStateEventChange: rawOnStateEventChange,
-			underlayColor,
-			...renderTouchableProps
+export const TouchableBase: FC<TouchableBaseProps> = ({
+	centered,
+	disabled,
+	enableTouchableRipple = true,
+	onStateEventChange: rawOnStateEventChange,
+	ref,
+	underlayColor,
+	...renderTouchableProps
+}) => {
+	const [{contentLayout, rippleSequence}, setState] = useImmer<TouchableState>({
+		contentLayout: {} as Partial<LayoutRectangle>,
+		rippleSequence: {} as TouchableRippleSequence
+	})
+
+	const id = useId()
+	const pressableRef = useRef<PressableType>(null)
+	const mergedRef = useMergeRefs([ref, pressableRef])
+	const onAnimateFinished = useMemo(() => deleteTouchableRippleByIndex(setState), [setState])
+	const onStateEventChange = useCallback(
+		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) => {
+			handleTouchableStateChange(event, setState, {
+				...options,
+				enableTouchableRipple,
+				onStateEventChange: rawOnStateEventChange,
+				ref: pressableRef,
+				state
+			})
 		},
-		ref
-	) => {
-		const [{rippleSequence, contentLayout}, setState] = useImmer<TouchableState>({
-			contentLayout: {} as Partial<LayoutRectangle>,
-			rippleSequence: {} as TouchableRippleSequence
-		})
+		[enableTouchableRipple, rawOnStateEventChange, setState]
+	)
 
-		const id = useId()
-		const pressableRef = useRef<PressableType>(null)
-		const mergedRef = useMergeRefs([ref, pressableRef])
-		const onAnimateFinished = useMemo(() => deleteTouchableRippleByIndex(setState), [setState])
-		const onStateEventChange = useCallback(
-			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) => {
-				handleTouchableStateChange({
-					...options,
-					enableTouchableRipple,
-					onStateEventChange: rawOnStateEventChange,
-					ref: pressableRef,
-					state
-				})(setState)(event)
-			},
-			[enableTouchableRipple, rawOnStateEventChange, setState]
-		)
+	const interactionHandlers = useInteractionStateEvent({...renderTouchableProps, disabled, onStateEventChange})
+	const rippleElements = (
+		<RenderTouchableRipples
+			centered={centered}
+			containerLayout={contentLayout}
+			id={id}
+			onAnimateFinished={onAnimateFinished}
+			rippleSequence={rippleSequence}
+			underlayColor={underlayColor}
+		/>
+	)
 
-		const interactionHandlers = useInteractionStateEvent({...renderTouchableProps, disabled, onStateEventChange})
-		const rippleElements = (
-			<RenderTouchableRipples
-				centered={centered}
-				containerLayout={contentLayout}
-				id={id}
-				onAnimateFinished={onAnimateFinished}
-				rippleSequence={rippleSequence}
-				underlayColor={underlayColor}
-			/>
-		)
-
-		return (
-			<RenderTouchable
-				{...renderTouchableProps}
-				id={id}
-				interactionHandlers={interactionHandlers}
-				ref={mergedRef}
-				rippleElements={rippleElements}
-			/>
-		)
-	}
-)
+	return (
+		<RenderTouchable
+			{...renderTouchableProps}
+			id={id}
+			interactionHandlers={interactionHandlers}
+			ref={mergedRef}
+			rippleElements={rippleElements}
+		/>
+	)
+}
 
 TouchableBase.displayName = 'TouchableBase'

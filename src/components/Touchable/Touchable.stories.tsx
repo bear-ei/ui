@@ -1,8 +1,10 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+
 import {View} from 'react-native'
 
-import {Touchable} from './Touchable.component'
 import type {TouchableProps} from './Touchable.interface'
+
+import {Touchable} from './Touchable.component'
 
 const TouchableComponent = (props: TouchableProps) => (
 	<View className='flex h-80 w-80 flex-row'>
@@ -17,7 +19,7 @@ export const Ripple: StoryObj<TouchableProps> = {
 }
 
 export default {
-	title: 'components/Touchable',
 	argTypes: {onPress: {action: 'pressed'}},
-	component: TouchableComponent
+	component: TouchableComponent,
+	title: 'components/Touchable'
 } as Meta<typeof Touchable>

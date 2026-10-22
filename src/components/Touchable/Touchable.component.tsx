@@ -1,17 +1,7 @@
-import {forwardRef} from 'react'
+import type {TouchableProps} from './Touchable.interface'
 
 import {typedMemo} from '../../utils'
-
 import {TouchableBase} from './Touchable-base.component'
-import type {PressableType, TouchableProps} from './Touchable.interface'
 
-const TouchableWithRef = forwardRef<PressableType, TouchableProps>((props, ref) => (
-	<TouchableBase
-		{...props}
-		ref={ref}
-	/>
-))
-
-TouchableWithRef.displayName = 'Touchable'
-
-export const Touchable = typedMemo(TouchableWithRef)
+export const Touchable = typedMemo((props: TouchableProps) => <TouchableBase {...props} />)
+Touchable.displayName = 'Touchable'

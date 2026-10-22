@@ -1,19 +1,12 @@
-import {forwardRef} from 'react'
-import type {View} from 'react-native'
-
-import {typedMemo} from '../../../utils'
-
-import {TouchableRippleBase} from './Touchable-ripple-base.component'
-import {compareTouchableRippleProps} from './Touchable-ripple.handler'
 import type {TouchableRippleProps} from './Touchable-ripple.interface'
 
-const TouchableRippleWithRef = forwardRef<View, TouchableRippleProps>((props, ref) => (
-	<TouchableRippleBase
-		{...props}
-		ref={ref}
-	/>
-))
+import {typedMemo} from '../../../utils'
+import {TouchableRippleBase} from './Touchable-ripple-base.component'
+import {compareTouchableRippleProps} from './Touchable-ripple.handler'
 
-TouchableRippleWithRef.displayName = 'TouchableRipple'
+export const TouchableRipple = typedMemo(
+	(props: TouchableRippleProps) => <TouchableRippleBase {...props} />,
+	compareTouchableRippleProps
+)
 
-export const TouchableRipple = typedMemo(TouchableRippleWithRef, compareTouchableRippleProps)
+TouchableRipple.displayName = 'TouchableRipple'
