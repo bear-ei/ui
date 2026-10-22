@@ -9,7 +9,14 @@ import {LAYOUT, type LayoutType} from '../../constants'
 import {platformValue} from '../../utils'
 import {DENSITY_SIZE, DENSITY_TYPE, LAYOUT_DENSITY, type DensitySize, type DensityType} from '../density'
 import {RADIUS, SHAPE, type RadiusType, type ShapeType} from '../shape'
-import {TYPOGRAPHY, TYPOGRAPHY_SIZE, type Typography, type TypographySize, type TypographyType} from '../typography'
+import {
+	TYPOGRAPHY,
+	TYPOGRAPHY_SIZE,
+	type Typography,
+	type TypographySize,
+	type TypographyStyle,
+	type TypographyType
+} from '../typography'
 
 const SHAPE_TYPE = {
 	[RADIUS.FULL]: {
@@ -245,8 +252,8 @@ const createCssVariables = <T extends object>(prefix: string, obj: T, platformVa
 		{}
 	)
 
-const buildTypographyStyleVariables = (typography: Typography) =>
-	Object.entries(typography).flatMap(([type, sizes]) =>
+const buildTypographyStyleVariables = (typography: Typography) => {
+	const buildCssVariables = ([type, sizes]: [type: string, sizes: TypographyStyle]) =>
 		Object.entries(sizes).map(([size, style]) =>
 			createCssVariables(
 				`typography-${toKebabCase(type)}-${toKebabCase(size)}`,
@@ -254,7 +261,11 @@ const buildTypographyStyleVariables = (typography: Typography) =>
 				TYPOGRAPHY_PLATFORM_VALUE_KEYS
 			)
 		)
-	)
+
+	return Object.entries(typography)
+		.flatMap(buildCssVariables)
+		.reduce((accumulator, value) => ({...accumulator, ...value}))
+}
 
 const processStyleVariables = ({
 	border,

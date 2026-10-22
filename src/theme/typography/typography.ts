@@ -238,19 +238,14 @@ const buildStyle = (
 
 const createTypography = (font: Font, density: UIDensity = UI_DENSITY.COMPACT): Typography => {
 	const config = TYPOGRAPHY_CONFIG[density]
-	const map = Object.fromEntries(
-		Object.entries(config).map(([type, sizes]) => [
-			type,
-			Object.fromEntries(
-				Object.entries(sizes).map(([size, options]) => [
-					size,
-					buildStyle(font, options as CreateBuildStyleOptions)
-				])
-			)
-		])
-	) as Typography
+	const buildTypography = ([type, sizes]: [type: string, sizes: (typeof config)['BODY']]) => [
+		type,
+		Object.fromEntries(
+			Object.entries(sizes).map(([size, options]) => [size, buildStyle(font, options as CreateBuildStyleOptions)])
+		)
+	]
 
-	return map
+	return Object.fromEntries(Object.entries(config).map(buildTypography))
 }
 
 const densitySizeMapTypographySize = (size: DensitySizeScale) => {

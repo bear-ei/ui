@@ -101,7 +101,7 @@ export const RenderButton: FC<RenderButtonProps> = ({
 	const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)
 	const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET, LAYOUT.HORIZONTAL)
 	const isActiveIndicatorVisible =
-		type === BUTTON_TYPE.LINK && eventName && ACTIVE_INDICATOR_EVENT_NAMES.includes(eventName) && !disabled
+		type === BUTTON_TYPE.LINK && ACTIVE_INDICATOR_EVENT_NAMES.includes(eventName) && !disabled
 
 	const isLink = type === BUTTON_TYPE.LINK
 	const loadingEventName = LOADING_SUPPRESSED_TYPES.includes(type) ? EVENT_NAME.NONE : EVENT_NAME.LONG_PRESS

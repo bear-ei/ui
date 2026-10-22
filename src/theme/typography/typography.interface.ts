@@ -12,7 +12,7 @@ export interface CreateBuildStyleOptions {
 }
 
 export interface FontStyle {
-	height: number
+	height: FontHeight
 	letterSpacing: number
 	lineHeight: number
 	prominentWeight?: number
