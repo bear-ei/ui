@@ -1,6 +1,7 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
+import type {AnimatedTiming} from '../../hooks'
 import type {
 	AnimateElevationOptions,
 	ElevationState,
@@ -80,7 +81,8 @@ export const updateElevationLevel = (setState: Updater<ElevationState>) => (leve
  */
 export const animateElevation = (
 	sharedValue: SharedValue<number>,
-	{animatedTiming, entry, exit, onAnimationFinished}: AnimateElevationOptions
+	animatedTiming: AnimatedTiming,
+	{entry, exit, onAnimationFinished}: AnimateElevationOptions
 ) => {
 	const entryAnimateSharedValueTo = animatedTiming(sharedValue, {
 		easing: EASING.STANDARD_DECELERATE,

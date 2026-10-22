@@ -3,7 +3,7 @@ import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {ComponentStatus} from '../../constants'
-import type {AnimatedTiming, AnimatedTimingOptions} from '../../hooks'
+import type {AnimatedTimingOptions} from '../../hooks'
 import type {ThemeProps} from '../../theme'
 import type {ELEVATION_VALUE} from './Elevation.enum'
 
@@ -40,9 +40,4 @@ export type GetWebBoxShadowOptions = {
 	opacity: number
 }
 
-export interface AnimateElevationOptions extends Pick<
-	UseElevationAnimatedOptions,
-	'onAnimationFinished' | 'entry' | 'exit'
-> {
-	animatedTiming: AnimatedTiming
-}
+export type AnimateElevationOptions = Pick<UseElevationAnimatedOptions, 'onAnimationFinished' | 'entry' | 'exit'>

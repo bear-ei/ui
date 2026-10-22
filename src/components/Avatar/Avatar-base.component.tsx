@@ -4,14 +4,13 @@ import type {AvatarBaseProps} from './Avatar.interface'
 
 import {RenderAvatar} from './Avatar.render'
 
-export const AvatarBase: FC<AvatarBaseProps> = ({ref, ...renderAvatarProps}) => {
+export const AvatarBase: FC<AvatarBaseProps> = renderAvatarProps => {
 	const id = useId()
 
 	return (
 		<RenderAvatar
 			{...renderAvatarProps}
 			id={id}
-			ref={ref}
 		/>
 	)
 }
