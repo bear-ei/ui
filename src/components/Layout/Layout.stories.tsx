@@ -1,9 +1,11 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 
+import type {LayoutProps} from './Layout.interface'
+
+import {LAYOUT} from '../../constants'
 import {LayoutNavigation} from './Layout-navigation'
 import {LayoutPane} from './Layout-pane'
 import {Layout} from './Layout.component'
-import type {LayoutProps} from './Layout.interface'
 
 export const Pane: StoryObj<LayoutProps> = {
 	args: {
@@ -23,7 +25,19 @@ export const Navigation: StoryObj<LayoutProps> = {
 	}
 }
 
+export const Vertical: StoryObj<LayoutProps> = {
+	args: {
+		children: (
+			<>
+				<LayoutPane />
+				<LayoutPane />
+			</>
+		),
+		layoutType: LAYOUT.VERTICAL
+	}
+}
+
 export default {
-	title: 'components/Layout',
-	component: Layout
+	component: Layout,
+	title: 'components/Layout'
 } as Meta<typeof Layout>
