@@ -1,17 +1,7 @@
-import {forwardRef} from 'react'
+import type {DragProps} from './Drag.interface'
 
 import {typedMemo} from '../../utils'
-
 import {DragBase} from './Drag-base.component'
-import type {DragProps, DragRef} from './Drag.interface'
 
-const DragWithRef = forwardRef<DragRef, DragProps>((props, ref) => (
-	<DragBase
-		{...props}
-		ref={ref}
-	/>
-))
-
-DragWithRef.displayName = 'Drag'
-
-export const Drag = typedMemo(DragWithRef)
+export const Drag = typedMemo((props: DragProps) => <DragBase {...props} />)
+Drag.displayName = 'Drag'

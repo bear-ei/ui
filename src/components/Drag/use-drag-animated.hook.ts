@@ -1,14 +1,15 @@
-import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
+
+import {useEffect, useMemo} from 'react'
 import {Gesture, MouseButton} from 'react-native-gesture-handler'
 import {cancelAnimation, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
+import type {UseDragAnimatedOptions} from './Drag.interface'
 
 import {useAnimatedTiming, useTheme, useWindowDimensions} from '../../hooks'
 import {DENSITY_SIZE} from '../../theme'
 import {platformValue} from '../../utils'
-
 import {animateDrag, handlePanGestureEnd, updatePrevTranslate, updateTranslate} from './Drag.handler'
-import type {UseDragAnimatedOptions} from './Drag.interface'
 
 export const useDragAnimated = ({
 	height: rawHeight,
@@ -20,8 +21,9 @@ export const useDragAnimated = ({
 	onUpdate,
 	width: rawWidth
 }: UseDragAnimatedOptions) => {
-	const {width: screenWidth, height: screenHeight} = useWindowDimensions()
+	const {height: screenHeight, width: screenWidth} = useWindowDimensions()
 	const {token} = useTheme()
+	const {density} = token
 	const animatedTiming = useAnimatedTiming()
 	const height = rawHeight ?? screenHeight
 	const prevTranslateXSharedValue = useSharedValue(0)
@@ -41,21 +43,21 @@ export const useDragAnimated = ({
 
 	const onPanGestureStart = useMemo(
 		() =>
-			updatePrevTranslate({prevTranslateXSharedValue, prevTranslateYSharedValue, onStart})({
-				translateXSharedValue,
-				translateYSharedValue
-			}),
+			updatePrevTranslate(
+				[prevTranslateXSharedValue, prevTranslateYSharedValue],
+				[translateXSharedValue, translateYSharedValue],
+				{onStart}
+			),
 		[onStart, prevTranslateXSharedValue, prevTranslateYSharedValue, translateXSharedValue, translateYSharedValue]
 	)
 
 	const onPanGestureUpdate = useMemo(
 		() =>
-			updateTranslate({width, height, onUpdate, layout, layoutType, offset})({
-				prevTranslateXSharedValue,
-				prevTranslateYSharedValue,
-				translateXSharedValue,
-				translateYSharedValue
-			}),
+			updateTranslate(
+				[prevTranslateXSharedValue, prevTranslateYSharedValue],
+				[translateXSharedValue, translateYSharedValue],
+				{height, layout, layoutType, offset, onUpdate, width}
+			),
 		[
 			height,
 			layout,
@@ -71,7 +73,7 @@ export const useDragAnimated = ({
 	)
 
 	const runAnimate = useMemo(
-		() => animateDrag(animatedTiming)({translateXSharedValue, translateYSharedValue}),
+		() => animateDrag([translateXSharedValue, translateYSharedValue], animatedTiming),
 		[animatedTiming, translateXSharedValue, translateYSharedValue]
 	)
 
@@ -79,12 +81,12 @@ export const useDragAnimated = ({
 	const panGesture = useMemo(
 		() =>
 			Gesture.Pan()
-				.minDistance(token.density.spacing[DENSITY_SIZE.SMALL])
+				.minDistance(density.spacing[DENSITY_SIZE.SMALL])
 				.mouseButton(MouseButton.LEFT)
 				.onStart(onPanGestureStart)
 				.onUpdate(onPanGestureUpdate)
 				.onEnd(onPanGestureEnd),
-		[token, onPanGestureStart, onPanGestureUpdate, onPanGestureEnd]
+		[density, onPanGestureStart, onPanGestureUpdate, onPanGestureEnd]
 	)
 
 	useEffect(() => {
