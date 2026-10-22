@@ -34,7 +34,7 @@ const ELEVATION_VALUE_MAP = {
 	[STATE.PRESS_IN]: ELEVATION_VALUE.LEVEL_0
 }
 
-export const updateButtonElevation = (draft: WritableDraft<ButtonState>) => (type?: ButtonType) => (state?: State) => {
+export const updateButtonElevation = (draft: WritableDraft<ButtonState>, state?: State, type?: ButtonType) => {
 	const isElevated = type && ELEVATED_BUTTON_TYPES.includes(type)
 
 	if (!isElevated) {
@@ -69,7 +69,7 @@ export const handleButtonStateChange = (
 
 		draft.eventName = eventName
 
-		updateButtonElevation(draft)(type)(state)
+		updateButtonElevation(draft, state, type)
 	})
 }
 
@@ -93,7 +93,7 @@ export const updateButtonDisabledState =
 		})
 	}
 
-export const getButtonUnderlayColor = (token: Token) => (linkColor?: string) => {
+export const getButtonUnderlayColor = (type: ButtonType, token: Token, linkColor?: string) => {
 	const underlay = {
 		[BUTTON_TYPE.ELEVATED]: token.scheme.primary,
 		[BUTTON_TYPE.FILLED]: token.scheme.onPrimary,
@@ -103,7 +103,7 @@ export const getButtonUnderlayColor = (token: Token) => (linkColor?: string) => 
 		[BUTTON_TYPE.TONAL]: token.scheme.onSecondaryContainer
 	}
 
-	return (type: ButtonType) => underlay[type]
+	return underlay[type]
 }
 
 export const animateButton = (

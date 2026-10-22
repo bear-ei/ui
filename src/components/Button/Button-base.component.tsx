@@ -34,7 +34,7 @@ export const ButtonBase: FC<ButtonBaseProps> = ({
 	const id = useId()
 	const isDisabled = loading || rawDisabled
 	const {token} = useTheme()
-	const underlayColor = getButtonUnderlayColor(token)(linkColor)(type)
+	const underlayColor = getButtonUnderlayColor(type, token, linkColor)
 	const onStateEventChange = useCallback(
 		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) =>
 			handleButtonStateChange(event, setState, {...options, state, type}),

@@ -1,11 +1,11 @@
 import type {WritableDraft} from 'immer'
 import type {Updater} from 'use-immer'
 
-import {COMPONENT_STATUS, EVENT_NAME} from '../../constants'
 import type {StateEvent} from '../../hooks'
-
-import {CHECKBOX_VALUE} from './Checkbox.enum'
 import type {CheckboxState, HandleCheckboxStateChangeOptions, UpdateCheckboxActiveOptions} from './Checkbox.interface'
+
+import {COMPONENT_STATUS, EVENT_NAME} from '../../constants'
+import {CHECKBOX_VALUE} from './Checkbox.enum'
 
 export const updateCheckboxStatus = (setState: Updater<CheckboxState>) => (indeterminate?: boolean) =>
 	setState(draft => {
@@ -44,27 +44,28 @@ const applyCheckboxActiveStateToDraft = (
 }
 
 export const updateCheckboxActive =
-	(options: UpdateCheckboxActiveOptions) => (setState: Updater<CheckboxState>) => (active?: boolean) =>
+	(setState: Updater<CheckboxState>, options: UpdateCheckboxActiveOptions) => (active?: boolean) =>
 		setState(draft => {
 			applyCheckboxActiveStateToDraft(draft, {...options, triggerEvent: false}, active)
 		})
 
-export const handleCheckboxStateChange =
-	({active, eventName, indeterminate, onActive}: HandleCheckboxStateChangeOptions) =>
-	(setState: Updater<CheckboxState>) =>
-	(_event: StateEvent) => {
-		if (eventName === EVENT_NAME.LAYOUT) {
-			return
-		}
-
-		setState(draft => {
-			draft.eventName = eventName
-
-			if (eventName === EVENT_NAME.PRESS_OUT) {
-				applyCheckboxActiveStateToDraft(draft, {indeterminate, onActive}, !active)
-			}
-		})
+export const handleCheckboxStateChange = (
+	_event: StateEvent,
+	setState: Updater<CheckboxState>,
+	{active, eventName, indeterminate, onActive}: HandleCheckboxStateChangeOptions
+) => {
+	if (eventName === EVENT_NAME.LAYOUT) {
+		return
 	}
+
+	setState(draft => {
+		draft.eventName = eventName
+
+		if (eventName === EVENT_NAME.PRESS_OUT) {
+			applyCheckboxActiveStateToDraft(draft, {indeterminate, onActive}, !active)
+		}
+	})
+}
 
 export const updateCheckboxIndeterminate = (setState: Updater<CheckboxState>) => (indeterminate?: boolean) => {
 	if (typeof indeterminate !== 'boolean') {

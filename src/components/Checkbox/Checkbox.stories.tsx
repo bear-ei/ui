@@ -1,9 +1,9 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 
-import {DENSITY_SIZE} from '../../theme'
-
-import {Checkbox} from './Checkbox.component'
 import type {CheckboxProps} from './Checkbox.interface'
+
+import {DENSITY_SIZE} from '../../theme'
+import {Checkbox} from './Checkbox.component'
 
 export const Selected: StoryObj<CheckboxProps> = {
 	args: {active: true, indeterminate: false}
@@ -42,7 +42,7 @@ export const ExtraSmall: StoryObj<CheckboxProps> = {
 }
 
 export default {
-	title: 'components/Checkbox',
 	argTypes: {onActive: {action: 'active'}},
-	component: Checkbox
+	component: Checkbox,
+	title: 'components/Checkbox'
 } as Meta<typeof Checkbox>

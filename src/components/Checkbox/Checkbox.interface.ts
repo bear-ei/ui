@@ -2,7 +2,6 @@ import type {ComponentStatus, EventName} from '../../constants'
 import type {HandleStateEventChangeOptions, StateEventChangeHandler} from '../../hooks'
 import type {ThemeProps} from '../../theme'
 import type {TouchableProps} from '../Touchable'
-
 import type {CHECKBOX_VALUE} from './Checkbox.enum'
 
 export type CheckboxValue = (typeof CHECKBOX_VALUE)[keyof typeof CHECKBOX_VALUE]

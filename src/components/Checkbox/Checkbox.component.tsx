@@ -1,18 +1,7 @@
-import {forwardRef} from 'react'
-
-import {typedMemo} from '../../utils'
-import type {PressableType} from '../Touchable'
-
-import {CheckboxBase} from './Checkbox-base.component'
 import type {CheckboxProps} from './Checkbox.interface'
 
-const CheckboxWithRef = forwardRef<PressableType, CheckboxProps>((props, ref) => (
-	<CheckboxBase
-		{...props}
-		ref={ref}
-	/>
-))
+import {typedMemo} from '../../utils'
+import {CheckboxBase} from './Checkbox-base.component'
 
-CheckboxWithRef.displayName = 'Checkbox'
-
-export const Checkbox = typedMemo(CheckboxWithRef)
+export const Checkbox = typedMemo((props: CheckboxProps) => <CheckboxBase {...props} />)
+Checkbox.displayName = 'Checkbox'
