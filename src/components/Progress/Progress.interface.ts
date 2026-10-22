@@ -1,9 +1,8 @@
-import type {RefAttributes} from 'react'
+import type {JSX, RefAttributes} from 'react'
 import type {View, ViewProps} from 'react-native'
 
 import type {LayoutRectangle} from '../../constants'
 import type {ThemeProps} from '../../theme'
-
 import type {PROGRESS_ANIMATED, PROGRESS_TYPE} from './Progress.enum'
 
 export type ProgressType = (typeof PROGRESS_TYPE)[keyof typeof PROGRESS_TYPE]
@@ -19,12 +18,8 @@ export interface ProgressProps extends ViewProps, RefAttributes<View>, ThemeProp
 	 * Passing other combinations will fall back to the implemented behavior.
 	 */
 	animatedType?: ProgressAnimated
-	content?: React.JSX.Element
+	content?: JSX.Element
 	defaultValue?: number
-	strokeWidth?: number
-	type?: ProgressType
-	value?: number
-
 	/**
 	 * Looping animations are disabled by default on native iOS/macOS to avoid
 	 * abnormally high CPU usage — the circular indicator uses SVG, which
@@ -35,6 +30,10 @@ export interface ProgressProps extends ViewProps, RefAttributes<View>, ThemeProp
 	 * @default false
 	 */
 	enableAnimated?: boolean
+	strokeWidth?: number
+	type?: ProgressType
+
+	value?: number
 }
 
 export type RenderProgressProps = ProgressProps

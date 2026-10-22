@@ -1,4 +1,4 @@
-import {useMemo, type FC} from 'react'
+import {type FC} from 'react'
 import {Pressable, View} from 'react-native'
 
 import type {RenderTouchableProps, RenderTouchableRippleProps} from './Touchable.interface'
@@ -52,14 +52,10 @@ export const RenderTouchable: FC<RenderTouchableProps> = ({
 	// that TouchableBase passed through touchableProps. They MUST come last
 	// so the wrapped versions take precedence — otherwise the state machine
 	// gets bypassed and focus / ripple / disabled behavior breaks.
-	const pressableProps = useMemo(
-		() => ({...touchableProps, ...interactionHandlers}),
-		[touchableProps, interactionHandlers]
-	)
-
 	return (
 		<Pressable
-			{...pressableProps}
+			{...touchableProps}
+			{...interactionHandlers}
 			className='flex flex-1 flex-col items-center justify-center self-stretch outline-none'
 			testID={testID ?? `touchable--${id}`}
 		>

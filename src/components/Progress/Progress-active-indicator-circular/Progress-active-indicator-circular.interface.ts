@@ -1,6 +1,6 @@
 import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
-import type {AnimatedProps, AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import type {AnimatedProps, AnimatedStyle} from 'react-native-reanimated'
 import type {CircleProps} from 'react-native-svg'
 
 import type {ComponentStatus} from '../../../constants'
@@ -40,9 +40,4 @@ export interface UseProgressActiveIndicatorCircularAnimatedOptions extends Pick<
 	'circumference' | 'enableAnimated'
 > {
 	status: ComponentStatus
-}
-
-export interface AnimateProgressActiveIndicatorCircularSharedValues {
-	circleSharedValue: SharedValue<number>
-	containerSharedValue: SharedValue<number>
 }

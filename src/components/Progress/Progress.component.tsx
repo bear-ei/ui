@@ -1,18 +1,7 @@
-import {forwardRef} from 'react'
-import type {View} from 'react-native'
-
-import {typedMemo} from '../../utils'
-
-import {ProgressBase} from './Progress-base.component'
 import type {ProgressProps} from './Progress.interface'
 
-const ProgressWithRef = forwardRef<View, ProgressProps>((props, ref) => (
-	<ProgressBase
-		{...props}
-		ref={ref}
-	/>
-))
+import {typedMemo} from '../../utils'
+import {ProgressBase} from './Progress-base.component'
 
-ProgressWithRef.displayName = 'Progress'
-
-export const Progress = typedMemo(ProgressWithRef)
+export const Progress = typedMemo((props: ProgressProps) => <ProgressBase {...props} />)
+Progress.displayName = 'Progress'

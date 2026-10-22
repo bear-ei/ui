@@ -1,21 +1,14 @@
-import {forwardRef} from 'react'
-import type {View} from 'react-native'
+import type {ProgressActiveIndicatorCircularProps} from './Progress-active-indicator-circular.interface'
 
 import {typedMemo} from '../../../utils'
-
 import {ProgressActiveIndicatorCircularBase} from './Progress-active-indicator-circular-base.component'
-import type {ProgressActiveIndicatorCircularProps} from './Progress-active-indicator-circular.interface'
 
 /**
  * TODO: Add progress type DETERMINATE
  */
-const ProgressActiveIndicatorCircularWithRef = forwardRef<View, ProgressActiveIndicatorCircularProps>((props, ref) => (
-	<ProgressActiveIndicatorCircularBase
-		{...props}
-		ref={ref}
-	/>
+
+export const ProgressActiveIndicatorCircular = typedMemo((props: ProgressActiveIndicatorCircularProps) => (
+	<ProgressActiveIndicatorCircularBase {...props} />
 ))
 
-ProgressActiveIndicatorCircularWithRef.displayName = 'ProgressActiveIndicatorCircular'
-
-export const ProgressActiveIndicatorCircular = typedMemo(ProgressActiveIndicatorCircularWithRef)
+ProgressActiveIndicatorCircular.displayName = 'ProgressActiveIndicatorCircular'

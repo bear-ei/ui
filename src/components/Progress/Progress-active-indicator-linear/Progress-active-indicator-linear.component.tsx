@@ -1,21 +1,13 @@
-import {forwardRef} from 'react'
-import type {View} from 'react-native'
+import type {ProgressActiveIndicatorLinearProps} from './Progress-active-indicator-linear.interface'
 
 import {typedMemo} from '../../../utils'
-
 import {ProgressActiveIndicatorLinearBase} from './Progress-active-indicator-linear-base.component'
-import type {ProgressActiveIndicatorLinearProps} from './Progress-active-indicator-linear.interface'
 
 /**
  * TODO: Add progress type INDETERMINATE
  */
-const ProgressActiveIndicatorLinearWithRef = forwardRef<View, ProgressActiveIndicatorLinearProps>((props, ref) => (
-	<ProgressActiveIndicatorLinearBase
-		{...props}
-		ref={ref}
-	/>
+export const ProgressActiveIndicatorLinear = typedMemo((props: ProgressActiveIndicatorLinearProps) => (
+	<ProgressActiveIndicatorLinearBase {...props} />
 ))
 
-ProgressActiveIndicatorLinearWithRef.displayName = 'ProgressActiveIndicatorLinear'
-
-export const ProgressActiveIndicatorLinear = typedMemo(ProgressActiveIndicatorLinearWithRef)
+ProgressActiveIndicatorLinear.displayName = 'ProgressActiveIndicatorLinear'

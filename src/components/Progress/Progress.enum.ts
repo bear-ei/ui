@@ -1,6 +1,6 @@
 export const PROGRESS_TYPE = {
-	LINEAR: 'LINEAR',
-	CIRCULAR: 'CIRCULAR'
+	CIRCULAR: 'CIRCULAR',
+	LINEAR: 'LINEAR'
 } as const
 
 export const PROGRESS_ANIMATED = {
