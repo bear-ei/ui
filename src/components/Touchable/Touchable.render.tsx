@@ -44,7 +44,7 @@ export const RenderTouchable: FC<RenderTouchableProps> = ({
 	shape = SHAPE.ALL,
 	testID,
 	...touchableProps
-}: RenderTouchableProps) => {
+}) => {
 	const {token} = useTheme()
 	const {classesName, shapeClasses} = token.classes
 

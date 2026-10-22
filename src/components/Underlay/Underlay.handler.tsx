@@ -24,24 +24,30 @@ export const handleUnderlayStateChange = (
 }
 
 const EVENT_NAMES = [EVENT_NAME.BLUR, EVENT_NAME.PRESS_IN] as readonly EventName[]
-export const updateUnderlayEventName = (setState: Updater<UnderlayState>) => (eventName?: EventName) =>
-	setState(draft => {
-		if (draft.eventName === EVENT_NAME.FOCUS) {
-			draft.state = STATE.FOCUSED
-		}
+export const updateUnderlayEventName =
+	(setState: Updater<UnderlayState>) =>
+	(eventName: EventName = EVENT_NAME.NONE) =>
+		setState(draft => {
+			if (draft.eventName === eventName) {
+				return
+			}
 
-		if (draft.eventName && EVENT_NAMES.includes(draft.eventName)) {
-			draft.state = STATE.ENABLED
-		}
+			if (draft.eventName === EVENT_NAME.FOCUS) {
+				draft.state = STATE.FOCUSED
+			}
 
-		if (draft.state === STATE.FOCUSED && eventName === EVENT_NAME.HOVER_OUT) {
-			draft.eventName = EVENT_NAME.FOCUS
+			if (EVENT_NAMES.includes(draft.eventName)) {
+				draft.state = STATE.ENABLED
+			}
 
-			return
-		}
+			if (draft.state === STATE.FOCUSED && eventName === EVENT_NAME.HOVER_OUT) {
+				draft.eventName = EVENT_NAME.FOCUS
 
-		draft.eventName = eventName
-	})
+				return
+			}
+
+			draft.eventName = eventName
+		})
 
 export const animateUnderlayHoverState = (
 	sharedValue: SharedValue<number>,

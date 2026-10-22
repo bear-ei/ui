@@ -1,14 +1,15 @@
-import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
+
+import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
+import type {ButtonType, UseButtonAnimatedOptions} from './Button.interface'
 
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {BORDER_SIZE, hexToRGBA} from '../../theme'
 import {platformValue} from '../../utils'
-
 import {BUTTON_TYPE} from './Button.enum'
 import {animateButton} from './Button.handler'
-import type {ButtonType, UseButtonAnimatedOptions} from './Button.interface'
 
 export const useButtonAnimated = ({
 	disabled,
@@ -18,62 +19,49 @@ export const useButtonAnimated = ({
 	type = BUTTON_TYPE.FILLED
 }: UseButtonAnimatedOptions) => {
 	const {token} = useTheme()
+	const {border, opacity, scheme} = token
 	const animatedTiming = useAnimatedTiming()
 	const animatedValue = disabled ? 0 : 1
 	const borderSharedValue = useSharedValue(animatedValue)
 	const colorSharedValue = useSharedValue(animatedValue)
-	const disabledBackgroundColor = hexToRGBA(token.scheme.onSurface)(token.opacity.level2)
-	const disabledColor = hexToRGBA(token.scheme.onSurface)(token.opacity.level5)
+	const disabledBackgroundColor = hexToRGBA(scheme.onSurface, opacity.level2)
+	const disabledColor = hexToRGBA(scheme.onSurface, opacity.level5)
 	const backgroundColorType = useMemo(
 		() => ({
 			[BUTTON_TYPE.ELEVATED]: {
 				inputRanges: [0, 1],
-				outputRanges: [
-					disabledBackgroundColor,
-					hexToRGBA(token.scheme.surfaceContainerLow)(token.opacity.level10)
-				]
+				outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.surfaceContainerLow, opacity.level10)]
 			},
 			[BUTTON_TYPE.FILLED]: {
 				inputRanges: [0, 1],
 				outputRanges: [
 					disabledBackgroundColor,
-					error ?
-						hexToRGBA(token.scheme.error)(token.opacity.level10)
-					:	hexToRGBA(token.scheme.primary)(token.opacity.level10)
-				]
-			},
-			[BUTTON_TYPE.OUTLINED]: {
-				inputRanges: [0, 1],
-				outputRanges: [
-					hexToRGBA(token.scheme.primary)(token.opacity.level0),
-					hexToRGBA(token.scheme.primary)(token.opacity.level0)
-				]
-			},
-			[BUTTON_TYPE.TEXT]: {
-				inputRanges: [0, 1],
-				outputRanges: [
-					hexToRGBA(token.scheme.primary)(token.opacity.level0),
-					hexToRGBA(token.scheme.primary)(token.opacity.level0)
+					error ? hexToRGBA(scheme.error, opacity.level10) : hexToRGBA(scheme.primary, opacity.level10)
 				]
 			},
 			[BUTTON_TYPE.LINK]: {
 				inputRanges: [0, 1],
-				outputRanges: [
-					hexToRGBA(token.scheme.primary)(token.opacity.level0),
-					hexToRGBA(token.scheme.primary)(token.opacity.level0)
-				]
+				outputRanges: [hexToRGBA(scheme.primary, opacity.level0), hexToRGBA(scheme.primary, opacity.level0)]
+			},
+			[BUTTON_TYPE.OUTLINED]: {
+				inputRanges: [0, 1],
+				outputRanges: [hexToRGBA(scheme.primary, opacity.level0), hexToRGBA(scheme.primary, opacity.level0)]
+			},
+			[BUTTON_TYPE.TEXT]: {
+				inputRanges: [0, 1],
+				outputRanges: [hexToRGBA(scheme.primary, opacity.level0), hexToRGBA(scheme.primary, opacity.level0)]
 			},
 			[BUTTON_TYPE.TONAL]: {
 				inputRanges: [0, 1],
 				outputRanges: [
 					disabledBackgroundColor,
 					error ?
-						hexToRGBA(token.scheme.errorContainer)(token.opacity.level10)
-					:	hexToRGBA(token.scheme.secondaryContainer)(token.opacity.level10)
+						hexToRGBA(scheme.errorContainer, opacity.level10)
+					:	hexToRGBA(scheme.secondaryContainer, opacity.level10)
 				]
 			}
 		}),
-		[disabledBackgroundColor, token, error]
+		[disabledBackgroundColor, opacity, scheme, error]
 	)
 
 	const colorType = useMemo(
@@ -82,36 +70,14 @@ export const useButtonAnimated = ({
 				inputRanges: [0, 1],
 				outputRanges: [
 					disabledColor,
-					error ?
-						hexToRGBA(token.scheme.error)(token.opacity.level10)
-					:	hexToRGBA(token.scheme.primary)(token.opacity.level10)
+					error ? hexToRGBA(scheme.error, opacity.level10) : hexToRGBA(scheme.primary, opacity.level10)
 				]
 			},
 			[BUTTON_TYPE.FILLED]: {
 				inputRanges: [0, 1],
 				outputRanges: [
 					disabledColor,
-					error ?
-						hexToRGBA(token.scheme.onError)(token.opacity.level10)
-					:	hexToRGBA(token.scheme.onPrimary)(token.opacity.level10)
-				]
-			},
-			[BUTTON_TYPE.OUTLINED]: {
-				inputRanges: [0, 1],
-				outputRanges: [
-					disabledColor,
-					error ?
-						hexToRGBA(token.scheme.error)(token.opacity.level10)
-					:	hexToRGBA(token.scheme.primary)(token.opacity.level10)
-				]
-			},
-			[BUTTON_TYPE.TEXT]: {
-				inputRanges: [0, 1],
-				outputRanges: [
-					disabledColor,
-					error ?
-						hexToRGBA(token.scheme.error)(token.opacity.level10)
-					:	hexToRGBA(token.scheme.primary)(token.opacity.level10)
+					error ? hexToRGBA(scheme.onError, opacity.level10) : hexToRGBA(scheme.onPrimary, opacity.level10)
 				]
 			},
 			[BUTTON_TYPE.LINK]: {
@@ -119,8 +85,22 @@ export const useButtonAnimated = ({
 				outputRanges: [
 					disabledColor,
 					error ?
-						hexToRGBA(token.scheme.error)(token.opacity.level10)
-					:	hexToRGBA(linkColor ?? token.scheme.primary)(token.opacity.level10)
+						hexToRGBA(scheme.error, opacity.level10)
+					:	hexToRGBA(linkColor ?? scheme.primary, opacity.level10)
+				]
+			},
+			[BUTTON_TYPE.OUTLINED]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					disabledColor,
+					error ? hexToRGBA(scheme.error, opacity.level10) : hexToRGBA(scheme.primary, opacity.level10)
+				]
+			},
+			[BUTTON_TYPE.TEXT]: {
+				inputRanges: [0, 1],
+				outputRanges: [
+					disabledColor,
+					error ? hexToRGBA(scheme.error, opacity.level10) : hexToRGBA(scheme.primary, opacity.level10)
 				]
 			},
 			[BUTTON_TYPE.TONAL]: {
@@ -128,22 +108,22 @@ export const useButtonAnimated = ({
 				outputRanges: [
 					disabledColor,
 					error ?
-						hexToRGBA(token.scheme.onErrorContainer)(token.opacity.level10)
-					:	hexToRGBA(token.scheme.onSecondaryContainer)(token.opacity.level10)
+						hexToRGBA(scheme.onErrorContainer, opacity.level10)
+					:	hexToRGBA(scheme.onSecondaryContainer, opacity.level10)
 				]
 			}
 		}),
-		[disabledColor, error, token, linkColor]
+		[disabledColor, error, opacity, linkColor, scheme]
 	)
 
 	const borderColorInputRanges = useMemo(() => [0, 1, 2], [])
 	const borderColorOutputRanges = useMemo(
 		() => [
 			disabledBackgroundColor,
-			hexToRGBA(token.scheme.outline)(token.opacity.level10),
-			hexToRGBA(token.scheme.primary)(token.opacity.level10)
+			hexToRGBA(scheme.outline, opacity.level10),
+			hexToRGBA(scheme.primary, opacity.level10)
 		],
-		[disabledBackgroundColor, token]
+		[disabledBackgroundColor, opacity, scheme]
 	)
 
 	const isBackgroundColorApplied = !([BUTTON_TYPE.TEXT, BUTTON_TYPE.LINK] as readonly ButtonType[]).includes(type)
@@ -160,7 +140,7 @@ export const useButtonAnimated = ({
 			({
 				borderColor: interpolateColor(borderSharedValue.value, borderColorInputRanges, borderColorOutputRanges),
 				borderStyle: 'solid',
-				borderWidth: platformValue(token.border[BORDER_SIZE.SMALL])
+				borderWidth: platformValue(border[BORDER_SIZE.SMALL])
 			} as ViewStyle))
 	}))
 
@@ -170,11 +150,12 @@ export const useButtonAnimated = ({
 
 	const runAnimate = useMemo(
 		() =>
-			animateButton({animatedTiming, borderColorInputRanges, type, disabled})({
-				borderSharedValue,
-				colorSharedValue
+			animateButton([borderSharedValue, colorSharedValue], animatedTiming, {
+				borderColorInputRanges,
+				disabled,
+				type
 			}),
-		[borderColorInputRanges, borderSharedValue, colorSharedValue, animatedTiming, disabled, type]
+		[borderSharedValue, colorSharedValue, animatedTiming, disabled, type, borderColorInputRanges]
 	)
 
 	useEffect(() => {

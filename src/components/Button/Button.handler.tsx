@@ -1,21 +1,16 @@
 import type {WritableDraft} from 'immer'
+import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import type {StateEvent} from '../../hooks'
-import type {
-	AnimateButtonOptions,
-	AnimateButtonSharedValues,
-	ButtonState,
-	ButtonType,
-	HandleButtonStateChangeOptions
-} from './Button.interface'
+import type {AnimatedTiming, StateEvent} from '../../hooks'
+import type {AnimateButtonOptions, ButtonState, ButtonType, HandleButtonStateChangeOptions} from './Button.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME, type EventName, type State, STATE} from '../../constants'
 import {DURATION, EASING, type Token} from '../../theme'
 import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
 import {BUTTON_TYPE} from './Button.enum'
 
-export const updateButtonStatus = (disabled?: boolean) => (setState: Updater<ButtonState>) => (type?: ButtonType) =>
+export const updateButtonStatus = (setState: Updater<ButtonState>, disabled?: boolean) => (type?: ButtonType) =>
 	setState(draft => {
 		if (draft.status !== COMPONENT_STATUS.IDLE) {
 			return
@@ -58,27 +53,28 @@ export const updateButtonElevation = (draft: WritableDraft<ButtonState>) => (typ
 		:	ELEVATION_VALUE_MAP[state] + correctionCoefficient) as ElevationValue
 }
 
-export const handleButtonStateChange =
-	({eventName, state, type}: HandleButtonStateChangeOptions) =>
-	(setState: Updater<ButtonState>) =>
-	(_event: StateEvent) => {
-		if (eventName === EVENT_NAME.LAYOUT) {
+export const handleButtonStateChange = (
+	_event: StateEvent,
+	setState: Updater<ButtonState>,
+	{eventName, state, type}: HandleButtonStateChangeOptions
+) => {
+	if (eventName === EVENT_NAME.LAYOUT) {
+		return
+	}
+
+	setState(draft => {
+		if (draft.eventName === eventName) {
 			return
 		}
 
-		setState(draft => {
-			if (draft.eventName === eventName) {
-				return
-			}
+		draft.eventName = eventName
 
-			draft.eventName = eventName
-
-			updateButtonElevation(draft)(type)(state)
-		})
-	}
+		updateButtonElevation(draft)(type)(state)
+	})
+}
 
 export const updateButtonDisabledState =
-	(type?: ButtonType) => (setState: Updater<ButtonState>) => (disabled?: boolean) => {
+	(setState: Updater<ButtonState>, type?: ButtonType) => (disabled?: boolean) => {
 		if (typeof disabled !== 'boolean') {
 			return
 		}
@@ -110,29 +106,29 @@ export const getButtonUnderlayColor = (token: Token) => (linkColor?: string) => 
 	return (type: ButtonType) => underlay[type]
 }
 
-export const animateButton = ({animatedTiming, borderColorInputRanges, disabled, type}: AnimateButtonOptions) => {
-	const animateSharedValue = animatedTiming({duration: DURATION.SHORT_2, easing: EASING.STANDARD})
+export const animateButton = (
+	[borderSharedValue, colorSharedValue]: [SharedValue<number>, SharedValue<number>],
+	animatedTiming: AnimatedTiming,
+	{borderColorInputRanges, disabled, type}: AnimateButtonOptions
+) => {
+	const animatedTimingOptions = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
+	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, animatedTimingOptions)
+	const borderAnimateSharedValueTo = animatedTiming(borderSharedValue, animatedTimingOptions)
 	const toValue = disabled ? 0 : 1
-	const animateOutlinedButton = (borderAnimateSharedValueTo: (toValue: number) => void) => {
+	const animateOutlinedButton = (eventName: EventName, animateSharedValueTo: (toValue: number) => void) => {
 		const value = disabled ? 0 : borderColorInputRanges[borderColorInputRanges.length - 2]
 
-		return (eventName?: EventName) =>
-			borderAnimateSharedValueTo(eventName === EVENT_NAME.FOCUS ? borderColorInputRanges[2] : value)
+		return animateSharedValueTo(eventName === EVENT_NAME.FOCUS ? borderColorInputRanges[2] : value)
 	}
 
-	return ({borderSharedValue, colorSharedValue}: AnimateButtonSharedValues) => {
-		const colorAnimateSharedValueTo = animateSharedValue({sharedValue: colorSharedValue})
-		const borderAnimateSharedValueTo = animateSharedValue({sharedValue: borderSharedValue})
-
-		return (eventName?: EventName) => {
-			if (type === BUTTON_TYPE.OUTLINED) {
-				animateOutlinedButton(borderAnimateSharedValueTo)(eventName)
-				colorAnimateSharedValueTo(toValue)
-
-				return
-			}
-
+	return (eventName: EventName) => {
+		if (type === BUTTON_TYPE.OUTLINED) {
+			animateOutlinedButton(eventName, borderAnimateSharedValueTo)
 			colorAnimateSharedValueTo(toValue)
+
+			return
 		}
+
+		colorAnimateSharedValueTo(toValue)
 	}
 }

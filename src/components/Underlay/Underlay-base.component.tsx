@@ -3,7 +3,7 @@ import {useImmer} from 'use-immer'
 
 import type {UnderlayBaseProps, UnderlayState} from './Underlay.interface'
 
-import {COMPONENT_STATUS, type State} from '../../constants'
+import {COMPONENT_STATUS, EVENT_NAME, type State} from '../../constants'
 import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {handleUnderlayStateChange, updateUnderlayActive, updateUnderlayEventName} from './Underlay.handler'
 import {RenderUnderlay} from './Underlay.render'
@@ -20,6 +20,7 @@ export const UnderlayBase: FC<UnderlayBaseProps> = ({
 }) => {
 	const [{active: isActive, eventName, status}, setState] = useImmer<UnderlayState>({
 		active: rawActive ?? defaultActive,
+		eventName: EVENT_NAME.NONE,
 		status: COMPONENT_STATUS.IDLE
 	})
 

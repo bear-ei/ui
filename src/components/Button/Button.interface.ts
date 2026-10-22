@@ -1,13 +1,8 @@
 import type {TextStyle, ViewStyle} from 'react-native'
-import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {ComponentStatus, EventName} from '../../constants'
-import type {
-	AnimatedTimingOptions,
-	AnimateSharedValueTo,
-	HandleStateEventChangeOptions,
-	StateEventChangeHandler
-} from '../../hooks'
+import type {HandleStateEventChangeOptions, StateEventChangeHandler} from '../../hooks'
 import type {ThemeProps} from '../../theme'
 import type {ElevationValue} from '../Elevation'
 import type {TouchableProps} from '../Touchable'
@@ -27,7 +22,7 @@ export interface ButtonProps extends TouchableProps, ThemeProps {
 export interface RenderButtonProps extends ButtonProps, Pick<ButtonState, 'status'> {
 	backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
 	elevation?: ElevationValue
-	eventName?: EventName
+	eventName: EventName
 	iconElement?: React.JSX.Element
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
 	onStateEventChange: StateEventChangeHandler
@@ -36,7 +31,7 @@ export interface RenderButtonProps extends ButtonProps, Pick<ButtonState, 'statu
 export type ButtonBaseProps = ButtonProps
 export interface ButtonState {
 	elevation?: ElevationValue
-	eventName?: EventName
+	eventName: EventName
 	status: ComponentStatus
 }
 
@@ -48,11 +43,5 @@ export type UseButtonAnimatedOptions = Pick<
 >
 
 export interface AnimateButtonOptions extends Omit<UseButtonAnimatedOptions, 'eventName'> {
-	animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo
 	borderColorInputRanges: number[]
-}
-
-export interface AnimateButtonSharedValues {
-	borderSharedValue: SharedValue<number>
-	colorSharedValue: SharedValue<number>
 }

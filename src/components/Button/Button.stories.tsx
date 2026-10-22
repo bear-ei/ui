@@ -1,11 +1,12 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+
 import {Circle} from 'lucide-react-native'
 
-import {DENSITY_SIZE} from '../../theme'
+import type {ButtonProps} from './Button.interface'
 
+import {DENSITY_SIZE} from '../../theme'
 import {Button} from './Button.component'
 import {BUTTON_TYPE} from './Button.enum'
-import type {ButtonProps} from './Button.interface'
 
 export const Filled: StoryObj<ButtonProps> = {
 	args: {
@@ -51,9 +52,9 @@ export const Elevated: StoryObj<ButtonProps> = {
 
 export const Link: StoryObj<ButtonProps> = {
 	args: {
+		disabled: true,
 		labelText: 'Label',
-		type: BUTTON_TYPE.LINK,
-		disabled: true
+		type: BUTTON_TYPE.LINK
 	}
 }
 
@@ -66,8 +67,8 @@ export const Icon: StoryObj<ButtonProps> = {
 
 export const Err: StoryObj<ButtonProps> = {
 	args: {
-		labelText: 'Label',
-		error: true
+		error: true,
+		labelText: 'Label'
 	}
 }
 
@@ -91,8 +92,15 @@ export const ExtraSmall: StoryObj<ButtonProps> = {
 	args: {size: DENSITY_SIZE.X_SMALL}
 }
 
+export const Loading: StoryObj<ButtonProps> = {
+	args: {
+		labelText: 'Label',
+		loading: true
+	}
+}
+
 export default {
-	title: 'components/Button',
 	argTypes: {onPress: {action: 'pressed'}},
-	component: Button
+	component: Button,
+	title: 'components/Button'
 } as Meta<typeof Button>

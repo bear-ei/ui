@@ -1,11 +1,10 @@
-import {forwardRef, useCallback, useEffect, useId, useMemo} from 'react'
+import {useCallback, useEffect, useId, useMemo, type FC} from 'react'
 import {useImmer} from 'use-immer'
 
-import type {PressableType} from '../Touchable'
 import type {ButtonBaseProps, ButtonState} from './Button.interface'
 
-import {COMPONENT_STATUS, type State} from '../../constants'
-import {type HandleStateEventChangeOptions, type StateEvent, useTheme} from '../../hooks'
+import {COMPONENT_STATUS, EVENT_NAME, type State} from '../../constants'
+import {useTheme, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
 import {BUTTON_TYPE} from './Button.enum'
 import {
 	getButtonUnderlayColor,
@@ -16,82 +15,80 @@ import {
 import {RenderButton, RenderButtonIcon} from './Button.render'
 import {useButtonAnimated} from './use-button-animated.hook'
 
-export const ButtonBase = forwardRef<PressableType, ButtonBaseProps>(
-	(
-		{
-			disabled: rawDisabled,
-			error,
-			icon,
-			labelText = 'Label',
-			linkColor,
-			loading,
-			size,
-			type = BUTTON_TYPE.FILLED,
-			...renderButtonProps
-		},
-		ref
-	) => {
-		const [{elevation, eventName, status}, setState] = useImmer<ButtonState>({status: COMPONENT_STATUS.IDLE})
-		const id = useId()
-		const isDisabled = loading || rawDisabled
-		const {token} = useTheme()
-		const underlayColor = getButtonUnderlayColor(token)(linkColor)(type)
-		const onStateEventChange = useCallback(
-			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				handleButtonStateChange({...options, state, type})(setState)(event),
-			[setState, type]
-		)
+export const ButtonBase: FC<ButtonBaseProps> = ({
+	disabled: rawDisabled,
+	error,
+	icon,
+	labelText = 'Label',
+	linkColor,
+	loading,
+	size,
+	type = BUTTON_TYPE.FILLED,
+	...renderButtonProps
+}) => {
+	const [{elevation, eventName, status}, setState] = useImmer<ButtonState>({
+		eventName: EVENT_NAME.NONE,
+		status: COMPONENT_STATUS.IDLE
+	})
 
-		const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({
-			disabled: rawDisabled,
-			error,
-			eventName,
-			linkColor,
-			type
-		})
+	const id = useId()
+	const isDisabled = loading || rawDisabled
+	const {token} = useTheme()
+	const underlayColor = getButtonUnderlayColor(token)(linkColor)(type)
+	const onStateEventChange = useCallback(
+		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) =>
+			handleButtonStateChange(event, setState, {...options, state, type}),
+		[setState, type]
+	)
 
-		const runUpdateStatus = useMemo(() => updateButtonStatus(isDisabled)(setState), [isDisabled, setState])
-		const runUpdateDisabledState = useMemo(() => updateButtonDisabledState(type)(setState), [setState, type])
-		const iconElement = icon && (
-			<RenderButtonIcon
-				disabled={rawDisabled}
-				icon={icon}
-				id={id}
-				size={size}
-				type={type}
-			/>
-		)
+	const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useButtonAnimated({
+		disabled: rawDisabled,
+		error,
+		eventName,
+		linkColor,
+		type
+	})
 
-		useEffect(() => {
-			runUpdateStatus(type)
-		}, [type, runUpdateStatus])
+	const runUpdateStatus = useMemo(() => updateButtonStatus(setState, isDisabled), [isDisabled, setState])
+	const runUpdateDisabledState = useMemo(() => updateButtonDisabledState(setState, type), [setState, type])
+	const iconElement = icon && (
+		<RenderButtonIcon
+			disabled={rawDisabled}
+			icon={icon}
+			id={id}
+			size={size}
+			type={type}
+		/>
+	)
 
-		useEffect(() => {
-			runUpdateDisabledState(isDisabled)
-		}, [isDisabled, runUpdateDisabledState])
+	useEffect(() => {
+		runUpdateStatus(type)
+	}, [type, runUpdateStatus])
 
-		return (
-			<RenderButton
-				{...renderButtonProps}
-				backgroundUnderlayAnimatedStyle={backgroundUnderlayAnimatedStyle}
-				disabled={isDisabled}
-				elevation={elevation}
-				eventName={eventName}
-				iconElement={iconElement}
-				id={id}
-				labelText={labelText}
-				labelTextAnimatedStyle={labelTextAnimatedStyle}
-				linkColor={linkColor}
-				loading={loading}
-				onStateEventChange={onStateEventChange}
-				ref={ref}
-				size={size}
-				status={status}
-				type={type}
-				underlayColor={underlayColor}
-			/>
-		)
-	}
-)
+	useEffect(() => {
+		runUpdateDisabledState(isDisabled)
+	}, [isDisabled, runUpdateDisabledState])
+
+	return (
+		<RenderButton
+			{...renderButtonProps}
+			backgroundUnderlayAnimatedStyle={backgroundUnderlayAnimatedStyle}
+			disabled={isDisabled}
+			elevation={elevation}
+			eventName={eventName}
+			iconElement={iconElement}
+			id={id}
+			labelText={labelText}
+			labelTextAnimatedStyle={labelTextAnimatedStyle}
+			linkColor={linkColor}
+			loading={loading}
+			onStateEventChange={onStateEventChange}
+			size={size}
+			status={status}
+			type={type}
+			underlayColor={underlayColor}
+		/>
+	)
+}
 
 ButtonBase.displayName = 'ButtonBase'
