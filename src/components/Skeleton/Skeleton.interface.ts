@@ -3,9 +3,8 @@ import type {ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {LayoutType} from '../../constants'
-import type {AnimatedTimingOptions, AnimateSharedValueTo, HandleStateEventChangeOptions} from '../../hooks'
+import type {HandleStateEventChangeOptions} from '../../hooks'
 import type {LayoutAnimatedProps} from '../Layout-animated'
-
 import type {SkeletonElementProps} from './Skeleton-element'
 
 export interface SkeletonProps extends Omit<LayoutAnimatedProps, 'duration'> {
@@ -27,15 +26,12 @@ export interface SkeletonState {
 
 export type HandleSkeletonStateChangeOptions = HandleStateEventChangeOptions & Pick<SkeletonProps, 'duration'>
 export type UseSkeletonAnimatedOptions = Pick<RenderSkeletonProps, 'enableAnimated'> & Pick<SkeletonState, 'visible'>
-export interface AnimateSkeletonOptions extends Pick<UseSkeletonAnimatedOptions, 'enableAnimated'> {
-	animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo
-}
-
+export type AnimateSkeletonOptions = Pick<UseSkeletonAnimatedOptions, 'enableAnimated'>
 export interface SkeletonCircleProps extends SkeletonElementProps {
 	size?: number
 }
 
 export type SkeletonSquareProps = SkeletonCircleProps
 export interface SkeletonRectangularProps extends SkeletonElementProps {
-	size?: {width?: number; height: number}
+	size?: {height: number; width?: number}
 }

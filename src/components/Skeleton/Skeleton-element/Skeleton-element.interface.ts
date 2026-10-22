@@ -6,7 +6,7 @@ import type {RenderSkeletonProps} from '../Skeleton.interface'
 
 export interface SkeletonElementProps
 	extends ViewProps, RefAttributes<View>, Pick<RenderSkeletonProps, 'layoutType'>, Omit<ThemeProps, 'size'> {
-	size?: number | {width?: number; height: number}
+	size?: number | {height: number; width?: number}
 }
 
 export type RenderSkeletonElementProps = SkeletonElementProps

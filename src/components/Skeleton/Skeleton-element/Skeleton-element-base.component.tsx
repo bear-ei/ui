@@ -1,19 +1,18 @@
-import {forwardRef, useId} from 'react'
-import type {View} from 'react-native'
+import {useId, type FC} from 'react'
 
 import type {SkeletonElementBaseProps} from './Skeleton-element.interface'
+
 import {RenderSkeletonElement} from './Skeleton-element.render'
 
-export const SkeletonElementBase = forwardRef<View, SkeletonElementBaseProps>((props, ref) => {
+export const SkeletonElementBase: FC<SkeletonElementBaseProps> = props => {
 	const id = useId()
 
 	return (
 		<RenderSkeletonElement
 			{...props}
 			id={id}
-			ref={ref}
 		/>
 	)
-})
+}
 
 SkeletonElementBase.displayName = 'SkeletonElementBase'
