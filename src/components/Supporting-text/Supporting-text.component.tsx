@@ -1,18 +1,7 @@
-import {forwardRef} from 'react'
-import type {View} from 'react-native'
-
-import {typedMemo} from '../../utils'
-
-import {SupportingTextBase} from './Supporting-text-base.component'
 import type {SupportingTextProps} from './Supporting-text.interface'
 
-const SupportingTextWithRef = forwardRef<View, SupportingTextProps>((props, ref) => (
-	<SupportingTextBase
-		{...props}
-		ref={ref}
-	/>
-))
+import {typedMemo} from '../../utils'
+import {SupportingTextBase} from './Supporting-text-base.component'
 
-SupportingTextWithRef.displayName = 'SupportingText'
-
-export const SupportingText = typedMemo(SupportingTextWithRef)
+export const SupportingText = typedMemo((props: SupportingTextProps) => <SupportingTextBase {...props} />)
+SupportingText.displayName = 'SupportingText'

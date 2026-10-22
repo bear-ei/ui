@@ -1,26 +1,27 @@
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 
+import type {UseSupportingTextOptions} from './Supporting-text.interface'
+
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {hexToRGBA} from '../../theme'
-
 import {animateSupportingText} from './Supporting-text.handler'
-import type {UseSupportingTextOptions} from './Supporting-text.interface'
 
 export const useSupportingTextAnimated = ({disabled, error}: UseSupportingTextOptions) => {
 	const {token} = useTheme()
+	const {opacity, scheme} = token
 	const defaultAnimatedValue = error ? 2 : 1
 	const value = disabled ? 0 : defaultAnimatedValue
 	const supportingTextSharedValue = useSharedValue(value)
 	const animatedTiming = useAnimatedTiming()
-	const disabledColor = hexToRGBA(token.scheme.onSurface)(token.opacity.level5)
+	const disabledColor = hexToRGBA(scheme.onSurface, opacity.level5)
 	const supportingTextSharedValueColorOutputRanges = useMemo(
 		() => [
 			disabledColor,
-			hexToRGBA(token.scheme.onSurfaceVariant)(token.opacity.level10),
-			hexToRGBA(token.scheme.error)(token.opacity.level10)
+			hexToRGBA(scheme.onSurfaceVariant, opacity.level10),
+			hexToRGBA(scheme.error, opacity.level10)
 		],
-		[disabledColor, token]
+		[disabledColor, scheme, opacity]
 	)
 
 	const textAnimatedStyle = useAnimatedStyle(() => ({
@@ -28,7 +29,7 @@ export const useSupportingTextAnimated = ({disabled, error}: UseSupportingTextOp
 	}))
 
 	const runAnimate = useMemo(
-		() => animateSupportingText(animatedTiming)(supportingTextSharedValue),
+		() => animateSupportingText(supportingTextSharedValue, animatedTiming),
 		[animatedTiming, supportingTextSharedValue]
 	)
 

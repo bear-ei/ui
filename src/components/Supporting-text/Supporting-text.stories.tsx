@@ -1,7 +1,9 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 
-import {SupportingText} from './Supporting-text.component'
 import type {SupportingTextProps} from './Supporting-text.interface'
+
+import {ALIGNMENT} from '../../constants'
+import {SupportingText} from './Supporting-text.component'
 
 export const Supporting: StoryObj<SupportingTextProps> = {
 	args: {
@@ -23,8 +25,22 @@ export const DisabledSupporting: StoryObj<SupportingTextProps> = {
 	}
 }
 
+export const Hidden: StoryObj<SupportingTextProps> = {
+	args: {
+		children: 'Supporting text',
+		visible: false
+	}
+}
+
+export const Centered: StoryObj<SupportingTextProps> = {
+	args: {
+		alignment: ALIGNMENT.CENTER,
+		children: 'Supporting text'
+	}
+}
+
 export default {
-	title: 'components/SupportingText',
 	argTypes: {},
-	component: SupportingText
+	component: SupportingText,
+	title: 'components/SupportingText'
 } as Meta<typeof SupportingText>

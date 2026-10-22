@@ -1,22 +1,21 @@
-import {forwardRef, useId} from 'react'
-import type {View} from 'react-native'
+import {useId, type FC} from 'react'
 
 import type {SupportingTextBaseProps} from './Supporting-text.interface'
+
 import {RenderSupportingText} from './Supporting-text.render'
 import {useSupportingTextAnimated} from './use-supporting-text-animated.hook'
 
-export const SupportingTextBase = forwardRef<View, SupportingTextBaseProps>(({error, disabled, ...props}, ref) => {
+export const SupportingTextBase: FC<SupportingTextBaseProps> = ({disabled, error, ...props}) => {
 	const id = useId()
-	const {textAnimatedStyle} = useSupportingTextAnimated({error, disabled})
+	const {textAnimatedStyle} = useSupportingTextAnimated({disabled, error})
 
 	return (
 		<RenderSupportingText
 			{...props}
 			id={id}
-			ref={ref}
 			textAnimatedStyle={textAnimatedStyle}
 		/>
 	)
-})
+}
 
 SupportingTextBase.displayName = 'SupportingTextBase'
