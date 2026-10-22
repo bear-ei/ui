@@ -1,54 +1,51 @@
 import type {TextInput, TextInputContentSizeChangeEvent} from 'react-native'
+import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import {COMPONENT_STATUS, EVENT_NAME, STATE, type State} from '../../constants'
-import type {AnimatedTimingOptions, AnimateSharedValueTo, StateEvent} from '../../hooks'
-import {DURATION, EASING} from '../../theme'
-
+import type {AnimatedTiming, StateEvent} from '../../hooks'
 import type {
 	AnimateTextInputOptions,
-	CreateTextInputDisabledSharedValues,
-	CreateTextInputEnabledSharedValues,
-	CreateTextInputErrorSharedValues,
-	CreateTextInputFocusedSharedValues,
 	HandleTextInputStateChangeOptions,
 	TextInputState,
 	TextInputStateAnimated,
 	UpdateTextInputSupportingTextOptions
 } from './Text-input.interface'
 
-export const handleTextInputStateChange =
-	({content, eventName, ref, state}: HandleTextInputStateChangeOptions) =>
-	(setState: Updater<TextInputState>) =>
-	(_event: StateEvent) => {
-		setState(draft => {
-			if (eventName === EVENT_NAME.LAYOUT) {
-				if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
-					draft.status = COMPONENT_STATUS.SUCCEEDED
-				}
+import {COMPONENT_STATUS, EVENT_NAME, STATE, type State} from '../../constants'
+import {DURATION, EASING} from '../../theme'
 
-				return
+export const handleTextInputStateChange = (
+	_event: StateEvent,
+	setState: Updater<TextInputState>,
+	{content, eventName, ref, state}: HandleTextInputStateChangeOptions
+) => {
+	setState(draft => {
+		if (eventName === EVENT_NAME.LAYOUT) {
+			if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+				draft.status = COMPONENT_STATUS.SUCCEEDED
 			}
 
-			if ((draft.state === STATE.FOCUSED && eventName !== EVENT_NAME.BLUR) || content) {
-				return
-			}
-
-			draft.eventName = eventName
-
-			if (state) {
-				draft.state = state
-			}
-		})
-
-		if (eventName === EVENT_NAME.PRESS_OUT) {
-			ref?.current?.focus()
+			return
 		}
+
+		if ((draft.state === STATE.FOCUSED && eventName !== EVENT_NAME.BLUR) || content) {
+			return
+		}
+
+		draft.eventName = eventName
+
+		if (state) {
+			draft.state = state
+		}
+	})
+
+	if (eventName === EVENT_NAME.PRESS_OUT) {
+		ref?.current?.focus()
 	}
+}
 
 export const createUpdateTextInputContentSize =
-	(onContentSizeChange?: (contentSize: {width: number; height: number}) => void) =>
-	(setState: Updater<TextInputState>) =>
+	(setState: Updater<TextInputState>, onContentSizeChange?: (contentSize: {height: number; width: number}) => void) =>
 	(event: TextInputContentSizeChangeEvent) => {
 		const contentSize = event.nativeEvent.contentSize
 
@@ -75,8 +72,10 @@ export const updateTextInputSupportingTextClose = (setState: Updater<TextInputSt
 // it appears. Use for transient feedback (e.g. "copied!"). Set to 0 to
 // keep the text visible until the parent clears it.
 export const updateTextInputSupportingText =
-	({onSupportingTextClose, supportingTextDelay}: UpdateTextInputSupportingTextOptions) =>
-	(setState: Updater<TextInputState>) =>
+	(
+		setState: Updater<TextInputState>,
+		{onSupportingTextClose, supportingTextDelay}: UpdateTextInputSupportingTextOptions
+	) =>
 	(value?: string) => {
 		setState(draft => {
 			if (draft.supportingText !== value && supportingTextDelay && value && onSupportingTextClose) {
@@ -89,8 +88,7 @@ export const updateTextInputSupportingText =
 	}
 
 export const handleTextInputSupportingTextAnimationFinished =
-	(onSupportingTextAnimationFinished?: (visible?: boolean) => void) =>
-	(setState: Updater<TextInputState>) =>
+	(setState: Updater<TextInputState>, onSupportingTextAnimationFinished?: (visible?: boolean) => void) =>
 	(visible?: boolean) =>
 		typeof visible === 'boolean' &&
 		setState(draft => {
@@ -104,7 +102,7 @@ export const handleTextInputSupportingTextAnimationFinished =
 		})
 
 export const updateTextInputValueWithCallback =
-	(onChangeText?: (value: string) => void) => (setState: Updater<TextInputState>) => (value: string) =>
+	(setState: Updater<TextInputState>, onChangeText?: (value: string) => void) => (value: string) =>
 		setState(draft => {
 			if (draft.value !== value && onChangeText) {
 				draft.pendingChangeTextEvent = value
@@ -128,111 +126,120 @@ export const blurTextInputIfEditable = (ref: React.RefObject<TextInput | null>) 
 	editable && ref.current?.blur()
 
 export const focusTextInput = (ref: React.RefObject<TextInput | null>) => () => ref.current?.focus()
-export const createAnimateTextInputEnabledState =
-	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
-	({
+export const createAnimateTextInputEnabledState = (
+	[activeIndicatorScaleYSharedValue, colorSharedValue, headerInnerBackgroundColorSharedValue]: [
+		SharedValue<number>,
+		SharedValue<number>,
+		SharedValue<number>
+	],
+	animatedTiming: AnimatedTiming,
+	error?: boolean
+) => {
+	const animatedTimingOptions = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
+	const activeIndicatorScaleYAnimateSharedValueTo = animatedTiming(
 		activeIndicatorScaleYSharedValue,
-		colorSharedValue,
-		headerInnerBackgroundColorSharedValue
-	}: CreateTextInputEnabledSharedValues) => {
-		const animatedTimingOptions = {easing: EASING.STANDARD, duration: DURATION.SHORT_2}
-		const activeIndicatorScaleYAnimateSharedValueTo = animatedTiming(animatedTimingOptions)({
-			sharedValue: activeIndicatorScaleYSharedValue
-		})
+		animatedTimingOptions
+	)
 
-		const colorAnimateSharedValueTo = animatedTiming(animatedTimingOptions)({sharedValue: colorSharedValue})
-		const headerInnerBackgroundColorAnimateSharedValueTo = animatedTiming(animatedTimingOptions)({
-			sharedValue: headerInnerBackgroundColorSharedValue
-		})
+	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, animatedTimingOptions)
+	const headerInnerBackgroundColorAnimateSharedValueTo = animatedTiming(
+		headerInnerBackgroundColorSharedValue,
+		animatedTimingOptions
+	)
 
-		return (error?: boolean) => {
-			if (error) {
-				return
-			}
-
-			activeIndicatorScaleYAnimateSharedValueTo(0)
-			colorAnimateSharedValueTo(1)
-			headerInnerBackgroundColorAnimateSharedValueTo(1)
-		}
+	if (error) {
+		return
 	}
 
-export const createAnimateTextInputDisabledState =
-	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
-	({
+	activeIndicatorScaleYAnimateSharedValueTo(0)
+	colorAnimateSharedValueTo(1)
+	headerInnerBackgroundColorAnimateSharedValueTo(1)
+}
+
+export const createAnimateTextInputDisabledState = (
+	[activeIndicatorScaleYSharedValue, colorSharedValue, headerInnerBackgroundColorSharedValue]: [
+		SharedValue<number>,
+		SharedValue<number>,
+		SharedValue<number>
+	],
+	animatedTiming: AnimatedTiming
+) => {
+	const animatedTimingOptions = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
+	const activeIndicatorScaleYAnimateSharedValueTo = animatedTiming(
 		activeIndicatorScaleYSharedValue,
-		colorSharedValue,
-		headerInnerBackgroundColorSharedValue
-	}: CreateTextInputDisabledSharedValues) => {
-		const animatedTimingOptions = {easing: EASING.STANDARD, duration: DURATION.SHORT_2}
-		const activeIndicatorScaleYAnimateSharedValueTo = animatedTiming(animatedTimingOptions)({
-			sharedValue: activeIndicatorScaleYSharedValue
-		})
+		animatedTimingOptions
+	)
 
-		const colorAnimateSharedValueTo = animatedTiming(animatedTimingOptions)({sharedValue: colorSharedValue})
-		const headerInnerBackgroundColorAnimateSharedValueTo = animatedTiming(animatedTimingOptions)({
-			sharedValue: headerInnerBackgroundColorSharedValue
-		})
+	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, animatedTimingOptions)
+	const headerInnerBackgroundColorAnimateSharedValueTo = animatedTiming(
+		headerInnerBackgroundColorSharedValue,
+		animatedTimingOptions
+	)
 
-		const toValue = 0
+	const toValue = 0
 
-		activeIndicatorScaleYAnimateSharedValueTo(toValue)
-		colorAnimateSharedValueTo(toValue)
-		headerInnerBackgroundColorAnimateSharedValueTo(toValue)
+	activeIndicatorScaleYAnimateSharedValueTo(toValue)
+	colorAnimateSharedValueTo(toValue)
+	headerInnerBackgroundColorAnimateSharedValueTo(toValue)
+}
+
+export const createAnimateTextInputErrorState = (
+	[activeIndicatorScaleYSharedValue, colorSharedValue, headerInnerBackgroundColorSharedValue]: [
+		SharedValue<number>,
+		SharedValue<number>,
+		SharedValue<number>
+	],
+	animatedTiming: AnimatedTiming
+) => {
+	const animatedTimingOptions = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
+	const activeIndicatorScaleYAnimateSharedValueTo = animatedTiming(
+		activeIndicatorScaleYSharedValue,
+		animatedTimingOptions
+	)
+
+	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, animatedTimingOptions)
+	const headerInnerBackgroundColorAnimateSharedValueTo = animatedTiming(
+		headerInnerBackgroundColorSharedValue,
+		animatedTimingOptions
+	)
+
+	activeIndicatorScaleYAnimateSharedValueTo(1)
+	colorAnimateSharedValueTo(3)
+	headerInnerBackgroundColorAnimateSharedValueTo(1)
+}
+
+export const createAnimateTextInputFocusedState = (
+	[activeIndicatorScaleYSharedValue, colorSharedValue, headerInnerBackgroundColorSharedValue]: [
+		SharedValue<number>,
+		SharedValue<number>,
+		SharedValue<number>
+	],
+	animatedTiming: AnimatedTiming,
+	error?: boolean
+) => {
+	const animatedTimingOptions = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
+	const activeIndicatorScaleYAnimateSharedValueTo = animatedTiming(
+		activeIndicatorScaleYSharedValue,
+		animatedTimingOptions
+	)
+
+	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, animatedTimingOptions)
+	const headerInnerBackgroundColorAnimateSharedValueTo = animatedTiming(
+		headerInnerBackgroundColorSharedValue,
+		animatedTimingOptions
+	)
+
+	if (error) {
+		return
 	}
 
-export const createAnimateTextInputErrorState =
-	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
-	({
-		activeIndicatorScaleYSharedValue,
-		colorSharedValue,
-		headerInnerBackgroundColorSharedValue
-	}: CreateTextInputErrorSharedValues) => {
-		const animatedTimingOptions = {easing: EASING.STANDARD, duration: DURATION.SHORT_2}
-		const activeIndicatorScaleYAnimateSharedValueTo = animatedTiming(animatedTimingOptions)({
-			sharedValue: activeIndicatorScaleYSharedValue
-		})
-
-		const colorAnimateSharedValueTo = animatedTiming(animatedTimingOptions)({sharedValue: colorSharedValue})
-		const headerInnerBackgroundColorAnimateSharedValueTo = animatedTiming(animatedTimingOptions)({
-			sharedValue: headerInnerBackgroundColorSharedValue
-		})
-
-		activeIndicatorScaleYAnimateSharedValueTo(1)
-		colorAnimateSharedValueTo(3)
-		headerInnerBackgroundColorAnimateSharedValueTo(1)
-	}
-
-export const createAnimateTextInputFocusedState =
-	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
-	({
-		activeIndicatorScaleYSharedValue,
-		colorSharedValue,
-		headerInnerBackgroundColorSharedValue
-	}: CreateTextInputFocusedSharedValues) => {
-		const animatedTimingOptions = {easing: EASING.STANDARD, duration: DURATION.SHORT_2}
-		const activeIndicatorScaleYAnimateSharedValueTo = animatedTiming(animatedTimingOptions)({
-			sharedValue: activeIndicatorScaleYSharedValue
-		})
-
-		const colorAnimateSharedValueTo = animatedTiming(animatedTimingOptions)({sharedValue: colorSharedValue})
-		const headerInnerBackgroundColorAnimateSharedValueTo = animatedTiming(animatedTimingOptions)({
-			sharedValue: headerInnerBackgroundColorSharedValue
-		})
-
-		return (error?: boolean) => {
-			if (error) {
-				return
-			}
-
-			activeIndicatorScaleYAnimateSharedValueTo(1)
-			colorAnimateSharedValueTo(2)
-			headerInnerBackgroundColorAnimateSharedValueTo(1)
-		}
-	}
+	activeIndicatorScaleYAnimateSharedValueTo(1)
+	colorAnimateSharedValueTo(2)
+	headerInnerBackgroundColorAnimateSharedValueTo(1)
+}
 
 export const animateTextInput =
-	(stateAnimated: TextInputStateAnimated) =>
-	({error, disabled}: AnimateTextInputOptions) =>
+	(stateAnimated: TextInputStateAnimated, {disabled, error}: AnimateTextInputOptions) =>
 	(state: State) => {
 		if (disabled) {
 			stateAnimated[STATE.DISABLED]?.()

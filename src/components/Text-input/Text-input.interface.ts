@@ -1,11 +1,10 @@
 import type {RefAttributes, RefObject} from 'react'
 import type {PressableProps, TextInputProps as RNTextInputProps, TextInput, TextStyle, ViewStyle} from 'react-native'
-import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {ComponentStatus, EventName, PartialSize, State} from '../../constants'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
 import type {ThemeProps} from '../../theme'
-
 import type {TEXT_INPUT_TYPE} from './Text-input.enum'
 
 export type TextInputType = (typeof TEXT_INPUT_TYPE)[keyof typeof TEXT_INPUT_TYPE]
@@ -23,7 +22,7 @@ export interface TextInputProps
 	error?: boolean
 	labelText?: string
 	leading?: React.JSX.Element
-	onContentSizeChange?: (contentSize: {width: number; height: number}) => void
+	onContentSizeChange?: (contentSize: {height: number; width: number}) => void
 	onSupportingTextAnimationFinished?: (visible?: boolean) => void
 	supportingText?: string
 	supportingTextDelay?: number
@@ -51,7 +50,7 @@ export interface TextInputState {
 	contentSize: PartialSize
 	eventName?: EventName
 	pendingChangeTextEvent?: string
-	pendingContentSizeChangeEvent?: {width: number; height: number}
+	pendingContentSizeChangeEvent?: {height: number; width: number}
 	pendingSupportingTextAnimationFinishedEvent?: boolean
 	pendingSupportingTextCloseEvent?: boolean
 	state: State
@@ -73,30 +72,6 @@ export interface UseTextInputAnimatedOptions extends Pick<RenderTextInputProps, 
 
 export interface UpdateTextInputSupportingTextOptions extends Pick<TextInputProps, 'supportingTextDelay'> {
 	onSupportingTextClose?: () => void
-}
-
-export interface CreateTextInputEnabledSharedValues {
-	activeIndicatorScaleYSharedValue: SharedValue<number>
-	colorSharedValue: SharedValue<number>
-	headerInnerBackgroundColorSharedValue: SharedValue<number>
-}
-
-export interface CreateTextInputDisabledSharedValues {
-	activeIndicatorScaleYSharedValue: SharedValue<number>
-	colorSharedValue: SharedValue<number>
-	headerInnerBackgroundColorSharedValue: SharedValue<number>
-}
-
-export interface CreateTextInputErrorSharedValues {
-	activeIndicatorScaleYSharedValue: SharedValue<number>
-	colorSharedValue: SharedValue<number>
-	headerInnerBackgroundColorSharedValue: SharedValue<number>
-}
-
-export interface CreateTextInputFocusedSharedValues {
-	activeIndicatorScaleYSharedValue: SharedValue<number>
-	colorSharedValue: SharedValue<number>
-	headerInnerBackgroundColorSharedValue: SharedValue<number>
 }
 
 export type TextInputStateAnimated = Partial<Record<State, () => void>>
