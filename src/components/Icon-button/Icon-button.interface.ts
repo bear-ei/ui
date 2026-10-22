@@ -1,16 +1,10 @@
 import type {ViewStyle} from 'react-native'
-import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {EventName} from '../../constants'
-import type {
-	AnimatedTimingOptions,
-	AnimateSharedValueTo,
-	HandleStateEventChangeOptions,
-	StateEventChangeHandler
-} from '../../hooks'
+import type {HandleStateEventChangeOptions, StateEventChangeHandler} from '../../hooks'
 import type {ThemeProps} from '../../theme'
 import type {TouchableProps} from '../Touchable'
-
 import type {ICON_BUTTON_TYPE} from './Icon-button.enum'
 
 export type IconButtonType = (typeof ICON_BUTTON_TYPE)[keyof typeof ICON_BUTTON_TYPE]
@@ -34,14 +28,14 @@ export interface IconButtonProps extends TouchableProps, ThemeProps {
 
 export interface RenderIconButtonProps extends IconButtonProps {
 	backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
-	eventName?: EventName
+	eventName: EventName
 	iconElement?: React.JSX.Element
 	onStateEventChange: StateEventChangeHandler
 }
 
 export type IconButtonBaseProps = IconButtonProps
 export interface IconButtonState {
-	eventName?: EventName
+	eventName: EventName
 }
 
 export type RenderIconButtonIconProps = Pick<
@@ -51,11 +45,4 @@ export type RenderIconButtonIconProps = Pick<
 
 export type HandleIconButtonStateChangeOptions = HandleStateEventChangeOptions
 export type UseIconButtonAnimatedOptions = Pick<RenderIconButtonProps, 'disabled' | 'type'>
-export interface AnimateIconButtonOptions extends Pick<UseIconButtonAnimatedOptions, 'type'> {
-	animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo
-}
-
-export interface AnimateIconButtonSharedValues {
-	borderSharedValue: SharedValue<number>
-	colorSharedValue: SharedValue<number>
-}
+export type AnimateIconButtonOptions = Pick<UseIconButtonAnimatedOptions, 'type'>

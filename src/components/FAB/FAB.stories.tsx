@@ -64,6 +64,20 @@ export const ExtraSmall: StoryObj<FABProps> = {
 	args: {icon: <Circle />, size: DENSITY_SIZE.X_SMALL}
 }
 
+export const ElevatedFalse: StoryObj<FABProps> = {
+	args: {
+		elevated: false,
+		icon: <Circle />
+	}
+}
+
+export const Disabled: StoryObj<FABProps> = {
+	args: {
+		disabled: true,
+		icon: <Circle />
+	}
+}
+
 export default {
 	argTypes: {onPress: {action: 'pressed'}},
 	component: Fab,

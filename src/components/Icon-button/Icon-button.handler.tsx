@@ -1,31 +1,32 @@
+import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import {EVENT_NAME} from '../../constants'
 import type {Theme} from '../../contexts'
-import type {StateEvent} from '../../hooks'
-import {DURATION, EASING} from '../../theme'
-
-import {ICON_BUTTON_TYPE} from './Icon-button.enum'
+import type {AnimatedTiming, StateEvent} from '../../hooks'
 import type {
 	AnimateIconButtonOptions,
-	AnimateIconButtonSharedValues,
 	HandleIconButtonStateChangeOptions,
 	IconButtonState,
 	IconButtonType
 } from './Icon-button.interface'
 
-export const handleIconButtonStateChange =
-	({eventName}: HandleIconButtonStateChangeOptions) =>
-	(setState: Updater<IconButtonState>) =>
-	(_event: StateEvent) => {
-		if (eventName === EVENT_NAME.LAYOUT) {
-			return
-		}
+import {EVENT_NAME} from '../../constants'
+import {DURATION, EASING} from '../../theme'
+import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 
-		setState(draft => {
-			draft.eventName = eventName
-		})
+export const handleIconButtonStateChange = (
+	_event: StateEvent,
+	setState: Updater<IconButtonState>,
+	{eventName}: HandleIconButtonStateChangeOptions
+) => {
+	if (eventName === EVENT_NAME.LAYOUT) {
+		return
 	}
+
+	setState(draft => {
+		draft.eventName = eventName
+	})
+}
 
 export const updateIconButtonDisabledState = (setState: Updater<IconButtonState>) => (disabled?: boolean) => {
 	if (typeof disabled !== 'boolean') {
@@ -33,11 +34,13 @@ export const updateIconButtonDisabledState = (setState: Updater<IconButtonState>
 	}
 
 	setState(draft => {
-		draft.eventName = disabled ? EVENT_NAME.NONE : undefined
+		if (disabled) {
+			draft.eventName = EVENT_NAME.NONE
+		}
 	})
 }
 
-export const getIconButtonUnderlayColor = ({token}: Theme) => {
+export const getIconButtonUnderlayColor = (type: IconButtonType, {token}: Theme) => {
 	const underlay = {
 		[ICON_BUTTON_TYPE.ACTIVE]: token.scheme.onSurfaceVariant,
 		[ICON_BUTTON_TYPE.FILLED]: token.scheme.onPrimary,
@@ -46,26 +49,28 @@ export const getIconButtonUnderlayColor = ({token}: Theme) => {
 		[ICON_BUTTON_TYPE.TONAL]: token.scheme.onSecondaryContainer
 	}
 
-	return (type: IconButtonType = ICON_BUTTON_TYPE.FILLED) => underlay[type]
+	return underlay[type]
 }
 
-export const animateIconButton =
-	({animatedTiming, type}: AnimateIconButtonOptions) =>
-	({borderSharedValue, colorSharedValue}: AnimateIconButtonSharedValues) => {
-		const animatedTimingOptions = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
-		const borderAnimateSharedValueTo = animatedTiming(animatedTimingOptions)({sharedValue: borderSharedValue})
-		const colorAnimateSharedValueTo = animatedTiming(animatedTimingOptions)({sharedValue: colorSharedValue})
+export const animateIconButton = (
+	[borderSharedValue, colorSharedValue]: [SharedValue<number>, SharedValue<number>],
+	animatedTiming: AnimatedTiming,
+	{type}: AnimateIconButtonOptions
+) => {
+	const animatedTimingOptions = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
+	const borderAnimateSharedValueTo = animatedTiming(borderSharedValue, animatedTimingOptions)
+	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, animatedTimingOptions)
 
-		return (disabled?: boolean) => {
-			const toValue = disabled ? 0 : 1
+	return (disabled?: boolean) => {
+		const toValue = disabled ? 0 : 1
 
-			if (type === ICON_BUTTON_TYPE.OUTLINED) {
-				borderAnimateSharedValueTo(toValue)
-				colorAnimateSharedValueTo(toValue)
-
-				return
-			}
-
+		if (type === ICON_BUTTON_TYPE.OUTLINED) {
+			borderAnimateSharedValueTo(toValue)
 			colorAnimateSharedValueTo(toValue)
+
+			return
 		}
+
+		colorAnimateSharedValueTo(toValue)
 	}
+}

@@ -1,18 +1,7 @@
-import {forwardRef} from 'react'
-
-import {typedMemo} from '../../utils'
-import type {PressableType} from '../Touchable'
-
-import {IconButtonBase} from './Icon-button-base.component'
 import type {IconButtonProps} from './Icon-button.interface'
 
-const IconButtonWithRef = forwardRef<PressableType, IconButtonProps>((props, ref) => (
-	<IconButtonBase
-		{...props}
-		ref={ref}
-	/>
-))
+import {typedMemo} from '../../utils'
+import {IconButtonBase} from './Icon-button-base.component'
 
-IconButtonWithRef.displayName = 'IconButton'
-
-export const IconButton = typedMemo(IconButtonWithRef)
+export const IconButton = typedMemo((props: IconButtonProps) => <IconButtonBase {...props} />)
+IconButton.displayName = 'IconButton'

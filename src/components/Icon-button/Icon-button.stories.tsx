@@ -1,11 +1,12 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+
 import {Download} from 'lucide-react-native'
 
-import {DENSITY_SIZE} from '../../theme'
+import type {IconButtonProps} from './Icon-button.interface'
 
+import {DENSITY_SIZE} from '../../theme'
 import {IconButton} from './Icon-button.component'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
-import type {IconButtonProps} from './Icon-button.interface'
 
 export const Filled: StoryObj<IconButtonProps> = {
 	args: {
@@ -39,8 +40,8 @@ export const Active: StoryObj<IconButtonProps> = {
 
 export const Loading: StoryObj<IconButtonProps> = {
 	args: {
-		loading: true,
-		icon: <Download />
+		icon: <Download />,
+		loading: true
 	}
 }
 
@@ -64,8 +65,15 @@ export const ExtraSmall: StoryObj<IconButtonProps> = {
 	args: {size: DENSITY_SIZE.X_SMALL}
 }
 
+export const OutlinedDisabled: StoryObj<IconButtonProps> = {
+	args: {
+		disabled: true,
+		type: ICON_BUTTON_TYPE.OUTLINED
+	}
+}
+
 export default {
-	title: 'components/IconButton',
 	argTypes: {onPress: {action: 'pressed'}},
-	component: IconButton
+	component: IconButton,
+	title: 'components/IconButton'
 } as Meta<typeof IconButton>
