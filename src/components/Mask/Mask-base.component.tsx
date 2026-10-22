@@ -1,12 +1,11 @@
-import {forwardRef, useId} from 'react'
-import type {View} from 'react-native'
-
-import {useInteractionStateEvent} from '../../hooks'
+import {useId, type FC} from 'react'
 
 import type {MaskBaseProps} from './Mask.interface'
+
+import {useInteractionStateEvent} from '../../hooks'
 import {RenderMask} from './Mask.render'
 
-export const MaskBase = forwardRef<View, MaskBaseProps>(({onPress, onPressIn, onPressOut, ...renderMaskProps}, ref) => {
+export const MaskBase: FC<MaskBaseProps> = ({onPress, onPressIn, onPressOut, ...renderMaskProps}) => {
 	const id = useId()
 	const interactionHandlers = useInteractionStateEvent({...renderMaskProps, onPress, onPressIn, onPressOut})
 
@@ -15,9 +14,8 @@ export const MaskBase = forwardRef<View, MaskBaseProps>(({onPress, onPressIn, on
 			{...renderMaskProps}
 			id={id}
 			interactionHandlers={interactionHandlers}
-			ref={ref}
 		/>
 	)
-})
+}
 
 MaskBase.displayName = 'MaskBase'

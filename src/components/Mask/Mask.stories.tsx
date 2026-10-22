@@ -1,11 +1,12 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+
 import {useState} from 'react'
 import {View} from 'react-native'
 
-import {Button} from '../Button'
-
-import {Mask} from './Mask.component'
 import type {MaskProps} from './Mask.interface'
+
+import {Button} from '../Button'
+import {Mask} from './Mask.component'
 
 const MaskComponent = (props: MaskProps) => {
 	const [isVisible, setIsVisible] = useState(true)
@@ -15,8 +16,8 @@ const MaskComponent = (props: MaskProps) => {
 			<View className='h-60 w-80'>
 				<Mask
 					{...props}
-					visible={isVisible}
 					unmount={true}
+					visible={isVisible}
 				/>
 			</View>
 
@@ -25,12 +26,19 @@ const MaskComponent = (props: MaskProps) => {
 	)
 }
 
+export const CustomBackground: StoryObj<MaskProps> = {
+	args: {
+		backgroundColor: '#000000',
+		opacity: 0.5
+	}
+}
+
 export const Fade: StoryObj<MaskProps> = {
 	args: {}
 }
 
 export default {
-	title: 'components/Mask',
 	argTypes: {onPress: {action: 'pressed'}},
-	component: MaskComponent
+	component: MaskComponent,
+	title: 'components/Mask'
 } as Meta<typeof Mask>

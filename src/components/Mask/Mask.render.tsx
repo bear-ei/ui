@@ -1,11 +1,11 @@
 import {forwardRef, useMemo} from 'react'
 import {Pressable, View} from 'react-native'
 
+import type {RenderMaskProps} from './Mask.interface'
+
 import {useTheme} from '../../hooks'
 import {DURATION, EASING, hexToRGBA} from '../../theme'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
-
-import type {RenderMaskProps} from './Mask.interface'
 
 export const RenderMask = forwardRef<View, RenderMaskProps>(
 	(
@@ -24,7 +24,8 @@ export const RenderMask = forwardRef<View, RenderMaskProps>(
 		ref
 	) => {
 		const {token} = useTheme()
-		const {classesName} = token.classes
+		const {classes, scheme} = token
+		const {classesName} = classes
 		const {entry, exit} = useMemo(
 			() => ({
 				entry: {duration: DURATION.MEDIUM_0, easing: EASING.STANDARD_DECELERATE},
@@ -34,26 +35,26 @@ export const RenderMask = forwardRef<View, RenderMaskProps>(
 		)
 
 		const maskStyle = useMemo(
-			() => [style, {backgroundColor: hexToRGBA(backgroundColor ?? token.scheme.scrim)(opacity)}],
-			[style, backgroundColor, opacity, token.scheme.scrim]
+			() => [style, {backgroundColor: hexToRGBA(backgroundColor ?? scheme.scrim, opacity)}],
+			[style, backgroundColor, opacity, scheme.scrim]
 		)
 
 		return (
 			<LayoutAnimated
 				{...containerProps}
 				accessibilityElementsHidden={true}
-				importantForAccessibility='no-hide-descendants'
 				animatedType={LAYOUT_ANIMATED.FADE}
-				entry={entry}
-				exit={exit}
-				defaultVisible={defaultVisible}
-				visible={visible}
 				className={classesName('absolute bottom-0 left-0 right-0 top-0 cursor-default', className, {
 					['z-40']: visible ?? defaultVisible
 				})}
+				defaultVisible={defaultVisible}
+				entry={entry}
+				exit={exit}
+				importantForAccessibility='no-hide-descendants'
 				ref={ref}
-				testID={testID ?? `mask--${id}`}
 				style={maskStyle}
+				testID={testID ?? `mask--${id}`}
+				visible={visible}
 			>
 				<Pressable
 					{...interactionHandlers}
