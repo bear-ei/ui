@@ -1,70 +1,71 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+
 import {Circle} from 'lucide-react-native'
 
-import {DENSITY_SIZE} from '../../theme'
+import type {FABProps} from './FAB.interface'
 
+import {DENSITY_SIZE} from '../../theme'
 import {Fab} from './FAB.component'
 import {FAB_TYPE} from './FAB.enum'
-import type {FABProps} from './FAB.interface'
 
 export const Primary: StoryObj<FABProps> = {
 	args: {
-		type: FAB_TYPE.PRIMARY,
-		icon: <Circle />
+		icon: <Circle />,
+		type: FAB_TYPE.PRIMARY
 	}
 }
 
 export const Secondary: StoryObj<FABProps> = {
 	args: {
-		type: FAB_TYPE.SECONDARY,
-		icon: <Circle />
+		icon: <Circle />,
+		type: FAB_TYPE.SECONDARY
 	}
 }
 
 export const Surface: StoryObj<FABProps> = {
 	args: {
-		type: FAB_TYPE.SURFACE,
-		icon: <Circle />
+		icon: <Circle />,
+		type: FAB_TYPE.SURFACE
 	}
 }
 
 export const Tertiary: StoryObj<FABProps> = {
 	args: {
-		type: FAB_TYPE.TERTIARY,
-		icon: <Circle />
+		icon: <Circle />,
+		type: FAB_TYPE.TERTIARY
 	}
 }
 
 export const Extended: StoryObj<FABProps> = {
 	args: {
+		icon: <Circle />,
 		labelText: 'Label',
-		type: FAB_TYPE.TERTIARY,
-		icon: <Circle />
+		type: FAB_TYPE.TERTIARY
 	}
 }
 
 export const ExtraLarge: StoryObj<FABProps> = {
-	args: {size: DENSITY_SIZE.X_LARGE, icon: <Circle />}
+	args: {icon: <Circle />, size: DENSITY_SIZE.X_LARGE}
 }
 
 export const Large: StoryObj<FABProps> = {
-	args: {size: DENSITY_SIZE.LARGE, icon: <Circle />}
+	args: {icon: <Circle />, size: DENSITY_SIZE.LARGE}
 }
 
 export const Medium: StoryObj<FABProps> = {
-	args: {size: DENSITY_SIZE.MEDIUM, icon: <Circle />}
+	args: {icon: <Circle />, size: DENSITY_SIZE.MEDIUM}
 }
 
 export const Small: StoryObj<FABProps> = {
-	args: {size: DENSITY_SIZE.SMALL, icon: <Circle />}
+	args: {icon: <Circle />, size: DENSITY_SIZE.SMALL}
 }
 
 export const ExtraSmall: StoryObj<FABProps> = {
-	args: {size: DENSITY_SIZE.X_SMALL, icon: <Circle />}
+	args: {icon: <Circle />, size: DENSITY_SIZE.X_SMALL}
 }
 
 export default {
-	title: 'components/FAB',
 	argTypes: {onPress: {action: 'pressed'}},
-	component: Fab
+	component: Fab,
+	title: 'components/FAB'
 } as Meta<typeof Fab>

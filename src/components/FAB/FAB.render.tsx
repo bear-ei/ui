@@ -1,6 +1,8 @@
 import {cloneElement, forwardRef, type FC} from 'react'
 import {View} from 'react-native'
 
+import type {FABType, RenderFABIconProps, RenderFABProps} from './FAB.interface'
+
 import {COMPONENT_STATUS, EVENT_NAME, LAYOUT} from '../../constants'
 import {useTheme} from '../../hooks'
 import {
@@ -18,9 +20,7 @@ import {AnimatedText, AnimatedView} from '../Animated'
 import {Elevation} from '../Elevation'
 import {Touchable, type PressableType} from '../Touchable'
 import {Underlay} from '../Underlay'
-
 import {FAB_TYPE} from './FAB.enum'
-import type {FABType, RenderFABIconProps, RenderFABProps} from './FAB.interface'
 
 export const RenderFABIcon: FC<RenderFABIconProps> = ({
 	disabled,
@@ -38,7 +38,7 @@ export const RenderFABIcon: FC<RenderFABIconProps> = ({
 		[FAB_TYPE.TERTIARY]: token.scheme.onTertiaryContainer
 	} as Record<FABType, string>
 
-	const disabledColor = hexToRGBA(token.scheme.onSurface)(token.opacity.level5)
+	const disabledColor = hexToRGBA(token.scheme.onSurface, token.opacity.level5)
 
 	if (!icon) {
 		return <></>
@@ -93,9 +93,9 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 		ref
 	) => {
 		const {token} = useTheme()
-		const {densityClasses, classesName, shapeClasses, typographyClasses} = token.classes
-		const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)()
-		const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET)(LAYOUT.HORIZONTAL)
+		const {classesName, densityClasses, shapeClasses, typographyClasses} = token.classes
+		const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)
+		const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET, LAYOUT.HORIZONTAL)
 		const shape = SHAPE.ALL
 		const radius = SHAPE_SIZE_MAP[size]
 		const underlayEventName =
@@ -107,7 +107,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 			<AnimatedView
 				className={classesName(
 					'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
-					shapeClasses(radius)(shape)
+					shapeClasses(shape, radius)
 				)}
 				style={backgroundUnderlayAnimatedStyle}
 				testID={`fab__backgroundUnderlay--${id}`}
@@ -130,8 +130,8 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 				accessibilityRole='button'
 				accessibilityState={{disabled}}
 				className={classesName('cursor-pointer', {
-					[densityControlClasses(size)]: !extended,
 					[`${densityControlClasses(size)} min-w-24 self-start`]: extended,
+					[densityControlClasses(size)]: !extended,
 					['pointer-events-none']: disabled
 				})}
 				tabIndex={-1}
@@ -174,7 +174,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 									<AnimatedText
 										className={classesName(
 											'select-none text-center',
-											typographyClasses(TYPOGRAPHY.LABEL)(TYPOGRAPHY_SIZE.LARGE)()
+											typographyClasses(TYPOGRAPHY.LABEL)(TYPOGRAPHY_SIZE.LARGE)
 										)}
 										ellipsizeMode='tail'
 										numberOfLines={1}

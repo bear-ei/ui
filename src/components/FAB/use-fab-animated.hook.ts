@@ -1,70 +1,62 @@
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 
+import type {UseFABAnimatedOptions} from './FAB.interface'
+
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {hexToRGBA} from '../../theme'
-
 import {FAB_TYPE} from './FAB.enum'
 import {animateFAB} from './FAB.handler'
-import type {UseFABAnimatedOptions} from './FAB.interface'
 
 export const useFABAnimated = ({disabled, type = FAB_TYPE.PRIMARY}: UseFABAnimatedOptions) => {
 	const colorSharedValue = useSharedValue(disabled ? 0 : 1)
 	const {token} = useTheme()
+	const {opacity, scheme} = token
 	const animatedTiming = useAnimatedTiming()
-	const disabledBackgroundColor = hexToRGBA(token.scheme.onSurface)(token.opacity.level2)
-	const disabledColor = hexToRGBA(token.scheme.onSurface)(token.opacity.level5)
+	const disabledBackgroundColor = hexToRGBA(scheme.onSurface, opacity.level2)
+	const disabledColor = hexToRGBA(scheme.onSurface, opacity.level5)
 	const backgroundColorType = useMemo(
 		() => ({
-			[FAB_TYPE.SURFACE]: {
-				inputRanges: [0, 1],
-				outputRanges: [
-					disabledBackgroundColor,
-					hexToRGBA(token.scheme.surfaceContainerHigh)(token.opacity.level10)
-				]
-			},
 			[FAB_TYPE.PRIMARY]: {
 				inputRanges: [0, 1],
-				outputRanges: [disabledBackgroundColor, hexToRGBA(token.scheme.primaryContainer)(token.opacity.level10)]
+				outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.primaryContainer, opacity.level10)]
 			},
 			[FAB_TYPE.SECONDARY]: {
 				inputRanges: [0, 1],
-				outputRanges: [
-					disabledBackgroundColor,
-					hexToRGBA(token.scheme.secondaryContainer)(token.opacity.level10)
-				]
+				outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.secondaryContainer, opacity.level10)]
+			},
+			[FAB_TYPE.SURFACE]: {
+				inputRanges: [0, 1],
+				outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.surfaceContainerHigh, opacity.level10)]
 			},
 			[FAB_TYPE.TERTIARY]: {
 				inputRanges: [0, 1],
-				outputRanges: [
-					disabledBackgroundColor,
-					hexToRGBA(token.scheme.tertiaryContainer)(token.opacity.level10)
-				]
+				outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.tertiaryContainer, opacity.level10)]
 			}
 		}),
-		[disabledBackgroundColor, token]
+		[disabledBackgroundColor, scheme, opacity]
 	)
 
 	const colorType = useMemo(
 		() => ({
-			[FAB_TYPE.SURFACE]: {
-				inputRanges: [0, 1],
-				outputRanges: [disabledColor, hexToRGBA(token.scheme.primary)(token.opacity.level10)]
-			},
 			[FAB_TYPE.PRIMARY]: {
 				inputRanges: [0, 1],
-				outputRanges: [disabledColor, hexToRGBA(token.scheme.onPrimaryContainer)(token.opacity.level10)]
+				outputRanges: [disabledColor, hexToRGBA(scheme.onPrimaryContainer, opacity.level10)]
 			},
 			[FAB_TYPE.SECONDARY]: {
 				inputRanges: [0, 1],
-				outputRanges: [disabledColor, hexToRGBA(token.scheme.onSecondaryContainer)(token.opacity.level10)]
+				outputRanges: [disabledColor, hexToRGBA(scheme.onSecondaryContainer, opacity.level10)]
+			},
+			[FAB_TYPE.SURFACE]: {
+				inputRanges: [0, 1],
+				outputRanges: [disabledColor, hexToRGBA(scheme.primary, opacity.level10)]
 			},
 			[FAB_TYPE.TERTIARY]: {
 				inputRanges: [0, 1],
-				outputRanges: [disabledColor, hexToRGBA(token.scheme.onTertiaryContainer)(token.opacity.level10)]
+				outputRanges: [disabledColor, hexToRGBA(scheme.onTertiaryContainer, opacity.level10)]
 			}
 		}),
-		[disabledColor, token]
+		[disabledColor, scheme, opacity]
 	)
 
 	const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
@@ -79,7 +71,7 @@ export const useFABAnimated = ({disabled, type = FAB_TYPE.PRIMARY}: UseFABAnimat
 		color: interpolateColor(colorSharedValue.value, colorType[type].inputRanges, colorType[type].outputRanges)
 	}))
 
-	const runAnimate = useMemo(() => animateFAB(animatedTiming)(colorSharedValue), [animatedTiming, colorSharedValue])
+	const runAnimate = useMemo(() => animateFAB(colorSharedValue, animatedTiming), [animatedTiming, colorSharedValue])
 
 	useEffect(() => {
 		runAnimate(disabled)
