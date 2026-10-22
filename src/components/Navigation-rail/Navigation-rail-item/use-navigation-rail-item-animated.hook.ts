@@ -1,31 +1,30 @@
-import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
+
+import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
+import type {UseNavigationRailItemAnimatedOptions} from './Navigation-rail-item.interface'
 
 import {COMPONENT_STATUS} from '../../../constants'
 import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {DENSITY_SIZE, hexToRGBA} from '../../../theme'
 import {platformValue} from '../../../utils'
-
 import {animateNavigationRailItem} from './Navigation-rail-item.handler'
-import type {UseNavigationRailItemAnimatedOptions} from './Navigation-rail-item.interface'
 
-export const useNavigationRailItemAnimated = ({active, type, status}: UseNavigationRailItemAnimatedOptions) => {
+export const useNavigationRailItemAnimated = ({active, status, type}: UseNavigationRailItemAnimatedOptions) => {
 	const {token} = useTheme()
+	const {density, opacity, scheme} = token
 	const animatedTiming = useAnimatedTiming()
 	const contentTranslateYSharedValue = useSharedValue(active ? 1 : 0)
 	const labelTextSharedValue = useSharedValue(active ? 1 : 0)
 	const labelTextColorOutputRanges = useMemo(
-		() => [
-			hexToRGBA(token.scheme.onSurfaceVariant)(token.opacity.level10),
-			hexToRGBA(token.scheme.onSurface)(token.opacity.level10)
-		],
-		[token]
+		() => [hexToRGBA(scheme.onSurfaceVariant, opacity.level10), hexToRGBA(scheme.onSurface, opacity.level10)],
+		[opacity, scheme]
 	)
 
 	const contentTranslateYOutputRanges = useMemo(
-		() => [token.density.spacing[DENSITY_SIZE.MEDIUM], token.density.spacing[DENSITY_SIZE.NONE]],
-		[token]
+		() => [density.spacing[DENSITY_SIZE.MEDIUM], density.spacing[DENSITY_SIZE.NONE]],
+		[density]
 	)
 
 	const labelTextAnimatedStyle = useAnimatedStyle(() => ({
@@ -47,7 +46,7 @@ export const useNavigationRailItemAnimated = ({active, type, status}: UseNavigat
 	)
 
 	const runAnimate = useMemo(
-		() => animateNavigationRailItem({animatedTiming, type})({contentTranslateYSharedValue, labelTextSharedValue}),
+		() => animateNavigationRailItem([contentTranslateYSharedValue, labelTextSharedValue], animatedTiming, {type}),
 		[animatedTiming, contentTranslateYSharedValue, labelTextSharedValue, type]
 	)
 
@@ -65,5 +64,5 @@ export const useNavigationRailItemAnimated = ({active, type, status}: UseNavigat
 		[contentTranslateYSharedValue, labelTextSharedValue]
 	)
 
-	return {labelTextAnimatedStyle, contentAnimatedStyle}
+	return {contentAnimatedStyle, labelTextAnimatedStyle}
 }

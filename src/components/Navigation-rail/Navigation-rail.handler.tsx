@@ -7,8 +7,10 @@ import type {
 } from './Navigation-rail.interface'
 
 export const updateNavigationRailActiveKey =
-	({onActive, triggerEvent = true}: UpdateNavigationRailActiveKeyOptions = {}) =>
-	(setState: Updater<NavigationRailState>) =>
+	(
+		setState: Updater<NavigationRailState>,
+		{onActive, triggerEvent = true}: UpdateNavigationRailActiveKeyOptions = {}
+	) =>
 	(activeKey?: string) => {
 		if (typeof activeKey !== 'string') {
 			return

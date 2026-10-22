@@ -1,13 +1,8 @@
 import type {TextStyle, ViewStyle} from 'react-native'
-import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {ComponentStatus, EventName} from '../../../constants'
-import type {
-	AnimatedTimingOptions,
-	AnimateSharedValueTo,
-	HandleStateEventChangeOptions,
-	InteractionHandlers
-} from '../../../hooks'
+import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {PressableType, TouchableProps} from '../../Touchable'
 import type {NavigationRailProps} from '../Navigation-rail.interface'
 
@@ -22,7 +17,7 @@ export interface NavigationRailItemProps
 export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemProps, 'indexKey'> {
 	active?: boolean
 	contentAnimatedStyle: AnimatedStyle<ViewStyle>
-	eventName?: EventName
+	eventName: EventName
 	iconElement?: React.JSX.Element
 	interactionHandlers: InteractionHandlers
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
@@ -30,7 +25,7 @@ export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemPr
 
 export type NavigationRailItemBaseProps = NavigationRailItemProps
 export interface NavigationRailItemState {
-	eventName?: EventName
+	eventName: EventName
 	pendingPressOutEvent?: string
 	status: ComponentStatus
 }
@@ -44,11 +39,4 @@ export interface UseNavigationRailItemAnimatedOptions extends Pick<RenderNavigat
 	status?: ComponentStatus
 }
 
-export interface AnimateNavigationRailItemOptions extends UseNavigationRailItemAnimatedOptions {
-	animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo
-}
-
-export interface AnimateNavigationRailItemSharedValues {
-	contentTranslateYSharedValue: SharedValue<number>
-	labelTextSharedValue: SharedValue<number>
-}
+export type AnimateNavigationRailItemOptions = UseNavigationRailItemAnimatedOptions

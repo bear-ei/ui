@@ -1,21 +1,12 @@
-import {forwardRef} from 'react'
-
-import {typedMemo} from '../../../utils'
-import type {PressableType} from '../../Touchable'
-
-import {NavigationRailItemBase} from './Navigation-rail-item-base.component'
-import {compareNavigationRailItemProps} from './Navigation-rail-item.handler'
 import type {NavigationRailItemProps} from './Navigation-rail-item.interface'
 
-const NavigationRailItemWithRef = forwardRef<PressableType, NavigationRailItemProps>((props, ref) => (
-	<NavigationRailItemBase
-		{...props}
-		ref={ref}
-	/>
-))
+import {typedMemo} from '../../../utils'
+import {NavigationRailItemBase} from './Navigation-rail-item-base.component'
+import {compareNavigationRailItemProps} from './Navigation-rail-item.handler'
 
-NavigationRailItemWithRef.displayName = 'NavigationRailItem'
-
-export const NavigationRailItem = typedMemo(NavigationRailItemWithRef, (prevProps, nextProps) =>
-	compareNavigationRailItemProps(prevProps)(nextProps)
+export const NavigationRailItem = typedMemo(
+	(props: NavigationRailItemProps) => <NavigationRailItemBase {...props} />,
+	compareNavigationRailItemProps
 )
+
+NavigationRailItem.displayName = 'NavigationRailItem'

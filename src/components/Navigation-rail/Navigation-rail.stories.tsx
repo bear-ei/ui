@@ -1,148 +1,171 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+
 import {Circle} from 'lucide-react-native'
+
+import type {NavigationRailProps} from './Navigation-rail.interface'
 
 import {Fab} from '../FAB'
 import {ICON_BUTTON_TYPE, IconButton} from '../Icon-button'
-
 import {NavigationRail} from './Navigation-rail.component'
 import {NAVIGATION_DESTINATION_POSITION, NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from './Navigation-rail.enum'
-import type {NavigationRailProps} from './Navigation-rail.interface'
 
 export const Standard: StoryObj<NavigationRailProps> = {
 	args: {
+		animatedType: NAVIGATION_RAIL_ANIMATED.COLLAPSE,
+		data: [
+			{
+				indexKey: 'A',
+				labelText: 'Bookmark'
+			},
+			{
+				indexKey: 'B',
+				labelText: 'Label2'
+			},
+			{
+				indexKey: 'C',
+				labelText: 'Label3'
+			}
+		],
 		defaultActiveKey: 'A',
+		fab: <Fab icon={<Circle />} />,
 		menu: (
 			<IconButton
 				icon={<Circle />}
 				type={ICON_BUTTON_TYPE.STANDARD}
 			/>
-		),
-		fab: <Fab icon={<Circle />} />,
-		animatedType: NAVIGATION_RAIL_ANIMATED.COLLAPSE,
-		data: [
-			{
-				labelText: 'Bookmark',
-				indexKey: 'A'
-			},
-			{
-				labelText: 'Label2',
-				indexKey: 'B'
-			},
-			{
-				labelText: 'Label3',
-				indexKey: 'C'
-			}
-		]
+		)
 	}
 }
 
 export const Block: StoryObj<NavigationRailProps> = {
 	args: {
-		defaultActiveKey: 'name',
-		fab: <Fab icon={<Circle />} />,
-		type: NAVIGATION_RAIL_TYPE.BLOCK,
 		data: [
 			{
-				labelText: 'Label1',
-				indexKey: 'name'
+				indexKey: 'name',
+				labelText: 'Label1'
 			},
 			{
-				labelText: 'Label2',
-				indexKey: 'age'
+				indexKey: 'age',
+				labelText: 'Label2'
 			},
 			{
-				labelText: 'Label3',
-				indexKey: 'sex'
+				indexKey: 'sex',
+				labelText: 'Label3'
 			}
-		]
+		],
+		defaultActiveKey: 'name',
+		fab: <Fab icon={<Circle />} />,
+		type: NAVIGATION_RAIL_TYPE.BLOCK
 	}
 }
 
 export const Top: StoryObj<NavigationRailProps> = {
 	args: {
+		data: [
+			{
+				indexKey: 'A',
+				labelText: 'Label1'
+			},
+			{
+				indexKey: 'B',
+				labelText: 'Label2'
+			},
+			{
+				indexKey: 'C',
+				labelText: 'Label3'
+			}
+		],
 		defaultActiveKey: 'A',
 		destinationPosition: NAVIGATION_DESTINATION_POSITION.TOP,
+		fab: <Fab icon={<Circle />} />,
 		menu: (
 			<IconButton
 				icon={<Circle />}
 				type={ICON_BUTTON_TYPE.STANDARD}
 			/>
-		),
-		fab: <Fab icon={<Circle />} />,
-		data: [
-			{
-				labelText: 'Label1',
-				indexKey: 'A'
-			},
-			{
-				labelText: 'Label2',
-				indexKey: 'B'
-			},
-			{
-				labelText: 'Label3',
-				indexKey: 'C'
-			}
-		]
+		)
 	}
 }
 
 export const Center: StoryObj<NavigationRailProps> = {
 	args: {
+		data: [
+			{
+				indexKey: 'A',
+				labelText: 'Label1'
+			},
+			{
+				indexKey: 'B',
+				labelText: 'Label2'
+			},
+			{
+				indexKey: 'C',
+				labelText: 'Label3'
+			}
+		],
 		defaultActiveKey: 'A',
 		destinationPosition: NAVIGATION_DESTINATION_POSITION.CENTER,
+		fab: <Fab icon={<Circle />} />,
 		menu: (
 			<IconButton
 				icon={<Circle />}
 				type={ICON_BUTTON_TYPE.STANDARD}
 			/>
-		),
-		fab: <Fab icon={<Circle />} />,
-		data: [
-			{
-				labelText: 'Label1',
-				indexKey: 'A'
-			},
-			{
-				labelText: 'Label2',
-				indexKey: 'B'
-			},
-			{
-				labelText: 'Label3',
-				indexKey: 'C'
-			}
-		]
+		)
 	}
 }
 
 export const Bottom: StoryObj<NavigationRailProps> = {
 	args: {
+		data: [
+			{
+				indexKey: 'A',
+				labelText: 'Label1'
+			},
+			{
+				indexKey: 'B',
+				labelText: 'Label2'
+			},
+			{
+				indexKey: 'C',
+				labelText: 'Label3'
+			}
+		],
 		defaultActiveKey: 'A',
 		destinationPosition: NAVIGATION_DESTINATION_POSITION.BOTTOM,
+		fab: <Fab icon={<Circle />} />,
 		menu: (
 			<IconButton
 				icon={<Circle />}
 				type={ICON_BUTTON_TYPE.STANDARD}
 			/>
-		),
-		fab: <Fab icon={<Circle />} />,
+		)
+	}
+}
+
+export const BlockCenter: StoryObj<NavigationRailProps> = {
+	args: {
 		data: [
 			{
-				labelText: 'Label1',
-				indexKey: 'A'
+				indexKey: 'A',
+				labelText: 'Label1'
 			},
 			{
-				labelText: 'Label2',
-				indexKey: 'B'
+				indexKey: 'B',
+				labelText: 'Label2'
 			},
 			{
-				labelText: 'Label3',
-				indexKey: 'C'
+				indexKey: 'C',
+				labelText: 'Label3'
 			}
-		]
+		],
+		defaultActiveKey: 'A',
+		destinationPosition: NAVIGATION_DESTINATION_POSITION.CENTER,
+		type: NAVIGATION_RAIL_TYPE.BLOCK
 	}
 }
 
 export default {
-	title: 'components/NavigationRail',
-	component: NavigationRail
+	component: NavigationRail,
+	title: 'components/NavigationRail'
 } as Meta<typeof NavigationRail>
