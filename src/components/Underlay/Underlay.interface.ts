@@ -3,7 +3,7 @@ import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {ComponentStatus, EventName, State} from '../../constants'
-import type {AnimatedTiming, InteractionHandlers} from '../../hooks'
+import type {InteractionHandlers} from '../../hooks'
 import type {RadiusType, ThemeProps} from '../../theme'
 import type {ACTIVE_ANIMATED} from './Underlay.enum'
 
@@ -49,9 +49,4 @@ export interface UseUnderlayAnimatedOptions extends Pick<
 	'active' | 'activeAnimatedType' | 'activeScale' | 'eventName' | 'opacities'
 > {
 	status: ComponentStatus
-}
-
-export interface AnimateUnderlayHoverStateOptions {
-	activeValue: number
-	animatedTiming: AnimatedTiming
 }

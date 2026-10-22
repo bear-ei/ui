@@ -5,14 +5,14 @@ import type {CreateAnimatedTimingOptions} from './use-animated-timing.interface'
 
 export const createAnimatedTiming = (
 	toValue: number,
-	{bezier, delay, duration, repeat, ...config}: CreateAnimatedTimingOptions,
+	{bezier, delay, duration, repeat, ...options}: CreateAnimatedTimingOptions,
 	callback?: AnimationCallback
 ) => {
 	'worklet'
 
 	const animation = withTiming(
 		toValue,
-		{...config, duration, easing: Easing.bezier(bezier.x0, bezier.y0, bezier.x1, bezier.y1)},
+		{...options, duration, easing: Easing.bezier(bezier.x0, bezier.y0, bezier.x1, bezier.y1)},
 		finished => {
 			'worklet'
 

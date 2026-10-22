@@ -51,11 +51,11 @@ export const LayoutAnimatedBase: FC<LayoutAnimatedBaseProps> = ({
 		visible: visible ?? defaultVisible
 	})
 
-	usePendingEvent(onVisible, setState, {eventKey: 'pendingVisibleEvent', pendingEvent: pendingVisibleEvent})
-	usePendingEvent(onUnmount, setState, {eventKey: 'pendingUnmountEvent', pendingEvent: pendingUnmountEvent})
-	usePendingEvent(rawOnAnimationFinished, setState, {
-		eventKey: 'pendingAnimationFinishedEvent',
-		pendingEvent: pendingAnimationFinishedEvent
+	usePendingEvent('pendingVisibleEvent', onVisible, {pendingEvent: pendingVisibleEvent, setState})
+	usePendingEvent('pendingUnmountEvent', onUnmount, {pendingEvent: pendingUnmountEvent, setState})
+	usePendingEvent('pendingAnimationFinishedEvent', rawOnAnimationFinished, {
+		pendingEvent: pendingAnimationFinishedEvent,
+		setState
 	})
 
 	const id = useId()

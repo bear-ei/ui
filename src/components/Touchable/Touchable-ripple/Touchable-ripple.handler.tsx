@@ -47,8 +47,6 @@ export const handleTouchableRippleStateChange = (
 	setState: Updater<TouchableRippleState>,
 	{eventName}: HandleStateEventChangeOptions
 ) => {
-	console.info(eventName, 'eventName======>')
-
 	if (eventName !== EVENT_NAME.LAYOUT) {
 		return
 	}

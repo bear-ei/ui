@@ -231,7 +231,7 @@ const toKebabCase = (value: string) =>
 		.toLowerCase()
 		.replace(/^-/, '')
 
-const createCssVariables = <T extends object>(obj: T, prefix: string, platformValueKeys?: string[]) =>
+const createCssVariables = <T extends object>(prefix: string, obj: T, platformValueKeys?: string[]) =>
 	Object.entries(obj).reduce(
 		(accumulator, [key, value]) => ({
 			...accumulator,
@@ -249,8 +249,8 @@ const buildTypographyStyleVariables = (typography: Typography) =>
 	Object.entries(typography).flatMap(([type, sizes]) =>
 		Object.entries(sizes).map(([size, style]) =>
 			createCssVariables(
-				style,
 				`typography-${toKebabCase(type)}-${toKebabCase(size)}`,
+				style,
 				TYPOGRAPHY_PLATFORM_VALUE_KEYS
 			)
 		)
@@ -266,17 +266,17 @@ const processStyleVariables = ({
 	typography
 }: Omit<Token, 'styleVariables'>) =>
 	vars({
-		...createCssVariables(border, 'border', TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(density.control, 'density-control', TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(density.icon, 'density-icon', TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(density.inline, 'density-inline', TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(density.inset, 'density-inset', TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(density.layout, 'density-layout', TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(density.spacing, 'density-spacing', TYPOGRAPHY_PLATFORM_VALUE_KEYS),
-		...createCssVariables(font.family, 'font'),
-		...createCssVariables(opacity, 'opacity'),
-		...createCssVariables(scheme, 'color'),
-		...createCssVariables(shape.radius, 'radius', TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables('border', border, TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables('density-control', density.control, TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables('density-icon', density.icon, TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables('density-inline', density.inline, TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables('density-inset', density.inset, TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables('density-layout', density.layout, TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables('density-spacing', density.spacing, TYPOGRAPHY_PLATFORM_VALUE_KEYS),
+		...createCssVariables('font', font.family),
+		...createCssVariables('opacity', opacity),
+		...createCssVariables('color', scheme),
+		...createCssVariables('radius', shape.radius, TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...buildTypographyStyleVariables(typography)
 	})
 

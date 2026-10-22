@@ -1,5 +1,3 @@
-import type {Updater} from 'use-immer'
-
 import {useEffect, useRef} from 'react'
 
 import type {UsePendingEventOptions} from './use-pending-event.interface'
@@ -13,8 +11,8 @@ import type {UsePendingEventOptions} from './use-pending-event.interface'
  *   - the state slot is cleared immediately after consumption
  *
  * @example
- *   usePendingEvent(onEndReached,setState,{
- *       eventKey: 'pendingEndReached',
+ *   usePendingEvent(eventKey,onEndReached,{
+ *       setState,
  *       pendingEvent: pendingEndReached,
  *   })
  *
@@ -23,9 +21,9 @@ import type {UsePendingEventOptions} from './use-pending-event.interface'
  * The latest-ref pattern decouples handler identity from the effect.
  */
 export const usePendingEvent = <Evt, E, K extends keyof E>(
+	eventKey?: K,
 	func?: (event: Evt) => void,
-	setState?: Updater<E>,
-	{eventKey, pendingEvent} = {} as UsePendingEventOptions<Evt, E, K>
+	{pendingEvent, setState} = {} as UsePendingEventOptions<Evt, E>
 ) => {
 	const funcRef = useRef(func)
 
@@ -35,7 +33,7 @@ export const usePendingEvent = <Evt, E, K extends keyof E>(
 	funcRef.current = func
 
 	useEffect(() => {
-		if (pendingEvent === undefined || setState === undefined) {
+		if (!(pendingEvent !== undefined && setState && eventKey)) {
 			return
 		}
 

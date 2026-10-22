@@ -2,7 +2,7 @@ import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
 import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import type {AnimateUnderlayHoverStateOptions, UnderlayState} from './Underlay.interface'
+import type {UnderlayState} from './Underlay.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../../constants'
 import {DURATION, EASING} from '../../theme'
@@ -45,7 +45,8 @@ export const updateUnderlayEventName = (setState: Updater<UnderlayState>) => (ev
 
 export const animateUnderlayHoverState = (
 	sharedValue: SharedValue<number>,
-	{activeValue, animatedTiming}: AnimateUnderlayHoverStateOptions
+	animatedTiming: AnimatedTiming,
+	activeValue: number
 ) => {
 	const event: Partial<Record<EventName, number>> = {
 		[EVENT_NAME.BLUR]: 0,
