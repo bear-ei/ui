@@ -16,8 +16,8 @@ export interface RenderSheetContentLeadingProps extends Pick<
 	SheetContentProps,
 	'headlineLeading' | 'back' | 'position' | 'id'
 > {
-	onBack?: () => void
 	disabled?: boolean
+	onBack?: () => void
 }
 
 export interface RenderSheetContentTrailingProps extends Pick<SheetContentProps, 'headlineTrailing' | 'close' | 'id'> {

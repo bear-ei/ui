@@ -1,11 +1,11 @@
 import type {Updater} from 'use-immer'
 
-import {emitter, MODAL_TYPE} from '../../contexts'
-
-import {SIDE_SHEET_TYPE} from './Sheet.enum'
 import type {EmitSheetModalOptions, SheetProps, SheetState, SheetType} from './Sheet.interface'
 
-export const updateSheetClose = (onClose?: () => void) => (setState: Updater<SheetState>) => () =>
+import {emitter, MODAL_TYPE} from '../../contexts'
+import {SIDE_SHEET_TYPE} from './Sheet.enum'
+
+export const updateSheetClose = (setState: Updater<SheetState>, onClose?: () => void) => () =>
 	setState(draft => {
 		if (onClose) {
 			draft.pendingCloseEvent = true
@@ -29,14 +29,13 @@ export const updateSheetVisible = (setState: Updater<SheetState>) => (visible?: 
 }
 
 export const emitSheetModal =
-	({id, type}: EmitSheetModalOptions) =>
-	(props: SheetProps) =>
+	(props: SheetProps, {id, type}: EmitSheetModalOptions) =>
 	(visible?: boolean) => {
 		if (!(typeof visible === 'boolean' && type === SIDE_SHEET_TYPE.MODAL)) {
 			return
 		}
 
-		emitter.emit('modal', {id: `sheet__${id}`, type: MODAL_TYPE.SIDE_SHEET, props: {...props}})
+		emitter.emit('modal', {id: `sheet__${id}`, props: {...props}, type: MODAL_TYPE.SIDE_SHEET})
 	}
 
 export const emitSheetModalUnmount = (id: string) => (type: SheetType) => {

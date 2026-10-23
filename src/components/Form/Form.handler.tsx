@@ -20,8 +20,8 @@ export const initializeFormStateWithValues =
 	}
 
 export const registerFormCallbacks =
-	(setCallbacks: (callbacks: FormCallbacks) => void) =>
-	({onFinish, onFinishFailed, onValuesChange}: RegisterFormCallbacksOptions) =>
+	<T,>(setCallbacks: (callbacks: FormCallbacks<T>) => void) =>
+	({onFinish, onFinishFailed, onValuesChange}: RegisterFormCallbacksOptions<T>) =>
 		setCallbacks({onFinish, onFinishFailed, onValuesChange})
 
 export const extractAndSetFormFieldKeys = (setFieldKeys: (keys?: string[]) => void) => (items?: FormItemProps[]) => {

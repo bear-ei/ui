@@ -80,7 +80,7 @@ export interface FormState {
 	status: ComponentStatus
 }
 
-export type RegisterFormCallbacksOptions = Pick<FormProps, 'onFinish' | 'onFinishFailed' | 'onValuesChange'>
+export type RegisterFormCallbacksOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValuesChange'>
 export interface RenderFormItemsProps extends Pick<FormProps, 'validatorOptions' | 'id' | 'items'> {
 	status: ComponentStatus
 }

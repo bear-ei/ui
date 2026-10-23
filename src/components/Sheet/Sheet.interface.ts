@@ -2,7 +2,6 @@ import type {JSX, RefAttributes} from 'react'
 import type {ModalProps, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 
 import type {ThemeProps} from '../../theme'
-
 import type {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from './Sheet.enum'
 
 export type SheetType = (typeof SIDE_SHEET_TYPE)[keyof typeof SIDE_SHEET_TYPE]
@@ -29,13 +28,15 @@ export interface SheetProps
 	onVisible?: (visible?: boolean) => void
 	position?: SheetPosition
 	primaryButton?: JSX.Element
+	primaryButtonDisabled?: boolean
+	primaryButtonLabelText?: string
+	primaryButtonLoading?: boolean
+	primaryButtonStyle?: StyleProp<ViewStyle>
 	secondaryButton?: JSX.Element
-
-	/**
-	 * The `type` parameter, used in MODAL mode, controls whether the modal layer is visible.
-	 */
-	visible?: boolean
-
+	secondaryButtonDisabled?: boolean
+	secondaryButtonLabelText?: string
+	secondaryButtonLoading?: boolean
+	secondaryButtonStyle?: StyleProp<ViewStyle>
 	/**
 	 * @remarks
 	 *
@@ -44,14 +45,10 @@ export interface SheetProps
 	 * Prefer SIDEBAR + undivided main content.
 	 */
 	type?: SheetType
-	primaryButtonDisabled?: boolean
-	primaryButtonLabelText?: string
-	primaryButtonLoading?: boolean
-	primaryButtonStyle?: StyleProp<ViewStyle>
-	secondaryButtonDisabled?: boolean
-	secondaryButtonLabelText?: string
-	secondaryButtonLoading?: boolean
-	secondaryButtonStyle?: StyleProp<ViewStyle>
+	/**
+	 * The `type` parameter, used in MODAL mode, controls whether the modal layer is visible.
+	 */
+	visible?: boolean
 }
 
 export type RenderSheetProps = SheetProps
