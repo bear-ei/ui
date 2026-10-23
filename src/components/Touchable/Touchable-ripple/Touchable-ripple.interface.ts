@@ -9,7 +9,7 @@ import type {TouchableProps} from '../Touchable.interface'
 export interface TouchableRippleProps
 	extends ViewProps, RefAttributes<View>, Pick<TouchableProps, 'centered' | 'underlayColor' | 'shape'> {
 	containerLayout?: Partial<Omit<LayoutRectangle, 'x' | 'y'>>
-	indexKey?: string
+	indexKey: string
 	onAnimateFinished?: (indexKey: string) => void
 	touchableLocation?: Partial<Pick<NativeTouchEvent, 'locationX' | 'locationY'>>
 }

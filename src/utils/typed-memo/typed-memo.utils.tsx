@@ -1,6 +1,23 @@
 import {memo, type ComponentProps, type ComponentType, type MemoExoticComponent} from 'react'
 
-export const typedMemo = <T extends ComponentType<Record<string, unknown>>>(
+/**
+ * Memoize a component with an optional custom comparator.
+ *
+ * The constraint uses `ComponentType<any>` — matching React's own `memo`
+ * signature. `any` is necessary here because:
+ *
+ *  - Contravariance: a concrete props type like `FormItemProps` (with
+ *    required fields) is assignable to `ComponentType<any>` but NOT to
+ *    `ComponentType<Record<string, unknown>>` (index-signature required)
+ *    or `ComponentType<object>` (required fields break).
+ *  - Generic components (`<T>(props: FormProps<T>) => ...`) also collapse
+ *    to `unknown` under narrower constraints.
+ *
+ * ⚠️ This `any` does NOT leak: `MemoExoticComponent<T>` preserves the
+ * caller's concrete component type. `T` is inferred from `component`, so
+ * downstream `<Foo />` usages remain fully typed.
+ */
+export const typedMemo = <T extends ComponentType<any>>(
 	component: T,
 
 	/**

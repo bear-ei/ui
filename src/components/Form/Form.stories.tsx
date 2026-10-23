@@ -1,14 +1,16 @@
 import type {Meta} from '@storybook/react-native-web-vite'
+
 import {IsDefined, IsNotEmpty, IsNumberString} from 'class-validator'
 import {View} from 'react-native'
+
+import type {FormItemControlProps, FormItemProps} from './Form-item'
+import type {FormProps} from './Form.interface'
 
 import {LAYOUT} from '../../constants'
 import {BUTTON_TYPE, Button} from '../Button'
 import {TextInput} from '../Text-input'
-
-import type {FormItemControlProps, FormItemProps} from './Form-item'
 import {Form} from './Form.component'
-import type {FormProps} from './Form.interface'
+import {useForm} from './use-form.hook'
 
 class NameRule {
 	@IsNumberString()
@@ -23,7 +25,7 @@ class AgeRule {
 	age: string
 }
 
-const RenderForm = (props: FormProps<Record<string, unknown>>) => {
+const RenderForm = (props: FormProps) => {
 	const renderControl = ({errorMessage, id, labelText, onBlur, onValueChange, value}: FormItemControlProps) => (
 		<TextInput
 			error={!!errorMessage}
@@ -45,14 +47,14 @@ const RenderForm = (props: FormProps<Record<string, unknown>>) => {
 			rule: NameRule
 		},
 		{
+			labelText: 'age',
 			name: 'age',
 			renderControl,
-			labelText: 'age',
 			rule: AgeRule
 		}
 	]
 
-	const form = Form.useForm<Record<string, unknown>>()
+	const form = useForm<{age: string; name: string}>()
 	const handleFinish = (value: unknown) => {
 		console.info(value)
 	}
@@ -70,9 +72,9 @@ const RenderForm = (props: FormProps<Record<string, unknown>>) => {
 			<Form
 				{...props}
 				form={form}
+				initialValues={{age: 'CCCC', name: '233'}}
 				items={items}
 				onFinish={handleFinish}
-				initialValues={{name: '233', age: 'CCCC'}}
 			/>
 
 			<Button
@@ -93,6 +95,6 @@ export const Horizontal = () => <RenderForm layoutType={LAYOUT.HORIZONTAL} />
 export const Vertical = () => <RenderForm layoutType={LAYOUT.VERTICAL} />
 
 export default {
-	title: 'components/Form',
-	component: Form
+	component: Form,
+	title: 'components/Form'
 } as Meta<typeof Form>

@@ -1,39 +1,34 @@
-import type {ForwardedRef} from 'react'
-import {forwardRef, useEffect, useId, useMemo} from 'react'
-import type {View} from 'react-native'
+import {useEffect, useId, useMemo} from 'react'
 import {useImmer} from 'use-immer'
 
-import {COMPONENT_STATUS} from '../../constants'
-
-import {extractAndSetFormFieldKeys, initializeFormStateWithValues, registerFormCallbacks} from './Form.handler'
 import type {FormBaseProps, FormState} from './Form.interface'
+
+import {COMPONENT_STATUS} from '../../constants'
+import {extractAndSetFormFieldKeys, initializeFormStateWithValues, registerFormCallbacks} from './Form.handler'
 import {RenderForm, RenderFormItems} from './Form.render'
 import {useForm} from './use-form.hook'
 
-const FormBaseInner = <T,>(
-	{
-		form,
-		initialValues,
-		items,
-		onFinish,
-		onFinishFailed,
-		onValuesChange,
-		validatorOptions,
-		...renderFormProps
-	}: FormBaseProps<T>,
-	ref: ForwardedRef<View>
-) => {
+export const FormBase = ({
+	form,
+	initialValues,
+	items,
+	onFinish,
+	onFinishFailed,
+	onValuesChange,
+	validatorOptions,
+	...renderFormProps
+}: FormBaseProps) => {
 	const [{status}, setState] = useImmer<FormState>({status: COMPONENT_STATUS.IDLE})
 	const id = useId()
 	const formStore = useForm(form)
-	const {setCallbacks, setInitialValues, setFieldKeys} = formStore
+	const {setCallbacks, setFieldKeys, setInitialValues} = formStore
 	const runInitializeStateWithValues = useMemo(
-		() => initializeFormStateWithValues<T>(setInitialValues)({setState, status}),
+		() => initializeFormStateWithValues(setInitialValues, {setState, status}),
 		[setInitialValues, setState, status]
 	)
 
-	const runRegisterCallbacks = useMemo(() => registerFormCallbacks<T>(setCallbacks), [setCallbacks])
-	const runExtractAndSetFieldKeys = useMemo(() => extractAndSetFormFieldKeys<T>(setFieldKeys), [setFieldKeys])
+	const runRegisterCallbacks = useMemo(() => registerFormCallbacks(setCallbacks), [setCallbacks])
+	const runExtractAndSetFieldKeys = useMemo(() => extractAndSetFormFieldKeys(setFieldKeys), [setFieldKeys])
 	const itemElements = (
 		<RenderFormItems
 			id={id}
@@ -61,12 +56,7 @@ const FormBaseInner = <T,>(
 			form={formStore}
 			id={id}
 			itemElements={itemElements}
-			ref={ref}
 			status={status}
 		/>
 	)
 }
-
-export const FormBase = forwardRef(FormBaseInner) as <T>(
-	props: FormBaseProps<T> & {ref?: ForwardedRef<View>}
-) => ReturnType<typeof FormBaseInner>

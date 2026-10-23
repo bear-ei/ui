@@ -1,50 +1,55 @@
-import {forwardRef, type FC, type ForwardedRef} from 'react'
+import {type FC} from 'react'
 import {View} from 'react-native'
+
+import type {RenderFormItemsProps, RenderFormProps} from './Form.interface'
 
 import {COMPONENT_STATUS, LAYOUT} from '../../constants'
 import {useTheme} from '../../hooks'
-
 import {FormItem} from './Form-item'
-import type {FormStore, RenderFormItemsProps, RenderFormProps} from './Form.interface'
 import {FormContext} from './use-form-context.hook'
 
 export const RenderFormItems: FC<RenderFormItemsProps> = ({id, items, status, ...options}) =>
 	status === COMPONENT_STATUS.SUCCEEDED ?
 		<>
-			{items?.map((item, index) => (
+			{items?.map(item => (
 				<FormItem
 					{...item}
 					{...options}
-					key={item.name ?? index}
+					key={item.name}
 					testID={`form__formItem--${id}`}
 				/>
 			))}
 		</>
 	:	<></>
 
-const RenderFormInner = <T,>(
-	{form, itemElements, testID, id, layoutType, status, className, ...containerProps}: RenderFormProps<T>,
-	ref: ForwardedRef<View>
-) => {
+export const RenderForm = ({
+	className,
+	form,
+	id,
+	itemElements,
+	layoutType,
+	status,
+	testID,
+	...containerProps
+}: RenderFormProps) => {
 	const {token} = useTheme()
 	const {classesName} = token.classes
 
 	return (
 		<>
 			{status === COMPONENT_STATUS.SUCCEEDED && (
-				<FormContext.Provider value={form as FormStore<Record<string, unknown>>}>
+				<FormContext.Provider value={form}>
 					<View
 						{...containerProps}
 						className={classesName(
 							'flex',
 							{
-								['flex-row gap-[--density-spacing-medium]']: layoutType === LAYOUT.HORIZONTAL,
-								['flex-col gap-[--density-spacing-xx-small]']: layoutType === LAYOUT.VERTICAL
+								['flex-col gap-[--density-spacing-xx-small]']: layoutType === LAYOUT.VERTICAL,
+								['flex-row gap-[--density-spacing-medium]']: layoutType === LAYOUT.HORIZONTAL
 							},
 							className
 						)}
 						testID={testID ?? `form--${id}`}
-						ref={ref}
 					>
 						{itemElements}
 					</View>
@@ -53,7 +58,3 @@ const RenderFormInner = <T,>(
 		</>
 	)
 }
-
-export const RenderForm = forwardRef(RenderFormInner) as <T>(
-	props: RenderFormProps<T> & {ref?: ForwardedRef<View>}
-) => ReturnType<typeof RenderFormInner>

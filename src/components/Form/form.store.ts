@@ -1,7 +1,7 @@
-import {namePath, type NamePath} from '../../utils'
+import {validate, ValidationError} from 'class-validator'
 
-import {createFormFieldValidator} from './Form.handler'
 import type {
+	CreateFormFieldValidatorOptions,
 	FormCallbacks,
 	FormErrors,
 	FormFieldEntity,
@@ -14,6 +14,8 @@ import type {
 	ValuesChangeEvent
 } from './Form.interface'
 
+import {namePath, type NamePath} from '../../utils'
+
 const createFormContext = <T>() => ({
 	callbacks: {} as FormCallbacks<T>,
 	errors: {} as FormErrors<T>,
@@ -25,7 +27,26 @@ const createFormContext = <T>() => ({
 	validatorOptions: undefined as FormValidatorOptions | undefined
 })
 
-export const formStore = <T extends Record<string, unknown> = Record<string, unknown>>(
+const createFormFieldValidator = <T>(name: keyof T, {rule, validatorOptions}: CreateFormFieldValidatorOptions) => {
+	const {
+		forbidNonWhitelisted: isForbidNonWhitelisted = true,
+		skipMissingProperties: isSkipMissingProperties = true,
+		whitelist: isWhitelist = true,
+		...otherValidatorOptions
+	} = validatorOptions ?? {}
+
+	return async (value?: unknown) =>
+		name && rule ?
+			validate(Object.assign(new rule(), {[name]: value}), {
+				...otherValidatorOptions,
+				forbidNonWhitelisted: isForbidNonWhitelisted,
+				skipMissingProperties: isSkipMissingProperties,
+				whitelist: isWhitelist
+			}).then(errors => (errors.length ? errors : undefined))
+		:	([] as ValidationError[])
+}
+
+export const formStore = <T extends Record<string, unknown>>(
 	{validateFields: rawValidateFields} = {} as FormStoreOptions<T>
 ) => {
 	let {
@@ -40,20 +61,18 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 	} = createFormContext<T>()
 
 	const getFieldEntities = (signOut = false) => (signOut ? fieldEntities : fieldEntities.filter(({name}) => name))
-	const getFieldEntitiesName =
-		(signOut = false) =>
-		(names?: (keyof T)[]) => {
-			const entityNames = getFieldEntities(signOut).map(({name}) => name)
-			const namesSet = new Set(names)
+	const getFieldEntitiesName = (names?: (keyof T)[], signOut = false) => {
+		const entityNames = getFieldEntities(signOut).map(({name}) => name)
+		const namesSet = new Set(names)
 
-			return [...(names ? entityNames.filter(name => name && namesSet.has(name)) : entityNames)]
-		}
+		return [...(names ? entityNames.filter(name => name && namesSet.has(name)) : entityNames)]
+	}
 
 	const getFieldsError = ((namePaths?: NamePath<T>) => {
 		const names = namePath(namePaths)
 		const err =
 			names ?
-				getFieldEntitiesName()(names).reduce(
+				getFieldEntitiesName(names).reduce(
 					(accumulator, entityName) =>
 						entityName ? {...accumulator, [entityName]: errors[entityName]} : accumulator,
 					{} as FormErrors<T>
@@ -67,7 +86,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 		const names = namePath(namePaths)
 		const value =
 			names ?
-				getFieldEntitiesName()(names).reduce(
+				getFieldEntitiesName(names).reduce(
 					(accumulator, entityName) =>
 						entityName ? {...accumulator, [entityName]: store[entityName]} : accumulator,
 					{} as T
@@ -81,7 +100,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 		const names = namePath(namePaths)
 		const value =
 			names ?
-				getFieldEntitiesName()(names).reduce(
+				getFieldEntitiesName(names).reduce(
 					(accumulator, entityName) =>
 						entityName ? {...accumulator, [entityName]: initialValues[entityName]} : accumulator,
 					{} as T
@@ -97,7 +116,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 		const isFieldTouchedByName = (entityName?: keyof T) =>
 			entityName && entities.find(entity => entity.name === entityName)?.touched
 
-		return getFieldEntitiesName()(names).map(isFieldTouchedByName).every(Boolean)
+		return getFieldEntitiesName(names).map(isFieldTouchedByName).every(Boolean)
 	}
 
 	const resetFields = (namePaths?: NamePath<T>) => {
@@ -107,128 +126,115 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 				return
 			}
 
-			setFieldsError()({[entityName]: undefined} as FormErrors<T>)
-			setFieldsValue({componentUpdate: true, enableValidate: false})({[entityName]: undefined} as T)
+			setFieldsError({[entityName]: undefined} as FormErrors<T>)
+			setFieldsValue({[entityName]: undefined} as T, {componentUpdate: true, enableValidate: false})
 		}
 
-		getFieldEntitiesName()(names).forEach(resetFormFieldByName)
+		getFieldEntitiesName(names).forEach(resetFormFieldByName)
 	}
 
 	const setCallbacks = (callbackValues: FormCallbacks<T>) => (callbacks = {...callbacks, ...callbackValues})
-	const setFieldsError =
-		(componentUpdate = false) =>
-		(errs: FormErrors<T>) => {
-			errors = {...errors, ...errs}
+	const setFieldsError = (errs: FormErrors<T>, componentUpdate = false) => {
+		errors = {...errors, ...errs}
 
-			if (componentUpdate) {
-				const entities = getFieldEntities()
-				const errKeys = Object.keys(errs) as (keyof T)[]
-
-				entities.forEach(entity => entity.name && errKeys.includes(entity.name) && entity.onComponentUpdate())
-			}
-		}
-
-	const setFieldKeys = (keys?: (keyof T)[]) => keys && (fieldKeys = keys)
-	const setFieldsValidate =
-		(validatorOptions: FormValidatorOptions = {}) =>
-		(validateRule: FormValidateRule<T>) => {
-			if (!isSignInFieldCompleted) {
-				return
-			}
-
-			const createNextValidator = (entity: FormFieldEntity<T>) =>
-				createFormFieldValidator<T>({
-					rule: validateRule[entity.name],
-					validatorOptions: {...validatorOptions, ...rawValidatorOptions}
-				})(entity.name)
-
+		if (componentUpdate) {
 			const entities = getFieldEntities()
-			const ruleKeysSet = new Set(Object.keys(validateRule) as (keyof T)[])
+			const errKeys = Object.keys(errs) as (keyof T)[]
 
-			fieldEntities = entities.reduce(
-				(accumulator, entity) =>
-					entity.name && ruleKeysSet.has(entity.name) ?
-						[...accumulator, {...entity, validate: createNextValidator(entity)}]
-					:	[...accumulator, entity],
-				[] as FormFieldEntity<T>[]
-			)
-
-			rawValidatorOptions ??= validatorOptions
+			entities.forEach(entity => entity.name && errKeys.includes(entity.name) && entity.onComponentUpdate())
 		}
-
-	const setFieldsTouched =
-		(touched = false) =>
-		(name?: keyof T) => {
-			if (!(name || isSignInFieldCompleted)) {
-				return
-			}
-
-			fieldEntities = [
-				...getFieldEntities().map(entity => (entity.name === name ? {...entity, touched} : entity))
-			]
-		}
-
-	const updateStoreWithCallback =
-		(onStoreChange?: (event: ValuesChangeEvent<T>) => void) =>
-		(values = {} as T) => {
-			store = {...store, ...values}
-
-			onStoreChange?.({changedValues: values, values: store})
-		}
-
-	const createFieldEntityUpdateHandler = (enableValidate = true) => {
-		const findEntity = (name: keyof T) => getFieldEntities().find(entityItem => name === entityItem.name)
-
-		return (value = {} as T) =>
-			async (name: keyof T) => {
-				const entity = findEntity(name)
-
-				if (!entity?.name) {
-					return
-				}
-
-				updateStoreWithCallback()(value)
-
-				if (errors[name]) {
-					setFieldsError()({[name]: undefined} as FormErrors<T>)
-				}
-
-				setFieldsTouched(true)(name)
-
-				if (enableValidate) {
-					validateFields(name)
-
-					return
-				}
-
-				entity.onComponentUpdate()
-			}
 	}
 
-	const createNotifyValuesChange =
-		(values = {} as T) =>
-		() =>
-			callbacks.onValuesChange?.({changedValues: values, values: store})
+	const setFieldKeys = (keys?: (keyof T)[]) => keys && (fieldKeys = keys)
+	const setFieldsValidate = (validateRule: FormValidateRule<T>, validatorOptions: FormValidatorOptions = {}) => {
+		if (!isSignInFieldCompleted) {
+			return
+		}
 
-	const setFieldsValue =
-		({componentUpdate = true, enableValidate = true} = {} as SetFieldsValueOptions) =>
-		(values = {} as T) => {
-			const {onValuesChange} = callbacks
-			const fieldEntityUpdateHandler = createFieldEntityUpdateHandler(enableValidate)(values)
-			const notifyValuesChange = createNotifyValuesChange(values)
+		const createNextValidator = (entity: FormFieldEntity<T>) =>
+			entity.name &&
+			createFormFieldValidator(entity.name, {
+				rule: validateRule[entity.name],
+				validatorOptions: {...validatorOptions, ...rawValidatorOptions}
+			})
 
-			if (componentUpdate) {
-				Promise.all(Object.keys(values).map(fieldEntityUpdateHandler)).then(notifyValuesChange)
+		const entities = getFieldEntities()
+		const ruleKeysSet = new Set(Object.keys(validateRule) as (keyof T)[])
+
+		fieldEntities = entities.reduce(
+			(accumulator, entity) =>
+				entity.name && ruleKeysSet.has(entity.name) ?
+					[...accumulator, {...entity, validate: createNextValidator(entity)}]
+				:	[...accumulator, entity],
+			[] as FormFieldEntity<T>[]
+		)
+
+		rawValidatorOptions ??= validatorOptions
+	}
+
+	const setFieldsTouched = (name: keyof T, touched = false) => {
+		if (!(name || isSignInFieldCompleted)) {
+			return
+		}
+
+		fieldEntities = [...getFieldEntities().map(entity => (entity.name === name ? {...entity, touched} : entity))]
+	}
+
+	const updateStoreWithCallback = (values = {} as T, onStoreChange?: (event: ValuesChangeEvent<T>) => void) => {
+		store = {...store, ...values}
+
+		onStoreChange?.({changedValues: values, values: store})
+	}
+
+	const createFieldEntityUpdateHandler = (value = {} as T, enableValidate = true) => {
+		const findEntity = (name: keyof T) => getFieldEntities().find(entityItem => name === entityItem.name)
+
+		return async (name: keyof T) => {
+			const entity = findEntity(name)
+
+			if (!entity?.name) {
+				return
+			}
+
+			updateStoreWithCallback(value)
+
+			if (errors[name]) {
+				setFieldsError({[name]: undefined} as FormErrors<T>)
+			}
+
+			setFieldsTouched(name, true)
+
+			if (enableValidate) {
+				validateFields(name)
 
 				return
 			}
 
-			updateStoreWithCallback(onValuesChange)(values)
+			entity.onComponentUpdate()
 		}
+	}
+
+	const setFieldsValue = (
+		values = {} as T,
+		{componentUpdate = true, enableValidate = true} = {} as SetFieldsValueOptions
+	) => {
+		const {onValuesChange} = callbacks
+		const fieldEntityUpdateHandler = createFieldEntityUpdateHandler(values, enableValidate)
+
+		if (componentUpdate) {
+			Promise.all(Object.keys(values).map(fieldEntityUpdateHandler)).then(() =>
+				callbacks.onValuesChange?.({changedValues: values, values: store})
+			)
+
+			return
+		}
+
+		updateStoreWithCallback(values, onValuesChange)
+	}
 
 	const setInitialValues = (values = {} as T) => (initialValues = {...initialValues, ...values})
 	const signInField = (rawEntity: SignInFieldOptions<T>) => {
-		const {name, validatorOptions, rule} = rawEntity
+		const {name, rule, validatorOptions} = rawEntity
 
 		if (!name) {
 			return
@@ -243,11 +249,14 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 
 		fieldEntities = [
 			...entities,
-			{...rawEntity, validate: createFormFieldValidator<T>({rule, validatorOptions})(rawEntity.name)}
+			{
+				...rawEntity,
+				validate: rawEntity.name && createFormFieldValidator<T>(rawEntity.name, {rule, validatorOptions})
+			}
 		]
 
-		setFieldsError()({[name]: undefined} as FormErrors<T>)
-		setFieldsValue({componentUpdate: false, enableValidate: false})({[name]: initialValues[name]} as T)
+		setFieldsError({[name]: undefined} as FormErrors<T>)
+		setFieldsValue({[name]: initialValues[name]} as T, {componentUpdate: false, enableValidate: false})
 
 		const fieldEntityNames = fieldEntities.map(entity => entity.name)
 		const fieldKeysSet = new Set(fieldKeys)
@@ -286,7 +295,7 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 			fieldEntities = entities.filter(entity => entity.name !== signOutName)
 		}
 
-		getFieldEntitiesName()(names).forEach(signOutFormField)
+		getFieldEntitiesName(names).forEach(signOutFormField)
 	}
 
 	const defaultValidateFields = (async (namePaths?: NamePath<T>) => {
@@ -304,10 +313,10 @@ export const formStore = <T extends Record<string, unknown> = Record<string, unk
 			return {[entityName]: error} as FormErrors<T>
 		}
 
-		const fieldErrors = await Promise.all(getFieldEntitiesName()(names).map(validateFormField))
+		const fieldErrors = await Promise.all(getFieldEntitiesName(names).map(validateFormField))
 		const errs = fieldErrors.reduce((accumulator, value) => ({...accumulator, ...value}), {} as FormErrors<T>)
 
-		setFieldsError(true)(errs)
+		setFieldsError(errs, true)
 
 		return !Array.isArray(namePaths) && namePaths ? errs[namePaths] : errs
 	}) as FormStore<T>['validateFields']

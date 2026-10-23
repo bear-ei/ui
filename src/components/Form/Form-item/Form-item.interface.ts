@@ -1,5 +1,5 @@
 import type {ValidationError, ValidatorOptions} from 'class-validator'
-import type {RefAttributes} from 'react'
+import type {JSX, RefAttributes} from 'react'
 import type {NativeSyntheticEvent, TargetedEvent, View, ViewProps} from 'react-native'
 
 import type {ComponentStatus} from '../../../constants'
@@ -20,13 +20,13 @@ export interface FormItemProps
 		Partial<ViewProps & Pick<FormItemControlProps, 'labelText'> & RefAttributes<View>>,
 		Pick<FormProps, 'validatorOptions'> {
 	initialValues?: Record<string, unknown>
-	name?: string
-	renderControl?: (props: FormItemControlProps) => React.JSX.Element
+	name: string
+	renderControl?: (props: FormItemControlProps) => JSX.Element
 	rule?: ValidationRule
 }
 
-export interface RenderFormItemProps extends Omit<FormItemProps, 'rule'> {
-	controlElement?: React.JSX.Element
+export interface RenderFormItemProps extends Omit<FormItemProps, 'rule' | 'name'> {
+	controlElement?: JSX.Element
 }
 
 export type FormItemBaseProps = FormItemProps
@@ -39,7 +39,7 @@ export interface UpdateFormFieldValueIfChangedOptions extends Pick<FormStore, 's
 	storeValue?: unknown
 }
 
-export type ApplyFormItemStatusInitToDraftOptions = Pick<FormItemBaseProps, 'name' | 'rule'> & {
+export type ApplyFormItemStatusInitToDraftOptions = Pick<FormItemBaseProps, 'rule'> & {
 	onComponentUpdate: () => void
 	validatorOptions?: ValidatorOptions
 } & Pick<FormStore, 'signInField'>

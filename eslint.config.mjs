@@ -69,6 +69,12 @@ const configs = [
 		}
 	},
 	{
+		files: ['src/utils/typed-memo/**/*.tsx', 'src/components/Form/Form.interface.ts'],
+		rules: {
+			'@typescript-eslint/no-explicit-any': 'off'
+		}
+	},
+	{
 		ignores: [
 			'.prettierrc.js',
 			'.rnstorybook/**.ts',

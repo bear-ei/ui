@@ -1,27 +1,9 @@
-import type {ForwardedRef} from 'react'
-import {forwardRef} from 'react'
-import type {View} from 'react-native'
+import type {FormProps} from './Form.interface'
 
 import {typedMemo} from '../../utils'
-
 import {FormBase} from './Form-base.component'
-import type {FormProps} from './Form.interface'
-import {useForm} from './use-form.hook'
 
-const FormInner = <T,>(props: FormProps<T>, ref: ForwardedRef<View>) => (
-	<FormBase
-		{...props}
-		ref={ref}
-	/>
-)
+const FormInner = <T,>(props: FormProps<T>) => <FormBase {...props} />
+FormInner.displayName = 'Form'
 
-const FormInnerWithRef = forwardRef(FormInner)
-
-FormInnerWithRef.displayName = 'Form'
-
-export const Form = Object.assign(
-	typedMemo(FormInnerWithRef) as <T>(
-		props: FormProps<T> & {ref?: ForwardedRef<View>}
-	) => ReturnType<typeof FormInner>,
-	{useForm}
-)
+export const Form = typedMemo(FormInner) as <T>(props: FormProps<T>) => ReturnType<typeof FormInner>

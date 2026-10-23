@@ -1,18 +1,7 @@
-import {forwardRef} from 'react'
-import type {View} from 'react-native'
-
-import {typedMemo} from '../../../utils'
-
-import {FormItemBase} from './Form-item-base.component'
 import type {FormItemProps} from './Form-item.interface'
 
-const FormItemWithRef = forwardRef<View, FormItemProps>((props, ref) => (
-	<FormItemBase
-		{...props}
-		ref={ref}
-	/>
-))
+import {typedMemo} from '../../../utils'
+import {FormItemBase} from './Form-item-base.component'
 
-FormItemWithRef.displayName = 'FormItem'
-
-export const FormItem = typedMemo(FormItemWithRef)
+export const FormItem = typedMemo((props: FormItemProps) => <FormItemBase {...props} />)
+FormItem.displayName = 'FormItem'
