@@ -45,4 +45,4 @@ export const RenderLayoutPane: FC<RenderLayoutPaneProps> = ({
 	)
 }
 
-RenderLayoutPane.displayName = 'RenderLayoutPane'
+

@@ -1,10 +1,11 @@
-import {forwardRef} from 'react'
 import type {ScrollView} from 'react-native'
 
-import {typedMemo} from '../../utils'
+import {forwardRef} from 'react'
 
-import {ListBase} from './List-base.component'
 import type {ListProps} from './List.interface'
+
+import {typedMemo} from '../../utils'
+import {ListBase} from './List-base.component'
 
 const ListWithRef = forwardRef<ScrollView, ListProps>((props, ref) => (
 	<ListBase
@@ -12,7 +13,5 @@ const ListWithRef = forwardRef<ScrollView, ListProps>((props, ref) => (
 		ref={ref}
 	/>
 ))
-
-ListWithRef.displayName = 'List'
 
 export const List = typedMemo(ListWithRef)

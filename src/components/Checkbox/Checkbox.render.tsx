@@ -156,4 +156,4 @@ export const RenderCheckbox: FC<RenderCheckboxProps> = ({
 	)
 }
 
-RenderCheckbox.displayName = 'RenderCheckbox'
+

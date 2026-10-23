@@ -102,4 +102,4 @@ export const RenderAvatar: FC<RenderAvatarProps> = ({
 	)
 }
 
-RenderAvatar.displayName = 'RenderAvatar'
+

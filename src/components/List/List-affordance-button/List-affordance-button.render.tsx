@@ -104,4 +104,4 @@ export const RenderListAffordanceButton = forwardRef<PressableType, RenderListAf
 	}
 )
 
-RenderListAffordanceButton.displayName = 'RenderListAffordanceButton'
+

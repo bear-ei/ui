@@ -51,4 +51,4 @@ export const TouchableRippleBase: FC<TouchableRippleBaseProps> = ({
 	)
 }
 
-TouchableRippleBase.displayName = 'TouchableRippleBase'
+

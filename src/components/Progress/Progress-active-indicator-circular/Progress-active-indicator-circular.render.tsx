@@ -88,4 +88,4 @@ export const RenderProgressActiveIndicatorCircular: FC<RenderProgressActiveIndic
 	)
 }
 
-RenderProgressActiveIndicatorCircular.displayName = 'RenderProgressActiveIndicatorCircular'
+

@@ -44,4 +44,4 @@ export const ElevationBase: FC<ElevationBaseProps> = ({
 	)
 }
 
-ElevationBase.displayName = 'ElevationBase'
+

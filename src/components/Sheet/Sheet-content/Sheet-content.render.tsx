@@ -272,4 +272,4 @@ export const RenderSheetContent: FC<RenderSheetContentProps> = ({
 	)
 }
 
-RenderSheetContent.displayName = 'RenderSheetContent'
+

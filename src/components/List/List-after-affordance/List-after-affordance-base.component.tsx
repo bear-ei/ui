@@ -95,4 +95,4 @@ export const ListAfterAffordanceBase = forwardRef<View, ListAfterAffordanceBaseP
 	}
 )
 
-ListAfterAffordanceBase.displayName = 'ListAfterAffordanceBase'
+

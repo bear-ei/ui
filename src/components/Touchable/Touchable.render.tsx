@@ -80,5 +80,3 @@ export const RenderTouchable: FC<RenderTouchableProps> = ({
 		</Pressable>
 	)
 }
-
-RenderTouchable.displayName = 'RenderTouchable'

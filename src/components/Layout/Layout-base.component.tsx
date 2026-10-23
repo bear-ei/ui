@@ -24,4 +24,3 @@ export const LayoutBase: FC<LayoutBaseProps> = ({
 		/>
 	)
 }
-LayoutBase.displayName = 'LayoutBase'

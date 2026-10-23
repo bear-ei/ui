@@ -218,5 +218,3 @@ export const RenderTextInput: FC<RenderTextInputProps> = ({
 		</View>
 	)
 }
-
-RenderTextInput.displayName = 'RenderTextInput'

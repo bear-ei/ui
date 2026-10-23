@@ -37,4 +37,4 @@ export const RenderDrag: FC<RenderDragProps> = ({
 	)
 }
 
-RenderDrag.displayName = 'RenderDrag'
+

@@ -138,5 +138,3 @@ export const RenderNavigationRailItem: FC<RenderNavigationRailItemProps> = ({
 		</View>
 	)
 }
-
-RenderNavigationRailItem.displayName = 'RenderNavigationRailItem'

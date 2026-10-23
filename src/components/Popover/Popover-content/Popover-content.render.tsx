@@ -1,6 +1,9 @@
 import {cloneElement, forwardRef, isValidElement, useMemo} from 'react'
 import {Platform, Pressable, Text, View, type ViewStyle} from 'react-native'
 
+import type {MenuProps} from '../../Menu'
+import type {RenderPopoverContentProps} from './Popover-content.interface'
+
 import {POPOVER_CONTENT_POSITION, POPOVER_TYPE} from '..'
 import {LAYOUT, OFF_SCREEN_LAYOUT} from '../../../constants'
 import {useTheme} from '../../../hooks'
@@ -9,10 +12,7 @@ import {platformValue} from '../../../utils'
 import {Elevation} from '../../Elevation'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
 import {Mask} from '../../Mask'
-import type {MenuProps} from '../../Menu'
-
 import {getSafeMenuPosition} from './Popover-content.handler'
-import type {RenderPopoverContentProps} from './Popover-content.interface'
 
 export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 	(
@@ -42,7 +42,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 	) => {
 		const {onLayout, ...mainInteractionHandlers} = interactionHandlers
 		const {token} = useTheme()
-		const {classesName, shapeClasses, typographyClasses, densityClasses} = token.classes
+		const {classesName, densityClasses, shapeClasses, typographyClasses} = token.classes
 		const densityHorizontalInsetClasses = densityClasses(DENSITY_TYPE.INSET)(LAYOUT.HORIZONTAL)
 		const {
 			height: containerHeight = 0,
@@ -53,16 +53,10 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 
 		const position = useMemo(
 			() => ({
-				[POPOVER_CONTENT_POSITION.VERTICAL_START]: () => {
-					const x = containerX - (width - containerWidth) / 2
-					const y =
-						containerY -
-						height -
-						(type === POPOVER_TYPE.TEXT_INPUT_PICKER ?
-							token.density.spacing[DENSITY_SIZE.NONE]
-						:	token.density.spacing[DENSITY_SIZE.X_SMALL])
-
-					const {left} = getSafeMenuPosition({
+				[POPOVER_CONTENT_POSITION.HORIZONTAL_END]: () => {
+					const x = containerX + containerWidth + token.density.spacing[DENSITY_SIZE.X_SMALL]
+					const y = containerY - (height - containerHeight) / 2
+					const {top} = getSafeMenuPosition({
 						height,
 						margin: token.density.spacing[DENSITY_SIZE.MEDIUM],
 						width,
@@ -72,7 +66,22 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 						y
 					})
 
-					return {left, top: y}
+					return {left: x, top}
+				},
+				[POPOVER_CONTENT_POSITION.HORIZONTAL_START]: () => {
+					const x = containerX - width - token.density.spacing[DENSITY_SIZE.X_SMALL]
+					const y = containerY - (height - containerHeight) / 2
+					const {top} = getSafeMenuPosition({
+						height,
+						margin: token.density.spacing[DENSITY_SIZE.MEDIUM],
+						width,
+						windowHeight,
+						windowWidth,
+						x,
+						y
+					})
+
+					return {left: x, top}
 				},
 				[POPOVER_CONTENT_POSITION.VERTICAL_END]: () => {
 					const x = containerX - (width - containerWidth) / 2
@@ -95,10 +104,16 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 
 					return {left, top: y}
 				},
-				[POPOVER_CONTENT_POSITION.HORIZONTAL_START]: () => {
-					const x = containerX - width - token.density.spacing[DENSITY_SIZE.X_SMALL]
-					const y = containerY - (height - containerHeight) / 2
-					const {top} = getSafeMenuPosition({
+				[POPOVER_CONTENT_POSITION.VERTICAL_START]: () => {
+					const x = containerX - (width - containerWidth) / 2
+					const y =
+						containerY -
+						height -
+						(type === POPOVER_TYPE.TEXT_INPUT_PICKER ?
+							token.density.spacing[DENSITY_SIZE.NONE]
+						:	token.density.spacing[DENSITY_SIZE.X_SMALL])
+
+					const {left} = getSafeMenuPosition({
 						height,
 						margin: token.density.spacing[DENSITY_SIZE.MEDIUM],
 						width,
@@ -108,22 +123,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 						y
 					})
 
-					return {left: x, top}
-				},
-				[POPOVER_CONTENT_POSITION.HORIZONTAL_END]: () => {
-					const x = containerX + containerWidth + token.density.spacing[DENSITY_SIZE.X_SMALL]
-					const y = containerY - (height - containerHeight) / 2
-					const {top} = getSafeMenuPosition({
-						height,
-						margin: token.density.spacing[DENSITY_SIZE.MEDIUM],
-						width,
-						windowHeight,
-						windowWidth,
-						x,
-						y
-					})
-
-					return {left: x, top}
+					return {left, top: y}
 				}
 			}),
 			[
@@ -208,21 +208,21 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 
 		const positionOutputRanges = useMemo(
 			() => ({
-				[POPOVER_CONTENT_POSITION.VERTICAL_START]: {
-					animatedType: verticalAnimatedType,
-					outputRanges: startOutputRanges
-				},
-				[POPOVER_CONTENT_POSITION.VERTICAL_END]: {
-					animatedType: verticalAnimatedType,
+				[POPOVER_CONTENT_POSITION.HORIZONTAL_END]: {
+					animatedType: horizontalAnimatedType,
 					outputRanges: endOutputRanges
 				},
 				[POPOVER_CONTENT_POSITION.HORIZONTAL_START]: {
 					animatedType: horizontalAnimatedType,
 					outputRanges: startOutputRanges
 				},
-				[POPOVER_CONTENT_POSITION.HORIZONTAL_END]: {
-					animatedType: horizontalAnimatedType,
+				[POPOVER_CONTENT_POSITION.VERTICAL_END]: {
+					animatedType: verticalAnimatedType,
 					outputRanges: endOutputRanges
+				},
+				[POPOVER_CONTENT_POSITION.VERTICAL_START]: {
+					animatedType: verticalAnimatedType,
+					outputRanges: startOutputRanges
 				}
 			}),
 			[startOutputRanges, verticalAnimatedType, endOutputRanges, horizontalAnimatedType]
@@ -269,15 +269,15 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 						:	content}
 					</View>
 				:	<Text
-						ellipsizeMode='tail'
-						numberOfLines={1}
-						testID={`popoverContent__supportingText--${id}`}
 						className={classesName(
 							'select-none text-center',
 							typographyClasses(TYPOGRAPHY.BODY)(TYPOGRAPHY_SIZE.SMALL)({
 								colorClasses: 'color-[--color-inverse-on-surface]'
 							})
 						)}
+						ellipsizeMode='tail'
+						numberOfLines={1}
+						testID={`popoverContent__supportingText--${id}`}
 					>
 						{content}
 					</Text>
@@ -306,14 +306,14 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 				<LayoutAnimated
 					{...containerProps}
 					animatedType={animatedType}
-					contentSize={contentSize}
-					entry={entry}
-					exit={exit}
 					className={classesName('z-50 ', {
 						['absolute']: Platform.OS !== 'web',
 						['fixed']: Platform.OS === 'web',
 						['min-h-[--typography-body-large-height]']: !menuOrPicker
 					})}
+					contentSize={contentSize}
+					entry={entry}
+					exit={exit}
 					outputRanges={outputRanges}
 					ref={ref}
 					style={contentStyle}
@@ -344,13 +344,13 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 						testID={`popoverContent_elevationLayout--${id}`}
 					>
 						<Elevation
+							entry={entry}
+							exit={exit}
 							level={elevation}
 							onAnimationFinished={onElevationAnimationFinished}
 							radius={RADIUS.MEDIUM}
 							shape={shape}
 							testID={`popoverContent_elevation--${id}`}
-							entry={entry}
-							exit={exit}
 						/>
 					</View>
 				)}
@@ -358,5 +358,3 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 		)
 	}
 )
-
-RenderPopoverContent.displayName = 'RenderPopoverContent'

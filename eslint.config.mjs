@@ -69,7 +69,11 @@ const configs = [
 		}
 	},
 	{
-		files: ['src/utils/typed-memo/**/*.tsx', 'src/components/Form/Form.interface.ts'],
+		files: [
+			'src/utils/typed-memo/**/*.tsx',
+			'src/components/Form/Form.interface.ts',
+			'src/components/Virtual-list/Virtual-list.interface.ts'
+		],
 		rules: {
 			'@typescript-eslint/no-explicit-any': 'off'
 		}

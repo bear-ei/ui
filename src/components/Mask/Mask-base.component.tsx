@@ -17,5 +17,3 @@ export const MaskBase: FC<MaskBaseProps> = ({onPress, onPressIn, onPressOut, ...
 		/>
 	)
 }
-
-MaskBase.displayName = 'MaskBase'

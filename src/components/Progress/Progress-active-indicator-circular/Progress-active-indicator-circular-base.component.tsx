@@ -57,5 +57,3 @@ export const ProgressActiveIndicatorCircularBase: FC<ProgressActiveIndicatorCirc
 		/>
 	)
 }
-
-ProgressActiveIndicatorCircularBase.displayName = 'ProgressActiveIndicatorCircularBase'

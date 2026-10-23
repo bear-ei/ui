@@ -43,5 +43,3 @@ export const RenderSkeletonElement: FC<RenderSkeletonElementProps> = ({
 		</View>
 	)
 }
-
-RenderSkeletonElement.displayName = 'RenderSkeletonElement'

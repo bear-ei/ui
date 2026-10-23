@@ -2,6 +2,8 @@ import {forwardRef, useCallback, useEffect, useId, useMemo, useRef} from 'react'
 import {type LayoutRectangle, type View} from 'react-native'
 import {useImmer} from 'use-immer'
 
+import type {PopoverContentBaseProps, PopoverContentState} from './Popover-content.interface'
+
 import {POPOVER_TYPE, type PopoverType} from '..'
 import {type State} from '../../../constants'
 import {
@@ -14,7 +16,6 @@ import {
 	type StateEvent
 } from '../../../hooks'
 import {DENSITY_SIZE, UI_DENSITY} from '../../../theme'
-
 import {
 	getPopoverContentPosition,
 	handleMaskPressOut,
@@ -22,7 +23,6 @@ import {
 	handlePopoverContentStateChange,
 	updatePopoverContentPosition
 } from './Popover-content.handler'
-import type {PopoverContentBaseProps, PopoverContentState} from './Popover-content.interface'
 import {RenderPopoverContent} from './Popover-content.render'
 
 export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
@@ -39,7 +39,7 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
 		},
 		ref
 	) => {
-		const [{layout, invert: isInvert, menuPosition, pendingAnimationFinishedEvent}, setState] =
+		const [{invert: isInvert, layout, menuPosition, pendingAnimationFinishedEvent}, setState] =
 			useImmer<PopoverContentState>({layout: {} as Partial<LayoutRectangle>, menuPosition: {}})
 
 		usePendingEvent({
@@ -49,7 +49,7 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
 			setState
 		})
 
-		const {width: windowWidth, height: windowHeight} = useWindowDimensions()
+		const {height: windowHeight, width: windowWidth} = useWindowDimensions()
 		const containerRef = useRef<View>(null)
 		const mergedRef = useMergeRefs([ref, containerRef])
 		const id = useId()
@@ -77,7 +77,7 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
 		const onMaskPressOut = useMemo(() => handleMaskPressOut(onVisible), [onVisible])
 		const onStateEventChange = useCallback(
 			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				handlePopoverContentStateChange({...options, state, onVisible, triggerEvent})(setState)(event),
+				handlePopoverContentStateChange({...options, onVisible, state, triggerEvent})(setState)(event),
 			[onVisible, setState, triggerEvent]
 		)
 
@@ -93,7 +93,7 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
 		useEffect(() => {
 			let isCancelled = false
 
-			runUpdatePosition({visible, windowHeight, windowWidth, layout, isCancelled: () => isCancelled})
+			runUpdatePosition({isCancelled: () => isCancelled, layout, visible, windowHeight, windowWidth})
 
 			return () => {
 				isCancelled = true
@@ -122,5 +122,3 @@ export const PopoverContentBase = forwardRef<View, PopoverContentBaseProps>(
 		)
 	}
 )
-
-PopoverContentBase.displayName = 'PopoverContentBase'

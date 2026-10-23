@@ -77,4 +77,4 @@ export const RenderSearch = forwardRef<TextInput, RenderSearchProps>(
 	}
 )
 
-RenderSearch.displayName = 'RenderSearch'
+

@@ -66,5 +66,3 @@ export const SheetBase: FC<SheetBaseProps> = ({
 
 	return type === SIDE_SHEET_TYPE.SIDEBAR ? <RenderSheet {...renderProps} /> : <></>
 }
-
-SheetBase.displayName = 'SheetBase'

@@ -148,5 +148,3 @@ export const MenuBase = forwardRef<View, MenuBaseProps>(
 		)
 	}
 )
-
-MenuBase.displayName = 'MenuBase'

@@ -13,6 +13,6 @@ const PopoverPressableLayoutWithRef = forwardRef<PressableType, PopoverLayoutPro
 	/>
 ))
 
-PopoverPressableLayoutWithRef.displayName = 'PopoverPressableLayout'
+
 
 export const PopoverPressableLayout = typedMemo(PopoverPressableLayoutWithRef)

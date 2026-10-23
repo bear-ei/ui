@@ -169,4 +169,4 @@ export const RenderSearchTextInput = forwardRef<TextInput, RenderSearchTextInput
 	}
 )
 
-RenderSearchTextInput.displayName = 'RenderSearchTextInput'
+

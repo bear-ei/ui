@@ -66,4 +66,4 @@ export const DragBase: FC<DragBaseProps> = ({
 	)
 }
 
-DragBase.displayName = 'DragBase'
+

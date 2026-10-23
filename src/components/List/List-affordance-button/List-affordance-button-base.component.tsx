@@ -47,4 +47,4 @@ export const ListAffordanceButtonBase = forwardRef<PressableType, ListAffordance
 	}
 )
 
-ListAffordanceButtonBase.displayName = 'ListAffordanceButtonBase'
+

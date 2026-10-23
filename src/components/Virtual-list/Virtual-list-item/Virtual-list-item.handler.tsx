@@ -6,12 +6,8 @@ import type {
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import {COMPONENT_STATUS} from '../../../constants'
-import type {AnimatedTimingOptions, AnimateSharedValueTo} from '../../../hooks'
-import {DURATION, EASING} from '../../../theme'
-import {extractDragEventPayload} from '../extract-drag-event-payload.utils'
+import type {AnimatedTiming} from '../../../hooks'
 import type {NativeDragEvent} from '../Virtual-list.interface'
-
 import type {
 	AnimateVirtualListItemTranslateOptions,
 	HandleVirtualListItemDragEndOptions,
@@ -19,6 +15,10 @@ import type {
 	VirtualListItemProps,
 	VirtualListItemState
 } from './Virtual-list-item.interface'
+
+import {COMPONENT_STATUS} from '../../../constants'
+import {DURATION, EASING} from '../../../theme'
+import {extractDragEventPayload} from '../extract-drag-event-payload.utils'
 
 export const compareVirtualListItemProps = (prevProps: VirtualListItemProps, nextProps: VirtualListItemProps) => {
 	const {
@@ -64,8 +64,8 @@ export const compareVirtualListItemProps = (prevProps: VirtualListItemProps, nex
 		prevDependencies?.some((dependence, index) => dependence !== nextDependencies?.[index])
 
 	const isItemDependenciesChanged =
-		prevItem?.dependencies?.length !== nextItem?.dependencies?.length ||
-		prevItem?.dependencies?.some((dependence, index) => dependence !== nextItem?.dependencies?.[index])
+		prevItem.dependencies?.length !== nextItem.dependencies?.length ||
+		prevItem.dependencies?.some((dependence, index) => dependence !== nextItem.dependencies?.[index])
 
 	return ![
 		isDependenciesChanged,
@@ -74,7 +74,7 @@ export const compareVirtualListItemProps = (prevProps: VirtualListItemProps, nex
 		prevContainerLayout?.height !== nextContainerLayout?.height,
 		isPrevDraggable !== isNextDraggable,
 		prevGap !== nextGap,
-		prevItem?.index !== nextItem?.index,
+		prevItem.index !== nextItem.index,
 		prevItemSize !== nextItemSize,
 		prevLayoutType !== nextLayoutType,
 		prevOnClose !== nextOnClose,
@@ -89,42 +89,34 @@ export const compareVirtualListItemProps = (prevProps: VirtualListItemProps, nex
 	].some(Boolean)
 }
 
-export const triggerVirtualListItemClose = (onClose?: (indexKey?: string) => void) => (indexKey?: string) => () => {
-	if (!indexKey) {
-		return
-	}
+export const animateVirtualListItemTranslate = (
+	sharedValue: SharedValue<number>,
+	animatedTiming: AnimatedTiming,
+	{onAnimationFinished}: AnimateVirtualListItemTranslateOptions
+) => {
+	const animateSharedValueTo = animatedTiming(sharedValue, {
+		callback: (finished?: boolean) => finished && onAnimationFinished?.(),
+		duration: DURATION.SHORT_2,
+		easing: EASING.STANDARD
+	})
 
-	onClose?.(indexKey)
+	return (offsetY: number) => animateSharedValueTo(offsetY)
 }
 
-export const animateVirtualListItemTranslate =
-	({animatedTiming, onAnimationFinished}: AnimateVirtualListItemTranslateOptions) =>
-	(translateSharedValue: SharedValue<number>) => {
-		const animateSharedValueTo = animatedTiming({
-			callback: (finished?: boolean) => finished && onAnimationFinished?.(),
-			duration: DURATION.SHORT_2,
-			easing: EASING.STANDARD
-		})({sharedValue: translateSharedValue})
+export const animateVirtualListItemScale = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
+	const animateSharedValueTo = animatedTiming(sharedValue, {
+		duration: DURATION.SHORT_2,
+		easing: EASING.STANDARD
+	})
 
-		return (offsetY: number) => animateSharedValueTo(offsetY)
-	}
-
-export const animateVirtualListItemScale =
-	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
-	(scaleSharedValue: SharedValue<number>) => {
-		const animateSharedValueTo = animatedTiming({
-			duration: DURATION.SHORT_2,
-			easing: EASING.STANDARD
-		})({sharedValue: scaleSharedValue})
-
-		return (dragging?: boolean) => {
-			if (typeof dragging !== 'boolean') {
-				return
-			}
-
-			animateSharedValueTo(dragging ? 1 : 0)
+	return (dragging?: boolean) => {
+		if (typeof dragging !== 'boolean') {
+			return
 		}
+
+		animateSharedValueTo(dragging ? 1 : 0)
 	}
+}
 
 export const updateVirtualListItemStatus = (setState: Updater<VirtualListItemState>) => () =>
 	setState(draft => {
@@ -134,8 +126,7 @@ export const updateVirtualListItemStatus = (setState: Updater<VirtualListItemSta
 	})
 
 export const handleVirtualListItemDragUpdate =
-	(onDragUpdate?: (event: NativeDragEvent) => void) =>
-	(indexKey?: string) =>
+	(indexKey: string, onDragUpdate?: (event: NativeDragEvent) => void) =>
 	(event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
 		if (!indexKey) {
 			return
@@ -150,13 +141,8 @@ export const handleVirtualListItemAnimationFinished = (setState: Updater<Virtual
 	})
 
 export const handleVirtualListItemDragStart =
-	({indexKey, onDragStart}: HandleVirtualListItemDragStartOptions) =>
-	(setState: Updater<VirtualListItemState>) =>
-	(event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
-		if (!indexKey) {
-			return
-		}
-
+	(indexKey: string, setState: Updater<VirtualListItemState>, {onDragStart}: HandleVirtualListItemDragStartOptions) =>
+	(event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) =>
 		setState(draft => {
 			draft.dragging = true
 			draft.zIndex = 1024
@@ -168,16 +154,14 @@ export const handleVirtualListItemDragStart =
 				}
 			}
 		})
-	}
 
 export const handleVirtualListItemDragEnd =
-	({onDragEnd, indexKey, dragRef}: HandleVirtualListItemDragEndOptions) =>
-	(setState: Updater<VirtualListItemState>) =>
+	(
+		indexKey: string,
+		setState: Updater<VirtualListItemState>,
+		{dragRef, onDragEnd}: HandleVirtualListItemDragEndOptions
+	) =>
 	(event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
-		if (!indexKey) {
-			return
-		}
-
 		setState(draft => {
 			draft.dragging = false
 
@@ -193,7 +177,7 @@ export const handleVirtualListItemDragEnd =
 	}
 
 export const updateVirtualListItemIndex =
-	(dragging?: boolean) => (setState: Updater<VirtualListItemState>) => (index: number) => {
+	(setState: Updater<VirtualListItemState>, dragging?: boolean) => (index: number) => {
 		if (dragging) {
 			return
 		}

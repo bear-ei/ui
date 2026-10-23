@@ -111,4 +111,4 @@ export const RenderListAfterAffordance = forwardRef<View, RenderListAfterAfforda
 	}
 )
 
-RenderListAfterAffordance.displayName = 'RenderListAfterAffordance'
+

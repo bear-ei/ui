@@ -1,6 +1,12 @@
-import {cloneElement, forwardRef, useMemo, type Ref} from 'react'
-import {ScrollView, Text, View, type ViewStyle} from 'react-native'
+import {cloneElement, useMemo, type FC} from 'react'
+import {Text, View, type ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
+
+import type {
+	RenderVirtualListItemInfo,
+	RenderVirtualListItemOptions,
+	RenderVirtualListProps
+} from './Virtual-list.interface'
 
 import {COMPONENT_STATUS, LAYOUT} from '../../constants'
 import {useTheme} from '../../hooks'
@@ -8,15 +14,9 @@ import {DURATION, EASING, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '../../theme'
 import {platformValue} from '../../utils'
 import {AnimatedView} from '../Animated'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
-
 import {VirtualListItem} from './Virtual-list-item'
-import type {
-	RenderVirtualListItemInfo,
-	RenderVirtualListItemOptions,
-	RenderVirtualListProps
-} from './Virtual-list.interface'
 
-export const RenderVirtualListItem = <T,>({
+export const RenderVirtualListItem = ({
 	containerLayout,
 	data,
 	draggable,
@@ -24,7 +24,7 @@ export const RenderVirtualListItem = <T,>({
 	onLoadEnd,
 	renderItem,
 	...virtualListItemProps
-}: RenderVirtualListItemOptions<T>) => {
+}: RenderVirtualListItemOptions) => {
 	if (data?.length === 0) {
 		onLoadEnd?.()
 
@@ -41,38 +41,39 @@ export const RenderVirtualListItem = <T,>({
 					draggable={draggable}
 					item={item}
 					key={item.indexKey}
-					testID={`virtualList__virtualListItem--${id}`}
 					renderItem={
 						renderItem as (options: RenderVirtualListItemInfo<Record<string, unknown>>) => React.JSX.Element
 					}
+					testID={`virtualList__virtualListItem--${id}`}
 				/>
 			))}
 		</>
 	)
 }
 
-export const RenderVirtualListInner = <T,>(
-	{
-		containerLayout,
-		contentAnimatedStyle,
-		contentSize = 0,
-		emptyElement,
-		emptyList,
-		id,
-		interactionHandlers,
-		itemElements,
-		layoutType,
-		loading,
-		loadingElement,
-		scrollEventThrottle = 30,
-		status,
-		testID,
-		...containerProps
-	}: RenderVirtualListProps<T>,
-	ref: React.ForwardedRef<Animated.ScrollView>
-) => {
+export const RenderVirtualList: FC<RenderVirtualListProps> = ({
+	containerLayout,
+	contentAnimatedStyle,
+	contentSize = 0,
+	emptyElement,
+	emptyList,
+	id,
+	interactionHandlers,
+	itemElements,
+	layoutType,
+	loading,
+	loadingElement,
+	scrollEventThrottle = 30,
+	status,
+	testID,
+	...containerProps
+}) => {
 	const {token} = useTheme()
 	const {typographyClasses} = token.classes
+	const typographyBodyClasses = typographyClasses(TYPOGRAPHY.BODY, {
+		colorClasses: 'color-[--color-on-surface-variant]'
+	})
+
 	const {onLayout} = interactionHandlers
 	const isContentVisible = !loading && !emptyList && typeof emptyList === 'boolean'
 	const isEmptyContentVisible = !loading && emptyList && status === COMPONENT_STATUS.SUCCEEDED
@@ -116,7 +117,6 @@ export const RenderVirtualListInner = <T,>(
 						{...containerProps}
 						contentContainerStyle={contentContainerStyle}
 						horizontal={layoutType === LAYOUT.HORIZONTAL}
-						ref={ref}
 						scrollEventThrottle={scrollEventThrottle}
 						testID={`virtualList__animatedScrollView--${id}`}
 					>
@@ -142,9 +142,7 @@ export const RenderVirtualListInner = <T,>(
 			>
 				{emptyElement ?? (
 					<Text
-						className={typographyClasses(TYPOGRAPHY.BODY)(TYPOGRAPHY_SIZE.MEDIUM)({
-							colorClasses: 'color-[--color-on-surface-variant]'
-						})}
+						className={typographyBodyClasses(TYPOGRAPHY_SIZE.MEDIUM)}
 						testID={`virtualList__supportingText--${id}`}
 					>
 						No data
@@ -164,9 +162,7 @@ export const RenderVirtualListInner = <T,>(
 				{loadingElement ?
 					cloneElement(loadingElement, {loading})
 				:	<Text
-						className={typographyClasses(TYPOGRAPHY.BODY)(TYPOGRAPHY_SIZE.MEDIUM)({
-							colorClasses: 'color-[--color-on-surface-variant]'
-						})}
+						className={typographyBodyClasses(TYPOGRAPHY_SIZE.MEDIUM)}
 						testID={`virtualList__supportingText--${id}`}
 					>
 						Loading
@@ -176,7 +172,3 @@ export const RenderVirtualListInner = <T,>(
 		</View>
 	)
 }
-
-export const RenderVirtualList = forwardRef(RenderVirtualListInner) as <T>(
-	props: RenderVirtualListProps<T> & {ref?: Ref<ScrollView>}
-) => ReturnType<typeof RenderVirtualListInner>

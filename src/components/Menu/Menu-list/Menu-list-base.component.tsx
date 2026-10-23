@@ -33,5 +33,3 @@ export const MenuListBase = forwardRef<View, MenuListBaseProps>(({visible, type,
 		/>
 	)
 })
-
-MenuListBase.displayName = 'MenuListBase'

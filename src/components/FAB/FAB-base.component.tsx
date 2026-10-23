@@ -82,4 +82,4 @@ export const FABBase: FC<FABBaseProps> = ({
 	)
 }
 
-FABBase.displayName = 'FABBase'
+

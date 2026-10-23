@@ -17,5 +17,3 @@ export const DividerBase: FC<DividerBaseProps> = ({layoutType, size, subheader, 
 		/>
 	)
 }
-
-DividerBase.displayName = 'DividerBase'

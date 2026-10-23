@@ -37,5 +37,3 @@ export const RenderElevation: FC<RenderElevationProps> = ({
 		</View>
 	)
 }
-
-RenderElevation.displayName = 'RenderElevation'

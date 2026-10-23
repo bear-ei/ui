@@ -51,4 +51,4 @@ export const ProgressActiveIndicatorLinearBase: FC<ProgressActiveIndicatorLinear
 	)
 }
 
-ProgressActiveIndicatorLinearBase.displayName = 'ProgressActiveIndicatorLinearBase'
+

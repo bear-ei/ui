@@ -28,5 +28,3 @@ export const SkeletonBase: FC<SkeletonBaseProps> = ({duration, enableAnimated = 
 		/>
 	)
 }
-
-SkeletonBase.displayName = 'SkeletonBase'

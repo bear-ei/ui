@@ -25,4 +25,4 @@ export const LayoutPaneBase: FC<LayoutPaneBaseProps> = ({
 	)
 }
 
-LayoutPaneBase.displayName = 'LayoutPaneBase'
+

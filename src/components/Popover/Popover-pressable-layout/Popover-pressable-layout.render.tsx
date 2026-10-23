@@ -1,13 +1,13 @@
 import {forwardRef, useMemo} from 'react'
 import {Platform, Pressable, View, type ViewStyle} from 'react-native'
 
+import type {RenderPopoverLayoutProps} from './Popover-pressable-layout.interface'
+
 import {useTheme} from '../../../hooks'
 import {platformValue} from '../../../utils'
 
-import type {RenderPopoverLayoutProps} from './Popover-pressable-layout.interface'
-
 export const RenderPopoverPressableLayout = forwardRef<View, RenderPopoverLayoutProps>(
-	({containerLayout, id, className, ...pressableProps}, ref) => {
+	({className, containerLayout, id, ...pressableProps}, ref) => {
 		const {token} = useTheme()
 		const {classesName} = token.classes
 		const {
@@ -31,7 +31,6 @@ export const RenderPopoverPressableLayout = forwardRef<View, RenderPopoverLayout
 		return (
 			<Pressable
 				{...pressableProps}
-				ref={ref}
 				className={classesName(
 					'z-50 min-h-[--typography-body-small-height]',
 					{
@@ -40,11 +39,10 @@ export const RenderPopoverPressableLayout = forwardRef<View, RenderPopoverLayout
 					},
 					className
 				)}
+				ref={ref}
 				style={pressableLayoutStyle}
 				testID={`popover__pressableLayout--${id}`}
 			/>
 		)
 	}
 )
-
-RenderPopoverPressableLayout.displayName = 'RenderPopoverPressableLayout'

@@ -64,5 +64,3 @@ export const RenderSupportingText: FC<RenderSupportingTextProps> = ({
 		</LayoutAnimated>
 	)
 }
-
-RenderSupportingText.displayName = 'RenderSupportingText'

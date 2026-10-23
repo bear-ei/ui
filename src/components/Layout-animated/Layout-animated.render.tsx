@@ -36,5 +36,3 @@ export const RenderLayoutAnimated: FC<RenderLayoutAnimatedProps> = ({
 		</AnimatedView>
 	)
 }
-
-RenderLayoutAnimated.displayName = 'RenderLayoutAnimated'

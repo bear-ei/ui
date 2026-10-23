@@ -236,4 +236,4 @@ export const RenderButton: FC<RenderButtonProps> = ({
 	)
 }
 
-RenderButton.displayName = 'RenderButton'
+

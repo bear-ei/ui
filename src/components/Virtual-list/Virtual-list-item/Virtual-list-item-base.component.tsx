@@ -1,119 +1,99 @@
-import {forwardRef, useEffect, useId, useMemo, useRef} from 'react'
-import type {View} from 'react-native'
+import {useEffect, useId, useMemo, useRef, type FC} from 'react'
 import {useImmer} from 'use-immer'
+
+import type {DragRef} from '../../Drag'
+import type {VirtualListItemBaseProps, VirtualListItemState} from './Virtual-list-item.interface'
 
 import {COMPONENT_STATUS} from '../../../constants'
 import {usePendingEvent} from '../../../hooks'
-import type {DragRef} from '../../Drag'
-
 import {useVirtualListItemAnimated} from './use-virtual-list-item-animated.hook'
 import {
 	handleVirtualListItemAnimationFinished,
 	handleVirtualListItemDragEnd,
 	handleVirtualListItemDragStart,
 	handleVirtualListItemDragUpdate,
-	triggerVirtualListItemClose,
 	updateVirtualListItemIndex,
 	updateVirtualListItemStatus
 } from './Virtual-list-item.handler'
-import type {VirtualListItemBaseProps, VirtualListItemState} from './Virtual-list-item.interface'
 import {RenderVirtualListItem} from './Virtual-list-item.render'
 
-export const VirtualListItemBase = forwardRef<View, VirtualListItemBaseProps>(
-	(
-		{
-			item,
-			itemSize = 0,
-			layoutType,
-			onClose: rawOnClose,
-			onDragEnd: rawOnDragEnd,
-			onDragStart: rawOnDragStart,
-			onDragUpdate: rawOnDragUpdate,
-			onLoadEnd,
-			renderItem,
-			scrollOffset = 0,
-			...renderVirtualListItemProps
-		},
-		ref
-	) => {
-		const [{dragging: isDragging, index, pendingDragEndEvent, pendingDragStartEvent, status, zIndex}, setState] =
-			useImmer<VirtualListItemState>({status: COMPONENT_STATUS.IDLE, zIndex: 0})
+export const VirtualListItemBase: FC<VirtualListItemBaseProps> = ({
+	item,
+	itemSize = 0,
+	layoutType,
+	onClose,
+	onDragEnd: rawOnDragEnd,
+	onDragStart: rawOnDragStart,
+	onDragUpdate: rawOnDragUpdate,
+	onLoadEnd,
+	renderItem,
+	scrollOffset = 0,
+	...renderVirtualListItemProps
+}) => {
+	const [{dragging: isDragging, index, pendingDragEndEvent, pendingDragStartEvent, status, zIndex}, setState] =
+		useImmer<VirtualListItemState>({status: COMPONENT_STATUS.IDLE, zIndex: 0})
 
-		usePendingEvent({
-			eventKey: 'pendingDragStartEvent',
-			func: rawOnDragStart,
-			pendingEvent: pendingDragStartEvent,
-			setState
-		})
+	usePendingEvent('pendingDragStartEvent', rawOnDragStart, {pendingEvent: pendingDragStartEvent, setState})
+	usePendingEvent('pendingDragEndEvent', rawOnDragEnd, {pendingEvent: pendingDragEndEvent, setState})
 
-		usePendingEvent({
-			eventKey: 'pendingDragEndEvent',
-			func: rawOnDragEnd,
-			pendingEvent: pendingDragEndEvent,
-			setState
-		})
+	const id = useId()
+	const {index: rawIndex = 0, indexKey} = item
+	const dragRef = useRef<DragRef>(null)
+	const offset = itemSize * (index ?? rawIndex)
+	const dragOffset = offset - scrollOffset
+	const onDragUpdate = useMemo(
+		() => handleVirtualListItemDragUpdate(indexKey, rawOnDragUpdate),
+		[indexKey, rawOnDragUpdate]
+	)
 
-		const id = useId()
-		const {index: rawIndex = 0, indexKey} = item ?? {}
-		const dragRef = useRef<DragRef>(null)
-		const offset = itemSize * (index ?? rawIndex)
-		const dragOffset = offset - scrollOffset
-		const onDragUpdate = useMemo(
-			() => handleVirtualListItemDragUpdate(rawOnDragUpdate)(indexKey),
-			[indexKey, rawOnDragUpdate]
-		)
+	const onDragStart = useMemo(
+		() => handleVirtualListItemDragStart(indexKey, setState, {onDragStart: rawOnDragStart}),
+		[indexKey, rawOnDragStart, setState]
+	)
 
-		const onDragStart = useMemo(
-			() => handleVirtualListItemDragStart({onDragStart: rawOnDragStart, indexKey})(setState),
-			[indexKey, rawOnDragStart, setState]
-		)
+	const onDragEnd = useMemo(
+		() => handleVirtualListItemDragEnd(indexKey, setState, {dragRef, onDragEnd: rawOnDragEnd}),
+		[indexKey, rawOnDragEnd, setState]
+	)
 
-		const onDragEnd = useMemo(
-			() => handleVirtualListItemDragEnd({onDragEnd: rawOnDragEnd, indexKey, dragRef})(setState),
-			[indexKey, rawOnDragEnd, setState]
-		)
+	const onAnimationFinished = useMemo(() => handleVirtualListItemAnimationFinished(setState), [setState])
+	const {containerAnimatedStyle} = useVirtualListItemAnimated({
+		dragging: isDragging,
+		layoutType,
+		offset,
+		onAnimationFinished,
+		status
+	})
 
-		const onClose = useMemo(() => triggerVirtualListItemClose(rawOnClose)(indexKey), [indexKey, rawOnClose])
-		const onAnimationFinished = useMemo(() => handleVirtualListItemAnimationFinished(setState), [setState])
-		const {containerAnimatedStyle} = useVirtualListItemAnimated({
-			dragging: isDragging,
-			layoutType,
-			offset,
-			onAnimationFinished,
-			status
-		})
+	const runUpdateIndex = useMemo(() => updateVirtualListItemIndex(setState, isDragging), [isDragging, setState])
+	const runUpdateStatus = useMemo(() => updateVirtualListItemStatus(setState), [setState])
+	const itemElement = renderItem?.({item: {...item, onClose, onLoadEnd}})
 
-		const runUpdateIndex = useMemo(() => updateVirtualListItemIndex(isDragging)(setState), [isDragging, setState])
-		const runUpdateStatus = useMemo(() => updateVirtualListItemStatus(setState), [setState])
-		const itemElement = !item ? <></> : renderItem?.({item: {...item, onClose, onLoadEnd}})
+	useEffect(() => {
+		runUpdateIndex(rawIndex)
+	}, [rawIndex, runUpdateIndex])
 
-		useEffect(() => {
-			runUpdateIndex(rawIndex)
-		}, [rawIndex, runUpdateIndex])
+	useEffect(() => {
+		runUpdateStatus()
+	}, [runUpdateStatus])
 
-		useEffect(() => {
-			runUpdateStatus()
-		}, [runUpdateStatus])
+	return (
+		<RenderVirtualListItem
+			{...renderVirtualListItemProps}
+			containerAnimatedStyle={containerAnimatedStyle}
+			dragging={isDragging}
+			dragOffset={dragOffset}
+			dragRef={dragRef}
+			id={id}
+			itemElement={itemElement}
+			itemSize={itemSize}
+			layoutType={layoutType}
+			onDragEnd={onDragEnd}
+			onDragStart={onDragStart}
+			onDragUpdate={onDragUpdate}
+			zIndex={zIndex}
+		/>
+	)
+}
 
-		return (
-			<RenderVirtualListItem
-				{...renderVirtualListItemProps}
-				containerAnimatedStyle={containerAnimatedStyle}
-				dragging={isDragging}
-				dragOffset={dragOffset}
-				dragRef={dragRef}
-				id={id}
-				itemElement={itemElement}
-				itemSize={itemSize}
-				layoutType={layoutType}
-				onDragEnd={onDragEnd}
-				onDragStart={onDragStart}
-				onDragUpdate={onDragUpdate}
-				ref={ref}
-				zIndex={zIndex}
-			/>
-		)
-	}
-)
 
-VirtualListItemBase.displayName = 'VirtualListItemBase'

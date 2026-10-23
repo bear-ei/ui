@@ -132,4 +132,4 @@ export const LayoutAnimatedBase: FC<LayoutAnimatedBaseProps> = ({
 	)
 }
 
-LayoutAnimatedBase.displayName = 'LayoutAnimatedBase'
+

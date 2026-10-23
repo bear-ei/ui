@@ -13,6 +13,6 @@ const MenuListWithRef = forwardRef<View, MenuListProps>((props, ref) => (
 	/>
 ))
 
-MenuListWithRef.displayName = 'MenuList'
+
 
 export const MenuList = typedMemo(MenuListWithRef)

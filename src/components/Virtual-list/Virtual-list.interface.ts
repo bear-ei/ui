@@ -1,9 +1,7 @@
-import type {RefAttributes, RefObject} from 'react'
-import type {ScrollView, ScrollViewProps, ViewStyle} from 'react-native'
-import type {NativeScrollEvent} from 'react-native'
+import type {JSX, RefAttributes, RefObject} from 'react'
+import type {NativeScrollEvent, ScrollView, ScrollViewProps, ViewStyle} from 'react-native'
 import type {PanGestureHandlerEventPayload} from 'react-native-gesture-handler'
 import type {AnimatedStyle} from 'react-native-reanimated'
-import type {Updater} from 'use-immer'
 
 import type {ComponentStatus, LayoutRectangle, LayoutType} from '../../constants'
 import type {InteractionHandlers} from '../../hooks'
@@ -36,7 +34,8 @@ export interface NativeDragEvent extends PanGestureHandlerEventPayload {
 	targetKey?: string
 }
 
-export interface VirtualListProps<T> extends Omit<ScrollViewProps, 'onScroll'>, RefAttributes<ScrollView>, ThemeProps {
+export interface VirtualListProps<T = any>
+	extends Omit<ScrollViewProps, 'onScroll'>, RefAttributes<ScrollView>, ThemeProps {
 	activeKey?: string
 	data?: VirtualListData<T>[]
 	dependencies?: unknown[]
@@ -56,21 +55,20 @@ export interface VirtualListProps<T> extends Omit<ScrollViewProps, 'onScroll'>, 
 	onEndReached?: () => void
 	onLoadEnd?: (indexKey?: string) => void
 	onScroll?: (event: NativeScrollEvent) => void
-	renderItem?: (options: RenderVirtualListItemInfo<T>) => React.JSX.Element
+	renderItem?: (options: RenderVirtualListItemInfo<T>) => JSX.Element
 }
 
-export interface RenderVirtualListProps<T = Record<string, unknown>>
-	extends Omit<VirtualListProps<T>, 'onScroll'>, Pick<ScrollViewProps, 'onScroll'> {
+export interface RenderVirtualListProps extends Omit<VirtualListProps, 'onScroll'>, Pick<ScrollViewProps, 'onScroll'> {
 	containerLayout: Partial<LayoutRectangle>
 	contentAnimatedStyle?: AnimatedStyle<ViewStyle>
 	contentSize?: number
 	emptyList?: boolean
 	interactionHandlers: InteractionHandlers
-	itemElements?: React.JSX.Element
+	itemElements?: JSX.Element
 	status: ComponentStatus
 }
 
-export type VirtualListBaseProps<T> = VirtualListProps<T>
+export type VirtualListBaseProps = VirtualListProps
 export interface VirtualListState {
 	dragging?: boolean
 	dragScrollOffset?: number
@@ -123,8 +121,8 @@ export interface UseVirtualListScrollAnimatedOptions extends Pick<
 	contentSize?: number
 }
 
-export interface RenderVirtualListItemOptions<T> extends Pick<
-	RenderVirtualListProps<T>,
+export interface RenderVirtualListItemOptions extends Pick<
+	RenderVirtualListProps,
 	| 'containerLayout'
 	| 'data'
 	| 'dependencies'
@@ -157,7 +155,6 @@ export interface CalculateVirtualListVisibleRangeOptions {
 
 export interface HandleVirtualListDragEndOptions {
 	endIndex?: number
-	setState: Updater<VirtualListState>
 	startIndex?: number
 }
 

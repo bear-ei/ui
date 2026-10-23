@@ -22,4 +22,4 @@ export const LayoutNavigationBase: FC<LayoutNavigationBaseProps> = ({
 	)
 }
 
-LayoutNavigationBase.displayName = 'LayoutNavigationBase'
+

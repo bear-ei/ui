@@ -10,4 +10,4 @@ export const ProgressActiveIndicatorLinear = typedMemo((props: ProgressActiveInd
 	<ProgressActiveIndicatorLinearBase {...props} />
 ))
 
-ProgressActiveIndicatorLinear.displayName = 'ProgressActiveIndicatorLinear'
+

@@ -36,5 +36,3 @@ export const RenderSheet: FC<RenderSheetProps> = ({
 		</>
 	)
 }
-
-RenderSheet.displayName = 'RenderSheet'

@@ -1,13 +1,13 @@
 import {forwardRef, useMemo} from 'react'
 import {Platform, View, type ViewStyle} from 'react-native'
 
+import type {RenderMenuListProps} from './Menu-list.interface'
+
 import {useTheme} from '../../../hooks'
 import {DENSITY_SIZE} from '../../../theme'
 import {platformValue} from '../../../utils'
 import {List, LIST_SELECT_TYPE, LIST_TYPE} from '../../List'
 import {POPOVER_TYPE} from '../../Popover'
-
-import type {RenderMenuListProps} from './Menu-list.interface'
 
 export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
 	(
@@ -57,5 +57,3 @@ export const RenderMenuList = forwardRef<View, RenderMenuListProps>(
 		)
 	}
 )
-
-RenderMenuList.displayName = 'RenderMenuList'

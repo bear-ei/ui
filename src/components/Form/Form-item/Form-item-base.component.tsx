@@ -74,4 +74,3 @@ export const FormItemBase: FC<FormItemBaseProps> = ({
 	)
 }
 
-FormItemBase.displayName = 'FormItemBase'

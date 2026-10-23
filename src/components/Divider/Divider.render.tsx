@@ -63,5 +63,3 @@ export const RenderDivider: FC<RenderDividerProps> = ({
 		</View>
 	)
 }
-
-RenderDivider.displayName = 'RenderDivider'

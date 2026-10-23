@@ -91,5 +91,3 @@ export const NavigationRailItemBase: FC<NavigationRailItemBaseProps> = ({
 		/>
 	)
 }
-
-NavigationRailItemBase.displayName = 'NavigationRailItemBase'

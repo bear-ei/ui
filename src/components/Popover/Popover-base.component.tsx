@@ -14,6 +14,8 @@ import {TextInput, View} from 'react-native'
 import {useImmer} from 'use-immer'
 
 import type {State} from '../../constants'
+import type {PopoverBaseProps, PopoverState} from './Popover.interface'
+
 import {
 	useInteractionStateEvent,
 	useMergeRefs,
@@ -22,7 +24,6 @@ import {
 	type StateEvent
 } from '../../hooks'
 import {debounce} from '../../utils'
-
 import {POPOVER_TYPE} from './Popover.enum'
 import {
 	emitPopoverContent,
@@ -36,7 +37,6 @@ import {
 	updatePopoverElevation,
 	updatePopoverVisible
 } from './Popover.handler'
-import type {PopoverBaseProps, PopoverState} from './Popover.interface'
 import {RenderPopover} from './Popover.render'
 
 export const PopoverBase = forwardRef<View, PopoverBaseProps>(
@@ -64,10 +64,10 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
 				contextMenuLayout,
 				elevation,
 				pendingAnimationFinishedEvent,
+				pendingEmitContentEvent,
 				pendingUnmountContentEvent,
 				pendingUnmountPressableLayoutEvent,
 				pendingVisibleEvent,
-				pendingEmitContentEvent,
 				visible: isVisible
 			},
 			setState
@@ -147,7 +147,7 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
 		)
 
 		const onContextMenu = useMemo(
-			() => updatePopoverContextMenuLayout(setState)({onVisible, disabled: isDisabled}),
+			() => updatePopoverContextMenuLayout(setState)({disabled: isDisabled, onVisible}),
 			[isDisabled, onVisible, setState]
 		)
 
@@ -229,7 +229,7 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
 			}
 
 			containerRef.current?.measureInWindow((x, y, width, height) =>
-				runEmitContent({containerLayout: {x, y, width, height}, visible: isVisible})
+				runEmitContent({containerLayout: {height, width, x, y}, visible: isVisible})
 			)
 		}, [contextMenuLayout, isVisible, runEmitContent])
 
@@ -270,5 +270,3 @@ export const PopoverBase = forwardRef<View, PopoverBaseProps>(
 		)
 	}
 )
-
-PopoverBase.displayName = 'PopoverBase'

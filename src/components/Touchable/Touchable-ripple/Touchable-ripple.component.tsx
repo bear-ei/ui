@@ -8,5 +8,3 @@ export const TouchableRipple = typedMemo(
 	(props: TouchableRippleProps) => <TouchableRippleBase {...props} />,
 	compareTouchableRippleProps
 )
-
-TouchableRipple.displayName = 'TouchableRipple'

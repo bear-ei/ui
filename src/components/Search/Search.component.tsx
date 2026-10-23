@@ -1,10 +1,11 @@
-import {forwardRef} from 'react'
 import type {TextInput as RNTextInput} from 'react-native'
 
-import {typedMemo} from '../../utils'
+import {forwardRef} from 'react'
 
-import {SearchBase} from './Search-base.component'
 import type {SearchProps} from './Search.interface'
+
+import {typedMemo} from '../../utils'
+import {SearchBase} from './Search-base.component'
 
 const SearchWithRef = forwardRef<RNTextInput, SearchProps>((props, ref) => (
 	<SearchBase
@@ -12,7 +13,5 @@ const SearchWithRef = forwardRef<RNTextInput, SearchProps>((props, ref) => (
 		ref={ref}
 	/>
 ))
-
-SearchWithRef.displayName = 'Search'
 
 export const Search = typedMemo(SearchWithRef)

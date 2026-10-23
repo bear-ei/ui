@@ -136,4 +136,4 @@ export const SearchBase = forwardRef<TextInput, SearchBaseProps>(
 	}
 )
 
-SearchBase.displayName = 'SearchBase'
+

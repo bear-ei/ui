@@ -61,5 +61,3 @@ export const TouchableBase: FC<TouchableBaseProps> = ({
 		/>
 	)
 }
-
-TouchableBase.displayName = 'TouchableBase'

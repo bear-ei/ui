@@ -48,5 +48,3 @@ export const RenderTouchableRipple: FC<RenderTouchableRippleProps> = ({
 		/>
 	)
 }
-
-RenderTouchableRipple.displayName = 'RenderTouchableRipple'

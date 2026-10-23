@@ -8,16 +8,15 @@ import type {
 import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {ComponentStatus} from '../../../constants'
-import type {AnimatedTimingOptions, AnimateSharedValueTo} from '../../../hooks'
 import type {DragRef} from '../../Drag'
-import type {NativeDragEvent, Item, RenderVirtualListProps} from '../Virtual-list.interface'
+import type {Item, NativeDragEvent, VirtualListProps} from '../Virtual-list.interface'
 
-export interface VirtualListItemProps<T = Record<string, unknown>>
+export interface VirtualListItemProps
 	extends
 		ViewProps,
 		RefAttributes<View>,
 		Pick<
-			RenderVirtualListProps<T>,
+			VirtualListProps,
 			| 'dependencies'
 			| 'draggable'
 			| 'gap'
@@ -29,17 +28,17 @@ export interface VirtualListItemProps<T = Record<string, unknown>>
 			| 'shape'
 		> {
 	containerLayout?: Partial<LayoutRectangle>
-	item?: T & Item
+	item: Item
+	onClose?: (indexKey: string) => void
 	onDragEnd?: (event: NativeDragEvent) => void
 	onDragStart?: (event: NativeDragEvent) => void
 	onDragUpdate?: (event: NativeDragEvent) => void
-	onClose?: (indexKey?: string) => void
 	scrollOffset?: number
 }
 
-export interface RenderVirtualListItemProps<T = Record<string, unknown>> extends Omit<
-	VirtualListItemProps<T>,
-	'onUnmount' | 'onDragUpdate' | 'onDragEnd' | 'onDragStart'
+export interface RenderVirtualListItemProps extends Omit<
+	VirtualListItemProps,
+	'onUnmount' | 'onDragUpdate' | 'onDragEnd' | 'onDragStart' | 'item'
 > {
 	containerAnimatedStyle?: AnimatedStyle<ViewStyle>
 	dragging?: boolean
@@ -47,14 +46,14 @@ export interface RenderVirtualListItemProps<T = Record<string, unknown>> extends
 	dragRef?: React.RefObject<DragRef | null>
 	itemElement?: React.JSX.Element
 	offset?: number
+	onClose?: () => void
 	onDragEnd?: (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => void
 	onDragStart?: (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => void
 	onDragUpdate?: (event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => void
-	onClose?: () => void
 	zIndex?: number
 }
 
-export type VirtualListItemBaseProps<T = Record<string, unknown>> = VirtualListItemProps<T>
+export type VirtualListItemBaseProps = VirtualListItemProps
 export interface VirtualListItemState {
 	dragging?: boolean
 	index?: number
@@ -72,17 +71,8 @@ export interface UseVirtualListItemAnimatedOptions extends Pick<VirtualListItemP
 }
 
 export interface HandleVirtualListItemDragEndOptions extends Pick<VirtualListItemProps, 'onDragEnd'> {
-	indexKey?: string
 	dragRef: React.RefObject<DragRef | null>
 }
 
-export interface HandleVirtualListItemDragStartOptions extends Pick<VirtualListItemProps, 'onDragStart'> {
-	indexKey?: string
-}
-
-export interface AnimateVirtualListItemTranslateOptions extends Pick<
-	UseVirtualListItemAnimatedOptions,
-	'onAnimationFinished'
-> {
-	animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo
-}
+export type HandleVirtualListItemDragStartOptions = Pick<VirtualListItemProps, 'onDragStart'>
+export type AnimateVirtualListItemTranslateOptions = Pick<UseVirtualListItemAnimatedOptions, 'onAnimationFinished'>

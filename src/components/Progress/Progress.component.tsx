@@ -4,4 +4,4 @@ import {typedMemo} from '../../utils'
 import {ProgressBase} from './Progress-base.component'
 
 export const Progress = typedMemo((props: ProgressProps) => <ProgressBase {...props} />)
-Progress.displayName = 'Progress'
+

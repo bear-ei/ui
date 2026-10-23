@@ -38,5 +38,3 @@ export const RenderLayoutNavigation: FC<RenderLayoutNavigationProps> = ({
 		</LayoutAnimated>
 	)
 }
-
-RenderLayoutNavigation.displayName = 'RenderLayoutNavigation'

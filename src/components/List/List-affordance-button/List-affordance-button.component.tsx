@@ -13,6 +13,6 @@ const ListAffordanceButtonWithRef = forwardRef<PressableType, ListAffordanceButt
 	/>
 ))
 
-ListAffordanceButtonWithRef.displayName = 'ListAffordanceButton'
+
 
 export const ListAffordanceButton = typedMemo(ListAffordanceButtonWithRef)

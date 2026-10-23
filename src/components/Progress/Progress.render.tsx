@@ -63,4 +63,4 @@ export const RenderProgress: FC<RenderProgressProps> = ({
 	)
 }
 
-RenderProgress.displayName = 'RenderProgress'
+

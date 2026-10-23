@@ -1,10 +1,12 @@
-import {forwardRef, useEffect, useId, useMemo, useRef} from 'react'
 import type {ScrollView} from 'react-native'
+
+import {forwardRef, useEffect, useId, useMemo, useRef} from 'react'
 import {useImmer} from 'use-immer'
+
+import type {ListBaseProps, ListState} from './List.interface'
 
 import {LAYOUT} from '../../constants'
 import {useMergeRefs, usePendingEvent, useTheme} from '../../hooks'
-
 import {LIST_TYPE} from './List.enum'
 import {
 	createListItemRenderer,
@@ -13,7 +15,6 @@ import {
 	updateListActiveState,
 	updateListAffordanceActiveState
 } from './List.handler'
-import type {ListBaseProps, ListState} from './List.interface'
 import {RenderList} from './List.render'
 
 export const ListBase = forwardRef<ScrollView, ListBaseProps>(
@@ -37,13 +38,13 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 			loadingElement,
 			onActive: rawOnActive,
 			onActives,
-			onSecondaryAction,
 			onClose: rawOnClose,
 			onConfirm,
 			onItemStateEvent,
+			onSecondaryAction,
+			radius,
 			renderItem: rawRenderItem,
 			selectType,
-			radius,
 			shape,
 			size,
 			skeletonDuration = 0,
@@ -61,9 +62,9 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 				activeKeys,
 				afterAffordanceActiveKey,
 				pendingActiveEvent,
+				pendingActivesEvent,
 				pendingAfterAffordanceActiveEvent,
 				pendingAfterAffordanceEvent,
-				pendingActivesEvent,
 				pendingCloseEvent
 			},
 			setState
@@ -113,7 +114,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 		const {token} = useTheme()
 		const itemSize = createListItemSize(size)(token)(rawItemSize)
 		const onActive = useMemo(
-			() => updateListActiveState({onActive: rawOnActive, selectType, onActives, deselect})(setState),
+			() => updateListActiveState({deselect, onActive: rawOnActive, onActives, selectType})(setState),
 			[deselect, onActives, rawOnActive, selectType, setState]
 		)
 
@@ -124,7 +125,7 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 
 		const onClose = useMemo(() => triggerListClose(rawOnClose)(setState), [rawOnClose, setState])
 		const runUpdateActive = useMemo(
-			() => updateListActiveState({selectType, deselect})(setState),
+			() => updateListActiveState({deselect, selectType})(setState),
 			[deselect, selectType, setState]
 		)
 
@@ -212,5 +213,3 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 		)
 	}
 )
-
-ListBase.displayName = 'ListBase'

@@ -1,10 +1,10 @@
 import {forwardRef} from 'react'
 
-import {typedMemo} from '../../../utils'
+import type {ListItemProps, ListItemRef} from './List-item.interface'
 
+import {typedMemo} from '../../../utils'
 import {ListItemBase} from './List-item-base.component'
 import {compareListItemProps} from './List-item.handler'
-import type {ListItemProps, ListItemRef} from './List-item.interface'
 
 const ListItemWithRef = forwardRef<ListItemRef, ListItemProps>((props, ref) => (
 	<ListItemBase
@@ -12,7 +12,5 @@ const ListItemWithRef = forwardRef<ListItemRef, ListItemProps>((props, ref) => (
 		ref={ref}
 	/>
 ))
-
-ListItemWithRef.displayName = 'ListItem'
 
 export const ListItem = typedMemo(ListItemWithRef, compareListItemProps)

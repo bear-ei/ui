@@ -200,5 +200,3 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 		)
 	}
 )
-
-RenderFAB.displayName = 'RenderFAB'

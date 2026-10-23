@@ -17,5 +17,3 @@ export const SupportingTextBase: FC<SupportingTextBaseProps> = ({disabled, error
 		/>
 	)
 }
-
-SupportingTextBase.displayName = 'SupportingTextBase'

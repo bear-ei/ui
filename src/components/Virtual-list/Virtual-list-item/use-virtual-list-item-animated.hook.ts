@@ -1,13 +1,14 @@
-import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
+
+import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
+import type {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interface'
 
 import {COMPONENT_STATUS, LAYOUT} from '../../../constants'
 import {useAnimatedTiming} from '../../../hooks'
 import {platformValue} from '../../../utils'
-
 import {animateVirtualListItemScale, animateVirtualListItemTranslate} from './Virtual-list-item.handler'
-import type {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interface'
 
 export const useVirtualListItemAnimated = ({
 	dragging,
@@ -37,12 +38,12 @@ export const useVirtualListItemAnimated = ({
 	}))
 
 	const runAnimateTranslate = useMemo(
-		() => animateVirtualListItemTranslate({animatedTiming, onAnimationFinished})(translateSharedValue),
+		() => animateVirtualListItemTranslate(translateSharedValue, animatedTiming, {onAnimationFinished}),
 		[animatedTiming, translateSharedValue, onAnimationFinished]
 	)
 
 	const runAnimateScale = useMemo(
-		() => animateVirtualListItemScale(animatedTiming)(scaleSharedValue),
+		() => animateVirtualListItemScale(scaleSharedValue, animatedTiming),
 		[animatedTiming, scaleSharedValue]
 	)
 

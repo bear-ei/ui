@@ -16,5 +16,3 @@ export const ProgressBase: FC<ProgressBaseProps> = ({type = PROGRESS_TYPE.LINEAR
 		/>
 	)
 }
-
-ProgressBase.displayName = 'ProgressBase'

@@ -65,5 +65,3 @@ export const RenderMask = forwardRef<View, RenderMaskProps>(
 		)
 	}
 )
-
-RenderMask.displayName = 'RenderMask'

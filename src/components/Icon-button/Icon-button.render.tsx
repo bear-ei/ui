@@ -189,5 +189,3 @@ export const RenderIconButton: FC<RenderIconButtonProps> = ({
 		</View>
 	)
 }
-
-RenderIconButton.displayName = 'RenderIconButton'

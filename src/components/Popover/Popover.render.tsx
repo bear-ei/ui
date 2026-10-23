@@ -1,13 +1,13 @@
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 
-import {useTheme} from '../../hooks'
-
-import {POPOVER_TYPE} from './Popover.enum'
 import type {RenderPopoverProps} from './Popover.interface'
 
+import {useTheme} from '../../hooks'
+import {POPOVER_TYPE} from './Popover.enum'
+
 export const RenderPopover = forwardRef<View, RenderPopoverProps>(
-	({children, className, id, testID, type, onContextMenu, ...containerProps}, ref) => {
+	({children, className, id, onContextMenu, testID, type, ...containerProps}, ref) => {
 		const {token} = useTheme()
 		const {classesName} = token.classes
 
@@ -24,5 +24,3 @@ export const RenderPopover = forwardRef<View, RenderPopoverProps>(
 		)
 	}
 )
-
-RenderPopover.displayName = 'RenderPopover'

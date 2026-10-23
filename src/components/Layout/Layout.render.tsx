@@ -41,4 +41,4 @@ export const RenderLayout: FC<RenderLayoutProps> = ({
 	)
 }
 
-RenderLayout.displayName = 'RenderLayout'
+

@@ -58,4 +58,4 @@ export const RenderProgressActiveIndicatorLinear: FC<RenderProgressActiveIndicat
 	)
 }
 
-RenderProgressActiveIndicatorLinear.displayName = 'RenderProgressActiveIndicatorLinear'
+

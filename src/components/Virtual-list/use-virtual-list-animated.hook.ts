@@ -1,5 +1,6 @@
-import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
+
+import {useEffect, useMemo} from 'react'
 import Animated, {
 	cancelAnimation,
 	scrollTo,
@@ -9,12 +10,12 @@ import Animated, {
 	useSharedValue
 } from 'react-native-reanimated'
 
+import type {UseVirtualListScrollAnimatedOptions} from './Virtual-list.interface'
+
 import {LAYOUT} from '../../constants'
 import {useAnimatedTiming} from '../../hooks'
 import {platformValue} from '../../utils'
-
 import {animateVirtualList} from './Virtual-list.handler'
-import type {UseVirtualListScrollAnimatedOptions} from './Virtual-list.interface'
 
 export const useVirtualListAnimated = ({
 	contentSize = 0,
@@ -32,7 +33,7 @@ export const useVirtualListAnimated = ({
 	}))
 
 	const runAnimate = useMemo(
-		() => animateVirtualList(animatedTiming)(contentSharedValue),
+		() => animateVirtualList(contentSharedValue, animatedTiming),
 		[animatedTiming, contentSharedValue]
 	)
 

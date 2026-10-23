@@ -10,5 +10,3 @@ import {ProgressActiveIndicatorCircularBase} from './Progress-active-indicator-c
 export const ProgressActiveIndicatorCircular = typedMemo((props: ProgressActiveIndicatorCircularProps) => (
 	<ProgressActiveIndicatorCircularBase {...props} />
 ))
-
-ProgressActiveIndicatorCircular.displayName = 'ProgressActiveIndicatorCircular'

@@ -1,13 +1,13 @@
 import {forwardRef, type FC} from 'react'
 import {View, type ScrollView} from 'react-native'
 
+import type {RenderListItemOptions, RenderListProps} from './List.interface'
+
 import {LAYOUT} from '../../constants'
 import {useTheme} from '../../hooks'
 import {DENSITY_SIZE, DENSITY_TYPE} from '../../theme'
 import {VirtualList} from '../Virtual-list'
-
 import {ListItem} from './List-item'
-import type {RenderListItemOptions, RenderListProps} from './List.interface'
 
 export const RenderDefaultListItem: FC<RenderListItemOptions> = ({id, item, supportingTextNumberOfLines, ...props}) => (
 	<ListItem
@@ -48,8 +48,8 @@ export const RenderList = forwardRef<ScrollView, RenderListProps>(
 				accessibilityRole='list'
 				accessible={true}
 				className={classesName('flex-1 self-stretch', {
-					[densityVerticalInsetClasses(DENSITY_SIZE.X_SMALL)]: layoutType === LAYOUT.VERTICAL,
-					[densityHorizontalInsetClasses(DENSITY_SIZE.X_SMALL)]: layoutType === LAYOUT.HORIZONTAL
+					[densityHorizontalInsetClasses(DENSITY_SIZE.X_SMALL)]: layoutType === LAYOUT.HORIZONTAL,
+					[densityVerticalInsetClasses(DENSITY_SIZE.X_SMALL)]: layoutType === LAYOUT.VERTICAL
 				})}
 				style={[style]}
 				testID={testID ?? `list--${id}`}
@@ -75,5 +75,3 @@ export const RenderList = forwardRef<ScrollView, RenderListProps>(
 		)
 	}
 )
-
-RenderList.displayName = 'RenderList'

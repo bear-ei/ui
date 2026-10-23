@@ -1,6 +1,8 @@
 import {forwardRef, useCallback, useEffect, useId, useImperativeHandle, useMemo, useRef} from 'react'
 import {useImmer} from 'use-immer'
 
+import type {ListItemBaseProps, ListItemRef, ListItemState} from './List-item.interface'
+
 import {COMPONENT_STATUS, type State} from '../../../constants'
 import {
 	type HandleStateEventChangeOptions,
@@ -10,7 +12,6 @@ import {
 	usePendingEvent
 } from '../../../hooks'
 import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
-
 import {
 	confirmListItemAffordanceAction,
 	handleListItemStateChange,
@@ -22,7 +23,6 @@ import {
 	updateListItemFocusState,
 	updateListItemTrailingVisible
 } from './List-item.handler'
-import type {ListItemBaseProps, ListItemRef, ListItemState} from './List-item.interface'
 import {RenderListItem, RenderListItemTrailing} from './List-item.render'
 import {useListItemAnimated} from './use-list-item-animated.hook'
 
@@ -202,5 +202,3 @@ export const ListItemBase = forwardRef<ListItemRef, ListItemBaseProps>(
 		)
 	}
 )
-
-ListItemBase.displayName = 'ListItemBase'

@@ -1,10 +1,11 @@
-import {forwardRef} from 'react'
 import type {View} from 'react-native'
 
-import {typedMemo} from '../../utils'
+import {forwardRef} from 'react'
 
-import {MenuBase} from './Menu-base.component'
 import type {MenuProps} from './Menu.interface'
+
+import {typedMemo} from '../../utils'
+import {MenuBase} from './Menu-base.component'
 
 const MenuWithRef = forwardRef<View, MenuProps>((props, ref) => (
 	<MenuBase
@@ -12,7 +13,5 @@ const MenuWithRef = forwardRef<View, MenuProps>((props, ref) => (
 		ref={ref}
 	/>
 ))
-
-MenuWithRef.displayName = 'Menu'
 
 export const Menu = typedMemo(MenuWithRef)

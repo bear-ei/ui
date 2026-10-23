@@ -4,4 +4,3 @@ import {typedMemo} from '../../utils'
 import {MaskBase} from './Mask-base.component'
 
 export const Mask = typedMemo((props: MaskProps) => <MaskBase {...props} />)
-Mask.displayName = 'Mask'

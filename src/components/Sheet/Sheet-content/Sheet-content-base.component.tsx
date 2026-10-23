@@ -59,5 +59,3 @@ export const SheetContentBase: FC<SheetContentProps> = ({
 		/>
 	)
 }
-
-SheetContentBase.displayName = 'SheetContentBase'

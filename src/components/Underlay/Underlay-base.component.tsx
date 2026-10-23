@@ -63,5 +63,3 @@ export const UnderlayBase: FC<UnderlayBaseProps> = ({
 		/>
 	)
 }
-
-UnderlayBase.displayName = 'UnderlayBase'

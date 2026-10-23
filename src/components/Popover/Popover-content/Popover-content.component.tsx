@@ -1,10 +1,10 @@
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 
-import {typedMemo} from '../../../utils'
-
-import {PopoverContentBase} from './Popover-content-base.component'
 import type {PopoverContentProps} from './Popover-content.interface'
+
+import {typedMemo} from '../../../utils'
+import {PopoverContentBase} from './Popover-content-base.component'
 
 const PopoverContentWithRef = forwardRef<View, PopoverContentProps>((props, ref) => (
 	<PopoverContentBase
@@ -12,7 +12,5 @@ const PopoverContentWithRef = forwardRef<View, PopoverContentProps>((props, ref)
 		ref={ref}
 	/>
 ))
-
-PopoverContentWithRef.displayName = 'PopoverContent'
 
 export const PopoverContent = typedMemo(PopoverContentWithRef)

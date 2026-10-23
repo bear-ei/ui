@@ -1,11 +1,11 @@
 import {forwardRef} from 'react'
 import {View} from 'react-native'
 
+import type {RenderMenuProps} from './Menu.interface'
+
 import {RADIUS, SHAPE} from '../../theme'
 import {Popover, POPOVER_TYPE} from '../Popover'
-
 import {MenuList} from './Menu-list'
-import type {RenderMenuProps} from './Menu.interface'
 
 export const RenderMenu = forwardRef<View, RenderMenuProps>(
 	(
@@ -81,5 +81,3 @@ export const RenderMenu = forwardRef<View, RenderMenuProps>(
 		)
 	}
 )
-
-RenderMenu.displayName = 'RenderMenu'

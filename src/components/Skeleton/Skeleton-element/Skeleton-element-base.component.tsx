@@ -14,5 +14,3 @@ export const SkeletonElementBase: FC<SkeletonElementBaseProps> = props => {
 		/>
 	)
 }
-
-SkeletonElementBase.displayName = 'SkeletonElementBase'

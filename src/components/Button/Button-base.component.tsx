@@ -90,5 +90,3 @@ export const ButtonBase: FC<ButtonBaseProps> = ({
 		/>
 	)
 }
-
-ButtonBase.displayName = 'ButtonBase'

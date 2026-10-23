@@ -13,6 +13,6 @@ const PopoverWithRef = forwardRef<View, PopoverProps>((props, ref) => (
 	/>
 ))
 
-PopoverWithRef.displayName = 'Popover'
+
 
 export const Popover = typedMemo(PopoverWithRef)

@@ -14,5 +14,3 @@ export const AvatarBase: FC<AvatarBaseProps> = renderAvatarProps => {
 		/>
 	)
 }
-
-AvatarBase.displayName = 'AvatarBase'

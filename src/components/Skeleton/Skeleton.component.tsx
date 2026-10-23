@@ -95,8 +95,3 @@ export const Rectangular = typedMemo(({className, size, style, ...props}: Skelet
 		/>
 	)
 })
-
-Circle.displayName = 'Circle'
-Rectangular.displayName = 'Rectangular'
-Skeleton.displayName = 'Skeleton'
-Square.displayName = 'Square'

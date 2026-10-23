@@ -1,32 +1,34 @@
 import type {Meta} from '@storybook/react-native-web-vite'
+
+import {useState} from 'react'
 import {Text, View} from 'react-native'
 import {useImmer} from 'use-immer'
 
 import {LAYOUT} from '../../constants'
 import {Button} from '../Button'
-
 import {VirtualList} from './Virtual-list.component'
 
 export const BigVirtualList = () => {
+	const [count, setCount] = useState(0)
 	const data = Array.from({length: 10000}, (_, index) => ({
-		indexKey: `Item${index + 1}`,
+		afterAffordance: true,
 		headline: `Item${index + 1}`,
-		afterAffordance: true
+		indexKey: `Item${index + 1}`
 	}))
+
+	console.info('count: ====>', count)
 
 	return (
 		<View className='h-full w-full'>
 			<VirtualList
 				data={data}
-				itemSize={56}
 				draggable={true}
-				onEndReached={() => {
-					console.info('onEndReached')
-				}}
+				itemSize={56}
+				onEndReached={() => setCount(c => c + 1)}
 				renderItem={({item}) => (
 					<View
-						key={item.indexKey}
 						className='flex h-14 items-center justify-center'
+						key={item.indexKey}
 					>
 						<Text>{item.indexKey}</Text>
 					</View>
@@ -39,10 +41,10 @@ export const BigVirtualList = () => {
 export const Sort = () => {
 	const [{sort: isSort}, setState] = useImmer({sort: false})
 	const data = Array.from({length: 400}, (_, index) => ({
-		index: index,
-		indexKey: `Item${index + 1}`,
+		afterAffordance: true,
 		headline: `Item${index + 1}`,
-		afterAffordance: true
+		index: index,
+		indexKey: `Item${index + 1}`
 	})).sort((a, b) => (isSort ? a.index - b.index : b.index - a.index))
 
 	return (
@@ -63,8 +65,8 @@ export const Sort = () => {
 				}}
 				renderItem={({item}) => (
 					<View
-						key={item.indexKey}
 						className='flex h-14 items-center justify-center'
+						key={item.indexKey}
 					>
 						<Text>{item.indexKey}</Text>
 					</View>
@@ -78,8 +80,8 @@ export const NotData = () => (
 	<View className='h-full w-full'>
 		<VirtualList
 			data={[]}
-			itemSize={56}
 			draggable={true}
+			itemSize={56}
 			onEndReached={() => {
 				console.info('onEndReached')
 			}}
@@ -91,10 +93,10 @@ export const NotData = () => (
 export const Loading = () => (
 	<View className='h-full w-full'>
 		<VirtualList
-			loading={true}
 			data={[]}
-			itemSize={56}
 			draggable={true}
+			itemSize={56}
+			loading={true}
 			onEndReached={() => {
 				console.info('onEndReached')
 			}}
@@ -105,9 +107,9 @@ export const Loading = () => (
 
 export const Draggable = () => {
 	const data = Array.from({length: 200}, (_, index) => ({
-		indexKey: `Item${index + 1}`,
+		afterAffordance: true,
 		headline: `Item${index + 1}`,
-		afterAffordance: true
+		indexKey: `Item${index + 1}`
 	}))
 
 	return (
@@ -125,8 +127,8 @@ export const Draggable = () => {
 				}}
 				renderItem={({item}) => (
 					<View
-						key={item.indexKey}
 						className='flex h-14 items-center justify-center'
+						key={item.indexKey}
 					>
 						<Text>{item.indexKey}</Text>
 					</View>
@@ -138,9 +140,9 @@ export const Draggable = () => {
 
 export const DraggableHorizontal = () => {
 	const data = Array.from({length: 10}, (_, index) => ({
-		indexKey: `Item${index + 1}`,
+		afterAffordance: true,
 		headline: `Item${index + 1}`,
-		afterAffordance: true
+		indexKey: `Item${index + 1}`
 	}))
 
 	return (
@@ -158,8 +160,8 @@ export const DraggableHorizontal = () => {
 				}}
 				renderItem={({item}) => (
 					<View
-						key={item.indexKey}
 						className='flex h-14 items-center justify-center'
+						key={item.indexKey}
 					>
 						<Text>{item.indexKey}</Text>
 					</View>
@@ -170,6 +172,6 @@ export const DraggableHorizontal = () => {
 }
 
 export default {
-	title: 'components/VirtualList',
-	component: VirtualList
+	component: VirtualList,
+	title: 'components/VirtualList'
 } as Meta<typeof VirtualList>

@@ -185,4 +185,4 @@ export const TextInputBase: FC<TextInputBaseProps> = ({
 	)
 }
 
-TextInputBase.displayName = 'TextInputBase'
+

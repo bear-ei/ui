@@ -8,5 +8,3 @@ export const NavigationRailItem = typedMemo(
 	(props: NavigationRailItemProps) => <NavigationRailItemBase {...props} />,
 	compareNavigationRailItemProps
 )
-
-NavigationRailItem.displayName = 'NavigationRailItem'

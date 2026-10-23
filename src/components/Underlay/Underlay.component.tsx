@@ -4,4 +4,3 @@ import {typedMemo} from '../../utils'
 import {UnderlayBase} from './Underlay-base.component'
 
 export const Underlay = typedMemo((props: UnderlayProps) => <UnderlayBase {...props} />)
-Underlay.displayName = 'Underlay'

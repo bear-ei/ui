@@ -68,4 +68,4 @@ export const IconButtonBase: FC<IconButtonBaseProps> = ({
 	)
 }
 
-IconButtonBase.displayName = 'IconButtonBase'
+

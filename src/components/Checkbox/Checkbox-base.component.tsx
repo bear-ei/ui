@@ -74,5 +74,3 @@ export const CheckboxBase: FC<CheckboxBaseProps> = ({
 		/>
 	)
 }
-
-CheckboxBase.displayName = 'CheckboxBase'
