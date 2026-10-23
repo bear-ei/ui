@@ -10,8 +10,7 @@ import {
 	BORDER_SIZE,
 	DENSITY_SIZE,
 	DENSITY_TYPE,
-	densitySizeMapIconSize,
-	densitySizeMapInlineSize,
+	stepDownDensitySize,
 	DURATION,
 	EASING,
 	hexToRGBA,
@@ -45,7 +44,7 @@ export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
 
 	const disabledColor = hexToRGBA(token.scheme.onSurface, token.opacity.level5)
 	const iconColor = rawColor ?? color[type]
-	const iconSize = token.density.icon[densitySizeMapIconSize(size)]
+	const iconSize = token.density.icon[stepDownDensitySize(size)]
 
 	// Intentional override: the parent IconButton's semantic props (type, disabled)
 	// take precedence over whatever the caller set on the icon element. This keeps
@@ -101,7 +100,7 @@ export const RenderIconButton: FC<RenderIconButtonProps> = ({
 		<AnimatedView
 			className={classesName(
 				'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
-				shapeClasses(shape, radius)
+				shapeClasses(shape)(radius)
 			)}
 			style={backgroundUnderlayAnimatedStyle}
 			testID={`iconButton__backgroundUnderlay--${id}`}
@@ -133,7 +132,7 @@ export const RenderIconButton: FC<RenderIconButtonProps> = ({
 					animatedType={PROGRESS_ANIMATED.INDETERMINATE}
 					content={iconElement}
 					enableAnimated={loading}
-					size={densitySizeMapInlineSize(size)}
+					size={stepDownDensitySize(size)}
 					strokeWidth={token.border[BORDER_SIZE.MEDIUM]}
 					testID={`iconButton__progress--${id}`}
 					type={PROGRESS_TYPE.CIRCULAR}

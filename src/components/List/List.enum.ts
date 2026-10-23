@@ -1,6 +1,6 @@
 export const LIST_SELECT_TYPE = {
-	SINGLE: 'SINGLE',
-	MULTIPLE: 'MULTIPLE'
+	MULTIPLE: 'MULTIPLE',
+	SINGLE: 'SINGLE'
 } as const
 
 export const LIST_TYPE = {

@@ -2,14 +2,9 @@ import type {GestureResponderEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import {COMPONENT_STATUS, EVENT_NAME, type EventName, TRIGGER_ON, type TriggerOn} from '../../../constants'
-import type {AnimatedTimingOptions, AnimateSharedValueTo, StateEvent} from '../../../hooks'
-import {DURATION, EASING} from '../../../theme'
+import type {AnimatedTiming, StateEvent} from '../../../hooks'
 import type {ListAfterAffordancePressOutEvent} from '../List-after-affordance'
-import {LIST_AFTER_AFFORDANCE_PHASE} from '../List-after-affordance/List-after-affordance.enum'
-import {LIST_TYPE} from '../List.enum'
 import type {ListSelectType} from '../List.interface'
-
 import type {
 	ConfirmListItemAffordanceActionOptions,
 	HandleListItemStateChangeOptions,
@@ -17,6 +12,11 @@ import type {
 	ListItemState,
 	TriggerListItemTrailingActionsOptions
 } from './List-item.interface'
+
+import {COMPONENT_STATUS, EVENT_NAME, type EventName, TRIGGER_ON, type TriggerOn} from '../../../constants'
+import {DURATION, EASING} from '../../../theme'
+import {LIST_AFTER_AFFORDANCE_PHASE} from '../List-after-affordance/List-after-affordance.enum'
+import {LIST_TYPE} from '../List.enum'
 
 export const compareListItemProps = (prevProps: ListItemProps, nextProps: ListItemProps) => {
 	const {
@@ -161,15 +161,15 @@ export const compareListItemProps = (prevProps: ListItemProps, nextProps: ListIt
 }
 
 export const updateListItemActive =
-	(selectType?: ListSelectType) => (onActive?: (indexKey?: string) => void) => (indexKey?: string) => {
-		if (!(selectType && indexKey)) {
+	(selectType?: ListSelectType, onActive?: (indexKey: string) => void) => (indexKey: string) => {
+		if (!selectType) {
 			return
 		}
 
 		onActive?.(indexKey)
 	}
 
-export const handleTrailingTriggerEvent = (trailingTriggerOn?: TriggerOn) => {
+export const handleTrailingTriggerEvent = (setState: Updater<ListItemState>, trailingTriggerOn?: TriggerOn) => {
 	const trigger = {
 		[TRIGGER_ON.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
 		[TRIGGER_ON.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
@@ -177,7 +177,7 @@ export const handleTrailingTriggerEvent = (trailingTriggerOn?: TriggerOn) => {
 		[TRIGGER_ON.PRESS]: [EVENT_NAME.PRESS_IN]
 	} as Record<TriggerOn, readonly EventName[]>
 
-	return (setState: Updater<ListItemState>) => (eventName?: EventName) => {
+	return (eventName?: EventName) => {
 		if (!trailingTriggerOn) {
 			return
 		}
@@ -194,55 +194,58 @@ export const handleTrailingTriggerEvent = (trailingTriggerOn?: TriggerOn) => {
 	}
 }
 
-export const handleListItemStateChange =
-	({eventName, indexKey, onActive, onLoadEnd, type}: HandleListItemStateChangeOptions) =>
-	(setState: Updater<ListItemState>) =>
-	(_event: StateEvent) =>
-		setState(draft => {
-			if (eventName === EVENT_NAME.LAYOUT && draft.status !== COMPONENT_STATUS.IDLE) {
-				return
+export const handleListItemStateChange = (
+	_event: StateEvent,
+	setState: Updater<ListItemState>,
+	{eventName, indexKey, onActive, onLoadEnd, type}: HandleListItemStateChangeOptions
+) =>
+	setState(draft => {
+		if (eventName === EVENT_NAME.LAYOUT && draft.status !== COMPONENT_STATUS.IDLE) {
+			return
+		}
+
+		const prevEventName = draft.eventName
+		const isMenuFocus =
+			eventName === EVENT_NAME.BLUR && prevEventName === EVENT_NAME.FOCUS && type === LIST_TYPE.MENU
+
+		if (isMenuFocus) {
+			return
+		}
+
+		if (draft.status === COMPONENT_STATUS.SUCCEEDED) {
+			draft.eventName = eventName
+		}
+
+		if (eventName === EVENT_NAME.LAYOUT) {
+			if (onLoadEnd) {
+				draft.pendingLoadEnd = indexKey
 			}
 
-			const prevEventName = draft.eventName
-			const isMenuFocus =
-				eventName === EVENT_NAME.BLUR && prevEventName === EVENT_NAME.FOCUS && type === LIST_TYPE.MENU
-
-			if (isMenuFocus) {
-				return
+			if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+				draft.status = COMPONENT_STATUS.SUCCEEDED
 			}
 
-			if (draft.status === COMPONENT_STATUS.SUCCEEDED) {
-				draft.eventName = eventName
-			}
+			return
+		}
 
-			if (eventName === EVENT_NAME.LAYOUT) {
-				if (onLoadEnd) {
-					draft.pendingLoadEnd = indexKey
-				}
+		const activeEventNames = [EVENT_NAME.PRESS_OUT, EVENT_NAME.LONG_PRESS] as readonly EventName[]
 
-				if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
-					draft.status = COMPONENT_STATUS.SUCCEEDED
-				}
-
-				return
-			}
-
-			const activeEventNames = [EVENT_NAME.PRESS_OUT, EVENT_NAME.LONG_PRESS] as readonly EventName[]
-
-			if (activeEventNames.includes(eventName) && onActive) {
-				draft.pendingActiveEvent = indexKey
-			}
-		})
+		if (activeEventNames.includes(eventName) && onActive) {
+			draft.pendingActiveEvent = indexKey
+		}
+	})
 
 export const triggerListItemTrailingActions =
-	({
-		afterAffordance,
-		closeTrailing,
-		onActiveAfterAffordance,
-		onClose,
-		onPressOut
-	}: TriggerListItemTrailingActionsOptions) =>
-	(indexKey?: string) =>
+	(
+		indexKey: string,
+		{
+			afterAffordance,
+			closeTrailing,
+			onActiveAfterAffordance,
+			onClose,
+			onPressOut
+		}: TriggerListItemTrailingActionsOptions
+	) =>
 	(event: GestureResponderEvent) => {
 		if (onPressOut) {
 			onPressOut(event)
@@ -274,7 +277,7 @@ export const confirmListItemAffordanceAction =
 	}
 
 export const updateListItemFocusState =
-	(setState: Updater<ListItemState>) => (itemIndex?: number) => (focusedIndex?: number) =>
+	(itemIndex: number, setState: Updater<ListItemState>) => (focusedIndex?: number) =>
 		typeof focusedIndex === 'number' &&
 		setState(draft => {
 			draft.eventName =
@@ -283,13 +286,8 @@ export const updateListItemFocusState =
 				: draft.eventName
 		})
 
-export const maybeTriggerListItemClose = (onClose?: (indexKey?: string) => void) => (indexKey?: string) => () => {
-	if (!indexKey) {
-		return
-	}
-
+export const maybeTriggerListItemClose = (indexKey: string, onClose?: (indexKey?: string) => void) => () =>
 	onClose?.(indexKey)
-}
 
 export const updateListItemAfterAffordanceExpanded = (setState: Updater<ListItemState>) => (visible?: boolean) =>
 	setState(draft => {
@@ -302,33 +300,23 @@ export const updateListItemTrailingVisible = (setState: Updater<ListItemState>) 
 		draft.eventName = eventName
 	})
 
-export const animateListItemAffordanceVisible =
-	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
-	(contentTransformXSharedValue: SharedValue<number>) => {
-		const entryAnimateSharedValueTo = animatedTiming({
-			duration: DURATION.SHORT_2,
-			easing: EASING.STANDARD_DECELERATE
-		})({
-			sharedValue: contentTransformXSharedValue
-		})
+export const animateListItemAffordanceVisible = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
+	const entryAnimateSharedValueTo = animatedTiming(sharedValue, {
+		duration: DURATION.SHORT_2,
+		easing: EASING.STANDARD_DECELERATE
+	})
 
-		const exitAnimateSharedValueTo = animatedTiming({
-			duration: DURATION.SHORT_2,
-			easing: EASING.STANDARD_ACCELERATE
-		})({
-			sharedValue: contentTransformXSharedValue
-		})
+	const exitAnimateSharedValueTo = animatedTiming(sharedValue, {
+		duration: DURATION.SHORT_2,
+		easing: EASING.STANDARD_ACCELERATE
+	})
 
-		return (visible?: boolean) =>
-			typeof visible === 'boolean' && (visible ? entryAnimateSharedValueTo(1) : exitAnimateSharedValueTo(0))
-	}
+	return (visible?: boolean) =>
+		typeof visible === 'boolean' && (visible ? entryAnimateSharedValueTo(1) : exitAnimateSharedValueTo(0))
+}
 
-export const animateListItemActiveState =
-	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
-	(headlineTextSharedValue: SharedValue<number>) => {
-		const animateSharedValueTo = animatedTiming({easing: EASING.STANDARD, duration: DURATION.SHORT_2})({
-			sharedValue: headlineTextSharedValue
-		})
+export const animateListItemActiveState = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
+	const animateSharedValueTo = animatedTiming(sharedValue, {duration: DURATION.SHORT_2, easing: EASING.STANDARD})
 
-		return (active?: boolean) => typeof active === 'boolean' && animateSharedValueTo(active ? 1 : 0)
-	}
+	return (active?: boolean) => typeof active === 'boolean' && animateSharedValueTo(active ? 1 : 0)
+}

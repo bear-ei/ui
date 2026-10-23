@@ -53,7 +53,7 @@ export const RenderAvatar: FC<RenderAvatarProps> = ({
 			className={classesName(
 				'pointer-events-none relative overflow-hidden bg-[--color-primary-container]',
 				densityInlineClasses(size),
-				shapeClasses(SHAPE.ALL, radius)
+				shapeClasses(SHAPE.ALL)(radius)
 			)}
 			style={avatarStyle}
 			testID={testID ?? `avatar--${id}`}
@@ -101,5 +101,3 @@ export const RenderAvatar: FC<RenderAvatarProps> = ({
 		</View>
 	)
 }
-
-

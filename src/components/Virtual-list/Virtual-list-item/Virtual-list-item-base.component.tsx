@@ -95,5 +95,3 @@ export const VirtualListItemBase: FC<VirtualListItemBaseProps> = ({
 		/>
 	)
 }
-
-

@@ -8,7 +8,7 @@ import {useTheme} from '../../hooks'
 import {
 	DENSITY_SIZE,
 	DENSITY_TYPE,
-	densitySizeMapIconSize,
+	stepDownDensitySize,
 	hexToRGBA,
 	RADIUS,
 	SHAPE,
@@ -45,7 +45,7 @@ export const RenderFABIcon: FC<RenderFABIconProps> = ({
 	}
 
 	const iconSize =
-		extended ? token.density.icon[DENSITY_SIZE.MEDIUM] : token.density.icon[densitySizeMapIconSize(rawSize)]
+		extended ? token.density.icon[DENSITY_SIZE.MEDIUM] : token.density.icon[stepDownDensitySize(rawSize)]
 
 	// Intentional override: the parent Fab's semantic props (type, disabled)
 	// win over anything the caller set on the icon element. This guarantees
@@ -107,7 +107,7 @@ export const RenderFAB = forwardRef<PressableType, RenderFABProps>(
 			<AnimatedView
 				className={classesName(
 					'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
-					shapeClasses(shape, radius)
+					shapeClasses(shape)(radius)
 				)}
 				style={backgroundUnderlayAnimatedStyle}
 				testID={`fab__backgroundUnderlay--${id}`}

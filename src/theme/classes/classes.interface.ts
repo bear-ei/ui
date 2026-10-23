@@ -17,7 +17,7 @@ export interface Classes {
 		layout?: LayoutType
 	) => (size?: Exclude<DensitySize, 'TIGHT' | 'SNUG'> | number) => string
 
-	shapeClasses: (shape?: ShapeType, radius?: RadiusType) => string
+	shapeClasses: (shape?: ShapeType) => (radius?: RadiusType) => string
 	typographyClasses: (
 		typography?: TypographyType,
 		options?: TypographyClassesOptions

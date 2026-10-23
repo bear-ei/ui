@@ -28,7 +28,7 @@ export const RenderSkeletonElement: FC<RenderSkeletonElementProps> = ({
 			className={classesName(
 				'flex min-h-[--density-inline-x-small] min-w-[--density-inline-x-small] gap-[--density-spacing-x-small]',
 				densityInlineClasses(DENSITY_SIZE.X_SMALL),
-				shapeClasses(shape, radius),
+				shapeClasses(shape)(radius),
 				{
 					['bg-[--color-on-surface] opacity-[--opacity-level2]']: !isChildren,
 					['bg-transparent']: isChildren,

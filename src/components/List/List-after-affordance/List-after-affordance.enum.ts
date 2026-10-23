@@ -1,4 +1,4 @@
 export const LIST_AFTER_AFFORDANCE_PHASE = {
-	IDLE: 'IDLE',
-	DANGER: 'DANGER'
+	DANGER: 'DANGER',
+	IDLE: 'IDLE'
 } as const

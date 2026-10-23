@@ -4,7 +4,7 @@ import type {AnimatedStyle} from 'react-native-reanimated'
 import type {ComponentStatus, EventName, State} from '../../../constants'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {PressableType, TouchableProps} from '../../Touchable'
-import type {ListProps} from '../List.interface'
+import type {ListItemData, ListProps} from '../List.interface'
 
 export interface ListItemRef extends PressableType {
 	active: () => void
@@ -35,37 +35,35 @@ export interface ListItemProps
 			| 'size'
 			| 'skeletonDuration'
 			| 'skeletonElement'
-			| 'supportingTextNumberOfLines'
-			| 'trailing'
 			| 'trailingTriggerOn'
 			| 'type'
+		>,
+		Pick<
+			ListItemData,
+			| 'contentStyle'
+			| 'dependencies'
+			| 'headline'
+			| 'leading'
+			| 'primaryButtonDisabled'
+			| 'primaryButtonLabelText'
+			| 'primaryButtonLoading'
+			| 'primaryButtonStyle'
+			| 'secondaryButtonDisabled'
+			| 'secondaryButtonLabelText'
+			| 'secondaryButtonLoading'
+			| 'secondaryButtonStyle'
+			| 'supporting'
+			| 'supportingTextNumberOfLines'
+			| 'trailing'
 		> {
-	/**
-	 * Enabling ripples while using style to specify the background color can cause the ripple to be obscured, as the
-	 * ripple is always one z-index level below the main container. This property is used to specify the background
-	 * color when ripples are enabled.
-	 */
-	contentStyle?: ViewStyle
-	dependencies?: unknown[]
-	headline?: React.ReactNode
-	indexKey?: string
-	itemIndex?: number
-	leading?: React.JSX.Element
+	indexKey: string
+	itemIndex: number
 	onClose?: (indexKey?: string) => void
 	onLoadEnd?: (indexKey?: string) => void
 	onTrailingPressOut?: (event: GestureResponderEvent) => void
-	primaryButtonDisabled?: boolean
-	primaryButtonLabelText?: string
-	primaryButtonLoading?: boolean
-	primaryButtonStyle?: ViewStyle
-	secondaryButtonDisabled?: boolean
-	secondaryButtonLabelText?: string
-	secondaryButtonLoading?: boolean
-	secondaryButtonStyle?: ViewStyle
-	supporting?: string | React.JSX.Element
 }
 
-export interface RenderListItemProps extends ListItemProps, Pick<ListProps, 'onConfirm'> {
+export interface RenderListItemProps extends Omit<ListItemProps, 'itemIndex'>, Pick<ListProps, 'onConfirm'> {
 	active?: boolean
 	affordanceVisible?: boolean
 	afterAffordanceExpanded?: boolean
@@ -84,26 +82,6 @@ export interface RenderListItemProps extends ListItemProps, Pick<ListProps, 'onC
 }
 
 export type ListItemBaseProps = ListItemProps
-export interface ListItemData extends Pick<
-	ListItemProps,
-	| 'contentStyle'
-	| 'dependencies'
-	| 'headline'
-	| 'leading'
-	| 'primaryButtonDisabled'
-	| 'primaryButtonLabelText'
-	| 'primaryButtonLoading'
-	| 'primaryButtonStyle'
-	| 'secondaryButtonDisabled'
-	| 'secondaryButtonLabelText'
-	| 'secondaryButtonLoading'
-	| 'secondaryButtonStyle'
-	| 'supporting'
-	| 'supportingTextNumberOfLines'
-	| 'trailing'
-> {
-	indexKey: string
-}
 
 export interface ListItemState {
 	afterAffordanceExpanded?: boolean
@@ -117,7 +95,7 @@ export interface ListItemState {
 export interface HandleListItemStateChangeOptions
 	extends
 		HandleStateEventChangeOptions,
-		Pick<RenderListItemProps, 'itemIndex' | 'indexKey' | 'onActive' | 'onLoadEnd' | 'type'> {}
+		Pick<ListItemProps, 'itemIndex' | 'indexKey' | 'onActive' | 'onLoadEnd' | 'type'> {}
 
 export interface ConfirmListItemAffordanceActionOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {
 	onClose: (indexKey?: string) => void

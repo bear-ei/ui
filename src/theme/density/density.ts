@@ -115,7 +115,7 @@ const INLINE = {
 	}
 }
 
-const ICON_SIZE_MAP = {
+const DENSITY_SIZE_STEP_DOWN_MAP = {
 	[DENSITY_SIZE.LARGE]: DENSITY_SIZE.MEDIUM,
 	[DENSITY_SIZE.MEDIUM]: DENSITY_SIZE.SMALL,
 	[DENSITY_SIZE.SMALL]: DENSITY_SIZE.X_SMALL,
@@ -138,20 +138,16 @@ const createMobileGap = (spacing: Spacing) => {
 	return (windowSize: WindowSize) => gap[windowSize]
 }
 
-const densitySizeMapIconSize = (size: DensitySizeScale) => ICON_SIZE_MAP[size]
-const densitySizeMapInlineSize = (size: DensitySizeScale) => {
-	const inlineSize = {
-		[DENSITY_SIZE.LARGE]: DENSITY_SIZE.MEDIUM,
-		[DENSITY_SIZE.MEDIUM]: DENSITY_SIZE.SMALL,
-		[DENSITY_SIZE.SMALL]: DENSITY_SIZE.X_SMALL,
-		[DENSITY_SIZE.X_LARGE]: DENSITY_SIZE.MEDIUM,
-		[DENSITY_SIZE.X_SMALL]: DENSITY_SIZE.X_SMALL,
-		[DENSITY_SIZE.XX_LARGE]: DENSITY_SIZE.LARGE,
-		[DENSITY_SIZE.XX_SMALL]: DENSITY_SIZE.XX_SMALL
-	}
-
-	return inlineSize[size]
-}
+/**
+ * Step down the density size by one notch.
+ *
+ * Used wherever a sub-element needs to render one size smaller than its
+ * host — e.g. an icon inside a list item is typically one step smaller
+ * than the item's control size.
+ *
+ * XX_SMALL is the floor (cannot step further down) and maps to itself.
+ */
+const stepDownDensitySize = (size: DensitySizeScale) => DENSITY_SIZE_STEP_DOWN_MAP[size]
 
 const createDensity = (density: UIDensity = UI_DENSITY.COMPACT): Density => ({
 	control: CONTROL[density],
@@ -164,4 +160,4 @@ const createDensity = (density: UIDensity = UI_DENSITY.COMPACT): Density => ({
 
 const mobileGap = createMobileGap(SPACING[UI_DENSITY.COMFORTABLE])
 
-export {createDensity, densitySizeMapIconSize, densitySizeMapInlineSize, mobileGap}
+export {createDensity, stepDownDensitySize, mobileGap}

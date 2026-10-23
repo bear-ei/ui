@@ -248,7 +248,7 @@ export const RenderPopoverContent = forwardRef<View, RenderPopoverContentProps>(
 							type === POPOVER_TYPE.TOOLTIP,
 						['left-0 right-0']: menuOrPicker
 					},
-					shapeClasses(radius)(type === POPOVER_TYPE.TEXT_INPUT_PICKER ? SHAPE.BOTTOM : shape)
+					shapeClasses(type === POPOVER_TYPE.TEXT_INPUT_PICKER ? SHAPE.BOTTOM : shape)(radius)
 				)}
 				testID={`popoverContent__main--${id}`}
 			>

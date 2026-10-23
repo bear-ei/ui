@@ -308,7 +308,10 @@ const densityClasses =
 		return (DENSITY[type] as typeof DENSITY_CONTROL)[size]
 	}
 
-const shapeClasses = (shape: ShapeType = SHAPE.ALL, radius: RadiusType = RADIUS.NONE) => SHAPE_TYPE[radius][shape]
+const shapeClasses =
+	(shape: ShapeType = SHAPE.ALL) =>
+	(radius: RadiusType = RADIUS.NONE) =>
+		SHAPE_TYPE[radius][shape]
 const typographyClasses =
 	(
 		typography: TypographyType = TYPOGRAPHY.BODY,

@@ -138,7 +138,7 @@ export const RenderSheetContent: FC<RenderSheetContentProps> = ({
 				className={classesName(
 					'relative flex flex-1 flex-col overflow-hidden bg-[--color-surface-container-low]',
 					{['max-w-[--density-layout-sidebar]']: type === SIDE_SHEET_TYPE.SIDEBAR},
-					shapeClasses(sheetShape, radius)
+					shapeClasses(sheetShape)(radius)
 				)}
 				style={[style]}
 				testID={`sheetContent__content--${id}`}
@@ -271,5 +271,3 @@ export const RenderSheetContent: FC<RenderSheetContentProps> = ({
 		</LayoutAnimated>
 	)
 }
-
-

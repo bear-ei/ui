@@ -8,7 +8,7 @@ import {useTheme} from '../../hooks'
 import {
 	DENSITY_SIZE,
 	DENSITY_TYPE,
-	densitySizeMapIconSize,
+	stepDownDensitySize,
 	densitySizeMapTypographySize,
 	hexToRGBA,
 	RADIUS,
@@ -62,7 +62,7 @@ export const RenderTextInput: FC<RenderTextInputProps> = ({
 		disabled ? hexToRGBA(token.scheme.onSurface, token.opacity.level5) : token.scheme.onSurfaceVariant
 
 	const {onBlur, onFocus, ...onTouchableHeaderEvent} = interactionHandlers
-	const iconSize = token.density.icon[densitySizeMapIconSize(size)]
+	const iconSize = token.density.icon[stepDownDensitySize(size)]
 	const isLeadingShow = !!leadingElement
 	const isTrailingShow = !!trailingElement
 	const shape = SHAPE.TOP
@@ -108,7 +108,7 @@ export const RenderTextInput: FC<RenderTextInputProps> = ({
 						className={classesName(
 							'relative z-10 flex min-w-20 flex-1 flex-row items-center',
 							densityInsetClasses(size),
-							shapeClasses(shape, radius),
+							shapeClasses(shape)(radius),
 							{
 								['pl-[--density-inset-none]']: isLeadingShow,
 								['pr-[--density-inset-none]']: isTrailingShow

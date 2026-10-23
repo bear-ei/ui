@@ -1,22 +1,24 @@
-import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
+
+import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
+import type {UseListAfterAffordanceAnimatedOptions} from './List-after-affordance.interface'
 
 import {COMPONENT_STATUS} from '../../../constants'
 import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {DENSITY_SIZE} from '../../../theme'
 import {platformValue} from '../../../utils'
-
 import {animateListAfterAffordance} from './List-after-affordance.handler'
-import type {UseListAfterAffordanceAnimatedOptions} from './List-after-affordance.interface'
 
 export const useListAfterAffordanceAnimated = ({phase, status}: UseListAfterAffordanceAnimatedOptions) => {
 	const translateXSharedValue = useSharedValue(0)
 	const {token} = useTheme()
+	const {density} = token
 	const animatedTiming = useAnimatedTiming()
 	const dangerTranslateXOutputRanges = useMemo(
-		() => [token.density.spacing[DENSITY_SIZE.NONE], -token.density.control[DENSITY_SIZE.XX_LARGE]],
-		[token]
+		() => [density.spacing[DENSITY_SIZE.NONE], -density.control[DENSITY_SIZE.XX_LARGE]],
+		[density]
 	)
 
 	const dangerAnimatedStyle = useAnimatedStyle(
@@ -33,7 +35,7 @@ export const useListAfterAffordanceAnimated = ({phase, status}: UseListAfterAffo
 	)
 
 	const runTranslateXAnimate = useMemo(
-		() => animateListAfterAffordance(animatedTiming)(translateXSharedValue),
+		() => animateListAfterAffordance(translateXSharedValue, animatedTiming),
 		[animatedTiming, translateXSharedValue]
 	)
 

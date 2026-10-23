@@ -1,50 +1,49 @@
-import {forwardRef, useCallback, useId} from 'react'
+import {useCallback, useId, type FC} from 'react'
 import {useImmer} from 'use-immer'
 
-import type {State} from '../../../constants'
-import {type HandleStateEventChangeOptions, type StateEvent, useInteractionStateEvent} from '../../../hooks'
-import type {PressableType} from '../../Touchable'
-
-import {handleListAffordanceButtonStateChange} from './List-affordance-button.handler'
 import type {ListAffordanceButtonBaseProps, ListAffordanceButtonState} from './List-affordance-button.interface'
+
+import {EVENT_NAME, type State} from '../../../constants'
+import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
+import {handleListAffordanceButtonStateChange} from './List-affordance-button.handler'
 import {RenderListAffordanceButton} from './List-affordance-button.render'
 import {useListAffordanceButtonAnimated} from './use-list-affordance-button-animated.hook'
 
-export const ListAffordanceButtonBase = forwardRef<PressableType, ListAffordanceButtonBaseProps>(
-	({disabled, labelText = 'Label', backgroundVisible, ...renderListAffordanceButtonProps}, ref) => {
-		const [{eventName}, setState] = useImmer<ListAffordanceButtonState>({})
-		const id = useId()
-		const onStateEventChange = useCallback(
-			(options: HandleStateEventChangeOptions) => (state: State) => (event: StateEvent) =>
-				handleListAffordanceButtonStateChange({...options, state})(setState)(event),
-			[setState]
-		)
+export const ListAffordanceButtonBase: FC<ListAffordanceButtonBaseProps> = ({
+	backgroundVisible,
+	disabled,
+	labelText = 'Label',
+	...renderListAffordanceButtonProps
+}) => {
+	const [{eventName}, setState] = useImmer<ListAffordanceButtonState>({eventName: EVENT_NAME.NONE})
+	const id = useId()
+	const onStateEventChange = useCallback(
+		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) =>
+			handleListAffordanceButtonStateChange(event, setState, {...options, state}),
+		[setState]
+	)
 
-		const interactionHandlers = useInteractionStateEvent({
-			...renderListAffordanceButtonProps,
-			disabled,
-			onStateEventChange
-		})
+	const interactionHandlers = useInteractionStateEvent({
+		...renderListAffordanceButtonProps,
+		disabled,
+		onStateEventChange
+	})
 
-		const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useListAffordanceButtonAnimated({
-			backgroundVisible,
-			disabled
-		})
+	const {backgroundUnderlayAnimatedStyle, labelTextAnimatedStyle} = useListAffordanceButtonAnimated({
+		backgroundVisible,
+		disabled
+	})
 
-		return (
-			<RenderListAffordanceButton
-				{...renderListAffordanceButtonProps}
-				backgroundUnderlayAnimatedStyle={backgroundUnderlayAnimatedStyle}
-				disabled={disabled}
-				eventName={eventName}
-				id={id}
-				interactionHandlers={interactionHandlers}
-				labelText={labelText}
-				labelTextAnimatedStyle={labelTextAnimatedStyle}
-				ref={ref}
-			/>
-		)
-	}
-)
-
-
+	return (
+		<RenderListAffordanceButton
+			{...renderListAffordanceButtonProps}
+			backgroundUnderlayAnimatedStyle={backgroundUnderlayAnimatedStyle}
+			disabled={disabled}
+			eventName={eventName}
+			id={id}
+			interactionHandlers={interactionHandlers}
+			labelText={labelText}
+			labelTextAnimatedStyle={labelTextAnimatedStyle}
+		/>
+	)
+}

@@ -30,7 +30,7 @@ export const RenderElevation: FC<RenderElevationProps> = ({
 			testID={testID ?? `elevation--${id}`}
 		>
 			<AnimatedView
-				className={classesName('flex-1 self-stretch', shapeClasses(shape, radius))}
+				className={classesName('flex-1 self-stretch', shapeClasses(shape)(radius))}
 				style={shadowAnimatedStyle}
 				testID={`elevation__shadow--${id}`}
 			/>

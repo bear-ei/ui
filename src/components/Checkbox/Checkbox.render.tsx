@@ -6,16 +6,7 @@ import type {RenderCheckboxProps} from './Checkbox.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME} from '../../constants'
 import {useTheme} from '../../hooks'
-import {
-	DENSITY_SIZE,
-	DENSITY_TYPE,
-	densitySizeMapIconSize,
-	DURATION,
-	EASING,
-	hexToRGBA,
-	RADIUS,
-	SHAPE
-} from '../../theme'
+import {DENSITY_SIZE, DENSITY_TYPE, DURATION, EASING, hexToRGBA, RADIUS, SHAPE, stepDownDensitySize} from '../../theme'
 import {platformValue} from '../../utils'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 import {Touchable} from '../Touchable'
@@ -42,10 +33,9 @@ export const RenderCheckbox: FC<RenderCheckboxProps> = ({
 	const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)
 	const activeColor = error ? token.scheme.error : token.scheme.primary
 	const unselectedColor = value === CHECKBOX_VALUE.UNSELECTED ? token.scheme.onSurfaceVariant : token.scheme.primary
-
 	const checkBoxOutlineColor = error ? token.scheme.error : unselectedColor
 	const disabledColor = hexToRGBA(token.scheme.onSurface, token.opacity.level5)
-	const iconSize = token.density.icon[densitySizeMapIconSize(size)]
+	const iconSize = token.density.icon[stepDownDensitySize(size)]
 	const radius = RADIUS.FULL
 	const shape = SHAPE.ALL
 	const underlayColor = error ? token.scheme.error : unselectedColor
@@ -155,5 +145,3 @@ export const RenderCheckbox: FC<RenderCheckboxProps> = ({
 		</View>
 	)
 }
-
-

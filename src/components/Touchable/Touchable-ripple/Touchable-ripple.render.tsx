@@ -3,7 +3,8 @@ import {type ViewStyle} from 'react-native'
 
 import type {RenderTouchableRippleProps} from './Touchable-ripple.interface'
 
-import {classesName, RADIUS, SHAPE, shapeClasses} from '../../../theme'
+import {useTheme} from '../../../hooks'
+import {classesName, RADIUS, SHAPE} from '../../../theme'
 import {platformValue} from '../../../utils'
 import {AnimatedView} from '../../Animated'
 
@@ -19,6 +20,8 @@ export const RenderTouchableRipple: FC<RenderTouchableRippleProps> = ({
 	underlayColor,
 	...containerProps
 }) => {
+	const {token} = useTheme()
+	const {shapeClasses} = token.classes
 	const {onLayout} = interactionHandlers
 	const animatedViewStyle = useMemo(
 		() => [
@@ -40,7 +43,7 @@ export const RenderTouchableRipple: FC<RenderTouchableRippleProps> = ({
 			{...containerProps}
 			className={classesName(
 				'pointer-events-none absolute bg-[--color-on-surface]',
-				shapeClasses(SHAPE.ALL, RADIUS.FULL)
+				shapeClasses(SHAPE.ALL)(RADIUS.FULL)
 			)}
 			onLayout={onLayout}
 			style={animatedViewStyle}

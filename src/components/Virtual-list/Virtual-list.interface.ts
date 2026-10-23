@@ -9,7 +9,7 @@ import type {ThemeProps} from '../../theme'
 
 export interface Item {
 	dependencies?: string[]
-	index?: number
+	index: number
 	indexKey: string
 }
 

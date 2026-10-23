@@ -8,7 +8,7 @@ import {useTheme} from '../../hooks'
 import {
 	DENSITY_SIZE,
 	DENSITY_TYPE,
-	densitySizeMapIconSize,
+	stepDownDensitySize,
 	densitySizeMapTypographySize,
 	DURATION,
 	EASING,
@@ -49,7 +49,7 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({
 		return <></>
 	}
 
-	const iconSize = token.density.icon[densitySizeMapIconSize(size)]
+	const iconSize = token.density.icon[stepDownDensitySize(size)]
 
 	// Intentional override: the parent Button's semantic props (type, disabled)
 	// win over anything the caller set on the icon element. This guarantees
@@ -124,7 +124,7 @@ export const RenderButton: FC<RenderButtonProps> = ({
 		<AnimatedView
 			className={classesName(
 				'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
-				shapeClasses(shape, radius)
+				shapeClasses(shape)(radius)
 			)}
 			style={backgroundUnderlayAnimatedStyle}
 			testID={`button__backgroundUnderlay--${id}`}
@@ -235,5 +235,3 @@ export const RenderButton: FC<RenderButtonProps> = ({
 		</View>
 	)
 }
-
-

@@ -1,5 +1,5 @@
-import {forwardRef, type FC} from 'react'
-import {View, type ScrollView} from 'react-native'
+import {type FC} from 'react'
+import {View} from 'react-native'
 
 import type {RenderListItemOptions, RenderListProps} from './List.interface'
 
@@ -20,58 +20,52 @@ export const RenderDefaultListItem: FC<RenderListItemOptions> = ({id, item, supp
 	/>
 )
 
-export const RenderList = forwardRef<ScrollView, RenderListProps>(
-	(
-		{
-			activeKey,
-			activeKeys,
-			afterAffordanceActiveKey,
-			dependencies = [],
-			focusedIndex,
-			id,
-			layoutType,
-			loading,
-			style,
-			testID,
-			...virtualListProps
-		},
-		ref
-	) => {
-		const {token} = useTheme()
-		const {classesName, densityClasses} = token.classes
-		const densityHorizontalInsetClasses = densityClasses(DENSITY_TYPE.INSET)(LAYOUT.HORIZONTAL)
-		const densityVerticalInsetClasses = densityClasses(DENSITY_TYPE.INSET)(LAYOUT.VERTICAL)
+export const RenderList: FC<RenderListProps> = ({
+	activeKey,
+	activeKeys,
+	afterAffordanceActiveKey,
+	dependencies = [],
+	focusedIndex,
+	id,
+	layoutType,
+	loading,
+	style,
+	testID,
+	...virtualListProps
+}) => {
+	const {token} = useTheme()
+	const {classesName, densityClasses} = token.classes
+	const densityHorizontalInsetClasses = densityClasses(DENSITY_TYPE.INSET, LAYOUT.HORIZONTAL)
+	const densityVerticalInsetClasses = densityClasses(DENSITY_TYPE.INSET, LAYOUT.VERTICAL)
 
-		return (
-			<View
-				accessibilityLabel='list'
-				accessibilityRole='list'
-				accessible={true}
-				className={classesName('flex-1 self-stretch', {
-					[densityHorizontalInsetClasses(DENSITY_SIZE.X_SMALL)]: layoutType === LAYOUT.HORIZONTAL,
-					[densityVerticalInsetClasses(DENSITY_SIZE.X_SMALL)]: layoutType === LAYOUT.VERTICAL
-				})}
-				style={[style]}
-				testID={testID ?? `list--${id}`}
-			>
-				<VirtualList
-					{...virtualListProps}
-					activeKey={activeKey}
-					dependencies={[
-						...dependencies,
-						activeKey,
-						activeKeys?.join(),
-						afterAffordanceActiveKey,
-						focusedIndex,
-						loading
-					]}
-					focusedIndex={focusedIndex}
-					layoutType={layoutType}
-					loading={loading}
-					ref={ref}
-					testID={`list__virtualList--${id}`}
-				/>
-			</View>
-		)
-	}
-)
+	return (
+		<View
+			accessibilityLabel='list'
+			accessibilityRole='list'
+			accessible={true}
+			className={classesName('flex-1 self-stretch', {
+				[densityHorizontalInsetClasses(DENSITY_SIZE.X_SMALL)]: layoutType === LAYOUT.HORIZONTAL,
+				[densityVerticalInsetClasses(DENSITY_SIZE.X_SMALL)]: layoutType === LAYOUT.VERTICAL
+			})}
+			style={[style]}
+			testID={testID ?? `list--${id}`}
+		>
+			<VirtualList
+				{...virtualListProps}
+				activeKey={activeKey}
+				dependencies={[
+					...dependencies,
+					activeKey,
+					activeKeys?.join(),
+					afterAffordanceActiveKey,
+					focusedIndex,
+					loading
+				]}
+				focusedIndex={focusedIndex}
+				layoutType={layoutType}
+				loading={loading}
+				testID={`list__virtualList--${id}`}
+			/>
+		</View>
+	)
+}

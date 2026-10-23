@@ -17,13 +17,13 @@ export interface ListAffordanceButtonProps extends TouchableProps, ThemeProps {
 export interface RenderListAffordanceButtonProps extends ListAffordanceButtonProps {
 	backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
 	eventName?: EventName
-	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
 	interactionHandlers: InteractionHandlers
+	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
 }
 
 export type ListAffordanceButtonBaseProps = ListAffordanceButtonProps
 export interface ListAffordanceButtonState {
-	eventName?: EventName
+	eventName: EventName
 }
 
 export type UseListAffordanceButtonAnimatedOptions = Pick<

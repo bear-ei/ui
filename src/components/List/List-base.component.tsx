@@ -1,164 +1,110 @@
 import type {ScrollView} from 'react-native'
 
-import {forwardRef, useEffect, useId, useMemo, useRef} from 'react'
+import {useEffect, useId, useMemo, useRef, type FC} from 'react'
 import {useImmer} from 'use-immer'
 
 import type {ListBaseProps, ListState} from './List.interface'
 
 import {LAYOUT} from '../../constants'
 import {useMergeRefs, usePendingEvent, useTheme} from '../../hooks'
+import {DENSITY_SIZE} from '../../theme'
 import {LIST_TYPE} from './List.enum'
 import {
 	createListItemRenderer,
-	createListItemSize,
 	triggerListClose,
 	updateListActiveState,
 	updateListAffordanceActiveState
 } from './List.handler'
 import {RenderList} from './List.render'
 
-export const ListBase = forwardRef<ScrollView, ListBaseProps>(
-	(
+export const ListBase: FC<ListBaseProps> = ({
+	activeKey: rawActiveKey,
+	activeKeys: rawActiveKeys,
+	afterAffordance,
+	beforeAffordance,
+	closeTrailing,
+	defaultActiveKey,
+	defaultActiveKeys,
+	deselect,
+	divider,
+	enableUnderlay,
+	enableUnderlayActive,
+	focusedIndex,
+	itemSize: rawItemSize,
+	layoutType = LAYOUT.VERTICAL,
+	loading,
+	loadingElement,
+	onActive: rawOnActive,
+	onActives,
+	onClose: rawOnClose,
+	onConfirm,
+	onItemStateEvent,
+	onSecondaryAction,
+	radius,
+	ref,
+	renderItem: rawRenderItem,
+	selectType,
+	shape,
+	size = DENSITY_SIZE.MEDIUM,
+	skeletonDuration = 0,
+	skeletonElement,
+	supportingTextNumberOfLines,
+	trailingTriggerOn,
+	type = LIST_TYPE.STANDARD,
+	...renderListProps
+}) => {
+	const [
 		{
-			activeKey: rawActiveKey,
-			activeKeys: rawActiveKeys,
-			afterAffordance,
-			beforeAffordance,
-			closeTrailing,
-			defaultActiveKey,
-			defaultActiveKeys,
-			deselect,
-			divider,
-			enableUnderlay,
-			enableUnderlayActive,
-			focusedIndex,
-			itemSize: rawItemSize,
-			layoutType = LAYOUT.VERTICAL,
-			loading,
-			loadingElement,
-			onActive: rawOnActive,
-			onActives,
-			onClose: rawOnClose,
-			onConfirm,
-			onItemStateEvent,
-			onSecondaryAction,
-			radius,
-			renderItem: rawRenderItem,
-			selectType,
-			shape,
-			size,
-			skeletonDuration = 0,
-			skeletonElement,
-			supportingTextNumberOfLines,
-			trailingTriggerOn,
-			type = LIST_TYPE.STANDARD,
-			...renderListProps
+			activeKey,
+			activeKeys,
+			afterAffordanceActiveKey,
+			pendingActiveEvent,
+			pendingActivesEvent,
+			pendingAfterAffordanceActiveEvent,
+			pendingAfterAffordanceEvent,
+			pendingCloseEvent
 		},
-		ref
-	) => {
-		const [
-			{
-				activeKey,
-				activeKeys,
-				afterAffordanceActiveKey,
-				pendingActiveEvent,
-				pendingActivesEvent,
-				pendingAfterAffordanceActiveEvent,
-				pendingAfterAffordanceEvent,
-				pendingCloseEvent
-			},
-			setState
-		] = useImmer<ListState>({
-			activeKey: rawActiveKey ?? defaultActiveKey,
-			activeKeys: rawActiveKeys ?? defaultActiveKeys
-		})
+		setState
+	] = useImmer<ListState>({
+		activeKey: rawActiveKey ?? defaultActiveKey,
+		activeKeys: rawActiveKeys ?? defaultActiveKeys
+	})
 
-		usePendingEvent({
-			eventKey: 'pendingActiveEvent',
-			func: rawOnActive,
-			pendingEvent: pendingActiveEvent,
-			setState
-		})
+	usePendingEvent('pendingActiveEvent', rawOnActive, {pendingEvent: pendingActiveEvent, setState})
+	usePendingEvent('pendingActivesEvent', onActives, {pendingEvent: pendingActivesEvent, setState})
+	usePendingEvent('pendingAfterAffordanceActiveEvent', rawOnActive, {
+		pendingEvent: pendingAfterAffordanceActiveEvent,
+		setState
+	})
 
-		usePendingEvent({
-			eventKey: 'pendingActivesEvent',
-			func: onActives,
-			pendingEvent: pendingActivesEvent,
-			setState
-		})
+	usePendingEvent('pendingCloseEvent', rawOnClose, {pendingEvent: pendingCloseEvent, setState})
+	usePendingEvent('pendingAfterAffordanceEvent', onConfirm, {pendingEvent: pendingAfterAffordanceEvent, setState})
 
-		usePendingEvent({
-			eventKey: 'pendingAfterAffordanceActiveEvent',
-			func: rawOnActive,
-			pendingEvent: pendingAfterAffordanceActiveEvent,
-			setState
-		})
+	const listRef = useRef<ScrollView>(null)
+	const mergedRef = useMergeRefs([ref, listRef])
+	const id = useId()
+	const {token} = useTheme()
+	const itemSize = rawItemSize ?? token.density.control[size]
+	const onActive = useMemo(
+		() => updateListActiveState(setState, {deselect, onActive: rawOnActive, onActives, selectType}),
+		[deselect, onActives, rawOnActive, selectType, setState]
+	)
 
-		usePendingEvent({
-			eventKey: 'pendingCloseEvent',
-			func: rawOnClose,
-			pendingEvent: pendingCloseEvent,
-			setState
-		})
+	const onActiveAfterAffordance = useMemo(
+		() => updateListAffordanceActiveState(setState, {onActive: rawOnActive, selectType}),
+		[rawOnActive, selectType, setState]
+	)
 
-		usePendingEvent({
-			eventKey: 'pendingAfterAffordanceEvent',
-			func: onConfirm,
-			pendingEvent: pendingAfterAffordanceEvent,
-			setState
-		})
+	const onClose = useMemo(() => triggerListClose(setState, rawOnClose), [rawOnClose, setState])
+	const runUpdateActive = useMemo(
+		() => updateListActiveState(setState, {deselect, selectType}),
+		[deselect, selectType, setState]
+	)
 
-		const listRef = useRef<ScrollView>(null)
-		const mergedRef = useMergeRefs([ref, listRef])
-		const id = useId()
-		const {token} = useTheme()
-		const itemSize = createListItemSize(size)(token)(rawItemSize)
-		const onActive = useMemo(
-			() => updateListActiveState({deselect, onActive: rawOnActive, onActives, selectType})(setState),
-			[deselect, onActives, rawOnActive, selectType, setState]
-		)
-
-		const onActiveAfterAffordance = useMemo(
-			() => updateListAffordanceActiveState({onActive: rawOnActive, selectType})(setState),
-			[rawOnActive, selectType, setState]
-		)
-
-		const onClose = useMemo(() => triggerListClose(rawOnClose)(setState), [rawOnClose, setState])
-		const runUpdateActive = useMemo(
-			() => updateListActiveState({deselect, selectType})(setState),
-			[deselect, selectType, setState]
-		)
-
-		const renderItem = useMemo(
-			() =>
-				createListItemRenderer({
-					...onItemStateEvent,
-					activeKey,
-					activeKeys,
-					afterAffordance,
-					afterAffordanceActiveKey,
-					beforeAffordance,
-					closeTrailing,
-					divider,
-					enableUnderlay,
-					enableUnderlayActive,
-					focusedIndex,
-					id,
-					onActive,
-					onActiveAfterAffordance,
-					onSecondaryAction,
-					radius,
-					renderItem: rawRenderItem,
-					selectType,
-					shape,
-					size,
-					skeletonDuration: loading && !loadingElement ? -1 : skeletonDuration,
-					skeletonElement,
-					supportingTextNumberOfLines,
-					trailingTriggerOn,
-					type
-				}),
-			[
+	const renderItem = useMemo(
+		() =>
+			createListItemRenderer({
+				...onItemStateEvent,
 				activeKey,
 				activeKeys,
 				afterAffordance,
@@ -170,46 +116,71 @@ export const ListBase = forwardRef<ScrollView, ListBaseProps>(
 				enableUnderlayActive,
 				focusedIndex,
 				id,
-				loading,
-				loadingElement,
 				onActive,
 				onActiveAfterAffordance,
 				onSecondaryAction,
-				onItemStateEvent,
 				radius,
-				rawRenderItem,
+				renderItem: rawRenderItem,
 				selectType,
 				shape,
 				size,
-				skeletonDuration,
+				skeletonDuration: loading && !loadingElement ? -1 : skeletonDuration,
 				skeletonElement,
 				supportingTextNumberOfLines,
 				trailingTriggerOn,
 				type
-			]
-		)
+			}),
+		[
+			activeKey,
+			activeKeys,
+			afterAffordance,
+			afterAffordanceActiveKey,
+			beforeAffordance,
+			closeTrailing,
+			divider,
+			enableUnderlay,
+			enableUnderlayActive,
+			focusedIndex,
+			id,
+			loading,
+			loadingElement,
+			onActive,
+			onActiveAfterAffordance,
+			onSecondaryAction,
+			onItemStateEvent,
+			radius,
+			rawRenderItem,
+			selectType,
+			shape,
+			size,
+			skeletonDuration,
+			skeletonElement,
+			supportingTextNumberOfLines,
+			trailingTriggerOn,
+			type
+		]
+	)
 
-		useEffect(() => {
-			runUpdateActive(rawActiveKey ?? rawActiveKeys)
-		}, [rawActiveKey, rawActiveKeys, runUpdateActive])
+	useEffect(() => {
+		runUpdateActive(rawActiveKey ?? rawActiveKeys)
+	}, [rawActiveKey, rawActiveKeys, runUpdateActive])
 
-		return (
-			<RenderList
-				{...renderListProps}
-				activeKey={activeKey}
-				activeKeys={activeKeys}
-				afterAffordanceActiveKey={afterAffordanceActiveKey}
-				focusedIndex={focusedIndex}
-				id={id}
-				itemSize={itemSize}
-				layoutType={layoutType}
-				loading={loading}
-				loadingElement={loadingElement}
-				onClose={onClose}
-				ref={mergedRef}
-				renderItem={renderItem}
-				shape={shape}
-			/>
-		)
-	}
-)
+	return (
+		<RenderList
+			{...renderListProps}
+			activeKey={activeKey}
+			activeKeys={activeKeys}
+			afterAffordanceActiveKey={afterAffordanceActiveKey}
+			focusedIndex={focusedIndex}
+			id={id}
+			itemSize={itemSize}
+			layoutType={layoutType}
+			loading={loading}
+			loadingElement={loadingElement}
+			onClose={onClose}
+			ref={mergedRef}
+			renderItem={renderItem}
+			shape={shape}
+		/>
+	)
+}

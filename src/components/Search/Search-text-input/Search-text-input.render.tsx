@@ -7,7 +7,7 @@ import {useTheme} from '../../../hooks'
 import {
 	DENSITY_SIZE,
 	DENSITY_TYPE,
-	densitySizeMapIconSize,
+	stepDownDensitySize,
 	densitySizeMapTypographySize,
 	hexToRGBA,
 	RADIUS,
@@ -53,7 +53,7 @@ export const RenderSearchTextInput = forwardRef<TextInput, RenderSearchTextInput
 		const {classesName, densityClasses, typographyClasses} = token.classes
 		const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)()
 		const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET)(LAYOUT.HORIZONTAL)
-		const iconSize = token.density.icon[densitySizeMapIconSize(size)]
+		const iconSize = token.density.icon[stepDownDensitySize(size)]
 		const isLeadingShow = !!leadingElement
 		const isTrailingShow = !!trailingElement
 		const placeholderTextColor =

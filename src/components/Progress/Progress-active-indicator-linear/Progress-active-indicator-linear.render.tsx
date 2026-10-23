@@ -26,13 +26,13 @@ export const RenderProgressActiveIndicatorLinear: FC<RenderProgressActiveIndicat
 			{...interactionHandlers}
 			className={classesName(
 				'relative flex flex-1 flex-row gap-[--density-spacing-x-small] self-stretch overflow-hidden',
-				shapeClasses(shape, radius)
+				shapeClasses(shape)(radius)
 			)}
 			testID={testID ?? `progressActiveIndicatorLinear--${id}`}
 		>
 			<AnimatedView
 				{...containerProps}
-				className={classesName('pointer-events-none z-20 bg-[--color-primary]', shapeClasses(shape, radius))}
+				className={classesName('pointer-events-none z-20 bg-[--color-primary]', shapeClasses(shape)(radius))}
 				style={contentAnimatedStyle}
 				testID={`progressActiveIndicatorLinear__animatedContent--${id}`}
 			/>
@@ -40,7 +40,7 @@ export const RenderProgressActiveIndicatorLinear: FC<RenderProgressActiveIndicat
 			<View
 				className={classesName(
 					'h-[--border-x-large] flex-1 self-stretch bg-[--color-secondary-container]',
-					shapeClasses(shape, radius)
+					shapeClasses(shape)(radius)
 				)}
 				testID={`progressActiveIndicatorLinear__track--${id}`}
 			/>
@@ -49,7 +49,7 @@ export const RenderProgressActiveIndicatorLinear: FC<RenderProgressActiveIndicat
 				<View
 					className={classesName(
 						'absolute right-0 top-0 z-10 h-[--border-x-large] w-[--border-x-large] bg-[--color-primary]',
-						shapeClasses(shape, radius)
+						shapeClasses(shape)(radius)
 					)}
 					testID={`progressActiveIndicatorLinear__stop--${id}`}
 				/>
@@ -57,5 +57,3 @@ export const RenderProgressActiveIndicatorLinear: FC<RenderProgressActiveIndicat
 		</View>
 	)
 }
-
-

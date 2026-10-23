@@ -1,24 +1,27 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import {EVENT_NAME} from '../../../constants'
-import type {AnimateSharedValueTo, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
-
+import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
 import type {ListAffordanceButtonState} from './List-affordance-button.interface'
 
-export const handleListAffordanceButtonStateChange =
-	({eventName}: HandleStateEventChangeOptions) =>
-	(setState: Updater<ListAffordanceButtonState>) =>
-	(_event: StateEvent) => {
-		if (eventName === EVENT_NAME.LAYOUT) {
-			return
-		}
+import {EVENT_NAME} from '../../../constants'
 
-		setState(draft => {
-			draft.eventName = eventName
-		})
+export const handleListAffordanceButtonStateChange = (
+	_event: StateEvent,
+	setState: Updater<ListAffordanceButtonState>,
+	{eventName}: HandleStateEventChangeOptions
+) => {
+	if (eventName === EVENT_NAME.LAYOUT) {
+		return
 	}
 
-export const animateListAffordanceButton =
-	(animateSharedValueTo: AnimateSharedValueTo) => (colorSharedValue: SharedValue<number>) => (value: number) =>
-		animateSharedValueTo({sharedValue: colorSharedValue})(value)
+	setState(draft => {
+		draft.eventName = eventName
+	})
+}
+
+export const animateListAffordanceButton = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
+	const animateSharedValueTo = animatedTiming(sharedValue)
+
+	return (value: number) => animateSharedValueTo(value)
+}

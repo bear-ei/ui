@@ -47,6 +47,7 @@ export const RenderTouchable: FC<RenderTouchableProps> = ({
 }) => {
 	const {token} = useTheme()
 	const {classesName, shapeClasses} = token.classes
+	const radiusClasses = shapeClasses(shape)
 
 	// interactionHandlers wraps the raw callbacks (onPress, onPressIn, …)
 	// that TouchableBase passed through touchableProps. They MUST come last
@@ -60,14 +61,14 @@ export const RenderTouchable: FC<RenderTouchableProps> = ({
 			testID={testID ?? `touchable--${id}`}
 		>
 			<View
-				className={classesName('relative z-30 flex-1 self-stretch', shapeClasses(shape, radius))}
+				className={classesName('relative z-30 flex-1 self-stretch', radiusClasses(radius))}
 				testID={`touchable__main--${id}`}
 			>
 				{children}
 				<View
 					className={classesName(
 						'absolute bottom-0 left-0 right-0 top-0 overflow-hidden',
-						shapeClasses(shape, radius)
+						radiusClasses(radius)
 					)}
 					testID={`touchable__rippleLayout--${id}`}
 				>

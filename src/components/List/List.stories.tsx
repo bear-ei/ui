@@ -1,71 +1,72 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+
 import {Circle} from 'lucide-react-native'
+
+import type {ListProps} from './List.interface'
 
 import {DENSITY_SIZE, RADIUS, SHAPE} from '../../theme'
 import {IconButton} from '../Icon-button'
-
 import {List} from './List.component'
 import {LIST_SELECT_TYPE} from './List.enum'
-import type {ListProps} from './List.interface'
 
 export const Leading: StoryObj<ListProps> = {
 	args: {
-		radius: RADIUS.MEDIUM,
-		defaultActiveKey: 'TitleB',
 		activeKey: 'TitleA',
 		data: [
 			{
-				indexKey: 'TitleA',
 				headline: 'TitleA',
+				indexKey: 'TitleA',
 				leading: <Circle />
 			},
 			{
-				indexKey: 'TitleB',
 				headline: 'TitleB',
+				indexKey: 'TitleB',
 				leading: <Circle />
 			},
 			{
-				indexKey: 'TitleC',
 				headline: 'TitleC',
+				indexKey: 'TitleC',
 				leading: <Circle />
 			},
 			{
-				indexKey: 'TitleD',
 				headline: 'TitleD',
+				indexKey: 'TitleD',
 				leading: <Circle />
 			}
-		]
+		],
+		defaultActiveKey: 'TitleB',
+		radius: RADIUS.MEDIUM
 	}
 }
 
 export const Trailing: StoryObj<ListProps> = {
 	args: {
-		radius: RADIUS.MEDIUM,
-		size: DENSITY_SIZE.LARGE,
-		defaultActiveKey: 'TitleB',
 		activeKey: 'TitleA',
 		data: [
 			{
-				indexKey: 'TitleA',
-				headline: 'TitleA'
+				headline: 'TitleA',
+				indexKey: 'TitleA'
 				// trailing: <IconButton />
 			},
 			{
-				indexKey: 'TitleB',
 				headline: 'TitleB',
+				indexKey: 'TitleB',
 				leading: <Circle />
 			},
 			{
-				indexKey: 'TitleC',
 				headline: 'TitleC',
+				indexKey: 'TitleC',
 				trailing: <IconButton />
 			},
 			{
-				indexKey: 'TitleD',
 				headline: 'TitleD',
+				indexKey: 'TitleD',
 				trailing: <IconButton />
 			}
-		]
+		],
+		defaultActiveKey: 'TitleB',
+		radius: RADIUS.MEDIUM,
+		size: DENSITY_SIZE.LARGE
 	}
 }
 
@@ -73,31 +74,31 @@ export const AfterAffordance: StoryObj<ListProps> = {
 	args: {
 		activeKey: 'TitleA',
 		afterAffordance: true,
-		defaultActiveKey: 'TitleB',
-		selectType: LIST_SELECT_TYPE.SINGLE,
-		shape: SHAPE.ALL,
-		radius: RADIUS.MEDIUM,
-		size: DENSITY_SIZE.MEDIUM,
 		data: [
 			{
-				indexKey: 'TitleA',
 				headline: 'TitleA',
+				indexKey: 'TitleA',
 				primaryButtonLabelText: 'Action',
 				secondaryButtonLabelText: 'More'
 			},
 			{
-				indexKey: 'TitleB',
-				headline: 'TitleB'
+				headline: 'TitleB',
+				indexKey: 'TitleB'
 			},
 			{
-				indexKey: 'TitleC',
-				headline: 'TitleC'
+				headline: 'TitleC',
+				indexKey: 'TitleC'
 			},
 			{
-				indexKey: 'TitleD',
-				headline: 'TitleD'
+				headline: 'TitleD',
+				indexKey: 'TitleD'
 			}
-		]
+		],
+		defaultActiveKey: 'TitleB',
+		radius: RADIUS.MEDIUM,
+		selectType: LIST_SELECT_TYPE.SINGLE,
+		shape: SHAPE.ALL,
+		size: DENSITY_SIZE.MEDIUM
 	}
 }
 
@@ -105,167 +106,218 @@ export const TrailingClose: StoryObj<ListProps> = {
 	args: {
 		activeKey: 'TitleA',
 		closeTrailing: true,
+		data: [
+			{
+				headline: 'TitleA',
+				indexKey: 'TitleA'
+			},
+			{
+				headline: 'TitleB',
+				indexKey: 'TitleB'
+			},
+			{
+				headline: 'TitleC',
+				indexKey: 'TitleC'
+			},
+			{
+				headline: 'TitleD',
+				indexKey: 'TitleD'
+			}
+		],
 		defaultActiveKey: 'TitleB',
 		radius: RADIUS.MEDIUM,
 		size: DENSITY_SIZE.MEDIUM,
-		trailingTriggerOn: 'HOVER',
-		data: [
-			{
-				indexKey: 'TitleA',
-				headline: 'TitleA'
-			},
-			{
-				indexKey: 'TitleB',
-				headline: 'TitleB'
-			},
-			{
-				indexKey: 'TitleC',
-				headline: 'TitleC'
-			},
-			{
-				indexKey: 'TitleD',
-				headline: 'TitleD'
-			}
-		]
+		trailingTriggerOn: 'HOVER'
 	}
 }
 
 export const ExtraLarge: StoryObj<ListProps> = {
 	args: {
-		size: DENSITY_SIZE.X_LARGE,
-		defaultActiveKey: 'TitleB',
 		activeKey: 'TitleA',
 		closeTrailing: true,
 		data: [
 			{
-				indexKey: 'TitleA',
-				headline: 'TitleA'
+				headline: 'TitleA',
+				indexKey: 'TitleA'
 			},
 			{
-				indexKey: 'TitleB',
-				headline: 'TitleB'
+				headline: 'TitleB',
+				indexKey: 'TitleB'
 			},
 			{
-				indexKey: 'TitleC',
-				headline: 'TitleC'
+				headline: 'TitleC',
+				indexKey: 'TitleC'
 			},
 			{
-				indexKey: 'TitleD',
-				headline: 'TitleD'
+				headline: 'TitleD',
+				indexKey: 'TitleD'
 			}
-		]
+		],
+		defaultActiveKey: 'TitleB',
+		size: DENSITY_SIZE.X_LARGE
 	}
 }
 
 export const Large: StoryObj<ListProps> = {
 	args: {
-		size: DENSITY_SIZE.LARGE,
-		defaultActiveKey: 'TitleB',
 		activeKey: 'TitleA',
 		closeTrailing: true,
 		data: [
 			{
-				indexKey: 'TitleA',
-				headline: 'TitleA'
+				headline: 'TitleA',
+				indexKey: 'TitleA'
 			},
 			{
-				indexKey: 'TitleB',
-				headline: 'TitleB'
+				headline: 'TitleB',
+				indexKey: 'TitleB'
 			},
 			{
-				indexKey: 'TitleC',
-				headline: 'TitleC'
+				headline: 'TitleC',
+				indexKey: 'TitleC'
 			},
 			{
-				indexKey: 'TitleD',
-				headline: 'TitleD'
+				headline: 'TitleD',
+				indexKey: 'TitleD'
 			}
-		]
+		],
+		defaultActiveKey: 'TitleB',
+		size: DENSITY_SIZE.LARGE
 	}
 }
 
 export const Medium: StoryObj<ListProps> = {
 	args: {
-		size: DENSITY_SIZE.MEDIUM,
-		defaultActiveKey: 'TitleB',
 		activeKey: 'TitleA',
 		closeTrailing: true,
 		data: [
 			{
-				indexKey: 'TitleA',
-				headline: 'TitleA'
+				headline: 'TitleA',
+				indexKey: 'TitleA'
 			},
 			{
-				indexKey: 'TitleB',
-				headline: 'TitleB'
+				headline: 'TitleB',
+				indexKey: 'TitleB'
 			},
 			{
-				indexKey: 'TitleC',
-				headline: 'TitleC'
+				headline: 'TitleC',
+				indexKey: 'TitleC'
 			},
 			{
-				indexKey: 'TitleD',
-				headline: 'TitleD'
+				headline: 'TitleD',
+				indexKey: 'TitleD'
 			}
-		]
+		],
+		defaultActiveKey: 'TitleB',
+		size: DENSITY_SIZE.MEDIUM
 	}
 }
 
 export const Small: StoryObj<ListProps> = {
 	args: {
-		size: DENSITY_SIZE.SMALL,
-		defaultActiveKey: 'TitleB',
 		activeKey: 'TitleA',
 		closeTrailing: true,
 		data: [
 			{
-				indexKey: 'TitleA',
-				headline: 'TitleA'
+				headline: 'TitleA',
+				indexKey: 'TitleA'
 			},
 			{
-				indexKey: 'TitleB',
-				headline: 'TitleB'
+				headline: 'TitleB',
+				indexKey: 'TitleB'
 			},
 			{
-				indexKey: 'TitleC',
-				headline: 'TitleC'
+				headline: 'TitleC',
+				indexKey: 'TitleC'
 			},
 			{
-				indexKey: 'TitleD',
-				headline: 'TitleD'
+				headline: 'TitleD',
+				indexKey: 'TitleD'
 			}
-		]
+		],
+		defaultActiveKey: 'TitleB',
+		size: DENSITY_SIZE.SMALL
 	}
 }
 
 export const ExtraSmall: StoryObj<ListProps> = {
 	args: {
-		size: DENSITY_SIZE.X_SMALL,
-		defaultActiveKey: 'TitleB',
 		activeKey: 'TitleA',
 		closeTrailing: true,
 		data: [
 			{
-				indexKey: 'TitleA',
-				headline: 'TitleA'
+				headline: 'TitleA',
+				indexKey: 'TitleA'
 			},
 			{
-				indexKey: 'TitleB',
-				headline: 'TitleB'
+				headline: 'TitleB',
+				indexKey: 'TitleB'
 			},
 			{
-				indexKey: 'TitleC',
-				headline: 'TitleC'
+				headline: 'TitleC',
+				indexKey: 'TitleC'
 			},
 			{
-				indexKey: 'TitleD',
-				headline: 'TitleD'
+				headline: 'TitleD',
+				indexKey: 'TitleD'
 			}
-		]
+		],
+		defaultActiveKey: 'TitleB',
+		size: DENSITY_SIZE.X_SMALL
+	}
+}
+
+export const Multiple: StoryObj<ListProps> = {
+	args: {
+		activeKeys: ['TitleA', 'TitleB'],
+		closeTrailing: true,
+		data: [
+			{
+				headline: 'TitleA',
+				indexKey: 'TitleA'
+			},
+			{
+				headline: 'TitleB',
+				indexKey: 'TitleB'
+			},
+			{
+				headline: 'TitleC',
+				indexKey: 'TitleC'
+			},
+			{
+				headline: 'TitleD',
+				indexKey: 'TitleD'
+			}
+		],
+		selectType: LIST_SELECT_TYPE.MULTIPLE
+	}
+}
+
+export const Deselect: StoryObj<ListProps> = {
+	args: {
+		activeKey: 'TitleA',
+		data: [
+			{
+				headline: 'TitleA',
+				indexKey: 'TitleA'
+			},
+			{
+				headline: 'TitleB',
+				indexKey: 'TitleB'
+			},
+			{
+				headline: 'TitleC',
+				indexKey: 'TitleC'
+			},
+			{
+				headline: 'TitleD',
+				indexKey: 'TitleD'
+			}
+		],
+		deselect: true
 	}
 }
 
 export default {
-	title: 'components/List',
-	component: List
+	component: List,
+	title: 'components/List'
 } as Meta<typeof List>

@@ -2,16 +2,7 @@ import type {GestureResponderEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
-import type {
-	AnimatedTimingOptions,
-	AnimateSharedValueTo,
-	HandleStateEventChangeOptions,
-	StateEvent
-} from '../../../hooks'
-import {DURATION, EASING} from '../../../theme'
-
-import {LIST_AFTER_AFFORDANCE_PHASE} from './List-after-affordance.enum'
+import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
 import type {
 	ListAfterAffordancePhase,
 	ListAfterAffordanceState,
@@ -19,14 +10,20 @@ import type {
 	UpdateListAffordanceSecondaryActionStateOptions
 } from './List-after-affordance.interface'
 
+import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
+import {DURATION, EASING} from '../../../theme'
+import {LIST_AFTER_AFFORDANCE_PHASE} from './List-after-affordance.enum'
+
 export const triggerListAfterAffordanceConfirm =
-	({onConfirm, phase, indexKey}: TriggerListAfterAffordanceConfirmOptions) =>
+	({indexKey, onConfirm, phase}: TriggerListAfterAffordanceConfirmOptions) =>
 	(_event: GestureResponderEvent) =>
 		onConfirm?.({indexKey, phase})
 
 export const updateListAffordanceSecondaryActionState =
-	({onSecondaryAction, phase, indexKey}: UpdateListAffordanceSecondaryActionStateOptions) =>
-	(setState: Updater<ListAfterAffordanceState>) =>
+	(
+		setState: Updater<ListAfterAffordanceState>,
+		{indexKey, onSecondaryAction, phase}: UpdateListAffordanceSecondaryActionStateOptions
+	) =>
 	(_event: GestureResponderEvent) =>
 		setState(draft => {
 			draft.phase =
@@ -50,33 +47,33 @@ export const resetAffordanceConfirmationOnHide =
 		})
 	}
 
-export const animateListAfterAffordance =
-	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
-	(translateXSharedValue: SharedValue<number>) => {
-		const animateSharedValueTo = animatedTiming({easing: EASING.STANDARD_DECELERATE, duration: DURATION.SHORT_2})({
-			sharedValue: translateXSharedValue
-		})
+export const animateListAfterAffordance = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
+	const animateSharedValueTo = animatedTiming(sharedValue, {
+		duration: DURATION.SHORT_2,
+		easing: EASING.STANDARD_DECELERATE
+	})
 
-		return (phase?: ListAfterAffordancePhase) => {
-			if (!phase) {
-				return
-			}
-
-			animateSharedValueTo(phase === LIST_AFTER_AFFORDANCE_PHASE.DANGER ? 1 : 0)
-		}
-	}
-
-export const handleAffordanceStateChange =
-	({eventName}: HandleStateEventChangeOptions) =>
-	(setState: Updater<ListAfterAffordanceState>) =>
-	(_event: StateEvent) => {
-		if (eventName !== EVENT_NAME.LAYOUT) {
+	return (phase?: ListAfterAffordancePhase) => {
+		if (!phase) {
 			return
 		}
 
-		return setState(draft => {
-			if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
-				draft.status = COMPONENT_STATUS.SUCCEEDED
-			}
-		})
+		animateSharedValueTo(phase === LIST_AFTER_AFFORDANCE_PHASE.DANGER ? 1 : 0)
 	}
+}
+
+export const handleAffordanceStateChange = (
+	_event: StateEvent,
+	setState: Updater<ListAfterAffordanceState>,
+	{eventName}: HandleStateEventChangeOptions
+) => {
+	if (eventName !== EVENT_NAME.LAYOUT) {
+		return
+	}
+
+	return setState(draft => {
+		if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
+			draft.status = COMPONENT_STATUS.SUCCEEDED
+		}
+	})
+}

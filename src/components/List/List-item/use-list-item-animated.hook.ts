@@ -1,23 +1,25 @@
-import {useEffect, useMemo} from 'react'
 import type {ViewStyle} from 'react-native'
+
+import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
+
+import type {UseListItemAnimatedOptions} from './List-item.interface'
 
 import {COMPONENT_STATUS} from '../../../constants'
 import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {DENSITY_SIZE, hexToRGBA} from '../../../theme'
 import {platformValue} from '../../../utils'
-
 import {animateListItemActiveState, animateListItemAffordanceVisible} from './List-item.handler'
-import type {UseListItemAnimatedOptions} from './List-item.interface'
 
 export const useListItemAnimated = ({active, afterAffordanceVisible, status}: UseListItemAnimatedOptions) => {
 	const {token} = useTheme()
+	const {density, opacity, scheme} = token
 	const animatedTiming = useAnimatedTiming()
 	const contentTransformXSharedValue = useSharedValue(0)
 	const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
 	const contentTranslateXOutputRanges = useMemo(
-		() => [token.density.spacing[DENSITY_SIZE.NONE], -token.density.control[DENSITY_SIZE.XX_LARGE] * 2],
-		[token]
+		() => [density.spacing[DENSITY_SIZE.NONE], -density.control[DENSITY_SIZE.XX_LARGE] * 2],
+		[density]
 	)
 
 	const contentAnimatedStyle = useAnimatedStyle(
@@ -34,11 +36,8 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
 	)
 
 	const headlineTextColorOutputRanges = useMemo(
-		() => [
-			hexToRGBA(token.scheme.onSurface)(token.opacity.level10),
-			hexToRGBA(token.scheme.onSecondaryContainer)(token.opacity.level10)
-		],
-		[token]
+		() => [hexToRGBA(scheme.onSurface, opacity.level10), hexToRGBA(scheme.onSecondaryContainer, opacity.level10)],
+		[scheme, opacity]
 	)
 
 	const headlineTextAnimatedStyle = useAnimatedStyle(() => ({
@@ -46,12 +45,12 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
 	}))
 
 	const runAnimateVisible = useMemo(
-		() => animateListItemAffordanceVisible(animatedTiming)(contentTransformXSharedValue),
+		() => animateListItemAffordanceVisible(contentTransformXSharedValue, animatedTiming),
 		[animatedTiming, contentTransformXSharedValue]
 	)
 
 	const runAnimateActiveState = useMemo(
-		() => animateListItemActiveState(animatedTiming)(headlineTextSharedValue),
+		() => animateListItemActiveState(headlineTextSharedValue, animatedTiming),
 		[animatedTiming, headlineTextSharedValue]
 	)
 

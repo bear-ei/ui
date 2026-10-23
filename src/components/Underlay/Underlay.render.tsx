@@ -23,6 +23,7 @@ export const RenderUnderlay: FC<RenderUnderlayProps> = ({
 }) => {
 	const {token} = useTheme()
 	const {classesName, shapeClasses} = token.classes
+	const radiusClasses = shapeClasses(shape)
 	const {onLayout} = interactionHandlers
 	const activeLayerStyle = useMemo(
 		() => [{...(activeColor && {backgroundColor: activeColor})}, activeLayerAnimatedStyle],
@@ -39,7 +40,7 @@ export const RenderUnderlay: FC<RenderUnderlayProps> = ({
 			{...containerProps}
 			className={classesName(
 				'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10 flex flex-col items-center justify-center overflow-hidden',
-				shapeClasses(shape, radius)
+				radiusClasses(radius)
 			)}
 			onLayout={onLayout}
 			testID={testID ?? `underlay--${id}`}
@@ -54,7 +55,7 @@ export const RenderUnderlay: FC<RenderUnderlayProps> = ({
 				<AnimatedView
 					className={classesName(
 						'absolute bottom-0 left-0 right-0 top-0 z-10',
-						shapeClasses(shape, activeRadius ?? radius)
+						radiusClasses(activeRadius ?? radius)
 					)}
 					style={activeLayerStyle}
 					testID={`underlay__activeLayer--${id}`}
@@ -63,5 +64,3 @@ export const RenderUnderlay: FC<RenderUnderlayProps> = ({
 		</View>
 	)
 }
-
-

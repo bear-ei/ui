@@ -1,63 +1,60 @@
 import type {WritableDraft} from 'immer'
 import type {Updater} from 'use-immer'
 
-import {DENSITY_SIZE, type DensitySizeScale, type Token} from '../../theme'
-import {arrayEqual} from '../../utils'
 import type {RenderVirtualListItemInfo, VirtualListCloseEvent} from '../Virtual-list'
-
-import type {ListItemData} from './List-item'
-import {LIST_SELECT_TYPE} from './List.enum'
 import type {
 	CreateRenderListItemOptions,
 	ListAffordanceActiveStateEvent,
+	ListItemData,
 	ListState,
 	UpdateListActiveStateOptions
 } from './List.interface'
+
+import {arrayEqual} from '../../utils'
+import {LIST_SELECT_TYPE} from './List.enum'
 import {RenderDefaultListItem} from './List.render'
 
-export const updateListActiveState = ({
-	deselect,
-	onActive,
-	onActives,
-	selectType
-}: UpdateListActiveStateOptions = {}) => {
-	const updateListActiveKey = (draft: WritableDraft<ListState>) => (activeKeys?: string | string[]) => {
-		const prevActiveKey = draft.activeKey
+const updateListActiveKey = (draft: WritableDraft<ListState>, activeKeys?: string | string[], deselect?: boolean) => {
+	const prevActiveKey = draft.activeKey
 
-		if (Array.isArray(activeKeys)) {
-			return
-		}
-
-		draft.activeKey = activeKeys === prevActiveKey && deselect ? undefined : activeKeys
-
-		if (draft.afterAffordanceActiveKey !== activeKeys) {
-			draft.afterAffordanceActiveKey = undefined
-		}
-
-		return draft.activeKey
+	if (Array.isArray(activeKeys)) {
+		return
 	}
 
-	const updateListActiveKeys = (draft: WritableDraft<ListState>) => (activeKeys: string | string[]) => {
-		const filterPrevActiveKeys = (key: string) => key !== activeKeys
-		const prevActiveKeys = draft.activeKeys
-		const nextActiveKeys =
-			typeof activeKeys === 'string' ? [...new Set([...(prevActiveKeys ?? []), activeKeys])] : activeKeys
+	draft.activeKey = activeKeys === prevActiveKey && deselect ? undefined : activeKeys
 
-		if (typeof activeKeys === 'string') {
-			draft.activeKeys =
-				prevActiveKeys?.includes(activeKeys) && deselect ?
-					prevActiveKeys.filter(filterPrevActiveKeys)
-				:	nextActiveKeys
-		}
-
-		if (Array.isArray(activeKeys)) {
-			draft.activeKeys = nextActiveKeys
-		}
-
-		return draft.activeKeys
+	if (draft.afterAffordanceActiveKey !== activeKeys) {
+		draft.afterAffordanceActiveKey = undefined
 	}
 
-	return (setState: Updater<ListState>) => (activeKeys?: string | string[]) => {
+	return draft.activeKey
+}
+
+const updateListActiveKeys = (draft: WritableDraft<ListState>, activeKeys: string | string[], deselect?: boolean) => {
+	const filterPrevActiveKeys = (key: string) => key !== activeKeys
+	const prevActiveKeys = draft.activeKeys
+	const nextActiveKeys =
+		typeof activeKeys === 'string' ? [...new Set([...(prevActiveKeys ?? []), activeKeys])] : activeKeys
+
+	if (typeof activeKeys === 'string') {
+		draft.activeKeys =
+			prevActiveKeys?.includes(activeKeys) && deselect ?
+				prevActiveKeys.filter(filterPrevActiveKeys)
+			:	nextActiveKeys
+	}
+
+	if (Array.isArray(activeKeys)) {
+		draft.activeKeys = nextActiveKeys
+	}
+
+	return draft.activeKeys
+}
+
+export const updateListActiveState = (
+	setState: Updater<ListState>,
+	{deselect, onActive, onActives, selectType}: UpdateListActiveStateOptions = {}
+) => {
+	return (activeKeys?: string | string[]) => {
 		if (!selectType) {
 			return
 		}
@@ -67,8 +64,8 @@ export const updateListActiveState = ({
 			const preActiveKeys = draft.activeKeys
 			const callbackValue =
 				selectType === LIST_SELECT_TYPE.SINGLE ?
-					updateListActiveKey(draft)(activeKeys)
-				:	updateListActiveKeys(draft)(activeKeys ?? [])
+					updateListActiveKey(draft, activeKeys, deselect)
+				:	updateListActiveKeys(draft, activeKeys ?? [], deselect)
 
 			const isUpdateSingleNextActiveEvent =
 				selectType === LIST_SELECT_TYPE.SINGLE &&
@@ -93,20 +90,8 @@ export const updateListActiveState = ({
 	}
 }
 
-export const createListItemSize =
-	(size: DensitySizeScale = DENSITY_SIZE.MEDIUM) =>
-	(token: Token) =>
-	(itemSize?: number) => {
-		if (itemSize) {
-			return itemSize
-		}
-
-		return token.density.control[size]
-	}
-
 export const updateListAffordanceActiveState =
-	({onActive, selectType}: UpdateListActiveStateOptions) =>
-	(setState: Updater<ListState>) =>
+	(setState: Updater<ListState>, {onActive, selectType}: UpdateListActiveStateOptions) =>
 	({activeKey, callbackEvent}: ListAffordanceActiveStateEvent = {}) => {
 		if (selectType === LIST_SELECT_TYPE.MULTIPLE) {
 			return
@@ -136,8 +121,7 @@ export const updateListAffordanceActiveState =
 	}
 
 export const triggerListClose =
-	(onClose?: (event: VirtualListCloseEvent) => void) =>
-	(setState: Updater<ListState>) =>
+	(setState: Updater<ListState>, onClose?: (event: VirtualListCloseEvent) => void) =>
 	({activeKey, indexKey}: VirtualListCloseEvent) => {
 		setState(draft => {
 			if (activeKey) {
@@ -145,7 +129,7 @@ export const triggerListClose =
 			}
 
 			if (onClose) {
-				draft.pendingCloseEvent = {indexKey, activeKey}
+				draft.pendingCloseEvent = {activeKey, indexKey}
 			}
 		})
 	}

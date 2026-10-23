@@ -19,5 +19,3 @@ export const RenderFormItem: FC<RenderFormItemProps> = ({className, controlEleme
 		</View>
 	)
 }
-
-
