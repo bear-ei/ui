@@ -1,12 +1,11 @@
 import type {JSX, KeyboardEvent, RefAttributes} from 'react'
 import type {LayoutRectangle, MouseEvent, TextInput, View, ViewProps} from 'react-native'
 
-import type {EventName, TriggerOn} from '../../constants'
+import type {TriggerOn} from '../../constants'
 import type {HandleStateEventChangeOptions} from '../../hooks'
 import type {ThemeProps} from '../../theme'
 import type {ElevationValue} from '../Elevation'
 import type {LayoutAnimatedProps} from '../Layout-animated'
-
 import type {POPOVER_CONTENT_POSITION, POPOVER_TYPE} from './Popover.enum'
 
 export type PopoverContentPosition = (typeof POPOVER_CONTENT_POSITION)[keyof typeof POPOVER_CONTENT_POSITION]
@@ -38,11 +37,12 @@ export type PopoverBaseProps = PopoverProps
 export interface PopoverState {
 	contextMenuLayout?: {x: number; y: number}
 	elevation?: ElevationValue
-	eventName?: EventName
 	pendingAnimationFinishedEvent?: boolean
 	pendingEmitContentEvent?: EmitPopoverEvent
+	pendingRawVisibleEvent?: boolean
 	pendingUnmountContentEvent?: boolean
 	pendingUnmountPressableLayoutEvent?: boolean
+
 	pendingVisibleEvent?: boolean
 	visible?: boolean
 }
@@ -62,7 +62,6 @@ export interface EmitPopoverEvent {
 }
 
 export type UpdatePopoverContextMenuLayoutOptions = Pick<RenderPopoverProps, 'disabled' | 'onVisible'>
-
 export interface HandlePopoverContentAnimationFinishedOptions extends Pick<
 	PopoverProps,
 	'onAnimationFinished' | 'type'

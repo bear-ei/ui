@@ -1,5 +1,5 @@
 import type {ValidationError, ValidatorOptions} from 'class-validator'
-import type {ForwardedRef, JSX, RefAttributes} from 'react'
+import type {JSX, RefAttributes} from 'react'
 import type {View, ViewProps} from 'react-native'
 import type {Updater} from 'use-immer'
 
@@ -16,7 +16,7 @@ export interface ValuesChangeEvent<T> {
 	values: T
 }
 
-export interface FormCallbacks<T = any> {
+export interface FormCallbacks<T> {
 	onFinish?: (values: T) => void
 	onFinishFailed?: (errors: FormErrors<T>) => void
 	onValuesChange?: (event: ValuesChangeEvent<T>) => void
@@ -67,7 +67,6 @@ export interface FormProps<T = any> extends ViewProps, FormCallbacks<T>, RefAttr
 	initialValues?: T
 	items?: FormItemProps[]
 	layoutType?: LayoutType
-	ref?: ForwardedRef<View>
 	validatorOptions?: FormValidatorOptions
 }
 

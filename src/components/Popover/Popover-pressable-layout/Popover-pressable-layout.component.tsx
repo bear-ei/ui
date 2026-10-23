@@ -1,18 +1,8 @@
-import {forwardRef} from 'react'
-
-import {typedMemo} from '../../../utils'
-import type {PressableType} from '../../Touchable'
-
-import {PopoverPressableLayoutBase} from './Popover-pressable-layout-base.component'
 import type {PopoverLayoutProps} from './Popover-pressable-layout.interface'
 
-const PopoverPressableLayoutWithRef = forwardRef<PressableType, PopoverLayoutProps>((props, ref) => (
-	<PopoverPressableLayoutBase
-		{...props}
-		ref={ref}
-	/>
+import {typedMemo} from '../../../utils'
+import {PopoverPressableLayoutBase} from './Popover-pressable-layout-base.component'
+
+export const PopoverPressableLayout = typedMemo((props: PopoverLayoutProps) => (
+	<PopoverPressableLayoutBase {...props} />
 ))
-
-
-
-export const PopoverPressableLayout = typedMemo(PopoverPressableLayoutWithRef)

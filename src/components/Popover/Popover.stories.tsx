@@ -1,11 +1,15 @@
-import type {Meta} from '@storybook/react-native-web-vite'
+import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+
 import {Circle} from 'lucide-react-native'
 import {View} from 'react-native'
+import {Text} from 'react-native'
 
+import type {PopoverProps} from './Popover.interface'
+
+import {Button} from '../Button'
 import {ICON_BUTTON_TYPE, IconButton} from '../Icon-button'
-
 import {Popover} from './Popover.component'
-import {POPOVER_CONTENT_POSITION} from './Popover.enum'
+import {POPOVER_CONTENT_POSITION, POPOVER_TYPE} from './Popover.enum'
 
 export const PlainVerticalEnd = () => (
 	<View className='flex h-[800px] w-[800px] items-center justify-center'>
@@ -71,8 +75,39 @@ export const PlainHorizontalEnd = () => (
 	</View>
 )
 
+export const Tooltip: StoryObj<PopoverProps> = {
+	args: {
+		content: 'Tooltip text',
+		defaultVisible: true,
+		popoverContentPosition: POPOVER_CONTENT_POSITION.VERTICAL_END
+	}
+}
+
+export const Plain: StoryObj<PopoverProps> = {
+	args: {
+		content: 'Plain content',
+		defaultVisible: true,
+		popoverContentPosition: POPOVER_CONTENT_POSITION.VERTICAL_END,
+		type: POPOVER_TYPE.PLAIN
+	}
+}
+
+export const Rich: StoryObj<PopoverProps> = {
+	args: {
+		content: (
+			<View>
+				<Text>Rich content</Text>
+				<Button labelText='Action' />
+			</View>
+		),
+		defaultVisible: true,
+		popoverContentPosition: POPOVER_CONTENT_POSITION.VERTICAL_END,
+		type: POPOVER_TYPE.RICH
+	}
+}
+
 export default {
-	title: 'components/Popover',
 	argTypes: {onPress: {action: 'pressed'}},
-	component: Popover
+	component: Popover,
+	title: 'components/Popover'
 } as Meta<typeof Popover>

@@ -1,18 +1,16 @@
-import {forwardRef, useId} from 'react'
+import {useId, type FC} from 'react'
 
-import type {PressableType} from '../../Touchable'
 import type {PopoverLayoutBaseProps} from './Popover-pressable-layout.interface'
 
 import {RenderPopoverPressableLayout} from './Popover-pressable-layout.render'
 
-export const PopoverPressableLayoutBase = forwardRef<PressableType, PopoverLayoutBaseProps>((props, ref) => {
+export const PopoverPressableLayoutBase: FC<PopoverLayoutBaseProps> = props => {
 	const id = useId()
 
 	return (
 		<RenderPopoverPressableLayout
 			{...props}
 			id={id}
-			ref={ref}
 		/>
 	)
-})
+}

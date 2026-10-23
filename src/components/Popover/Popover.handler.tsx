@@ -1,13 +1,9 @@
-import {View, type MouseEvent, type PressableProps} from 'react-native'
 import type {Updater} from 'use-immer'
 
-import {EVENT_NAME, TRIGGER_ON, type EventName, type TriggerOn} from '../../constants'
-import {emitter, MODAL_TYPE} from '../../contexts'
-import type {StateEvent} from '../../hooks'
-import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
+import {View, type MouseEvent, type PressableProps} from 'react-native'
 
+import type {StateEvent} from '../../hooks'
 import type {PopoverContentProps} from './Popover-content'
-import {POPOVER_TYPE} from './Popover.enum'
 import type {
 	EmitPopoverEvent,
 	HandlePopoverContentAnimationFinishedOptions,
@@ -18,18 +14,26 @@ import type {
 	UpdatePopoverVisibleOptions
 } from './Popover.interface'
 
-export const updatePopoverVisible = ({onVisible, type}: UpdatePopoverVisibleOptions) => {
+import {EVENT_NAME, TRIGGER_ON, type EventName, type TriggerOn} from '../../constants'
+import {emitter, MODAL_TYPE} from '../../contexts'
+import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
+import {POPOVER_TYPE} from './Popover.enum'
+
+export const updatePopoverVisible = (
+	setState: Updater<PopoverState>,
+	{onVisible, type}: UpdatePopoverVisibleOptions
+) => {
 	const isMenuOrPicker =
 		type && ([POPOVER_TYPE.CONTEXT_MENU, POPOVER_TYPE.TEXT_INPUT_PICKER] as readonly PopoverType[]).includes(type)
 
-	return (setState: Updater<PopoverState>) => (visible?: boolean) => {
+	return (visible?: boolean) => {
 		if (typeof visible !== 'boolean') {
 			return
 		}
 
 		setState(draft => {
 			if (draft.visible !== visible && onVisible) {
-				draft.pendingVisibleEvent = visible
+				draft.pendingRawVisibleEvent = visible
 			}
 
 			if (!isMenuOrPicker) {
@@ -50,7 +54,7 @@ export const updatePopoverVisible = ({onVisible, type}: UpdatePopoverVisibleOpti
 }
 
 export const handleElevationAnimationFinished =
-	(onVisible?: (visible?: boolean) => void) => (setState: Updater<PopoverState>) => (visible?: boolean) => {
+	(setState: Updater<PopoverState>, onVisible?: (visible?: boolean) => void) => (visible?: boolean) => {
 		if (!(typeof visible === 'boolean' && !visible)) {
 			return
 		}
@@ -70,8 +74,7 @@ export const updatePopoverElevation = (setState: Updater<PopoverState>) => (elev
 	})
 
 export const updatePopoverContextMenuLayout =
-	(setState: Updater<PopoverState>) =>
-	({disabled, onVisible}: UpdatePopoverContextMenuLayoutOptions) =>
+	(setState: Updater<PopoverState>, {disabled, onVisible}: UpdatePopoverContextMenuLayoutOptions) =>
 	(event: MouseEvent) => {
 		if (disabled) {
 			return
@@ -98,9 +101,10 @@ const TRIGGER = {
 	[TRIGGER_ON.PRESS]: [EVENT_NAME.PRESS_IN]
 } as Record<TriggerOn, readonly EventName[]>
 
-export const handlePopoverStateChange =
-	(setState: Updater<PopoverState>) =>
-	({
+export const handlePopoverStateChange = (
+	_event: StateEvent,
+	setState: Updater<PopoverState>,
+	{
 		childrenRef,
 		containerRef,
 		eventName,
@@ -110,76 +114,67 @@ export const handlePopoverStateChange =
 		onVisible,
 		triggerEvent = TRIGGER_ON.HOVER,
 		type
-	}: HandlePopoverStateEventChangeOptions) => {
-		return (_event: StateEvent) => {
-			if (eventName === EVENT_NAME.LAYOUT || type === POPOVER_TYPE.CONTEXT_MENU) {
-				return
-			}
+	}: HandlePopoverStateEventChangeOptions
+) => {
+	if (eventName === EVENT_NAME.LAYOUT || type === POPOVER_TYPE.CONTEXT_MENU) {
+		return
+	}
 
-			const isTextInputPickerTriggerEvent = (
-				[EVENT_NAME.FOCUS, EVENT_NAME.PRESS_OUT] as readonly EventName[]
-			).includes(eventName)
+	const isTextInputPickerTriggerEvent = ([EVENT_NAME.FOCUS, EVENT_NAME.PRESS_OUT] as readonly EventName[]).includes(
+		eventName
+	)
 
-			const isFocus =
-				type === POPOVER_TYPE.TEXT_INPUT_PICKER && childrenRef.current && isTextInputPickerTriggerEvent
+	const isFocus = type === POPOVER_TYPE.TEXT_INPUT_PICKER && childrenRef.current && isTextInputPickerTriggerEvent
 
-			if (isFocus) {
-				childrenRef.current?.focus()
-			}
+	if (isFocus) {
+		childrenRef.current?.focus()
+	}
 
-			const triggerEventNames = TRIGGER[triggerEvent]
+	const triggerEventNames = TRIGGER[triggerEvent]
 
+	setState(draft => {
+		const isUnmount = type === POPOVER_TYPE.TEXT_INPUT_PICKER && eventName === EVENT_NAME.BLUR && !draft.visible
+
+		if (triggerEventNames.includes(eventName) && onVisible) {
+			draft.pendingVisibleEvent = eventName === triggerEventNames[0]
+		}
+
+		if (!isUnmount) {
+			return
+		}
+
+		if (onUnmountContent) {
+			draft.pendingUnmountContentEvent = true
+		}
+
+		if (onUnmountPressableLayout) {
+			draft.pendingUnmountPressableLayoutEvent = true
+		}
+	})
+
+	if (type === POPOVER_TYPE.TEXT_INPUT_PICKER && isTextInputPickerTriggerEvent && onEmitContent) {
+		containerRef.current?.measureInWindow((x, y, width, height) => {
 			setState(draft => {
-				const isUnmount =
-					type === POPOVER_TYPE.TEXT_INPUT_PICKER && eventName === EVENT_NAME.BLUR && !draft.visible
-
-				draft.eventName = eventName
-
-				if (triggerEventNames.includes(eventName) && onVisible) {
-					draft.pendingVisibleEvent = eventName === triggerEventNames[0]
-				}
-
-				if (!isUnmount) {
+				if (draft.visible) {
 					return
 				}
 
-				if (onUnmountContent) {
-					draft.pendingUnmountContentEvent = true
-				}
-
-				if (onUnmountPressableLayout) {
-					draft.pendingUnmountPressableLayoutEvent = true
-				}
+				draft.pendingEmitContentEvent = {containerLayout: {height, width, x, y}, visible: false}
 			})
-
-			if (type === POPOVER_TYPE.TEXT_INPUT_PICKER && isTextInputPickerTriggerEvent && onEmitContent) {
-				containerRef.current?.measureInWindow((x, y, width, height) => {
-					setState(draft => {
-						if (draft.visible) {
-							return
-						}
-
-						draft.pendingEmitContentEvent = {
-							containerLayout: {x, y, width, height},
-							visible: false
-						}
-					})
-				})
-			}
-		}
+		})
 	}
+}
 
 export const emitPopoverContent =
-	(id: string) =>
-	({content, ...props}: PopoverContentProps) =>
-	({visible, containerLayout}: EmitPopoverEvent) => {
+	(id: string, {content, ...props}: PopoverContentProps) =>
+	({containerLayout, visible}: EmitPopoverEvent) => {
 		if (!(typeof visible === 'boolean' && content)) {
 			return
 		}
 
 		emitter.emit('modal', {
 			id: `popoverContent--${id}`,
-			props: {...props, containerLayout, visible, content},
+			props: {...props, containerLayout, content, visible},
 			type: MODAL_TYPE.POPOVER
 		})
 	}
@@ -192,11 +187,11 @@ export const unmountPopoverContent = (id: string) => () =>
 	})
 
 export const emitPopoverPressableLayout =
-	(id: string) => (containerRef: React.RefObject<View | null>) => (props: PressableProps) =>
+	(id: string, containerRef: React.RefObject<View | null>) => (props: PressableProps) =>
 		containerRef.current?.measureInWindow((x, y, width, height) =>
 			emitter.emit('modal', {
 				id: `popoverPressableLayout--${id}`,
-				props: {...props, id, containerLayout: {x, y, width, height}},
+				props: {...props, containerLayout: {height, width, x, y}, id},
 				type: MODAL_TYPE.PRESSABLE_LAYOUT
 			})
 		)
@@ -209,13 +204,15 @@ export const unmountPopoverPressableLayout = (id: string) => () =>
 	})
 
 export const handlePopoverContentAnimationFinished =
-	({
-		onAnimationFinished,
-		onUnmountContent,
-		onUnmountPressableLayout,
-		type
-	}: HandlePopoverContentAnimationFinishedOptions) =>
-	(setState: Updater<PopoverState>) =>
+	(
+		setState: Updater<PopoverState>,
+		{
+			onAnimationFinished,
+			onUnmountContent,
+			onUnmountPressableLayout,
+			type
+		}: HandlePopoverContentAnimationFinishedOptions
+	) =>
 	(visible?: boolean) => {
 		const isMenuOrPicker =
 			type &&

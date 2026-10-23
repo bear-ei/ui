@@ -2,11 +2,7 @@ import {cloneElement, useMemo, type FC} from 'react'
 import {Text, View, type ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 
-import type {
-	RenderVirtualListItemInfo,
-	RenderVirtualListItemOptions,
-	RenderVirtualListProps
-} from './Virtual-list.interface'
+import type {RenderVirtualListItemOptions, RenderVirtualListProps} from './Virtual-list.interface'
 
 import {COMPONENT_STATUS, LAYOUT} from '../../constants'
 import {useTheme} from '../../hooks'
@@ -41,9 +37,7 @@ export const RenderVirtualListItem = ({
 					draggable={draggable}
 					item={item}
 					key={item.indexKey}
-					renderItem={
-						renderItem as (options: RenderVirtualListItemInfo<Record<string, unknown>>) => React.JSX.Element
-					}
+					renderItem={renderItem}
 					testID={`virtualList__virtualListItem--${id}`}
 				/>
 			))}

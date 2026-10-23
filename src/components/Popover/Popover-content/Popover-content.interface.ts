@@ -1,4 +1,6 @@
+import type {RefAttributes} from 'react'
 import type {LayoutRectangle, ViewProps} from 'react-native'
+import type {View} from 'react-native'
 import type {Updater} from 'use-immer'
 
 import type {PopoverProps} from '..'
@@ -9,6 +11,7 @@ export interface PopoverContentProps
 	extends
 		ViewProps,
 		UseHandleStateEventOptions,
+		RefAttributes<View>,
 		Pick<
 			PopoverProps,
 			| 'content'
@@ -30,7 +33,7 @@ export interface RenderPopoverContentProps extends PopoverContentProps {
 	height?: number
 	interactionHandlers: InteractionHandlers
 	menuOrPicker?: boolean
-	menuPosition: {top?: number; left?: number}
+	menuPosition: {left?: number; top?: number}
 	onMaskPressOut?: () => void
 	width?: number
 	windowHeight?: number
@@ -41,7 +44,7 @@ export type PopoverContentBaseProps = PopoverContentProps
 export interface PopoverContentState {
 	invert?: boolean
 	layout: Partial<LayoutRectangle>
-	menuPosition: {top?: number; left?: number}
+	menuPosition: {left?: number; top?: number}
 	pendingAnimationFinishedEvent?: boolean
 }
 

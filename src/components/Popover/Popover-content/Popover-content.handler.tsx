@@ -2,11 +2,7 @@ import type {WritableDraft} from 'immer'
 import type {LayoutChangeEvent, View} from 'react-native'
 import type {Updater} from 'use-immer'
 
-import {POPOVER_CONTENT_POSITION, POPOVER_TYPE, type PopoverContentPosition} from '..'
-import {EVENT_NAME, type EventName, TRIGGER_ON, type TriggerOn} from '../../../constants'
 import type {StateEvent} from '../../../hooks'
-import {DENSITY_SIZE} from '../../../theme'
-
 import type {
 	GetSafeMenuPositionOptions,
 	HandlePopoverContentPositionWindowOptions,
@@ -16,6 +12,10 @@ import type {
 	UpdatePopoverContentPositionOptions
 } from './Popover-content.interface'
 
+import {POPOVER_CONTENT_POSITION, POPOVER_TYPE, type PopoverContentPosition} from '..'
+import {EVENT_NAME, type EventName, TRIGGER_ON, type TriggerOn} from '../../../constants'
+import {DENSITY_SIZE} from '../../../theme'
+
 const TRIGGER = {
 	[TRIGGER_ON.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
 	[TRIGGER_ON.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
@@ -23,40 +23,35 @@ const TRIGGER = {
 	[TRIGGER_ON.PRESS]: [EVENT_NAME.PRESS_IN]
 } as Record<TriggerOn, readonly EventName[]>
 
-export const handlePopoverContentStateChange =
-	({eventName, onVisible, triggerEvent = TRIGGER_ON.HOVER}: HandlePopoverContentStateEventChangeOptions) =>
-	(setState: Updater<PopoverContentState>) => {
-		const updatePopoverContentLayout = (event: LayoutChangeEvent) => {
-			const {height, width} = event.nativeEvent.layout
+export const handlePopoverContentStateChange = (
+	event: StateEvent,
+	setState: Updater<PopoverContentState>,
+	{eventName, onVisible, triggerEvent = TRIGGER_ON.HOVER}: HandlePopoverContentStateEventChangeOptions
+) => {
+	if (eventName === EVENT_NAME.LAYOUT) {
+		const {height, width} = (event as LayoutChangeEvent).nativeEvent.layout
 
-			setState(draft => {
-				const {width: prevWidth, height: prevHeight} = draft.layout
+		setState(draft => {
+			const {height: prevHeight, width: prevWidth} = draft.layout
 
-				if (prevWidth !== width || prevHeight !== height) {
-					draft.layout.height = height
-					draft.layout.width = width
-				}
-			})
-		}
-
-		return (event: StateEvent) => {
-			if (eventName === EVENT_NAME.LAYOUT) {
-				updatePopoverContentLayout(event as LayoutChangeEvent)
-
-				return
+			if (prevWidth !== width || prevHeight !== height) {
+				draft.layout.height = height
+				draft.layout.width = width
 			}
+		})
 
-			const triggerEventNames = TRIGGER[triggerEvent]
-
-			if (triggerEventNames.includes(eventName)) {
-				onVisible?.(eventName === triggerEventNames[0])
-			}
-		}
+		return
 	}
 
+	const triggerEventNames = TRIGGER[triggerEvent]
+
+	if (triggerEventNames.includes(eventName)) {
+		onVisible?.(eventName === triggerEventNames[0])
+	}
+}
+
 export const handlePopoverContentAnimationFinished =
-	(onAnimationFinished?: (visible?: boolean) => void) =>
-	(setState: Updater<PopoverContentState>) =>
+	(setState: Updater<PopoverContentState>, onAnimationFinished?: (visible?: boolean) => void) =>
 	(visible?: boolean) => {
 		if (typeof visible !== 'boolean') {
 			return
@@ -105,69 +100,64 @@ export const getSafeMenuPosition = ({
 	return {left, top}
 }
 
-export const updatePopoverContentPosition =
-	({popoverContentPosition, setState, type, containerLayout, token}: UpdatePopoverContentPositionOptions) =>
-	(ref: React.RefObject<View | null>) => {
-		const updatePopoverContentInvert =
-			({height, x, y, width, windowHeight, windowWidth}: UpdatePopoverContentInvertOptions) =>
-			(draft: WritableDraft<PopoverContentState>) => {
-				draft.invert =
-					popoverContentPosition?.startsWith('HORIZONTAL') ?
-						width + x >= windowWidth && x > width
-					:	height + y >= windowHeight && y > height
-			}
+export const updatePopoverContentPosition = (
+	ref: React.RefObject<View | null>,
+	{containerLayout, popoverContentPosition, setState, token, type}: UpdatePopoverContentPositionOptions
+) => {
+	const updatePopoverContentInvert =
+		({height, width, windowHeight, windowWidth, x, y}: UpdatePopoverContentInvertOptions) =>
+		(draft: WritableDraft<PopoverContentState>) => {
+			draft.invert =
+				popoverContentPosition?.startsWith('HORIZONTAL') ?
+					width + x >= windowWidth && x > width
+				:	height + y >= windowHeight && y > height
+		}
 
-		return ({
-			windowHeight,
-			visible,
-			windowWidth,
-			layout,
-			isCancelled
-		}: HandlePopoverContentPositionWindowOptions) => {
-			if (!visible) {
-				return
-			}
+	return ({isCancelled, layout, visible, windowHeight, windowWidth}: HandlePopoverContentPositionWindowOptions) => {
+		if (!visible) {
+			return
+		}
 
-			if (type === POPOVER_TYPE.CONTEXT_MENU) {
-				setState(draft => {
-					const {left, top} = getSafeMenuPosition({
-						height: layout.height ?? 0,
-						margin: token.density.spacing[DENSITY_SIZE.MEDIUM],
-						offset: token.density.spacing[DENSITY_SIZE.XX_SMALL],
-						width: layout.width ?? 0,
-						windowHeight,
-						windowWidth,
-						x: containerLayout?.x,
-						y: containerLayout?.y
-					})
-
-					draft.menuPosition = {left, top}
+		if (type === POPOVER_TYPE.CONTEXT_MENU) {
+			setState(draft => {
+				const {left, top} = getSafeMenuPosition({
+					height: layout.height ?? 0,
+					margin: token.density.spacing[DENSITY_SIZE.MEDIUM],
+					offset: token.density.spacing[DENSITY_SIZE.XX_SMALL],
+					width: layout.width ?? 0,
+					windowHeight,
+					windowWidth,
+					x: containerLayout?.x,
+					y: containerLayout?.y
 				})
 
+				draft.menuPosition = {left, top}
+			})
+
+			return
+		}
+
+		ref.current?.measureInWindow((x, y, width, height) => {
+			if (isCancelled?.()) {
 				return
 			}
 
-			ref.current?.measureInWindow((x, y, width, height) => {
-				if (isCancelled?.()) {
-					return
-				}
-
-				setState(updatePopoverContentInvert({height, width, windowHeight, windowWidth, x, y}))
-			})
-		}
+			setState(updatePopoverContentInvert({height, width, windowHeight, windowWidth, x, y}))
+		})
 	}
+}
 
-export const getPopoverContentPosition = (popoverContentPosition?: PopoverContentPosition) => (invert?: boolean) => {
+export const getPopoverContentPosition = (popoverContentPosition?: PopoverContentPosition, invert?: boolean) => {
 	const position = {
-		invertY:
-			popoverContentPosition === POPOVER_CONTENT_POSITION.VERTICAL_END ?
-				POPOVER_CONTENT_POSITION.VERTICAL_START
-			:	POPOVER_CONTENT_POSITION.VERTICAL_END,
-
 		invertX:
 			popoverContentPosition === POPOVER_CONTENT_POSITION.HORIZONTAL_END ?
 				POPOVER_CONTENT_POSITION.HORIZONTAL_START
-			:	POPOVER_CONTENT_POSITION.HORIZONTAL_END
+			:	POPOVER_CONTENT_POSITION.HORIZONTAL_END,
+
+		invertY:
+			popoverContentPosition === POPOVER_CONTENT_POSITION.VERTICAL_END ?
+				POPOVER_CONTENT_POSITION.VERTICAL_START
+			:	POPOVER_CONTENT_POSITION.VERTICAL_END
 	}
 
 	const invertPosition = (

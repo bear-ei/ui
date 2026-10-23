@@ -13,8 +13,8 @@ export interface Item {
 	indexKey: string
 }
 
-export interface RenderVirtualListItemInfo<T> {
-	item: T & Item
+export interface RenderVirtualListItemInfo<T = Item> {
+	item: T
 }
 
 export type VirtualListData<T = Record<string, unknown>> = T & {

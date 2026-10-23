@@ -1,18 +1,6 @@
-import {forwardRef} from 'react'
-import {View} from 'react-native'
-
-import {typedMemo} from '../../utils'
-
-import {PopoverBase} from './Popover-base.component'
 import type {PopoverProps} from './Popover.interface'
 
-const PopoverWithRef = forwardRef<View, PopoverProps>((props, ref) => (
-	<PopoverBase
-		{...props}
-		ref={ref}
-	/>
-))
+import {typedMemo} from '../../utils'
+import {PopoverBase} from './Popover-base.component'
 
-
-
-export const Popover = typedMemo(PopoverWithRef)
+export const Popover = typedMemo((props: PopoverProps) => <PopoverBase {...props} />)
