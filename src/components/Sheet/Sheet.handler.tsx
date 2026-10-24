@@ -2,7 +2,7 @@ import type {Updater} from 'use-immer'
 
 import type {EmitSheetModalOptions, SheetProps, SheetState, SheetType} from './Sheet.interface'
 
-import {emitter, MODAL_TYPE} from '../../contexts'
+import {emitter, PORTAL_TYPE} from '../../contexts'
 import {SIDE_SHEET_TYPE} from './Sheet.enum'
 
 export const updateSheetClose = (setState: Updater<SheetState>, onClose?: () => void) => () =>
@@ -35,7 +35,7 @@ export const emitSheetModal =
 			return
 		}
 
-		emitter.emit('modal', {id: `sheet__${id}`, props: {...props}, type: MODAL_TYPE.SIDE_SHEET})
+		emitter.emit('modal', {id: `sheet__${id}`, props: {...props}, type: PORTAL_TYPE.SIDE_SHEET})
 	}
 
 export const emitSheetModalUnmount = (id: string) => (type: SheetType) => {
@@ -43,5 +43,5 @@ export const emitSheetModalUnmount = (id: string) => (type: SheetType) => {
 		return
 	}
 
-	emitter.emit('modal', {id: `sheet__${id}`, type: MODAL_TYPE.SIDE_SHEET, unmount: true})
+	emitter.emit('modal', {id: `sheet__${id}`, type: PORTAL_TYPE.SIDE_SHEET, unmount: true})
 }

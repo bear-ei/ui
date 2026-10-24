@@ -15,7 +15,7 @@ import type {
 } from './Popover.interface'
 
 import {EVENT_NAME, TRIGGER_ON, type EventName, type TriggerOn} from '../../constants'
-import {emitter, MODAL_TYPE} from '../../contexts'
+import {emitter, PORTAL_TYPE} from '../../contexts'
 import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
 import {POPOVER_TYPE} from './Popover.enum'
 
@@ -175,14 +175,14 @@ export const emitPopoverContent =
 		emitter.emit('modal', {
 			id: `popoverContent--${id}`,
 			props: {...props, containerLayout, content, visible},
-			type: MODAL_TYPE.POPOVER
+			type: PORTAL_TYPE.POPOVER
 		})
 	}
 
 export const unmountPopoverContent = (id: string) => () =>
 	emitter.emit('modal', {
 		id: `popoverContent--${id}`,
-		type: MODAL_TYPE.POPOVER,
+		type: PORTAL_TYPE.POPOVER,
 		unmount: true
 	})
 
@@ -192,14 +192,14 @@ export const emitPopoverPressableLayout =
 			emitter.emit('modal', {
 				id: `popoverPressableLayout--${id}`,
 				props: {...props, containerLayout: {height, width, x, y}, id},
-				type: MODAL_TYPE.PRESSABLE_LAYOUT
+				type: PORTAL_TYPE.PRESSABLE_LAYOUT
 			})
 		)
 
 export const unmountPopoverPressableLayout = (id: string) => () =>
 	emitter.emit('modal', {
 		id: `popoverPressableLayout--${id}`,
-		type: MODAL_TYPE.PRESSABLE_LAYOUT,
+		type: PORTAL_TYPE.PRESSABLE_LAYOUT,
 		unmount: true
 	})
 

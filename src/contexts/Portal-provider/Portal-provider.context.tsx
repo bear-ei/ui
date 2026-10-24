@@ -5,20 +5,20 @@ import {useEffect, useMemo} from 'react'
 import {View} from 'react-native'
 import {useImmer} from 'use-immer'
 
-import type {EmitterEvent, Modal, ModalComponentType, ModalItemProps, ModalState} from './Modal-provider.interface'
+import type {EmitterEvent, Portal, PortalComponentType, PortalItemProps, PortalState} from './Portal-provider.interface'
 
 import {PopoverContent, PopoverPressableLayout} from '../../components'
 import {typedMemo} from '../../utils'
-import {MODAL_TYPE} from './Modal-provider.enum'
-import {updateModals} from './Modal-provider.handler'
+import {PORTAL_TYPE} from './Portal-provider.enum'
+import {updatePortals} from './Portal-provider.handler'
 
 const COMPONENT = {
-	[MODAL_TYPE.POPOVER]: PopoverContent,
-	[MODAL_TYPE.PRESSABLE_LAYOUT]: PopoverPressableLayout,
-	[MODAL_TYPE.SIDE_SHEET]: View
+	[PORTAL_TYPE.POPOVER]: PopoverContent,
+	[PORTAL_TYPE.PRESSABLE_LAYOUT]: PopoverPressableLayout,
+	[PORTAL_TYPE.SIDE_SHEET]: View
 }
 
-const ModalItem = typedMemo(({componentProps, testID, type}: ModalItemProps) => {
+const PortalItem = typedMemo(({componentProps, testID, type}: PortalItemProps) => {
 	if (!type) {
 		return <></>
 	}
@@ -26,7 +26,7 @@ const ModalItem = typedMemo(({componentProps, testID, type}: ModalItemProps) => 
 	const {ref, ...props} = componentProps ?? {}
 
 	// Double cast — see comment below for why it's safe.
-	const ModalComponent = COMPONENT[type] as ModalComponentType
+	const PortalComponent = COMPONENT[type] as PortalComponentType
 
 	// NOTE: `{...componentProps}` spreads `ref` as a plain object field —
 	// React only recognizes a top-level `ref` prop. Hence the explicit
@@ -39,7 +39,7 @@ const ModalItem = typedMemo(({componentProps, testID, type}: ModalItemProps) => 
 	// Only the TypeScript wrapper type (MemoExoticComponent vs
 	// ForwardRefExoticComponent) mismatches — not the runtime behavior.
 	return (
-		<ModalComponent
+		<PortalComponent
 			{...props}
 			ref={ref}
 			testID={props.testID ?? testID}
@@ -47,58 +47,58 @@ const ModalItem = typedMemo(({componentProps, testID, type}: ModalItemProps) => 
 	)
 })
 
-let modalProviderCount = 0
+let portalProviderCount = 0
 
 /**
- * Global modal host.
+ * Global portal host.
  *
- * ⚠️ `props` (callbacks, JSX, refs) are stored in state on purpose. ModalProvider
+ * ⚠️ `props` (callbacks, JSX, refs) are stored in state on purpose. PortalProvider
  * and the opening component (Popover / Sheet / …) are NOT parent-child — the
  * only channel is the shared `emitter`. Without storing props in state, prop
- * updates on the source component could never reach the modal.
+ * updates on the source component could never reach the portal.
  *
- * In `updateModals`, the fast path compares props by reference — using
+ * In `updatePortals`, the fast path compares props by reference — using
  * `original()` to unwrap the Immer draft wrapper back to the source ref. If
- * you ever add code that mutates `draft.modals[i].props.*` in place, it will
+ * you ever add code that mutates `draft.portals[i].props.*` in place, it will
  * finalize `props` into a NEW object and break ref / callback identity
  * downstream — always replace the whole `props` reference instead.
  */
 export const emitter = mitt<EmitterEvent>()
-export const ModalProvider: FC = () => {
-	const [{modals}, setState] = useImmer<ModalState>({modals: []})
-	const runUpdateModals = useMemo(() => updateModals(setState), [setState])
+export const PortalProvider: FC = () => {
+	const [{portals}, setState] = useImmer<PortalState>({portals: []})
+	const runUpdatePortals = useMemo(() => updatePortals(setState), [setState])
 
 	useEffect(() => {
-		const handler = (modal: Modal) => runUpdateModals(modal)
+		const handler = (portal: Portal) => runUpdatePortals(portal)
 
-		emitter.on('modal', handler)
+		emitter.on('portal', handler)
 
-		return () => emitter.off('modal', handler)
-	}, [runUpdateModals])
+		return () => emitter.off('portal', handler)
+	}, [runUpdatePortals])
 
 	useEffect(() => {
 		if (process.env.NODE_ENV !== 'production') {
-			modalProviderCount += 1
+			portalProviderCount += 1
 
-			if (modalProviderCount > 1) {
-				console.warn('[ModalProvider] Multiple instances mounted. Modals will be rendered more than once.')
+			if (portalProviderCount > 1) {
+				console.warn('[PortalProvider] Multiple instances mounted. Portals will be rendered more than once.')
 			}
 		}
 
 		return () => {
 			if (process.env.NODE_ENV !== 'production') {
-				modalProviderCount -= 1
+				portalProviderCount -= 1
 			}
 		}
 	}, [])
 
 	return (
 		<>
-			{modals.map(({id, props, type}) => (
-				<ModalItem
+			{portals.map(({id, props, type}) => (
+				<PortalItem
 					componentProps={props}
 					key={id}
-					testID={`modal--${id}`}
+					testID={`portal--${id}`}
 					type={type}
 				/>
 			))}

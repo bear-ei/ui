@@ -6,7 +6,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import type {Theme, ThemeProviderProps} from './Theme-provider.interface'
 
 import {CONTRAST, createToken, PALETTE, processStyleVariables, SCHEME, UI_DENSITY, type Token} from '../../theme'
-import {ModalProvider} from '../Modal-provider'
+import {PortalProvider} from '../Portal-provider'
 
 /**
  * Sentinel value used to detect "used outside ThemeProvider".
@@ -42,7 +42,7 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({children, token: rawToken
 					testID={`provider__theme--${id}`}
 				>
 					{children}
-					<ModalProvider />
+					<PortalProvider />
 				</View>
 			</GestureHandlerRootView>
 		</ThemeContext.Provider>
