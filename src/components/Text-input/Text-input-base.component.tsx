@@ -109,7 +109,7 @@ export const TextInputBase: FC<TextInputBaseProps> = ({
 		[rawOnSupportingTextAnimationFinished, setState]
 	)
 
-	const onHeaderFocus = useMemo(() => focusTextInput(textInputRef), [])
+	const onHeaderFocus = focusTextInput(textInputRef)
 	const onStateEventChange = useCallback(
 		(event: StateEvent, changedState: State, options: HandleStateEventChangeOptions) => () => () =>
 			handleTextInputStateChange(event, setState, {
@@ -184,5 +184,3 @@ export const TextInputBase: FC<TextInputBaseProps> = ({
 		/>
 	)
 }
-
-

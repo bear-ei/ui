@@ -1,7 +1,5 @@
-import type {ViewStyle} from 'react-native'
-
 import {Check, X} from 'lucide-react-native'
-import {useMemo, type FC} from 'react'
+import {type FC} from 'react'
 
 import type {RenderListAfterAffordanceProps} from './List-after-affordance.interface'
 
@@ -10,6 +8,11 @@ import {DENSITY_SIZE, DURATION, EASING, UI_DENSITY} from '../../../theme'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
 import {ListAffordanceButton} from '../List-affordance-button'
 import {LIST_AFTER_AFFORDANCE_PHASE} from './List-after-affordance.enum'
+
+const ENTRY_EXIT = {
+	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
+	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
+}
 
 export const RenderListAfterAffordance: FC<RenderListAfterAffordanceProps> = ({
 	dangerAnimatedStyle,
@@ -40,21 +43,14 @@ export const RenderListAfterAffordance: FC<RenderListAfterAffordanceProps> = ({
 	// Secondary button carries the destructive action (delete).
 	// When it's disabled, fall back to the disabled style and hide the danger block.
 	const isDangerVisible = !secondaryButtonDisabled
-	const listAfterAffordanceStyle = useMemo(() => ({flexDirection: 'row'}) as ViewStyle, [])
-	const {entry, exit} = useMemo(
-		() => ({
-			entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-			exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-		}),
-		[]
-	)
+	const {entry, exit} = ENTRY_EXIT
 
 	return (
 		<LayoutAnimated
 			{...containerProps}
 			{...interactionHandlers}
 			animatedType={LAYOUT_ANIMATED.FADE}
-			className={classesName('relative flex self-stretch', {
+			className={classesName('relative flex flex-row self-stretch', {
 				['bg-[--color-primary]']: isDangerVisible,
 				['w-24']: uiDensity === UI_DENSITY.COMPACT,
 				['w-32']: uiDensity === UI_DENSITY.COMFORTABLE
@@ -62,7 +58,6 @@ export const RenderListAfterAffordance: FC<RenderListAfterAffordanceProps> = ({
 			entry={entry}
 			exit={exit}
 			lazy={true}
-			style={listAfterAffordanceStyle}
 			testID={testID ?? `listAfterAffordance--${id}`}
 			visible={visible}
 		>

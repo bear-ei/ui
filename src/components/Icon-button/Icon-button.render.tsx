@@ -1,5 +1,5 @@
 import {Circle} from 'lucide-react-native'
-import {cloneElement, useMemo, type FC} from 'react'
+import {cloneElement, type FC} from 'react'
 import {View} from 'react-native'
 
 import type {IconButtonType, RenderIconButtonIconProps, RenderIconButtonProps} from './Icon-button.interface'
@@ -24,6 +24,11 @@ import {Progress, PROGRESS_ANIMATED, PROGRESS_TYPE} from '../Progress'
 import {Touchable} from '../Touchable'
 import {ACTIVE_ANIMATED, Underlay} from '../Underlay'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
+
+const ENTRY_EXIT = {
+	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
+	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
+}
 
 export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
 	disabled,
@@ -88,13 +93,7 @@ export const RenderIconButton: FC<RenderIconButtonProps> = ({
 	const radius = RADIUS.FULL
 	const shape = SHAPE.ALL
 	const underlayEventName = disabled ? EVENT_NAME.NONE : eventName
-	const {entry, exit} = useMemo(
-		() => ({
-			entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-			exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-		}),
-		[]
-	)
+	const {entry, exit} = ENTRY_EXIT
 
 	const backgroundUnderlayElement = (
 		<AnimatedView

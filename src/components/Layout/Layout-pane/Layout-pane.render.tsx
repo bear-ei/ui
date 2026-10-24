@@ -1,4 +1,4 @@
-import {useMemo, type FC} from 'react'
+import {type FC} from 'react'
 
 import type {RenderLayoutPaneProps} from './Layout-pane.interface'
 
@@ -6,6 +6,11 @@ import {LAYOUT} from '../../../constants'
 import {useTheme} from '../../../hooks'
 import {DURATION, EASING} from '../../../theme'
 import {LayoutAnimated} from '../../Layout-animated'
+
+const ENTRY_EXIT = {
+	entry: {duration: DURATION.MEDIUM_3, easing: EASING.EMPHASIZED_DECELERATE},
+	exit: {duration: DURATION.SHORT_3, easing: EASING.EMPHASIZED_ACCELERATE}
+}
 
 export const RenderLayoutPane: FC<RenderLayoutPaneProps> = ({
 	children,
@@ -17,13 +22,7 @@ export const RenderLayoutPane: FC<RenderLayoutPaneProps> = ({
 }) => {
 	const {token} = useTheme()
 	const {classesName} = token.classes
-	const {entry, exit} = useMemo(
-		() => ({
-			entry: {duration: DURATION.MEDIUM_3, easing: EASING.EMPHASIZED_DECELERATE},
-			exit: {duration: DURATION.SHORT_3, easing: EASING.EMPHASIZED_ACCELERATE}
-		}),
-		[]
-	)
+	const {entry, exit} = ENTRY_EXIT
 
 	return (
 		<LayoutAnimated
@@ -44,5 +43,3 @@ export const RenderLayoutPane: FC<RenderLayoutPaneProps> = ({
 		</LayoutAnimated>
 	)
 }
-
-

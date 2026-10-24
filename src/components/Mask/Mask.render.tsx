@@ -7,6 +7,11 @@ import {useTheme} from '../../hooks'
 import {DURATION, EASING, hexToRGBA} from '../../theme'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 
+const ENTRY_EXIT = {
+	entry: {duration: DURATION.MEDIUM_0, easing: EASING.STANDARD_DECELERATE},
+	exit: {duration: DURATION.SHORT_3, easing: EASING.STANDARD_ACCELERATE}
+}
+
 export const RenderMask: FC<RenderMaskProps> = ({
 	backgroundColor,
 	className,
@@ -22,13 +27,7 @@ export const RenderMask: FC<RenderMaskProps> = ({
 	const {token} = useTheme()
 	const {classes, scheme} = token
 	const {classesName} = classes
-	const {entry, exit} = useMemo(
-		() => ({
-			entry: {duration: DURATION.MEDIUM_0, easing: EASING.STANDARD_DECELERATE},
-			exit: {duration: DURATION.SHORT_3, easing: EASING.STANDARD_ACCELERATE}
-		}),
-		[]
-	)
+	const {entry, exit} = ENTRY_EXIT
 
 	const maskStyle = useMemo(
 		() => [style, {backgroundColor: hexToRGBA(backgroundColor ?? scheme.scrim, opacity)}],

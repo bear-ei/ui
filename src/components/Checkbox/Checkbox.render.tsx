@@ -1,5 +1,5 @@
 import {Square, SquareCheckBig, SquareMinus} from 'lucide-react-native'
-import {useMemo, type FC} from 'react'
+import {type FC} from 'react'
 import {View} from 'react-native'
 
 import type {RenderCheckboxProps} from './Checkbox.interface'
@@ -12,6 +12,11 @@ import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
+
+const ENTRY_EXIT = {
+	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
+	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
+}
 
 export const RenderCheckbox: FC<RenderCheckboxProps> = ({
 	accessibilityLabel,
@@ -40,13 +45,7 @@ export const RenderCheckbox: FC<RenderCheckboxProps> = ({
 	const shape = SHAPE.ALL
 	const underlayColor = error ? token.scheme.error : unselectedColor
 	const underlayEventName = disabled ? EVENT_NAME.NONE : eventName
-	const {entry, exit} = useMemo(
-		() => ({
-			entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-			exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-		}),
-		[]
-	)
+	const {entry, exit} = ENTRY_EXIT
 
 	const checked =
 		value === CHECKBOX_VALUE.SELECTED ? true

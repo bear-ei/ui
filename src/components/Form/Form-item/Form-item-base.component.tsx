@@ -54,10 +54,7 @@ export const FormItemBase: FC<FormItemBaseProps> = ({
 		[onComponentUpdate, rule, setState, signInField, validatorOptions]
 	)
 
-	const controlElement = useMemo(
-		() => renderControl?.({errorMessage, labelText, onBlur, onValueChange, value}),
-		[errorMessage, labelText, onBlur, onValueChange, renderControl, value]
-	)
+	const controlElement = renderControl?.({errorMessage, labelText, onBlur, onValueChange, value})
 
 	useEffect(() => {
 		const signOut = runApplyStatusInitToDraft(name)
@@ -73,4 +70,3 @@ export const FormItemBase: FC<FormItemBaseProps> = ({
 		/>
 	)
 }
-

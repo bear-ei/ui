@@ -26,6 +26,11 @@ import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {BUTTON_TYPE} from './Button.enum'
 
+const ENTRY_EXIT = {
+	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
+	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
+}
+
 const ACTIVE_INDICATOR_EVENT_NAMES = [
 	EVENT_NAME.FOCUS,
 	EVENT_NAME.HOVER_IN,
@@ -112,13 +117,7 @@ export const RenderButton: FC<RenderButtonProps> = ({
 
 	const shape = isLink ? SHAPE.TOP : SHAPE.ALL
 	const radius = isLink ? RADIUS.X_SMALL : RADIUS.FULL
-	const {entry, exit} = useMemo(
-		() => ({
-			entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-			exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-		}),
-		[]
-	)
+	const {entry, exit} = ENTRY_EXIT
 
 	const backgroundUnderlayElement = (
 		<AnimatedView

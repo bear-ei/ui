@@ -11,6 +11,8 @@ import {platformValue} from '../../utils'
 import {BUTTON_TYPE} from './Button.enum'
 import {animateButton} from './Button.handler'
 
+const BORDER_COLOR_INPUT_RANGES = [0, 1, 2]
+
 export const useButtonAnimated = ({
 	disabled,
 	error,
@@ -116,7 +118,6 @@ export const useButtonAnimated = ({
 		[disabledColor, error, opacity, linkColor, scheme]
 	)
 
-	const borderColorInputRanges = useMemo(() => [0, 1, 2], [])
 	const borderColorOutputRanges = useMemo(
 		() => [
 			disabledBackgroundColor,
@@ -138,7 +139,11 @@ export const useButtonAnimated = ({
 		}),
 		...(isBorderColorApplied &&
 			({
-				borderColor: interpolateColor(borderSharedValue.value, borderColorInputRanges, borderColorOutputRanges),
+				borderColor: interpolateColor(
+					borderSharedValue.value,
+					BORDER_COLOR_INPUT_RANGES,
+					borderColorOutputRanges
+				),
 				borderStyle: 'solid',
 				borderWidth: platformValue(border[BORDER_SIZE.SMALL])
 			} as ViewStyle))
@@ -151,11 +156,11 @@ export const useButtonAnimated = ({
 	const runAnimate = useMemo(
 		() =>
 			animateButton([borderSharedValue, colorSharedValue], animatedTiming, {
-				borderColorInputRanges,
+				borderColorInputRanges: BORDER_COLOR_INPUT_RANGES,
 				disabled,
 				type
 			}),
-		[borderSharedValue, colorSharedValue, animatedTiming, disabled, type, borderColorInputRanges]
+		[borderSharedValue, colorSharedValue, animatedTiming, disabled, type]
 	)
 
 	useEffect(() => {

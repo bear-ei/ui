@@ -1,4 +1,4 @@
-import {useMemo, type FC} from 'react'
+import {type FC} from 'react'
 import {Pressable, View} from 'react-native'
 
 import type {RenderNavigationRailItemProps} from './Navigation-rail-item.interface'
@@ -45,10 +45,7 @@ export const RenderNavigationRailItem: FC<RenderNavigationRailItemProps> = ({
 	const radius = RADIUS.FULL
 	const shape = SHAPE.ALL
 	const underlayColor = token.scheme.onSurface
-	const animatedViewStyle = useMemo(
-		() => (type !== NAVIGATION_RAIL_TYPE.BLOCK ? contentAnimatedStyle : undefined),
-		[type, contentAnimatedStyle]
-	)
+	const animatedViewStyle = type !== NAVIGATION_RAIL_TYPE.BLOCK ? contentAnimatedStyle : undefined
 
 	return (
 		<View

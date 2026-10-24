@@ -69,14 +69,9 @@ export const RenderTextInput: FC<RenderTextInputProps> = ({
 	const radius = RADIUS.X_SMALL
 	const underlayColor = token.scheme.onSurface
 	const underlayOpacities = useMemo(() => [token.opacity.level0, token.opacity.level1] as [number, number], [token])
-
-	const controlStyle = useMemo(
-		() =>
-			({
-				minHeight: platformValue(contentSize?.height ?? token.density.control[DENSITY_SIZE.NONE])
-			}) as ViewStyle,
-		[contentSize, token]
-	)
+	const controlStyle = {
+		minHeight: platformValue(contentSize?.height ?? token.density.control[DENSITY_SIZE.NONE])
+	} as ViewStyle
 
 	return (
 		<View

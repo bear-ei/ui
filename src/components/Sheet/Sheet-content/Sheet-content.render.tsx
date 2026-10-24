@@ -1,5 +1,5 @@
 import {ArrowLeft, ArrowRight, X} from 'lucide-react-native'
-import {useMemo, type FC} from 'react'
+import {type FC} from 'react'
 import {Text, View} from 'react-native'
 
 import type {
@@ -26,6 +26,11 @@ import {Divider} from '../../Divider'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
 import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Sheet.enum'
+
+const ENTRY_EXIT = {
+	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
+	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
+}
 
 export const RenderSheetContentLeading: FC<RenderSheetContentLeadingProps> = ({
 	back,
@@ -110,13 +115,7 @@ export const RenderSheetContent: FC<RenderSheetContentProps> = ({
 	const positionShape = position === SIDE_SHEET_POSITION.HORIZONTAL_START ? SHAPE.END : SHAPE.START
 	const sheetShape = shape ?? (type === SIDE_SHEET_TYPE.SIDEBAR ? SHAPE.ALL : positionShape)
 	const buttonTabIndex = footerVisible ? 0 : -1
-	const {entry, exit} = useMemo(
-		() => ({
-			entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-			exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-		}),
-		[]
-	)
+	const {entry, exit} = ENTRY_EXIT
 
 	return (
 		<LayoutAnimated

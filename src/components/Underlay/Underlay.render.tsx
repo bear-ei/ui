@@ -1,4 +1,4 @@
-import {useMemo, type FC} from 'react'
+import {type FC} from 'react'
 import {View} from 'react-native'
 
 import type {RenderUnderlayProps} from './Underlay.interface'
@@ -25,15 +25,8 @@ export const RenderUnderlay: FC<RenderUnderlayProps> = ({
 	const {classesName, shapeClasses} = token.classes
 	const radiusClasses = shapeClasses(shape)
 	const {onLayout} = interactionHandlers
-	const activeLayerStyle = useMemo(
-		() => [{...(activeColor && {backgroundColor: activeColor})}, activeLayerAnimatedStyle],
-		[activeColor, activeLayerAnimatedStyle]
-	)
-
-	const hoverLayerStyle = useMemo(
-		() => [{...(underlayColor && {backgroundColor: underlayColor})}, hoverLayerAnimatedStyle],
-		[underlayColor, hoverLayerAnimatedStyle]
-	)
+	const activeLayerStyle = [{...(activeColor && {backgroundColor: activeColor})}, activeLayerAnimatedStyle]
+	const hoverLayerStyle = [{...(underlayColor && {backgroundColor: underlayColor})}, hoverLayerAnimatedStyle]
 
 	return (
 		<View

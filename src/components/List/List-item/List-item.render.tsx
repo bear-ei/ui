@@ -1,5 +1,5 @@
 import {Ellipsis, X} from 'lucide-react-native'
-import {cloneElement, isValidElement, useCallback, useMemo, type FC} from 'react'
+import {cloneElement, isValidElement, useCallback, type FC} from 'react'
 import {Pressable, Text, View} from 'react-native'
 
 import type {RenderListItemProps, RenderListItemTrailingProps} from './List-item.interface'
@@ -26,6 +26,11 @@ import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
 import {ListAfterAffordance} from '../List-after-affordance'
 import {LIST_TYPE} from '../List.enum'
 
+const ENTRY_EXIT = {
+	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
+	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
+}
+
 const XX_SMALL_DENSITY_SIZE_SCALES = [
 	DENSITY_SIZE.X_SMALL,
 	DENSITY_SIZE.SMALL,
@@ -47,16 +52,13 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	const defaultTrailingType = closeTrailing ? 'closeTrailing' : 'standard'
 	const trailingSize = stepDownDensitySize(size)
 	const trailingType = afterAffordance ? 'afterAffordance' : defaultTrailingType
-	const trailingProps = useMemo(
-		() => ({
-			...interactionHandlers,
-			...(trailingTriggerOn === TRIGGER_ON.HOVER && {onHoverIn}),
-			disabled,
-			size: trailingSize,
-			type: ICON_BUTTON_TYPE.STANDARD
-		}),
-		[disabled, interactionHandlers, onHoverIn, trailingSize, trailingTriggerOn]
-	)
+	const trailingProps = {
+		...interactionHandlers,
+		...(trailingTriggerOn === TRIGGER_ON.HOVER && {onHoverIn}),
+		disabled,
+		size: trailingSize,
+		type: ICON_BUTTON_TYPE.STANDARD
+	}
 
 	const trailingElement = {
 		afterAffordance: cloneElement(
@@ -160,15 +162,9 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 	const isLabelType = type === LIST_TYPE.MENU || type === LIST_TYPE.LABEL
 	const typographyType = isLabelType ? TYPOGRAPHY.LABEL : TYPOGRAPHY.BODY
 	const typographySize = densitySizeMapTypographySize(isLabelType ? DENSITY_SIZE.MEDIUM : size)
-	const {entry, exit} = useMemo(
-		() => ({
-			entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-			exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-		}),
-		[]
-	)
+	const {entry, exit} = ENTRY_EXIT
 
-	const animatedViewStyle = useMemo(() => [contentStyle, contentAnimatedStyle], [contentStyle, contentAnimatedStyle])
+	const animatedViewStyle = [contentStyle, contentAnimatedStyle]
 	const mainElement = (
 		<>
 			{beforeAffordance && (

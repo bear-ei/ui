@@ -1,4 +1,4 @@
-import {useMemo, type FC} from 'react'
+import {type FC} from 'react'
 import {type ViewStyle} from 'react-native'
 
 import type {RenderTouchableRippleProps} from './Touchable-ripple.interface'
@@ -23,20 +23,17 @@ export const RenderTouchableRipple: FC<RenderTouchableRippleProps> = ({
 	const {token} = useTheme()
 	const {shapeClasses} = token.classes
 	const {onLayout} = interactionHandlers
-	const animatedViewStyle = useMemo(
-		() => [
-			style,
-			{
-				...(underlayColor && {backgroundColor: underlayColor}),
-				height: platformValue(size),
-				left: platformValue(locationX),
-				top: platformValue(locationY),
-				width: platformValue(size)
-			} as ViewStyle,
-			containerAnimatedStyle
-		],
-		[style, size, locationX, locationY, underlayColor, containerAnimatedStyle]
-	)
+	const animatedViewStyle = [
+		style,
+		{
+			...(underlayColor && {backgroundColor: underlayColor}),
+			height: platformValue(size),
+			left: platformValue(locationX),
+			top: platformValue(locationY),
+			width: platformValue(size)
+		} as ViewStyle,
+		containerAnimatedStyle
+	]
 
 	return (
 		<AnimatedView

@@ -1,4 +1,4 @@
-import {cloneElement, useMemo, type FC} from 'react'
+import {cloneElement, type FC} from 'react'
 import {Text, View, type ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 
@@ -11,6 +11,11 @@ import {platformValue} from '../../utils'
 import {AnimatedView} from '../Animated'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 import {VirtualListItem} from './Virtual-list-item'
+
+const ENTRY_EXIT = {
+	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
+	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
+}
 
 export const RenderVirtualListItem = ({
 	containerLayout,
@@ -73,24 +78,14 @@ export const RenderVirtualList: FC<RenderVirtualListProps> = ({
 	const isEmptyContentVisible = !loading && emptyList && status === COMPONENT_STATUS.SUCCEEDED
 	const {height = 0, width = 0} = containerLayout
 	const isLayoutCompleted = height > 0 || width > 0
-	const contentContainerStyle = useMemo(
-		() =>
-			({
-				...(layoutType === LAYOUT.VERTICAL && {minHeight: platformValue(contentSize)}),
-				...(layoutType === LAYOUT.HORIZONTAL && {minWidth: platformValue(contentSize)}),
-				alignSelf: 'stretch',
-				flex: 1
-			}) as ViewStyle,
-		[contentSize, layoutType]
-	)
+	const contentContainerStyle = {
+		...(layoutType === LAYOUT.VERTICAL && {minHeight: platformValue(contentSize)}),
+		...(layoutType === LAYOUT.HORIZONTAL && {minWidth: platformValue(contentSize)}),
+		alignSelf: 'stretch',
+		flex: 1
+	} as ViewStyle
 
-	const {entry, exit} = useMemo(
-		() => ({
-			entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-			exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-		}),
-		[]
-	)
+	const {entry, exit} = ENTRY_EXIT
 
 	return (
 		<View

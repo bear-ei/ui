@@ -14,6 +14,11 @@ import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
 import {Mask} from '../../Mask'
 import {getSafeMenuPosition} from './Popover-content.handler'
 
+const ENTRY_EXIT = {
+	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
+	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
+}
+
 export const RenderPopoverContent: FC<RenderPopoverContentProps> = ({
 	containerLayout,
 	content,
@@ -165,20 +170,16 @@ export const RenderPopoverContent: FC<RenderPopoverContentProps> = ({
 	// forming a single continuous shadow surface.
 	// NOTE: relies on the dropdown being flush with the trigger (gap = 0).
 	// If gap changes, this style needs to account for it.
-	const elevationLayoutStyle = useMemo(
-		() =>
-			({
-				height: platformValue(height + containerHeight),
-				width: platformValue(width),
-				...(type === POPOVER_TYPE.CONTEXT_MENU ?
-					{
-						left: platformValue(menuPosition.left ?? token.density.spacing[DENSITY_SIZE.NONE]),
-						top: platformValue(menuPosition.top ?? token.density.spacing[DENSITY_SIZE.NONE])
-					}
-				:	{left: platformValue(containerX), top: platformValue(containerY)})
-			}) as ViewStyle,
-		[containerHeight, menuPosition, token, containerX, containerY, height, type, width]
-	)
+	const elevationLayoutStyle = {
+		height: platformValue(height + containerHeight),
+		width: platformValue(width),
+		...(type === POPOVER_TYPE.CONTEXT_MENU ?
+			{
+				left: platformValue(menuPosition.left ?? token.density.spacing[DENSITY_SIZE.NONE]),
+				top: platformValue(menuPosition.top ?? token.density.spacing[DENSITY_SIZE.NONE])
+			}
+		:	{left: platformValue(containerX), top: platformValue(containerY)})
+	} as ViewStyle
 
 	const verticalAnimatedType = menuOrPicker ? LAYOUT_ANIMATED.COLLAPSE_Y : LAYOUT_ANIMATED.COLLAPSE_Y_AND_FADE
 	const horizontalAnimatedType = menuOrPicker ? LAYOUT_ANIMATED.COLLAPSE_X : LAYOUT_ANIMATED.COLLAPSE_X_AND_FADE
@@ -221,13 +222,7 @@ export const RenderPopoverContent: FC<RenderPopoverContentProps> = ({
 	)
 
 	const {animatedType, outputRanges} = positionOutputRanges[popoverContentPosition]
-	const {entry, exit} = useMemo(
-		() => ({
-			entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-			exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-		}),
-		[]
-	)
+	const {entry, exit} = ENTRY_EXIT
 
 	const contentSize = useMemo(() => ({height, width}), [height, width])
 	const mainElement = (

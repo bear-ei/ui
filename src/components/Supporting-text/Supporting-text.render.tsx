@@ -8,6 +8,11 @@ import {DENSITY_SIZE, DENSITY_TYPE, DURATION, EASING, TYPOGRAPHY, TYPOGRAPHY_SIZ
 import {AnimatedText} from '../Animated'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 
+const ENTRY_EXIT = {
+	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
+	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
+}
+
 export const RenderSupportingText: FC<RenderSupportingTextProps> = ({
 	alignment = ALIGNMENT.START,
 	children,
@@ -20,13 +25,7 @@ export const RenderSupportingText: FC<RenderSupportingTextProps> = ({
 	const {token} = useTheme()
 	const {classesName, densityClasses, typographyClasses} = token.classes
 	const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET, LAYOUT.HORIZONTAL)
-	const {entry, exit} = useMemo(
-		() => ({
-			entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-			exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-		}),
-		[]
-	)
+	const {entry, exit} = ENTRY_EXIT
 
 	const contentSize = useMemo(
 		() => ({

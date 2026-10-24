@@ -1,4 +1,4 @@
-import {useMemo, type FC} from 'react'
+import {type FC} from 'react'
 import {Platform, Pressable, type ViewStyle} from 'react-native'
 
 import type {RenderPopoverLayoutProps} from './Popover-pressable-layout.interface'
@@ -21,16 +21,12 @@ export const RenderPopoverPressableLayout: FC<RenderPopoverLayoutProps> = ({
 		y: containerY = 0
 	} = containerLayout ?? {}
 
-	const pressableLayoutStyle = useMemo(
-		() =>
-			({
-				height: platformValue(containerHeight),
-				left: platformValue(containerX),
-				top: platformValue(containerY),
-				width: platformValue(containerWidth)
-			}) as ViewStyle,
-		[containerWidth, containerX, containerY, containerHeight]
-	)
+	const pressableLayoutStyle = {
+		height: platformValue(containerHeight),
+		left: platformValue(containerX),
+		top: platformValue(containerY),
+		width: platformValue(containerWidth)
+	} as ViewStyle
 
 	return (
 		<Pressable

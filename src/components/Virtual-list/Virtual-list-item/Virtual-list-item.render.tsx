@@ -1,4 +1,4 @@
-import {useMemo, type FC} from 'react'
+import {type FC} from 'react'
 import {View, type ViewStyle} from 'react-native'
 
 import type {RenderVirtualListItemProps} from './Virtual-list-item.interface'
@@ -29,29 +29,20 @@ export const RenderVirtualListItem: FC<RenderVirtualListItemProps> = ({
 	zIndex,
 	...containerProps
 }) => {
-	const animatedViewStyle = useMemo(
-		() => [
-			containerAnimatedStyle,
-			{
-				...(layoutType === LAYOUT.VERTICAL ?
-					{height: platformValue(itemSize)}
-				:	{width: platformValue(itemSize)}),
-				zIndex
-			} as ViewStyle
-		],
-		[itemSize, layoutType, zIndex, containerAnimatedStyle]
-	)
+	const animatedViewStyle = [
+		containerAnimatedStyle,
+		{
+			...(layoutType === LAYOUT.VERTICAL ? {height: platformValue(itemSize)} : {width: platformValue(itemSize)}),
+			zIndex
+		} as ViewStyle
+	]
 
-	const dragContentStyle = useMemo(
-		() =>
-			({
-				...(layoutType === LAYOUT.VERTICAL ?
-					{height: platformValue(itemSize - gap)}
-				:	{width: platformValue(itemSize - gap)}),
-				zIndex
-			}) as ViewStyle,
-		[gap, itemSize, layoutType, zIndex]
-	)
+	const dragContentStyle = {
+		...(layoutType === LAYOUT.VERTICAL ?
+			{height: platformValue(itemSize - gap)}
+		:	{width: platformValue(itemSize - gap)}),
+		zIndex
+	} as ViewStyle
 
 	return (
 		<AnimatedView

@@ -1,4 +1,4 @@
-import {useMemo, type FC} from 'react'
+import {type FC} from 'react'
 import {Platform, View, type ViewStyle} from 'react-native'
 
 import type {RenderMenuListProps} from './Menu-list.interface'
@@ -27,7 +27,7 @@ export const RenderMenuList: FC<RenderMenuListProps> = ({
 	const dataNumber = data?.length ?? 0
 	const itemSize = token.density.control[size]
 	const height = dataNumber * itemSize + token.density.spacing[DENSITY_SIZE.X_SMALL] * 2
-	const menuListStyle = useMemo(() => ({height: platformValue(height)}) as ViewStyle, [height])
+	const menuListStyle = {height: platformValue(height)} as ViewStyle
 
 	return (
 		<View
