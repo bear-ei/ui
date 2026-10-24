@@ -63,7 +63,6 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({
 	})
 }
 
-const LOADING_SUPPRESSED_TYPES = [BUTTON_TYPE.LINK, BUTTON_TYPE.OUTLINED, BUTTON_TYPE.TEXT] as readonly ButtonType[]
 const ACTIVE_INDICATOR_EVENT_NAMES = [
 	EVENT_NAME.FOCUS,
 	EVENT_NAME.HOVER_IN,
@@ -104,7 +103,11 @@ export const RenderButton: FC<RenderButtonProps> = ({
 		type === BUTTON_TYPE.LINK && ACTIVE_INDICATOR_EVENT_NAMES.includes(eventName) && !disabled
 
 	const isLink = type === BUTTON_TYPE.LINK
-	const loadingEventName = LOADING_SUPPRESSED_TYPES.includes(type) ? EVENT_NAME.NONE : EVENT_NAME.LONG_PRESS
+	const loadingEventName =
+		([BUTTON_TYPE.LINK, BUTTON_TYPE.OUTLINED, BUTTON_TYPE.TEXT] as readonly ButtonType[]).includes(type) ?
+			EVENT_NAME.NONE
+		:	EVENT_NAME.LONG_PRESS
+
 	const underlayEventName =
 		disabled ? EVENT_NAME.NONE
 		: loading ? loadingEventName

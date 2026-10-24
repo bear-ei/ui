@@ -36,5 +36,3 @@ export const RenderDrag: FC<RenderDragProps> = ({
 		</View>
 	)
 }
-
-
