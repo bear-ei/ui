@@ -1,13 +1,14 @@
-import {forwardRef, useEffect, useId, useRef} from 'react'
 import type {View} from 'react-native'
+
+import {useEffect, useId, useRef, type FC} from 'react'
+
+import type {MenuListBaseProps} from './Menu-list.interface'
 
 import {useMergeRefs} from '../../../hooks'
 import {POPOVER_TYPE} from '../../Popover'
-
-import type {MenuListBaseProps} from './Menu-list.interface'
 import {RenderMenuList} from './Menu-list.render'
 
-export const MenuListBase = forwardRef<View, MenuListBaseProps>(({visible, type, ...props}, ref) => {
+export const MenuListBase: FC<MenuListBaseProps> = ({ref, type, visible, ...props}) => {
 	const id = useId()
 	const containerRef = useRef<View>(null)
 	const mergedRef = useMergeRefs([ref, containerRef])
@@ -32,4 +33,4 @@ export const MenuListBase = forwardRef<View, MenuListBaseProps>(({visible, type,
 			type={type}
 		/>
 	)
-})
+}

@@ -1,15 +1,15 @@
 import type {TextInputKeyPressEvent} from 'react-native'
 import type {Updater} from 'use-immer'
 
-import {arrayEqual} from '../../utils'
-import {POPOVER_TYPE} from '../Popover'
-
 import type {
 	HandleMenuKeyDownEventOptions,
 	HandleMenuKeyDownOptions,
 	MenuState,
 	UpdateMenuVisibleOptions
 } from './Menu.interface'
+
+import {arrayEqual} from '../../utils'
+import {POPOVER_TYPE} from '../Popover'
 
 const handleMenuActiveKeys = (key: string, activeKeys: string[] = []) => {
 	if (activeKeys.findIndex(item => item === key) !== -1) {
@@ -19,22 +19,22 @@ const handleMenuActiveKeys = (key: string, activeKeys: string[] = []) => {
 	return [...activeKeys, key]
 }
 
-export const handleMenuKeyDown = ({
-	activeKey,
-	activeKeys,
-	data,
-	multiple,
-	onActive,
-	onActives,
-	onFocusKey
-}: HandleMenuKeyDownOptions) => {
-	const handleMenuKeyCode = (setState: Updater<MenuState>) => (keyCode?: string) =>
+export const handleMenuKeyDown =
+	(
+		setState: Updater<MenuState>,
+		{activeKey, activeKeys, data, multiple, onActive, onActives, onFocusKey}: HandleMenuKeyDownOptions
+	) =>
+	(keyCode?: string) => {
+		if (!data) {
+			return
+		}
+
 		setState(draft => {
 			const currentFocusedIndex = draft.focusedIndex ?? -1
-			const lastIndex = (data?.length ?? 0) - 1
+			const lastIndex = data.length - 1
 			const focusData =
 				typeof currentFocusedIndex === 'number' && currentFocusedIndex !== -1 ?
-					data?.[currentFocusedIndex]
+					data[currentFocusedIndex]
 				:	undefined
 
 			switch (true) {
@@ -44,7 +44,7 @@ export const handleMenuKeyDown = ({
 					draft.focusedIndex = nextFocusedIndex
 
 					if (onFocusKey) {
-						draft.pendingFocusKeyEvent = data?.[nextFocusedIndex]?.indexKey
+						draft.pendingFocusKeyEvent = data[nextFocusedIndex]?.indexKey
 					}
 
 					break
@@ -56,7 +56,7 @@ export const handleMenuKeyDown = ({
 					draft.focusedIndex = nextFocusedIndex
 
 					if (onFocusKey) {
-						draft.pendingFocusKeyEvent = data?.[nextFocusedIndex]?.indexKey
+						draft.pendingFocusKeyEvent = data[nextFocusedIndex]?.indexKey
 					}
 
 					break
@@ -83,19 +83,10 @@ export const handleMenuKeyDown = ({
 					break
 			}
 		})
-
-	return (setState: Updater<MenuState>) => (keyCode?: string) => {
-		if (!data) {
-			return
-		}
-
-		handleMenuKeyCode(setState)(keyCode)
 	}
-}
 
 export const handleMenuKeyDownEvent =
-	(options: HandleMenuKeyDownEventOptions) =>
-	(setState: Updater<MenuState>) =>
+	(setState: Updater<MenuState>, options: HandleMenuKeyDownEventOptions) =>
 	(event: React.KeyboardEvent | TextInputKeyPressEvent) => {
 		const key = event.nativeEvent.key
 
@@ -116,14 +107,13 @@ export const handleMenuKeyDownEvent =
 			return
 		}
 
-		handleMenuKeyDown(options)(setState)(key)
+		handleMenuKeyDown(setState, options)(key)
 	}
 
 export const updateMenuVisible =
-	({onVisible, type}: UpdateMenuVisibleOptions) =>
-	(setState: Updater<MenuState>) =>
+	(setState: Updater<MenuState>, {onVisible, type}: UpdateMenuVisibleOptions) =>
 	(value?: boolean) => {
-		if (typeof value === 'undefined') {
+		if (value === undefined) {
 			return
 		}
 
@@ -145,33 +135,33 @@ export const updateMenuVisible =
 	}
 
 export const updateMenuActive =
-	(setState: Updater<MenuState>) => (onActive?: (value?: string) => void) => (value?: string) => {
-		if (typeof value === 'undefined') {
+	(setState: Updater<MenuState>, onActive?: (indexKey: string) => void) => (indexKey?: string) => {
+		if (indexKey === undefined) {
 			return
 		}
 
 		setState(draft => {
-			if (draft.activeKey !== value && onActive) {
-				draft.pendingActiveEvent = value
+			if (draft.activeKey !== indexKey && onActive) {
+				draft.pendingActiveEvent = indexKey
 			}
 
-			draft.activeKey = value
+			draft.activeKey = indexKey
 		})
 	}
 
 export const updateMenuActives =
-	(setState: Updater<MenuState>) => (onActives?: (values?: string[]) => void) => (values?: string[]) => {
-		if (typeof values === 'undefined') {
+	(setState: Updater<MenuState>, onActives?: (activeKeys?: string[]) => void) => (activeKeys?: string[]) => {
+		if (activeKeys === undefined) {
 			return
 		}
 
 		setState(draft => {
-			const isArrayEqual = arrayEqual([...(draft.activeKeys ?? [])], values)
+			const isArrayEqual = arrayEqual([...(draft.activeKeys ?? [])], activeKeys)
 
 			if (!isArrayEqual && onActives) {
-				draft.pendingActivesEvent = values
+				draft.pendingActivesEvent = activeKeys
 			}
 
-			draft.activeKeys = values
+			draft.activeKeys = activeKeys
 		})
 	}

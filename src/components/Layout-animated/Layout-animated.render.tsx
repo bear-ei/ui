@@ -1,4 +1,4 @@
-import {useMemo, type FC} from 'react'
+import {type FC} from 'react'
 
 import type {RenderLayoutAnimatedProps} from './Layout-animated.interface'
 
@@ -19,15 +19,15 @@ export const RenderLayoutAnimated: FC<RenderLayoutAnimatedProps> = ({
 	const {token} = useTheme()
 	const {classesName} = token.classes
 	const {onLayout} = interactionHandlers
-	const animatedViewStyle = useMemo(
-		() => [style, ...(Array.isArray(containerAnimatedStyle) ? containerAnimatedStyle : [containerAnimatedStyle])],
-		[style, containerAnimatedStyle]
-	)
+	const animatedViewStyle = [
+		style,
+		...(Array.isArray(containerAnimatedStyle) ? containerAnimatedStyle : [containerAnimatedStyle])
+	]
 
 	return (
 		<AnimatedView
 			{...containerProps}
-			className={classesName('flex flex-col', {['pointer-events-none -z-40']: !visible}, className)}
+			className={classesName('flex flex-col', className, {['pointer-events-none -z-40']: !visible})}
 			onLayout={onLayout}
 			style={animatedViewStyle}
 			testID={testID ?? `layoutAnimated--${id}`}

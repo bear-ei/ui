@@ -62,16 +62,16 @@ export const PopoverBase: FC<PopoverBaseProps> = ({
 			elevation,
 			pendingAnimationFinishedEvent,
 			pendingEmitContentEvent,
-			pendingRawVisibleEvent,
 			pendingUnmountContentEvent,
 			pendingUnmountPressableLayoutEvent,
+			pendingVisibleChangeEvent,
 			pendingVisibleEvent,
 			visible: isVisible
 		},
 		setState
 	] = useImmer<PopoverState>({visible: rawVisible ?? defaultVisible})
 
-	usePendingEvent('pendingRawVisibleEvent', rawOnVisible, {pendingEvent: pendingRawVisibleEvent, setState})
+	usePendingEvent('pendingVisibleEvent', rawOnVisible, {pendingEvent: pendingVisibleEvent, setState})
 	usePendingEvent('pendingAnimationFinishedEvent', rawOnAnimationFinished, {
 		pendingEvent: pendingAnimationFinishedEvent,
 		setState
@@ -103,7 +103,7 @@ export const PopoverBase: FC<PopoverBaseProps> = ({
 		return func
 	}, [debounceVisibleDelay, rawOnVisible, setState, type])
 
-	usePendingEvent('pendingVisibleEvent', onVisible, {pendingEvent: pendingVisibleEvent, setState})
+	usePendingEvent('pendingVisibleChangeEvent', onVisible, {pendingEvent: pendingVisibleChangeEvent, setState})
 
 	const onElevationAnimationFinished = useMemo(
 		() => handleElevationAnimationFinished(setState, rawOnVisible),

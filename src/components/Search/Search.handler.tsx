@@ -2,14 +2,14 @@ import type {WritableDraft} from 'immer'
 import type {NativeSyntheticEvent, TargetedEvent, TextInput} from 'react-native'
 import type {Updater} from 'use-immer'
 
-import {textSearch} from '../../utils'
 import type {ListItemData} from '../List'
 import type {VirtualListCloseEvent} from '../Virtual-list'
-
 import type {HandleSearchActiveKeyOptions, SearchState, UpdateSearchDataOptions} from './Search.interface'
 
+import {textSearch} from '../../utils'
+
 export const updateSearchText =
-	(onChangeText?: (text: string) => void) => (setState: Updater<SearchState>) => (value: string) =>
+	(setState: Updater<SearchState>, onChangeText?: (text: string) => void) => (value: string) =>
 		setState(draft => {
 			if (draft.value === value) {
 				return
@@ -45,8 +45,7 @@ const syncVisible = (draft: WritableDraft<SearchState>, visible?: boolean) => {
 }
 
 export const handleSearchFocus =
-	(onFocus?: (target: number) => void) =>
-	(setState: Updater<SearchState>) =>
+	(setState: Updater<SearchState>, onFocus?: (target: number) => void) =>
 	(event: NativeSyntheticEvent<TargetedEvent>) =>
 		setState(draft => {
 			syncVisible(draft, !!draft.value)
@@ -79,8 +78,7 @@ export const updateSearchExpanded = (setState: Updater<SearchState>) => (visible
 }
 
 export const handleSearchMenuClose =
-	(ref?: React.RefObject<TextInput | null>) =>
-	(onMenuClose?: (event: VirtualListCloseEvent) => void) =>
+	(ref?: React.RefObject<TextInput | null>, onMenuClose?: (event: VirtualListCloseEvent) => void) =>
 	(event: VirtualListCloseEvent) => {
 		ref?.current?.focus()
 		onMenuClose?.(event)
@@ -99,8 +97,7 @@ export const handleSearchFocusKey = (setState: Updater<SearchState>) => (key?: s
 	})
 
 export const handleSearchActiveKey =
-	({onActive, ref}: HandleSearchActiveKeyOptions) =>
-	(setState: Updater<SearchState>) =>
+	(setState: Updater<SearchState>, {onActive, ref}: HandleSearchActiveKeyOptions) =>
 	(key?: string) => {
 		ref?.current?.focus()
 
@@ -121,8 +118,7 @@ export const handleSearchActiveKey =
 	}
 
 export const updateSearchData =
-	({data, filter}: UpdateSearchDataOptions) =>
-	(setState: Updater<SearchState>) =>
+	(setState: Updater<SearchState>, {data, filter}: UpdateSearchDataOptions) =>
 	(value?: string) => {
 		if (!(filter && data)) {
 			return
@@ -131,7 +127,7 @@ export const updateSearchData =
 		setState(draft => {
 			draft.data = (
 				value ?
-					textSearch(data)(['headline', 'supporting'])(value)
+					textSearch(value, data, ['headline', 'supporting'])
 				:	[]) as WritableDraft<ListItemData>[]
 		})
 	}

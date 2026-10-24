@@ -62,5 +62,3 @@ export const RenderProgress: FC<RenderProgressProps> = ({
 		</View>
 	)
 }
-
-

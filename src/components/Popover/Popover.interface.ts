@@ -39,10 +39,24 @@ export interface PopoverState {
 	elevation?: ElevationValue
 	pendingAnimationFinishedEvent?: boolean
 	pendingEmitContentEvent?: EmitPopoverEvent
-	pendingRawVisibleEvent?: boolean
 	pendingUnmountContentEvent?: boolean
 	pendingUnmountPressableLayoutEvent?: boolean
 
+	/**
+	 * Fires when a trigger event (hover / press / etc.) requests a visibility
+	 * change. Consumed by the internal `onVisible` wrapper (debounce/immediate
+	 * branch, `updatePopoverVisible`, cross-component coordination).
+	 *
+	 * ⚠️ NOT the user-facing callback — see `pendingVisibleEvent`.
+	 */
+	pendingVisibleChangeEvent?: boolean
+
+	/**
+	 * Fires when `draft.visible` actually changes (set by `updatePopoverVisible`).
+	 * Consumed by the user's `rawOnVisible` prop — the "value has changed"
+	 * notification, in line with `pendingActiveEvent` / `pendingCloseEvent` /
+	 * `pendingChangeTextEvent` etc.
+	 */
 	pendingVisibleEvent?: boolean
 	visible?: boolean
 }

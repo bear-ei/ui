@@ -9,16 +9,14 @@ import type {VirtualListCloseEvent} from '../Virtual-list'
 
 export interface SearchProps
 	extends
-		Omit<
-			Partial<TextInputProps & PressableProps & RefAttributes<TextInput> & InteractionHandlers & MenuProps>,
-			'onFocus'
-		>,
+		Omit<Partial<TextInputProps & Omit<PressableProps & InteractionHandlers & MenuProps, 'ref'>>, 'onFocus'>,
+		RefAttributes<TextInput>,
 		ThemeProps {
 	disabled?: boolean
 	filter?: boolean
 	leading?: React.JSX.Element
-	trailing?: React.JSX.Element
 	onFocus?: (target: number) => void
+	trailing?: React.JSX.Element
 }
 
 export interface RenderSearchProps extends Omit<SearchProps, 'onFocus'>, Pick<TextInputProps, 'onFocus'> {

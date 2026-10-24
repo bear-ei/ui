@@ -1,43 +1,40 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
+import type {AnimatedTiming, StateEvent} from '../../../hooks'
+import type {HandleSearchTextInputStateChangeOptions, SearchTextInputState} from './Search-text-input.interface'
+
 import {COMPONENT_STATUS, EVENT_NAME, STATE} from '../../../constants'
-import type {AnimatedTimingOptions, AnimateSharedValueTo, StateEvent} from '../../../hooks'
 import {DURATION, EASING} from '../../../theme'
 
-import type {
-	AnimateSearchTextInputBorderRadiusOptions,
-	HandleSearchTextInputStateChangeOptions,
-	SearchTextInputState
-} from './Search-text-input.interface'
+export const handleSearchTextInputStateChange = (
+	_event: StateEvent,
+	setState: Updater<SearchTextInputState>,
+	{eventName, ref, state}: HandleSearchTextInputStateChangeOptions
+) => {
+	if (eventName === EVENT_NAME.LAYOUT) {
+		return
+	}
 
-export const handleSearchTextInputStateChange =
-	({eventName, ref, state}: HandleSearchTextInputStateChangeOptions) =>
-	(setState: Updater<SearchTextInputState>) =>
-	(_event: StateEvent) => {
-		if (eventName === EVENT_NAME.LAYOUT) {
+	setState(draft => {
+		if (draft.state === STATE.FOCUSED && eventName !== EVENT_NAME.BLUR) {
 			return
 		}
 
-		setState(draft => {
-			if (draft.state === STATE.FOCUSED && eventName !== EVENT_NAME.BLUR) {
-				return
-			}
+		draft.eventName = eventName
 
-			draft.eventName = eventName
-
-			if (state) {
-				draft.state = state
-			}
-		})
-
-		if (eventName === EVENT_NAME.PRESS_OUT) {
-			ref?.current?.focus()
+		if (state) {
+			draft.state = state
 		}
+	})
+
+	if (eventName === EVENT_NAME.PRESS_OUT) {
+		ref?.current?.focus()
 	}
+}
 
 export const updateSearchTextInputText =
-	(onChangeText?: (text: string) => void) => (setState: Updater<SearchTextInputState>) => (value: string) =>
+	(setState: Updater<SearchTextInputState>, onChangeText?: (text: string) => void) => (value: string) =>
 		setState(draft => {
 			if (draft.value === value) {
 				return
@@ -59,32 +56,24 @@ export const updateSearchTextInputValue = (setState: Updater<SearchTextInputStat
 		}
 	})
 
-export const animateSearchColor =
-	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
-	(colorSharedValue: SharedValue<number>) => {
-		const animateSharedValueTo = animatedTiming({easing: EASING.STANDARD, duration: DURATION.SHORT_2})({
-			sharedValue: colorSharedValue
-		})
+export const animateSearchColor = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
+	const animateSharedValueTo = animatedTiming(sharedValue, {duration: DURATION.SHORT_2, easing: EASING.STANDARD})
 
-		return (disabled?: boolean) => animateSharedValueTo(disabled ? 0 : 1)
+	return (disabled?: boolean) => animateSharedValueTo(disabled ? 0 : 1)
+}
+
+export const animateSearchBorderRadius = (
+	[borderBottomRadiusSharedValue, borderTopRadiusSharedValue]: [SharedValue<number>, SharedValue<number>],
+	animatedTiming: AnimatedTiming
+) => {
+	const animatedTimingOptions = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
+	const borderBottomAnimateSharedValueTo = animatedTiming(borderBottomRadiusSharedValue, animatedTimingOptions)
+	const borderTopAnimateSharedValueTo = animatedTiming(borderTopRadiusSharedValue, animatedTimingOptions)
+
+	return (listExpanded?: boolean) => {
+		const toValue = listExpanded ? 0 : 1
+
+		borderBottomAnimateSharedValueTo(toValue)
+		borderTopAnimateSharedValueTo(toValue)
 	}
-
-export const animateSearchBorderRadius =
-	(animatedTiming: (options?: AnimatedTimingOptions) => AnimateSharedValueTo) =>
-	({borderBottomRadiusSharedValue, borderTopRadiusSharedValue}: AnimateSearchTextInputBorderRadiusOptions) => {
-		const animatedTimingOptions = {easing: EASING.STANDARD, duration: DURATION.SHORT_2}
-		const borderBottomAnimateSharedValueTo = animatedTiming(animatedTimingOptions)({
-			sharedValue: borderBottomRadiusSharedValue
-		})
-
-		const borderTopAnimateSharedValueTo = animatedTiming(animatedTimingOptions)({
-			sharedValue: borderTopRadiusSharedValue
-		})
-
-		return (listExpanded?: boolean) => {
-			const toValue = listExpanded ? 0 : 1
-
-			borderBottomAnimateSharedValueTo(toValue)
-			borderTopAnimateSharedValueTo(toValue)
-		}
-	}
+}

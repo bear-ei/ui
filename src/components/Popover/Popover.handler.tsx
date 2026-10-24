@@ -33,7 +33,7 @@ export const updatePopoverVisible = (
 
 		setState(draft => {
 			if (draft.visible !== visible && onVisible) {
-				draft.pendingRawVisibleEvent = visible
+				draft.pendingVisibleEvent = visible
 			}
 
 			if (!isMenuOrPicker) {
@@ -54,7 +54,7 @@ export const updatePopoverVisible = (
 }
 
 export const handleElevationAnimationFinished =
-	(setState: Updater<PopoverState>, onVisible?: (visible?: boolean) => void) => (visible?: boolean) => {
+	(setState: Updater<PopoverState>, onVisible?: (visible: boolean) => void) => (visible?: boolean) => {
 		if (!(typeof visible === 'boolean' && !visible)) {
 			return
 		}
@@ -89,7 +89,7 @@ export const updatePopoverContextMenuLayout =
 			draft.contextMenuLayout = {x, y}
 
 			if (onVisible) {
-				draft.pendingVisibleEvent = true
+				draft.pendingVisibleChangeEvent = true
 			}
 		})
 	}
@@ -136,7 +136,7 @@ export const handlePopoverStateChange = (
 		const isUnmount = type === POPOVER_TYPE.TEXT_INPUT_PICKER && eventName === EVENT_NAME.BLUR && !draft.visible
 
 		if (triggerEventNames.includes(eventName) && onVisible) {
-			draft.pendingVisibleEvent = eventName === triggerEventNames[0]
+			draft.pendingVisibleChangeEvent = eventName === triggerEventNames[0]
 		}
 
 		if (!isUnmount) {

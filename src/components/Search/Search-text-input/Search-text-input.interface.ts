@@ -1,6 +1,6 @@
 import type {JSX, RefAttributes, RefObject} from 'react'
 import type {PressableProps, TextInput, TextInputProps, TextStyle, View, ViewStyle} from 'react-native'
-import type {AnimatedStyle, SharedValue} from 'react-native-reanimated'
+import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {ComponentStatus, EventName, State} from '../../../constants'
 import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
@@ -42,7 +42,3 @@ export interface HandleSearchContainerLayoutOptions {
 }
 
 export type UseSearchTextInputAnimatedOptions = Pick<RenderSearchTextInputProps, 'disabled' | 'expanded'>
-export interface AnimateSearchTextInputBorderRadiusOptions {
-	borderBottomRadiusSharedValue: SharedValue<number>
-	borderTopRadiusSharedValue: SharedValue<number>
-}

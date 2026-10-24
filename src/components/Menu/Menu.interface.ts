@@ -3,10 +3,22 @@ import type {PressableProps} from 'react-native'
 import type {InteractionHandlers} from '../../hooks'
 import type {ListType} from '../List'
 import type {PopoverProps, PopoverType} from '../Popover'
-
 import type {MenuListProps} from './Menu-list'
 
 export interface MenuProps extends Omit<PressableProps & PopoverProps & MenuListProps & InteractionHandlers, 'type'> {
+	/**
+	 * Controlled key input. The effect fires when the value **changes** —
+	 * passing the same value twice does NOT trigger twice.
+	 *
+	 * The caller drives keyboard interaction by cycling through values:
+	 *
+	 *   const [key, setKey] = useState<string | undefined>()
+	 *   // Trigger ArrowDown:
+	 *   setKey(undefined); setKey('ArrowDown')
+	 *
+	 * This is intentionally NOT imperative (`ref.current.triggerKey('Enter')`)
+	 * — the value-change model keeps `Menu` a pure function of props.
+	 */
 	keyCode?: string
 	listType?: ListType
 	onContextMenu?: (event: MouseEvent) => void

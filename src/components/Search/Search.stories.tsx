@@ -1,18 +1,19 @@
 import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
+
 import {Circle} from 'lucide-react-native'
+
+import type {SearchProps} from './Search.interface'
 
 import {TRIGGER_ON} from '../../constants'
 import {DENSITY_SIZE} from '../../theme'
 import {IconButton} from '../Icon-button'
 import {LIST_SELECT_TYPE} from '../List'
-
 import {Search} from './Search.component'
-import type {SearchProps} from './Search.interface'
 
 export const Leading: StoryObj<SearchProps> = {
 	args: {
-		placeholder: 'Hinted search text',
-		leading: <Circle />
+		leading: <Circle />,
+		placeholder: 'Hinted search text'
 	}
 }
 
@@ -62,11 +63,6 @@ export const SearchList: StoryObj<SearchProps> = {
 	args: {
 		activeKey: 'TitleB',
 		closeTrailing: true,
-		filter: true,
-		placeholder: 'Hinted search text',
-		selectType: LIST_SELECT_TYPE.SINGLE,
-		size: DENSITY_SIZE.LARGE,
-		trailingTriggerOn: TRIGGER_ON.HOVER,
 		data: [
 			{
 				headline: 'TitleA',
@@ -92,11 +88,16 @@ export const SearchList: StoryObj<SearchProps> = {
 				leading: <Circle />
 				// supporting: 'www.xiaohongshu.com'
 			}
-		]
+		],
+		filter: true,
+		placeholder: 'Hinted search text',
+		selectType: LIST_SELECT_TYPE.SINGLE,
+		size: DENSITY_SIZE.LARGE,
+		trailingTriggerOn: TRIGGER_ON.HOVER
 	}
 }
 
 export default {
-	title: 'components/Search',
-	component: Search
+	component: Search,
+	title: 'components/Search'
 } as Meta<typeof Search>
