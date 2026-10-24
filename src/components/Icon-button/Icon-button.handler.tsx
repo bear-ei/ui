@@ -2,10 +2,10 @@ import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
 import type {Theme} from '../../contexts'
-import type {AnimatedTiming, StateEvent} from '../../hooks'
+import type {AnimatedTimingFactory, InteractionEvent} from '../../hooks'
 import type {
 	AnimateIconButtonOptions,
-	HandleIconButtonStateChangeOptions,
+	HandleIconButtonInteractionStateChangeOptions,
 	IconButtonState,
 	IconButtonType
 } from './Icon-button.interface'
@@ -15,9 +15,9 @@ import {ANIMATED_TIMING} from '../../theme'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 
 export const handleIconButtonStateChange = (
-	_event: StateEvent,
+	_event: InteractionEvent,
 	setState: Updater<IconButtonState>,
-	{eventName}: HandleIconButtonStateChangeOptions
+	{eventName}: HandleIconButtonInteractionStateChangeOptions
 ) => {
 	if (eventName === EVENT_NAME.LAYOUT) {
 		return
@@ -42,11 +42,11 @@ export const updateIconButtonDisabledState = (setState: Updater<IconButtonState>
 
 export const getIconButtonUnderlayColor = (type: IconButtonType, {token}: Theme) => {
 	const underlay = {
-		[ICON_BUTTON_TYPE.ACTIVE]: token.scheme.onSurfaceVariant,
-		[ICON_BUTTON_TYPE.FILLED]: token.scheme.onPrimary,
-		[ICON_BUTTON_TYPE.OUTLINED]: token.scheme.onSurfaceVariant,
-		[ICON_BUTTON_TYPE.STANDARD]: token.scheme.onSurfaceVariant,
-		[ICON_BUTTON_TYPE.TONAL]: token.scheme.onSecondaryContainer
+		[ICON_BUTTON_TYPE.FILLED]: token.colors.onPrimary,
+		[ICON_BUTTON_TYPE.OUTLINED]: token.colors.onSurfaceVariant,
+		[ICON_BUTTON_TYPE.SELECTED]: token.colors.onSurfaceVariant,
+		[ICON_BUTTON_TYPE.STANDARD]: token.colors.onSurfaceVariant,
+		[ICON_BUTTON_TYPE.TONAL]: token.colors.onSecondaryContainer
 	}
 
 	return underlay[type]
@@ -54,7 +54,7 @@ export const getIconButtonUnderlayColor = (type: IconButtonType, {token}: Theme)
 
 export const animateIconButton = (
 	[borderSharedValue, colorSharedValue]: [SharedValue<number>, SharedValue<number>],
-	animatedTiming: AnimatedTiming,
+	animatedTiming: AnimatedTimingFactory,
 	{type}: AnimateIconButtonOptions
 ) => {
 	const borderAnimateSharedValueTo = animatedTiming(borderSharedValue, ANIMATED_TIMING.STANDARD)

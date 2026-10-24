@@ -2,7 +2,7 @@ import type {Updater} from 'use-immer'
 
 import {cancelAnimation, type SharedValue} from 'react-native-reanimated'
 
-import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
+import type {AnimatedTimingFactory, HandleInteractionStateChangeOptions, InteractionEvent} from '../../../hooks'
 import type {ProgressActiveIndicatorCircularState} from './Progress-active-indicator-circular.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
@@ -16,17 +16,17 @@ import {ANIMATED_TIMING} from '../../../theme'
 
 export const animateProgressActiveIndicatorCircular = (
 	[circleSharedValue, containerSharedValue]: [SharedValue<number>, SharedValue<number>],
-	animatedTiming: AnimatedTiming
+	animatedTiming: AnimatedTimingFactory
 ) => {
 	const circleAnimateSharedValueTo = animatedTiming(circleSharedValue, ANIMATED_TIMING.LOOP)
 	const containerAnimateSharedValueTo = animatedTiming(containerSharedValue, ANIMATED_TIMING.LOOP)
 
-	return (enableAnimated?: boolean) => {
-		if (typeof enableAnimated !== 'boolean') {
+	return (enableLoop?: boolean) => {
+		if (typeof enableLoop !== 'boolean') {
 			return
 		}
 
-		if (enableAnimated) {
+		if (enableLoop) {
 			circleAnimateSharedValueTo(2)
 			containerAnimateSharedValueTo(2)
 
@@ -39,9 +39,9 @@ export const animateProgressActiveIndicatorCircular = (
 }
 export const computeProgressStrokeDashoffset = (circumference: number) => (value: number) => circumference * (1 - value)
 export const handleProgressStateChange = (
-	_event: StateEvent,
+	_event: InteractionEvent,
 	setState: Updater<ProgressActiveIndicatorCircularState>,
-	{eventName}: HandleStateEventChangeOptions
+	{eventName}: HandleInteractionStateChangeOptions
 ) =>
 	setState(draft => {
 		if (eventName === EVENT_NAME.LAYOUT && draft.status !== COMPONENT_STATUS.SUCCEEDED) {

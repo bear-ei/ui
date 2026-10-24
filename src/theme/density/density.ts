@@ -1,6 +1,6 @@
-import type {Density, DensitySizeScale, Spacing, UIDensity, WindowSize} from './density.interface'
+import type {Density, DensitySizeScale, Spacing, UIDensity, Breakpoint} from './density.interface'
 
-import {DENSITY_SIZE, LAYOUT_DENSITY, UI_DENSITY, WINDOW_SIZE} from './density.enum'
+import {DENSITY_SIZE, LAYOUT_DENSITY, UI_DENSITY, BREAKPOINT} from './density.enum'
 
 const SPACING = {
 	[UI_DENSITY.COMFORTABLE]: {
@@ -56,7 +56,7 @@ const CONTROL = {
 	}
 }
 
-const LAYOUT = {
+const LAYOUT_DENSITY_MAP = {
 	[UI_DENSITY.COMFORTABLE]: {
 		[DENSITY_SIZE.NONE]: 0,
 		[LAYOUT_DENSITY.NAVIGATION]: 80,
@@ -127,15 +127,15 @@ const DENSITY_SIZE_STEP_DOWN_MAP = {
 
 const createMobileGap = (spacing: Spacing) => {
 	const gap = {
-		[WINDOW_SIZE.COMPACT]: spacing[DENSITY_SIZE.MEDIUM],
-		[WINDOW_SIZE.EXPANDED]: spacing[DENSITY_SIZE.LARGE],
-		[WINDOW_SIZE.LARGE]: spacing[DENSITY_SIZE.LARGE],
-		[WINDOW_SIZE.MEDIUM]: spacing[DENSITY_SIZE.LARGE],
-		[WINDOW_SIZE.X_LARGE]: spacing[DENSITY_SIZE.LARGE],
-		[WINDOW_SIZE.XX_LARGE]: spacing[DENSITY_SIZE.LARGE]
+		[BREAKPOINT.COMPACT]: spacing[DENSITY_SIZE.MEDIUM],
+		[BREAKPOINT.EXPANDED]: spacing[DENSITY_SIZE.LARGE],
+		[BREAKPOINT.LARGE]: spacing[DENSITY_SIZE.LARGE],
+		[BREAKPOINT.MEDIUM]: spacing[DENSITY_SIZE.LARGE],
+		[BREAKPOINT.X_LARGE]: spacing[DENSITY_SIZE.LARGE],
+		[BREAKPOINT.XX_LARGE]: spacing[DENSITY_SIZE.LARGE]
 	}
 
-	return (windowSize: WindowSize) => gap[windowSize]
+	return (breakpoint: Breakpoint) => gap[breakpoint]
 }
 
 /**
@@ -154,7 +154,7 @@ const createDensity = (density: UIDensity = UI_DENSITY.COMPACT): Density => ({
 	icon: ICON[density],
 	inline: INLINE[density],
 	inset: INSET[density],
-	layout: LAYOUT[density],
+	layout: LAYOUT_DENSITY_MAP[density],
 	spacing: SPACING[density]
 })
 

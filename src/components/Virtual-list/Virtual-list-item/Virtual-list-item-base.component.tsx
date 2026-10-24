@@ -20,12 +20,12 @@ import {RenderVirtualListItem} from './Virtual-list-item.render'
 export const VirtualListItemBase: FC<VirtualListItemBaseProps> = ({
 	item,
 	itemSize = 0,
-	layoutType,
 	onClose,
 	onDragEnd: rawOnDragEnd,
 	onDragStart: rawOnDragStart,
 	onDragUpdate: rawOnDragUpdate,
 	onLoadEnd,
+	orientation,
 	renderItem,
 	scrollOffset = 0,
 	...renderVirtualListItemProps
@@ -37,31 +37,31 @@ export const VirtualListItemBase: FC<VirtualListItemBaseProps> = ({
 	usePendingEvent('pendingDragEndEvent', rawOnDragEnd, {pendingEvent: pendingDragEndEvent, setState})
 
 	const id = useId()
-	const {index: rawIndex = 0, indexKey} = item
+	const {index: rawIndex = 0, itemKey} = item
 	const dragRef = useRef<DragRef>(null)
 	const offset = itemSize * (index ?? rawIndex)
 	const dragOffset = offset - scrollOffset
 	const onDragUpdate = useMemo(
-		() => handleVirtualListItemDragUpdate(indexKey, rawOnDragUpdate),
-		[indexKey, rawOnDragUpdate]
+		() => handleVirtualListItemDragUpdate(itemKey, rawOnDragUpdate),
+		[itemKey, rawOnDragUpdate]
 	)
 
 	const onDragStart = useMemo(
-		() => handleVirtualListItemDragStart(indexKey, setState, {onDragStart: rawOnDragStart}),
-		[indexKey, rawOnDragStart, setState]
+		() => handleVirtualListItemDragStart(itemKey, setState, {onDragStart: rawOnDragStart}),
+		[itemKey, rawOnDragStart, setState]
 	)
 
 	const onDragEnd = useMemo(
-		() => handleVirtualListItemDragEnd(indexKey, setState, {dragRef, onDragEnd: rawOnDragEnd}),
-		[indexKey, rawOnDragEnd, setState]
+		() => handleVirtualListItemDragEnd(itemKey, setState, {dragRef, onDragEnd: rawOnDragEnd}),
+		[itemKey, rawOnDragEnd, setState]
 	)
 
 	const onAnimationFinished = useMemo(() => handleVirtualListItemAnimationFinished(setState), [setState])
 	const {containerAnimatedStyle} = useVirtualListItemAnimated({
 		dragging: isDragging,
-		layoutType,
 		offset,
 		onAnimationFinished,
+		orientation,
 		status
 	})
 
@@ -87,10 +87,10 @@ export const VirtualListItemBase: FC<VirtualListItemBaseProps> = ({
 			id={id}
 			itemElement={itemElement}
 			itemSize={itemSize}
-			layoutType={layoutType}
 			onDragEnd={onDragEnd}
 			onDragStart={onDragStart}
 			onDragUpdate={onDragUpdate}
+			orientation={orientation}
 			zIndex={zIndex}
 		/>
 	)

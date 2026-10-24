@@ -4,7 +4,7 @@ import {useState} from 'react'
 import {Text, View} from 'react-native'
 import {useImmer} from 'use-immer'
 
-import {LAYOUT} from '../../constants'
+import {ORIENTATION} from '../../constants'
 import {Button} from '../Button'
 import {VirtualList} from './Virtual-list.component'
 
@@ -13,7 +13,7 @@ export const BigVirtualList = () => {
 	const data = Array.from({length: 10000}, (_, index) => ({
 		afterAffordance: true,
 		headline: `Item${index + 1}`,
-		indexKey: `Item${index + 1}`
+		itemKey: `Item${index + 1}`
 	}))
 
 	console.info('count: ====>', count)
@@ -28,9 +28,9 @@ export const BigVirtualList = () => {
 				renderItem={({item}) => (
 					<View
 						className='flex h-14 items-center justify-center'
-						key={item.indexKey}
+						key={item.itemKey}
 					>
-						<Text>{item.indexKey}</Text>
+						<Text>{item.itemKey}</Text>
 					</View>
 				)}
 			/>
@@ -44,7 +44,7 @@ export const Sort = () => {
 		afterAffordance: true,
 		headline: `Item${index + 1}`,
 		index: index,
-		indexKey: `Item${index + 1}`
+		itemKey: `Item${index + 1}`
 	})).sort((a, b) => (isSort ? a.index - b.index : b.index - a.index))
 
 	return (
@@ -66,9 +66,9 @@ export const Sort = () => {
 				renderItem={({item}) => (
 					<View
 						className='flex h-14 items-center justify-center'
-						key={item.indexKey}
+						key={item.itemKey}
 					>
-						<Text>{item.indexKey}</Text>
+						<Text>{item.itemKey}</Text>
 					</View>
 				)}
 			/>
@@ -109,7 +109,7 @@ export const Draggable = () => {
 	const data = Array.from({length: 200}, (_, index) => ({
 		afterAffordance: true,
 		headline: `Item${index + 1}`,
-		indexKey: `Item${index + 1}`
+		itemKey: `Item${index + 1}`
 	}))
 
 	return (
@@ -128,9 +128,9 @@ export const Draggable = () => {
 				renderItem={({item}) => (
 					<View
 						className='flex h-14 items-center justify-center'
-						key={item.indexKey}
+						key={item.itemKey}
 					>
-						<Text>{item.indexKey}</Text>
+						<Text>{item.itemKey}</Text>
 					</View>
 				)}
 			/>
@@ -142,7 +142,7 @@ export const DraggableHorizontal = () => {
 	const data = Array.from({length: 10}, (_, index) => ({
 		afterAffordance: true,
 		headline: `Item${index + 1}`,
-		indexKey: `Item${index + 1}`
+		itemKey: `Item${index + 1}`
 	}))
 
 	return (
@@ -151,19 +151,19 @@ export const DraggableHorizontal = () => {
 				data={data}
 				draggable={true}
 				itemSize={56}
-				layoutType={LAYOUT.HORIZONTAL}
 				onDragEnd={options => {
 					console.info(options)
 				}}
 				onEndReached={() => {
 					console.info('onEndReached')
 				}}
+				orientation={ORIENTATION.HORIZONTAL}
 				renderItem={({item}) => (
 					<View
 						className='flex h-14 items-center justify-center'
-						key={item.indexKey}
+						key={item.itemKey}
 					>
-						<Text>{item.indexKey}</Text>
+						<Text>{item.itemKey}</Text>
 					</View>
 				)}
 			/>

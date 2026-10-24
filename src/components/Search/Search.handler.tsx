@@ -6,9 +6,9 @@ import type {ListItemData} from '../List'
 import type {VirtualListCloseEvent} from '../Virtual-list'
 import type {HandleSearchActiveKeyOptions, SearchState, UpdateSearchDataOptions} from './Search.interface'
 
-import {textSearch} from '../../utils'
+import {searchItemsByText} from '../../utils'
 
-export const updateSearchText =
+export const handleSearchTextChange =
 	(setState: Updater<SearchState>, onChangeText?: (text: string) => void) => (value: string) =>
 		setState(draft => {
 			if (draft.value === value) {
@@ -45,12 +45,12 @@ const syncVisible = (draft: WritableDraft<SearchState>, visible?: boolean) => {
 }
 
 export const handleSearchFocus =
-	(setState: Updater<SearchState>, onFocus?: (target: number) => void) =>
+	(setState: Updater<SearchState>, onFocusTarget?: (target: number) => void) =>
 	(event: NativeSyntheticEvent<TargetedEvent>) =>
 		setState(draft => {
 			syncVisible(draft, !!draft.value)
 
-			if (onFocus) {
+			if (onFocusTarget) {
 				draft.pendingFocusEvent = event.nativeEvent.target
 			}
 		})
@@ -84,11 +84,11 @@ export const handleSearchMenuClose =
 		onMenuClose?.(event)
 	}
 
-export const handleSearchFocusKey = (setState: Updater<SearchState>) => (key?: string) =>
+export const updateSearchFocusKey = (setState: Updater<SearchState>) => (key?: string) =>
 	setState(draft => {
-		const {indexKey, supporting} = draft.data?.find(datum => datum.indexKey === key) ?? {}
+		const {itemKey, supporting} = draft.data?.find(datum => datum.itemKey === key) ?? {}
 
-		draft.focusKey = indexKey
+		draft.focusKey = itemKey
 
 		if (typeof supporting === 'string') {
 			draft.value = supporting
@@ -96,13 +96,13 @@ export const handleSearchFocusKey = (setState: Updater<SearchState>) => (key?: s
 		}
 	})
 
-export const handleSearchActiveKey =
-	(setState: Updater<SearchState>, {onActive, ref}: HandleSearchActiveKeyOptions) =>
+export const updateSearchActiveKey =
+	(setState: Updater<SearchState>, {onActiveKeyChange, ref}: HandleSearchActiveKeyOptions) =>
 	(key?: string) => {
 		ref?.current?.focus()
 
 		setState(draft => {
-			const datum = draft.data?.find(({indexKey}) => indexKey === key)
+			const datum = draft.data?.find(({itemKey}) => itemKey === key)
 
 			draft.activeKey = key
 
@@ -111,23 +111,23 @@ export const handleSearchActiveKey =
 				draft.filterValue = datum.supporting
 			}
 
-			if (onActive) {
+			if (onActiveKeyChange) {
 				draft.pendingActiveEvent = key
 			}
 		})
 	}
 
 export const updateSearchData =
-	(setState: Updater<SearchState>, {data, filter}: UpdateSearchDataOptions) =>
+	(setState: Updater<SearchState>, {data, enableLocalFilter}: UpdateSearchDataOptions) =>
 	(value?: string) => {
-		if (!(filter && data)) {
+		if (!(enableLocalFilter && data)) {
 			return
 		}
 
 		setState(draft => {
 			draft.data = (
 				value ?
-					textSearch(value, data, ['headline', 'supporting'])
+					searchItemsByText(value, data, ['headline', 'supporting'])
 				:	[]) as WritableDraft<ListItemData>[]
 		})
 	}

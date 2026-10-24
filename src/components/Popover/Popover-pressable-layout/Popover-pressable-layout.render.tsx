@@ -1,19 +1,19 @@
 import {type FC} from 'react'
 import {Platform, Pressable, type ViewStyle} from 'react-native'
 
-import type {RenderPopoverLayoutProps} from './Popover-pressable-layout.interface'
+import type {RenderPopoverPressableLayoutProps} from './Popover-pressable-layout.interface'
 
 import {useTheme} from '../../../hooks'
-import {platformValue} from '../../../utils'
+import {toPlatformUnit} from '../../../utils'
 
-export const RenderPopoverPressableLayout: FC<RenderPopoverLayoutProps> = ({
+export const RenderPopoverPressableLayout: FC<RenderPopoverPressableLayoutProps> = ({
 	className,
 	containerLayout,
 	id,
 	...pressableProps
 }) => {
 	const {token} = useTheme()
-	const {classesName} = token.classes
+	const {classNames} = token.classes
 	const {
 		height: containerHeight = 0,
 		width: containerWidth = 0,
@@ -22,16 +22,16 @@ export const RenderPopoverPressableLayout: FC<RenderPopoverLayoutProps> = ({
 	} = containerLayout ?? {}
 
 	const pressableLayoutStyle = {
-		height: platformValue(containerHeight),
-		left: platformValue(containerX),
-		top: platformValue(containerY),
-		width: platformValue(containerWidth)
+		height: toPlatformUnit(containerHeight),
+		left: toPlatformUnit(containerX),
+		top: toPlatformUnit(containerY),
+		width: toPlatformUnit(containerWidth)
 	} as ViewStyle
 
 	return (
 		<Pressable
 			{...pressableProps}
-			className={classesName(
+			className={classNames(
 				'z-50 min-h-[--typography-body-small-height]',
 				{
 					['absolute']: Platform.OS !== 'web',

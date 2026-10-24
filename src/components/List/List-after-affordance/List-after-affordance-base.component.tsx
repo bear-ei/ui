@@ -3,66 +3,66 @@ import {useImmer} from 'use-immer'
 
 import type {ListAfterAffordanceBaseProps, ListAfterAffordanceState} from './List-after-affordance.interface'
 
-import {COMPONENT_STATUS, type State} from '../../../constants'
+import {COMPONENT_STATUS, type InteractionState} from '../../../constants'
 import {
 	useInteractionStateEvent,
 	usePendingEvent,
-	type HandleStateEventChangeOptions,
-	type StateEvent
+	type HandleInteractionStateChangeOptions,
+	type InteractionEvent
 } from '../../../hooks'
 import {LIST_AFTER_AFFORDANCE_PHASE} from './List-after-affordance.enum'
 import {
 	handleAffordanceStateChange,
 	resetAffordanceConfirmationOnHide,
-	triggerListAfterAffordanceConfirm,
-	updateListAffordanceSecondaryActionState
+	triggerListAfterAffordancePrimaryAction,
+	updateListAffordanceSecondaryPressState
 } from './List-after-affordance.handler'
 import {RenderListAfterAffordance} from './List-after-affordance.render'
 import {useListAfterAffordanceAnimated} from './use-list-after-affordance-animated.hook'
 
 export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
-	indexKey,
-	onConfirm: rawOnConfirm,
-	onSecondaryAction: rawOnSecondaryAction,
+	itemKey,
+	onPrimaryAction: rawOnPrimaryAction,
+	onSecondaryPress: rawOnSecondaryPress,
 	visible,
 	...renderListAfterAffordanceProps
 }) => {
-	const [{pendingSecondaryActionEvent, phase, status}, setState] = useImmer<ListAfterAffordanceState>({
+	const [{pendingSecondaryPressEvent, phase, status}, setState] = useImmer<ListAfterAffordanceState>({
 		phase: LIST_AFTER_AFFORDANCE_PHASE.IDLE,
 		status: COMPONENT_STATUS.IDLE
 	})
 
-	usePendingEvent('pendingSecondaryActionEvent', rawOnSecondaryAction, {
-		pendingEvent: pendingSecondaryActionEvent,
+	usePendingEvent('pendingSecondaryPressEvent', rawOnSecondaryPress, {
+		pendingEvent: pendingSecondaryPressEvent,
 		setState
 	})
 
 	const id = useId()
-	const onStateEventChange = useCallback(
-		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) =>
-			handleAffordanceStateChange(event, setState, {...options, state}),
+	const onInteractionStateChange = useCallback(
+		(event: InteractionEvent, interactionState: InteractionState, options: HandleInteractionStateChangeOptions) =>
+			handleAffordanceStateChange(event, setState, {...options, interactionState}),
 		[setState]
 	)
 
-	const interactionHandlers = useInteractionStateEvent({...renderListAfterAffordanceProps, onStateEventChange})
-	const onConfirm = useMemo(
+	const interactionHandlers = useInteractionStateEvent({...renderListAfterAffordanceProps, onInteractionStateChange})
+	const onPrimaryAction = useMemo(
 		() =>
-			triggerListAfterAffordanceConfirm({
-				indexKey,
-				onConfirm: rawOnConfirm,
+			triggerListAfterAffordancePrimaryAction({
+				itemKey,
+				onPrimaryAction: rawOnPrimaryAction,
 				phase
 			}),
-		[indexKey, phase, rawOnConfirm]
+		[itemKey, phase, rawOnPrimaryAction]
 	)
 
-	const onSecondaryAction = useMemo(
+	const onSecondaryPress = useMemo(
 		() =>
-			updateListAffordanceSecondaryActionState(setState, {
-				indexKey,
-				onSecondaryAction: rawOnSecondaryAction,
+			updateListAffordanceSecondaryPressState(setState, {
+				itemKey,
+				onSecondaryPress: rawOnSecondaryPress,
 				phase
 			}),
-		[indexKey, phase, rawOnSecondaryAction, setState]
+		[itemKey, phase, rawOnSecondaryPress, setState]
 	)
 
 	const {dangerAnimatedStyle} = useListAfterAffordanceAnimated({phase, status})
@@ -78,8 +78,8 @@ export const ListAfterAffordanceBase: FC<ListAfterAffordanceBaseProps> = ({
 			dangerAnimatedStyle={dangerAnimatedStyle}
 			id={id}
 			interactionHandlers={interactionHandlers}
-			onConfirm={onConfirm}
-			onSecondaryAction={onSecondaryAction}
+			onPrimaryAction={onPrimaryAction}
+			onSecondaryPress={onSecondaryPress}
 			phase={phase}
 			visible={visible}
 		/>

@@ -10,15 +10,15 @@ import type {
 	TargetedEvent
 } from 'react-native'
 
-import type {EventName, State} from '../../constants'
+import type {EventName, InteractionState} from '../../constants'
 
-export interface HandleStateEventChangeOptions<T = StateEvent> extends Pick<
-	UseHandleStateEventOptions<T>,
-	'disabled' | 'onStateEventChange'
+export interface HandleInteractionStateChangeOptions<T = InteractionEvent> extends Pick<
+	UseInteractionStateEventOptions<T>,
+	'disabled' | 'onInteractionStateChange'
 > {
-	callback?: {bivarianceHack(event: T): void}['bivarianceHack'] | null
 	eventName: EventName
-	state?: State
+	interactionState?: InteractionState
+	onEvent?: {bivarianceHack(event: T): void}['bivarianceHack'] | null
 }
 
 /**
@@ -27,23 +27,31 @@ export interface HandleStateEventChangeOptions<T = StateEvent> extends Pick<
  * same logical event (e.g. onPress fires GestureResponderEvent on native
  * and NativeSyntheticEvent<NativeTouchEvent> on web).
  */
-export type StateEvent = GestureResponderEvent | LayoutChangeEvent | MouseEvent | NativeSyntheticEvent<TargetedEvent>
-export type StateEventChangeHandler<T = StateEvent> = (
+export type InteractionEvent =
+	GestureResponderEvent | LayoutChangeEvent | MouseEvent | NativeSyntheticEvent<TargetedEvent>
+export type InteractionStateChangeHandler<T = InteractionEvent> = (
 	event: T,
-	state: State,
-	options: HandleStateEventChangeOptions<T>
+	interactionState: InteractionState,
+	options: HandleInteractionStateChangeOptions<T>
 ) => void
 
-export interface UseHandleStateEventOptions<T = StateEvent> extends Omit<InteractionHandlers, 'onBlur' | 'onFocus'> {
+export interface UseInteractionStateEventOptions<T = InteractionEvent> extends Omit<
+	InteractionHandlers,
+	'onBlur' | 'onFocus'
+> {
 	disabled?: boolean
 	onBlur?: ((e: BlurEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void) | null
 	onFocus?: ((e: FocusEvent) => void) | ((event: NativeSyntheticEvent<TargetedEvent>) => void) | null
-	onStateEventChange?: StateEventChangeHandler<T>
+	onInteractionStateChange?: InteractionStateChangeHandler<T>
 }
 
-export interface HandleStateEventOptions<T = StateEvent> {
-	interactionHandlers: (event: T, state: State, options: HandleStateEventChangeOptions<T>) => void
-	mobileDevice?: boolean
+export interface HandleInteractionStateOptions<T = InteractionEvent> {
+	dispatchInteractionState: (
+		event: T,
+		interactionState: InteractionState,
+		options: HandleInteractionStateChangeOptions<T>
+	) => void
+	isMobileDevice?: boolean
 }
 
 export interface InteractionHandlers extends Pick<

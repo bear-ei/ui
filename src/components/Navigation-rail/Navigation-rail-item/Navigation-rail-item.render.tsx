@@ -3,19 +3,19 @@ import {Pressable, View} from 'react-native'
 
 import type {RenderNavigationRailItemProps} from './Navigation-rail-item.interface'
 
-import {EVENT_NAME, LAYOUT} from '../../../constants'
+import {EVENT_NAME, ORIENTATION} from '../../../constants'
 import {useTheme} from '../../../hooks'
 import {
 	DENSITY_SIZE,
 	DENSITY_TYPE,
-	densitySizeMapTypographySize,
+	toTypographySize,
 	RADIUS,
 	SHAPE,
 	TYPOGRAPHY,
 	typographyClasses
 } from '../../../theme'
 import {AnimatedText, AnimatedView} from '../../Animated'
-import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
+import {ACTIVE_ANIMATION, Underlay} from '../../Underlay'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 
 export const RenderNavigationRailItem: FC<RenderNavigationRailItemProps> = ({
@@ -36,15 +36,15 @@ export const RenderNavigationRailItem: FC<RenderNavigationRailItemProps> = ({
 }) => {
 	const {token} = useTheme()
 	const underlayEventName = disabled ? EVENT_NAME.NONE : eventName
-	const {classesName, densityClasses} = token.classes
+	const {classNames, densityClasses} = token.classes
 	const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)
 	const densityIconClasses = densityClasses(DENSITY_TYPE.ICON)
-	const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET, LAYOUT.VERTICAL)
-	const activeAnimatedType = type === NAVIGATION_RAIL_TYPE.BLOCK ? ACTIVE_ANIMATED.SCALE : ACTIVE_ANIMATED.SCALE_X
-	const activeColor = token.scheme.secondaryContainer
+	const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET, ORIENTATION.VERTICAL)
+	const activeAnimation = type === NAVIGATION_RAIL_TYPE.BLOCK ? ACTIVE_ANIMATION.SCALE : ACTIVE_ANIMATION.SCALE_X
+	const activeColor = token.colors.secondaryContainer
 	const radius = RADIUS.FULL
 	const shape = SHAPE.ALL
-	const underlayColor = token.scheme.onSurface
+	const underlayColor = token.colors.onSurface
 	const animatedViewStyle = type !== NAVIGATION_RAIL_TYPE.BLOCK ? contentAnimatedStyle : undefined
 
 	return (
@@ -69,7 +69,7 @@ export const RenderNavigationRailItem: FC<RenderNavigationRailItemProps> = ({
 					testID={`navigationRailItem__content--${id}`}
 				>
 					<View
-						className={classesName(
+						className={classNames(
 							'pointer-events-none relative z-10 flex flex-col items-center justify-center',
 							{
 								[`${densityControlClasses(DENSITY_SIZE.MEDIUM)} w-[--density-control-xx-large]`]:
@@ -80,7 +80,7 @@ export const RenderNavigationRailItem: FC<RenderNavigationRailItemProps> = ({
 						testID={`navigationRailItem__header--${id}`}
 					>
 						<View
-							className={classesName('overflow-hidden', {
+							className={classNames('overflow-hidden', {
 								[densityIconClasses(DENSITY_SIZE.LARGE)]: type === NAVIGATION_RAIL_TYPE.BLOCK,
 								[densityIconClasses(DENSITY_SIZE.SMALL)]: type !== NAVIGATION_RAIL_TYPE.BLOCK
 							})}
@@ -91,10 +91,10 @@ export const RenderNavigationRailItem: FC<RenderNavigationRailItemProps> = ({
 
 						<Underlay
 							active={active}
-							activeAnimatedType={activeAnimatedType}
+							activeAnimation={activeAnimation}
 							activeColor={activeColor}
 							activeRadius={radius}
-							eventName={underlayEventName}
+							interactionEventName={underlayEventName}
 							radius={radius}
 							shape={shape}
 							testID={`navigationRailItem__underlay--${id}`}
@@ -104,22 +104,20 @@ export const RenderNavigationRailItem: FC<RenderNavigationRailItemProps> = ({
 
 					{type === NAVIGATION_RAIL_TYPE.SEGMENT && (
 						<View
-							className={classesName(
+							className={classNames(
 								'flex flex-col justify-center self-stretch',
 								densityInsetClasses(DENSITY_SIZE.XX_SMALL)
 							)}
 							testID={`navigationRailItem__label--${id}`}
 						>
 							<AnimatedText
-								className={classesName(
+								className={classNames(
 									'select-none text-center',
 									{
 										['font-bold']: active,
 										['font-normal']: !active
 									},
-									typographyClasses(TYPOGRAPHY.LABEL)(
-										densitySizeMapTypographySize(DENSITY_SIZE.MEDIUM)
-									)
+									typographyClasses(TYPOGRAPHY.LABEL)(toTypographySize(DENSITY_SIZE.MEDIUM))
 								)}
 								ellipsizeMode='tail'
 								numberOfLines={1}

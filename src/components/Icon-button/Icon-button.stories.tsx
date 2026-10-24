@@ -34,7 +34,7 @@ export const Tonal: StoryObj<IconButtonProps> = {
 
 export const Active: StoryObj<IconButtonProps> = {
 	args: {
-		type: ICON_BUTTON_TYPE.ACTIVE
+		type: ICON_BUTTON_TYPE.SELECTED
 	}
 }
 

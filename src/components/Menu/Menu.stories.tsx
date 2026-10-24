@@ -5,7 +5,7 @@ import {useMemo, useState} from 'react'
 import {View} from 'react-native'
 
 import {ICON_BUTTON_TYPE, IconButton} from '../Icon-button'
-import {LIST_SELECT_TYPE, LIST_TYPE} from '../List'
+import {LIST_SELECTION_TYPE, LIST_TYPE} from '../List'
 import {Menu} from './Menu.component'
 
 export const Select = () => {
@@ -15,7 +15,7 @@ export const Select = () => {
 			Array.from({length: 2}, (_, index) => ({
 				extraData: [],
 				headline: `Title${index + 1}`,
-				indexKey: `Title${index + 1}`,
+				itemKey: `Title${index + 1}`,
 				leading: <Circle />
 			})),
 		[]
@@ -32,8 +32,8 @@ export const Select = () => {
 					data={data}
 					listType={LIST_TYPE.LABEL}
 					// loading={true}
-					onActive={onActiveKey}
-					selectType={LIST_SELECT_TYPE.SINGLE}
+					onActiveKeyChange={onActiveKey}
+					selectionType={LIST_SELECTION_TYPE.SINGLE}
 				>
 					<IconButton type={ICON_BUTTON_TYPE.STANDARD} />
 				</Menu>

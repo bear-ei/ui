@@ -7,19 +7,19 @@ import type {RenderProgressActiveIndicatorCircularProps} from './Progress-active
 
 import {useTheme} from '../../../hooks'
 import {BORDER_SIZE} from '../../../theme'
-import {platformValue} from '../../../utils'
+import {toPlatformUnit} from '../../../utils'
 import {AnimatedView} from '../../Animated'
-import {PROGRESS_ANIMATED} from '../Progress.enum'
+import {PROGRESS_MODE} from '../Progress.enum'
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle)
 export const RenderProgressActiveIndicatorCircular: FC<RenderProgressActiveIndicatorCircularProps> = ({
-	animatedType = PROGRESS_ANIMATED.INDETERMINATE,
 	circleAnimatedProps,
 	circumference,
 	containerAnimatedStyle,
-	content,
 	id,
 	interactionHandlers,
+	mode = PROGRESS_MODE.INDETERMINATE,
+	overlayContent,
 	radius,
 	size,
 	strokeWidth,
@@ -27,17 +27,17 @@ export const RenderProgressActiveIndicatorCircular: FC<RenderProgressActiveIndic
 	...containerProps
 }) => {
 	const {token} = useTheme()
-	const activeIndicatorColor = token.scheme.primary
+	const activeIndicatorColor = token.colors.primary
 	const cx = size / 2
 	const cy = size / 2
-	const trackColor = token.scheme.secondaryContainer
+	const trackColor = token.colors.secondaryContainer
 	const circleProps = {
-		cx: platformValue(cx),
-		cy: platformValue(cy),
-		r: platformValue(radius),
-		strokeDasharray: platformValue(circumference),
-		strokeDashoffset: platformValue(token.border[BORDER_SIZE.NONE]),
-		strokeWidth: platformValue(strokeWidth)
+		cx: toPlatformUnit(cx),
+		cy: toPlatformUnit(cy),
+		r: toPlatformUnit(radius),
+		strokeDasharray: toPlatformUnit(circumference),
+		strokeDashoffset: toPlatformUnit(token.border[BORDER_SIZE.NONE]),
+		strokeWidth: toPlatformUnit(strokeWidth)
 	}
 
 	return (
@@ -47,12 +47,12 @@ export const RenderProgressActiveIndicatorCircular: FC<RenderProgressActiveIndic
 			className='pointer-events-none relative flex-1 self-stretch'
 			testID={testID ?? `progressActiveIndicatorCircular--${id}`}
 		>
-			{content && (
+			{overlayContent && (
 				<View
 					className='absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center'
 					testID={`progressActiveIndicatorCircular__content--${id}`}
 				>
-					{content}
+					{overlayContent}
 				</View>
 			)}
 
@@ -65,7 +65,7 @@ export const RenderProgressActiveIndicatorCircular: FC<RenderProgressActiveIndic
 					testID={`progressActiveIndicatorCircular__svg--${id}`}
 					viewBox={`0 0 ${size} ${size}`}
 				>
-					{animatedType === PROGRESS_ANIMATED.DETERMINATE && (
+					{mode === PROGRESS_MODE.DETERMINATE && (
 						<Circle
 							{...circleProps}
 							stroke={trackColor}
@@ -87,5 +87,3 @@ export const RenderProgressActiveIndicatorCircular: FC<RenderProgressActiveIndic
 		</View>
 	)
 }
-
-

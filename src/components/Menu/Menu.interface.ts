@@ -19,10 +19,10 @@ export interface MenuProps extends Omit<PressableProps & PopoverProps & MenuList
 	 * This is intentionally NOT imperative (`ref.current.triggerKey('Enter')`)
 	 * — the value-change model keeps `Menu` a pure function of props.
 	 */
-	keyCode?: string
+	keyCommand?: string
 	listType?: ListType
 	onContextMenu?: (event: MouseEvent) => void
-	onFocusKey?: (key?: string) => void
+	onFocusKeyChange?: (key?: string) => void
 	type?: PopoverType
 }
 
@@ -36,27 +36,22 @@ export interface MenuState {
 	activeKeys?: string[]
 	focusedIndex?: number
 	pendingActiveEvent?: string
-	pendingActivesEvent?: string[]
+	pendingActiveKeysEvent?: string[]
 	pendingFocusKeyEvent?: string
 	pendingVisibleEvent?: boolean
 	visible?: boolean
 }
 
-export type HandleMenuKeyDownOptions = Pick<
+export type HandleMenuKeyCommandOptions = Pick<
 	MenuProps,
-	'data' | 'multiple' | 'onActives' | 'onActive' | 'activeKeys' | 'activeKey' | 'onFocusKey'
+	'data' | 'multiple' | 'onActiveKeysChange' | 'onActiveKeyChange' | 'activeKeys' | 'activeKey' | 'onFocusKeyChange'
 >
 
-export interface HandleNextActivesEventOptions {
-	activeKeys: string[]
-	indexKey: string
-}
-
 export type HandleMenuKeyDownEventOptions = Pick<
-	HandleMenuKeyDownOptions,
-	'onFocusKey' | 'data' | 'onActives' | 'onActive'
+	HandleMenuKeyCommandOptions,
+	'onFocusKeyChange' | 'data' | 'onActiveKeysChange' | 'onActiveKeyChange'
 >
 
 export interface UpdateMenuVisibleOptions extends Pick<RenderMenuProps, 'type'> {
-	onVisible?: (value?: boolean) => void
+	onVisibleChange?: (visible?: boolean) => void
 }

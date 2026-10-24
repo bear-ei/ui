@@ -1,8 +1,12 @@
 import type {WritableDraft} from 'immer'
 import type {Updater} from 'use-immer'
 
-import type {StateEvent} from '../../hooks'
-import type {CheckboxState, HandleCheckboxStateChangeOptions, UpdateCheckboxActiveOptions} from './Checkbox.interface'
+import type {InteractionEvent} from '../../hooks'
+import type {
+	CheckboxState,
+	HandleCheckboxInteractionStateChangeOptions,
+	UpdateCheckboxCheckedOptions
+} from './Checkbox.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME} from '../../constants'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
@@ -13,8 +17,8 @@ export const updateCheckboxStatus = (setState: Updater<CheckboxState>) => (indet
 			return
 		}
 
-		if (typeof draft.active === 'boolean') {
-			const defaultValue = draft.active ? CHECKBOX_VALUE.SELECTED : CHECKBOX_VALUE.UNSELECTED
+		if (typeof draft.checked === 'boolean') {
+			const defaultValue = draft.checked ? CHECKBOX_VALUE.SELECTED : CHECKBOX_VALUE.UNSELECTED
 
 			draft.value = indeterminate ? CHECKBOX_VALUE.INDETERMINATE : defaultValue
 		}
@@ -22,37 +26,37 @@ export const updateCheckboxStatus = (setState: Updater<CheckboxState>) => (indet
 		draft.status = COMPONENT_STATUS.SUCCEEDED
 	})
 
-const applyCheckboxActiveStateToDraft = (
+const applyCheckboxCheckedStateToDraft = (
 	draft: WritableDraft<CheckboxState>,
-	{indeterminate, onActive, triggerEvent = true}: UpdateCheckboxActiveOptions,
-	active?: boolean
+	{indeterminate, notify = true, onCheckedChange}: UpdateCheckboxCheckedOptions,
+	checked?: boolean
 ) => {
-	if (typeof active !== 'boolean') {
+	if (typeof checked !== 'boolean') {
 		return
 	}
 
-	const activeValue = indeterminate ? CHECKBOX_VALUE.INDETERMINATE : CHECKBOX_VALUE.SELECTED
-	const nextValue = active ? activeValue : CHECKBOX_VALUE.UNSELECTED
+	const checkedValue = indeterminate ? CHECKBOX_VALUE.INDETERMINATE : CHECKBOX_VALUE.SELECTED
+	const nextValue = checked ? checkedValue : CHECKBOX_VALUE.UNSELECTED
 
 	draft.value = nextValue
 
-	if (draft.active !== active && onActive && triggerEvent) {
-		draft.pendingActiveEvent = active
+	if (draft.checked !== checked && onCheckedChange && notify) {
+		draft.pendingCheckedEvent = checked
 	}
 
-	draft.active = active
+	draft.checked = checked
 }
 
-export const updateCheckboxActive =
-	(setState: Updater<CheckboxState>, options: UpdateCheckboxActiveOptions) => (active?: boolean) =>
+export const updateCheckboxChecked =
+	(setState: Updater<CheckboxState>, options: UpdateCheckboxCheckedOptions) => (checked?: boolean) =>
 		setState(draft => {
-			applyCheckboxActiveStateToDraft(draft, {...options, triggerEvent: false}, active)
+			applyCheckboxCheckedStateToDraft(draft, {...options, notify: false}, checked)
 		})
 
 export const handleCheckboxStateChange = (
-	_event: StateEvent,
+	_event: InteractionEvent,
 	setState: Updater<CheckboxState>,
-	{active, eventName, indeterminate, onActive}: HandleCheckboxStateChangeOptions
+	{checked, eventName, indeterminate, onCheckedChange}: HandleCheckboxInteractionStateChangeOptions
 ) => {
 	if (eventName === EVENT_NAME.LAYOUT) {
 		return
@@ -62,7 +66,7 @@ export const handleCheckboxStateChange = (
 		draft.eventName = eventName
 
 		if (eventName === EVENT_NAME.PRESS_OUT) {
-			applyCheckboxActiveStateToDraft(draft, {indeterminate, onActive}, !active)
+			applyCheckboxCheckedStateToDraft(draft, {indeterminate, onCheckedChange}, !checked)
 		}
 	})
 }
@@ -74,16 +78,16 @@ export const updateCheckboxIndeterminate = (setState: Updater<CheckboxState>) =>
 
 	setState(draft => {
 		if (indeterminate) {
-			if (draft.active === true && draft.value === CHECKBOX_VALUE.INDETERMINATE) {
+			if (draft.checked === true && draft.value === CHECKBOX_VALUE.INDETERMINATE) {
 				return
 			}
 
-			draft.active = true
+			draft.checked = true
 			draft.value = CHECKBOX_VALUE.INDETERMINATE
 
 			return
 		}
 
-		draft.value = draft.active ? CHECKBOX_VALUE.SELECTED : CHECKBOX_VALUE.UNSELECTED
+		draft.value = draft.checked ? CHECKBOX_VALUE.SELECTED : CHECKBOX_VALUE.UNSELECTED
 	})
 }

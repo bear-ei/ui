@@ -3,28 +3,39 @@ import type {Updater} from 'use-immer'
 
 import {nanoid} from 'nanoid'
 
-import type {StateEvent} from '../../hooks'
-import type {AddTouchableRippleOptions, HandleTouchableStateChangeOptions, TouchableState} from './Touchable.interface'
+import type {InteractionEvent} from '../../hooks'
+import type {
+	AddTouchableRippleOptions,
+	HandleTouchableInteractionStateChangeOptions,
+	TouchableState
+} from './Touchable.interface'
 
 import {EVENT_NAME} from '../../constants'
 
 export const handleTouchableStateChange = (
-	event: StateEvent,
+	event: InteractionEvent,
 	setState: Updater<TouchableState>,
-	{enableTouchableRipple, eventName, onStateEventChange, ref, state, ...options}: HandleTouchableStateChangeOptions
+	{
+		enableTouchableRipple,
+		eventName,
+		interactionState,
+		onInteractionStateChange,
+		ref,
+		...options
+	}: HandleTouchableInteractionStateChangeOptions
 ) => {
 	const addTouchableRipple = ({contentLayout, touchableLocation}: AddTouchableRippleOptions) => {
 		const {height, width} = contentLayout
-		const indexKey = nanoid()
+		const rippleKey = nanoid()
 
 		setState(draft => {
 			draft.contentLayout.height = height
 			draft.contentLayout.width = width
-			draft.rippleSequence[indexKey] = touchableLocation
+			draft.rippleLocations[rippleKey] = touchableLocation
 		})
 	}
 
-	const createTouchablePressInHandler = (gestureEvent: GestureResponderEvent) => {
+	const handleTouchablePressIn = (gestureEvent: GestureResponderEvent) => {
 		ref.current?.focus()
 
 		const {locationX, locationY} = gestureEvent.nativeEvent
@@ -40,20 +51,20 @@ export const handleTouchableStateChange = (
 	}
 
 	if (eventName === EVENT_NAME.PRESS_IN) {
-		createTouchablePressInHandler(event as GestureResponderEvent)
+		handleTouchablePressIn(event as GestureResponderEvent)
 	}
 
-	onStateEventChange?.(event, state, {...options, eventName})
+	onInteractionStateChange?.(event, interactionState, {...options, eventName})
 }
 
-export const deleteTouchableRippleByIndex = (setState: Updater<TouchableState>) => (index?: string) => {
-	if (!index) {
+export const deleteTouchableRippleByKey = (setState: Updater<TouchableState>) => (rippleKey?: string) => {
+	if (!rippleKey) {
 		return
 	}
 
 	setState(draft => {
-		if (draft.rippleSequence[index]) {
-			Reflect.deleteProperty(draft.rippleSequence, index)
+		if (draft.rippleLocations[rippleKey]) {
+			Reflect.deleteProperty(draft.rippleLocations, rippleKey)
 		}
 	})
 }

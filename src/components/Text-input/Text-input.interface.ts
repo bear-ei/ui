@@ -2,9 +2,9 @@ import type {RefAttributes, RefObject} from 'react'
 import type {PressableProps, TextInputProps as RNTextInputProps, TextInput, TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
-import type {ComponentStatus, EventName, PartialSize, State} from '../../constants'
-import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
-import type {ThemeProps} from '../../theme'
+import type {ComponentStatus, EventName, PartialSize, InteractionState} from '../../constants'
+import type {HandleInteractionStateChangeOptions, InteractionHandlers} from '../../hooks'
+import type {ThemeableProps} from '../../theme'
 import type {TEXT_INPUT_TYPE} from './Text-input.enum'
 
 export type TextInputType = (typeof TEXT_INPUT_TYPE)[keyof typeof TEXT_INPUT_TYPE]
@@ -16,10 +16,10 @@ export interface TextInputProps
 				RefAttributes<TextInput> &
 				InteractionHandlers
 		>,
-		ThemeProps {
-	content?: React.ReactNode
+		ThemeableProps {
 	disabled?: boolean
 	error?: boolean
+	headerContent?: React.ReactNode
 	labelText?: string
 	leading?: React.JSX.Element
 	onContentSizeChange?: (contentSize: {height: number; width: number}) => void
@@ -49,24 +49,24 @@ export type TextInputBaseProps = TextInputProps
 export interface TextInputState {
 	contentSize: PartialSize
 	eventName?: EventName
+	interactionState: InteractionState
 	pendingChangeTextEvent?: string
 	pendingContentSizeChangeEvent?: {height: number; width: number}
 	pendingSupportingTextAnimationFinishedEvent?: boolean
 	pendingSupportingTextCloseEvent?: boolean
-	state: State
 	status: ComponentStatus
 	supportingText?: string
 	supportingTextVisible?: boolean
 	value?: string
 }
 
-export interface HandleTextInputStateChangeOptions
-	extends HandleStateEventChangeOptions, Pick<TextInputProps, 'content'> {
+export interface HandleTextInputInteractionStateChangeOptions
+	extends HandleInteractionStateChangeOptions, Pick<TextInputProps, 'headerContent'> {
 	ref?: RefObject<TextInput | null>
 }
 
 export interface UseTextInputAnimatedOptions extends Pick<RenderTextInputProps, 'type' | 'error' | 'disabled'> {
-	state: State
+	interactionState: InteractionState
 	status: ComponentStatus
 }
 
@@ -74,5 +74,5 @@ export interface UpdateTextInputSupportingTextOptions extends Pick<TextInputProp
 	onSupportingTextClose?: () => void
 }
 
-export type TextInputStateAnimated = Partial<Record<State, () => void>>
+export type TextInputInteractionStateAnimations = Partial<Record<InteractionState, () => void>>
 export type AnimateTextInputOptions = Pick<TextInputProps, 'error' | 'disabled'>

@@ -1,17 +1,17 @@
 import {type FC} from 'react'
 import {View} from 'react-native'
 
-import type {RenderFormItemsProps, RenderFormProps} from './Form.interface'
+import type {RenderFormFieldsProps, RenderFormProps} from './Form.interface'
 
-import {COMPONENT_STATUS, LAYOUT} from '../../constants'
+import {COMPONENT_STATUS, ORIENTATION} from '../../constants'
 import {useTheme} from '../../hooks'
 import {FormItem} from './Form-item'
 import {FormContext} from './use-form-context.hook'
 
-export const RenderFormItems: FC<RenderFormItemsProps> = ({id, items, status, ...options}) =>
+export const RenderFormFields: FC<RenderFormFieldsProps> = ({fields, id, status, ...options}) =>
 	status === COMPONENT_STATUS.SUCCEEDED ?
 		<>
-			{items?.map(item => (
+			{fields?.map(item => (
 				<FormItem
 					{...item}
 					{...options}
@@ -24,16 +24,16 @@ export const RenderFormItems: FC<RenderFormItemsProps> = ({id, items, status, ..
 
 export const RenderForm = ({
 	className,
+	fieldElements,
 	form,
 	id,
-	itemElements,
-	layoutType,
+	orientation,
 	status,
 	testID,
 	...containerProps
 }: RenderFormProps) => {
 	const {token} = useTheme()
-	const {classesName} = token.classes
+	const {classNames} = token.classes
 
 	return (
 		<>
@@ -41,17 +41,17 @@ export const RenderForm = ({
 				<FormContext.Provider value={form}>
 					<View
 						{...containerProps}
-						className={classesName(
+						className={classNames(
 							'flex',
 							{
-								['flex-col gap-[--density-spacing-xx-small]']: layoutType === LAYOUT.VERTICAL,
-								['flex-row gap-[--density-spacing-medium]']: layoutType === LAYOUT.HORIZONTAL
+								['flex-col gap-[--density-spacing-xx-small]']: orientation === ORIENTATION.VERTICAL,
+								['flex-row gap-[--density-spacing-medium]']: orientation === ORIENTATION.HORIZONTAL
 							},
 							className
 						)}
 						testID={testID ?? `form--${id}`}
 					>
-						{itemElements}
+						{fieldElements}
 					</View>
 				</FormContext.Provider>
 			)}

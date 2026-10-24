@@ -3,13 +3,13 @@ import type {ViewStyle} from 'react-native'
 
 import type {TriggerOn} from '../../constants'
 import type {InteractionHandlers} from '../../hooks'
-import type {ThemeProps} from '../../theme'
+import type {ThemeableProps} from '../../theme'
 import type {RenderVirtualListItemInfo, VirtualListCloseEvent, VirtualListProps} from '../Virtual-list'
 import type {ListAfterAffordancePressOutEvent} from './List-after-affordance'
 
-import {LIST_SELECT_TYPE, LIST_TYPE} from './List.enum'
+import {LIST_SELECTION_TYPE, LIST_TYPE} from './List.enum'
 
-export type ListSelectType = (typeof LIST_SELECT_TYPE)[keyof typeof LIST_SELECT_TYPE]
+export type ListSelectionType = (typeof LIST_SELECTION_TYPE)[keyof typeof LIST_SELECTION_TYPE]
 export type ListType = (typeof LIST_TYPE)[keyof typeof LIST_TYPE]
 
 export interface ListItemData {
@@ -21,7 +21,7 @@ export interface ListItemData {
 	contentStyle?: ViewStyle
 	dependencies?: unknown[]
 	headline?: React.ReactNode
-	indexKey: string
+	itemKey: string
 
 	/**
 	 * Leading element rendered on the left of each item.
@@ -54,38 +54,39 @@ export interface ListItemData {
 	trailing?: JSX.Element
 }
 
-export type RenderListItemOptions = RenderVirtualListItemInfo<ListItemData> & CreateRenderListItemOptions
-export interface ListAffordanceActiveStateEvent {
+export type RenderDefaultListItemProps = RenderVirtualListItemInfo<ListItemData> & CreateListItemRendererOptions
+export interface ListAffordanceActiveChangeEvent {
 	activeKey?: string
-	callbackEvent?: ListAfterAffordancePressOutEvent
+	pressOutEvent?: ListAfterAffordancePressOutEvent
 }
 
 export interface ListProps
 	extends
 		Partial<VirtualListProps<ListItemData>>,
 		Pick<ListItemData, 'supportingTextNumberOfLines' | 'trailing'>,
-		ThemeProps {
+		ThemeableProps {
 	activeKey?: string
 	activeKeys?: string[]
 	afterAffordance?: JSX.Element | boolean
 	afterAffordanceActiveKey?: string
 	beforeAffordance?: JSX.Element | boolean
-	closeTrailing?: boolean
 	data?: ListItemData[]
 	defaultActiveKey?: string
 	defaultActiveKeys?: string[]
-	deselect?: boolean
+	deselectable?: boolean
 	divider?: boolean
 	draggable?: boolean
+	enableTrailingClose?: boolean
 	enableUnderlay?: boolean
 	enableUnderlayActive?: boolean
 	focusedIndex?: number
 	gap?: number
-	onActive?: (indexKey: string) => void
-	onActiveAfterAffordance?: (event?: ListAffordanceActiveStateEvent) => void
-	onActives?: (activeKeys?: string[]) => void
-	onClose?: (event: VirtualListCloseEvent) => void
+	itemInteractionHandlers?: InteractionHandlers
+	onActiveKeyChange?: (itemKey: string) => void
+	onActiveKeysChange?: (activeKeys?: string[]) => void
+	onAfterAffordanceActiveChange?: (event?: ListAffordanceActiveChangeEvent) => void
 
+	onClose?: (event: VirtualListCloseEvent) => void
 	/**
 	 * Fires when the user taps the primary (left) button.
 	 *
@@ -96,8 +97,7 @@ export interface ListProps
 	 *
 	 * See `ListAfterAffordancePressOutEvent` for the full two-step flow.
 	 */
-	onConfirm?: (event: ListAfterAffordancePressOutEvent) => void
-	onItemStateEvent?: InteractionHandlers
+	onPrimaryAction?: (event: ListAfterAffordancePressOutEvent) => void
 
 	/**
 	 * Fires when the user taps the secondary (right) button — the destructive side.
@@ -108,20 +108,20 @@ export interface ListProps
 	 * - `phase === IDLE`   → user *entered* the danger phase
 	 * - `phase === DANGER` → user *exited* the danger phase
 	 *
-	 * Put destructive work in `onConfirm` with `phase === DANGER`, not here.
+	 * Put destructive work in `onPrimaryAction` with `phase === DANGER`, not here.
 	 *
 	 * See `ListAfterAffordancePressOutEvent` for the full two-step flow.
 	 */
-	onSecondaryAction?: (event: ListAfterAffordancePressOutEvent) => void
-	selectType?: ListSelectType
-	skeletonDuration?: number
+	onSecondaryPress?: (event: ListAfterAffordancePressOutEvent) => void
+	selectionType?: ListSelectionType
+	skeletonAutoHideDelay?: number
 	skeletonElement?: JSX.Element
 	trailingTriggerOn?: TriggerOn
 	type?: ListType
 }
 
 export interface RenderListProps extends ListProps {
-	onUnmount?: (indexKey?: string) => void
+	onUnmount?: (itemKey?: string) => void
 }
 
 export interface ListState {
@@ -130,20 +130,20 @@ export interface ListState {
 	afterAffordanceActiveKey?: string
 	data?: ListItemData[]
 	pendingActiveEvent?: string
-	pendingActivesEvent?: string[]
+	pendingActiveKeysEvent?: string[]
 	pendingAfterAffordanceActiveEvent?: string
-	pendingAfterAffordanceEvent?: ListAfterAffordancePressOutEvent
+	pendingAfterAffordancePrimaryActionEvent?: ListAfterAffordancePressOutEvent
 	pendingCloseEvent?: VirtualListCloseEvent
 }
 
-export type CreateRenderListItemOptions = Pick<
+export type CreateListItemRendererOptions = Pick<
 	RenderListProps,
 	| 'activeKey'
 	| 'activeKeys'
 	| 'afterAffordance'
 	| 'afterAffordanceActiveKey'
 	| 'beforeAffordance'
-	| 'closeTrailing'
+	| 'enableTrailingClose'
 	| 'defaultActiveKey'
 	| 'dependencies'
 	| 'divider'
@@ -151,16 +151,16 @@ export type CreateRenderListItemOptions = Pick<
 	| 'enableUnderlayActive'
 	| 'focusedIndex'
 	| 'id'
-	| 'onActive'
-	| 'onActiveAfterAffordance'
-	| 'onSecondaryAction'
-	| 'onConfirm'
+	| 'onActiveKeyChange'
+	| 'onAfterAffordanceActiveChange'
+	| 'onSecondaryPress'
+	| 'onPrimaryAction'
 	| 'radius'
 	| 'renderItem'
-	| 'selectType'
+	| 'selectionType'
 	| 'shape'
 	| 'size'
-	| 'skeletonDuration'
+	| 'skeletonAutoHideDelay'
 	| 'skeletonElement'
 	| 'supportingTextNumberOfLines'
 	| 'trailing'
@@ -169,4 +169,7 @@ export type CreateRenderListItemOptions = Pick<
 >
 
 export type ListBaseProps = ListProps
-export type UpdateListActiveStateOptions = Pick<ListProps, 'onActive' | 'selectType' | 'onActives' | 'deselect'>
+export type UpdateListActiveStateOptions = Pick<
+	ListProps,
+	'onActiveKeyChange' | 'onAfterAffordanceActiveChange' | 'selectionType' | 'onActiveKeysChange' | 'deselectable'
+>

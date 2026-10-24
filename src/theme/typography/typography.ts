@@ -1,8 +1,18 @@
 import type {Font, FontLineHeight} from '../font'
-import type {CreateBuildStyleOptions, FontStyle, Typography} from './typography.interface'
+import type {BuildFontStyleOptions, FontStyle, Typography} from './typography.interface'
 
 import {DENSITY_SIZE, UI_DENSITY, type DensitySizeScale, type UIDensity} from '../density'
 import {TYPOGRAPHY, TYPOGRAPHY_SIZE} from './typography.enum'
+
+const DENSITY_SIZE_TYPOGRAPHY_SIZE_MAP = {
+	[DENSITY_SIZE.LARGE]: TYPOGRAPHY_SIZE.LARGE,
+	[DENSITY_SIZE.MEDIUM]: TYPOGRAPHY_SIZE.MEDIUM,
+	[DENSITY_SIZE.SMALL]: TYPOGRAPHY_SIZE.SMALL,
+	[DENSITY_SIZE.X_LARGE]: TYPOGRAPHY_SIZE.LARGE,
+	[DENSITY_SIZE.X_SMALL]: TYPOGRAPHY_SIZE.SMALL,
+	[DENSITY_SIZE.XX_LARGE]: TYPOGRAPHY_SIZE.LARGE,
+	[DENSITY_SIZE.XX_SMALL]: TYPOGRAPHY_SIZE.SMALL
+}
 
 const TYPOGRAPHY_CONFIG = {
 	[UI_DENSITY.COMFORTABLE]: {
@@ -217,10 +227,7 @@ const TYPOGRAPHY_CONFIG = {
 	}
 }
 
-const buildStyle = (
-	font: Font,
-	{height, letterSpacing, prominent, size, weight}: CreateBuildStyleOptions
-): FontStyle => {
+const buildStyle = (font: Font, {height, letterSpacing, prominent, size, weight}: BuildFontStyleOptions): FontStyle => {
 	const index = size.replace('size', '')
 	const lineHeight = `lineHeight${index}` as FontLineHeight
 	const lineHeightRatio = font.lineHeight[lineHeight]
@@ -241,25 +248,13 @@ const createTypography = (font: Font, density: UIDensity = UI_DENSITY.COMPACT): 
 	const buildTypography = ([type, sizes]: [type: string, sizes: (typeof config)['BODY']]) => [
 		type,
 		Object.fromEntries(
-			Object.entries(sizes).map(([size, options]) => [size, buildStyle(font, options as CreateBuildStyleOptions)])
+			Object.entries(sizes).map(([size, options]) => [size, buildStyle(font, options as BuildFontStyleOptions)])
 		)
 	]
 
 	return Object.fromEntries(Object.entries(config).map(buildTypography))
 }
 
-const densitySizeMapTypographySize = (size: DensitySizeScale) => {
-	const typographySize = {
-		[DENSITY_SIZE.LARGE]: TYPOGRAPHY_SIZE.LARGE,
-		[DENSITY_SIZE.MEDIUM]: TYPOGRAPHY_SIZE.MEDIUM,
-		[DENSITY_SIZE.SMALL]: TYPOGRAPHY_SIZE.SMALL,
-		[DENSITY_SIZE.X_LARGE]: TYPOGRAPHY_SIZE.LARGE,
-		[DENSITY_SIZE.X_SMALL]: TYPOGRAPHY_SIZE.SMALL,
-		[DENSITY_SIZE.XX_LARGE]: TYPOGRAPHY_SIZE.LARGE,
-		[DENSITY_SIZE.XX_SMALL]: TYPOGRAPHY_SIZE.SMALL
-	}
+const toTypographySize = (densitySize: DensitySizeScale) => DENSITY_SIZE_TYPOGRAPHY_SIZE_MAP[densitySize]
 
-	return typographySize[size]
-}
-
-export {createTypography, densitySizeMapTypographySize}
+export {createTypography, toTypographySize}

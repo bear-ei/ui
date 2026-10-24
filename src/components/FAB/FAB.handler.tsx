@@ -1,24 +1,23 @@
-import type {WritableDraft} from 'immer'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
 import type {Theme} from '../../contexts'
-import type {AnimatedTiming, StateEvent} from '../../hooks'
-import type {FABState, FABType, HandleFABStateChangeOptions} from './FAB.interface'
+import type {AnimatedTimingFactory, InteractionEvent} from '../../hooks'
+import type {FABState, FABType, HandleFABInteractionStateChangeOptions} from './FAB.interface'
 
-import {COMPONENT_STATUS, EVENT_NAME, STATE, type State} from '../../constants'
+import {COMPONENT_STATUS, EVENT_NAME, INTERACTION_STATE} from '../../constants'
 import {ANIMATED_TIMING} from '../../theme'
 import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
 import {FAB_TYPE} from './FAB.enum'
 
 const ELEVATION_VALUE_MAP = {
-	[STATE.DISABLED]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.ENABLED]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.ERROR]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.FOCUSED]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.HOVERED]: ELEVATION_VALUE.LEVEL_1,
-	[STATE.LONG_PRESS]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.PRESS_IN]: ELEVATION_VALUE.LEVEL_0
+	[INTERACTION_STATE.DISABLED]: ELEVATION_VALUE.LEVEL_0,
+	[INTERACTION_STATE.ENABLED]: ELEVATION_VALUE.LEVEL_0,
+	[INTERACTION_STATE.ERROR]: ELEVATION_VALUE.LEVEL_0,
+	[INTERACTION_STATE.FOCUSED]: ELEVATION_VALUE.LEVEL_0,
+	[INTERACTION_STATE.HOVERED]: ELEVATION_VALUE.LEVEL_1,
+	[INTERACTION_STATE.LONG_PRESS]: ELEVATION_VALUE.LEVEL_0,
+	[INTERACTION_STATE.PRESS_IN]: ELEVATION_VALUE.LEVEL_0
 }
 
 export const updateFABStatus = (setState: Updater<FABState>, disabled?: boolean) => (elevated?: boolean) =>
@@ -34,24 +33,10 @@ export const updateFABStatus = (setState: Updater<FABState>, disabled?: boolean)
 		draft.status = COMPONENT_STATUS.SUCCEEDED
 	})
 
-const applyFABElevationToDraft = (draft: WritableDraft<FABState>, elevated?: boolean, state?: State) => {
-	if (!elevated) {
-		return
-	}
-	const baseElevation = ELEVATION_VALUE.LEVEL_3
-
-	if (state) {
-		draft.elevation = (
-			state === STATE.DISABLED ?
-				ELEVATION_VALUE_MAP[state]
-			:	ELEVATION_VALUE_MAP[state] + baseElevation) as ElevationValue
-	}
-}
-
 export const handleFABStateChange = (
-	_event: StateEvent,
+	_event: InteractionEvent,
 	setState: Updater<FABState>,
-	{elevated, eventName, state}: HandleFABStateChangeOptions
+	{elevated, eventName, interactionState}: HandleFABInteractionStateChangeOptions
 ) => {
 	if (eventName === EVENT_NAME.LAYOUT) {
 		return
@@ -60,7 +45,18 @@ export const handleFABStateChange = (
 	setState(draft => {
 		draft.eventName = eventName
 
-		applyFABElevationToDraft(draft, elevated, state)
+		if (!elevated) {
+			return
+		}
+
+		const baseElevation = ELEVATION_VALUE.LEVEL_3
+
+		if (interactionState) {
+			draft.elevation = (
+				interactionState === INTERACTION_STATE.DISABLED ?
+					ELEVATION_VALUE_MAP[interactionState]
+				:	ELEVATION_VALUE_MAP[interactionState] + baseElevation) as ElevationValue
+		}
 	})
 }
 
@@ -82,16 +78,16 @@ export const updateFABDisabledState = (setState: Updater<FABState>, elevated?: b
 
 export const getFABUnderlayColor = (type: FABType, {token}: Theme) => {
 	const underlay = {
-		[FAB_TYPE.PRIMARY]: token.scheme.onPrimaryContainer,
-		[FAB_TYPE.SECONDARY]: token.scheme.onSecondaryContainer,
-		[FAB_TYPE.SURFACE]: token.scheme.primary,
-		[FAB_TYPE.TERTIARY]: token.scheme.onTertiaryContainer
+		[FAB_TYPE.PRIMARY]: token.colors.onPrimaryContainer,
+		[FAB_TYPE.SECONDARY]: token.colors.onSecondaryContainer,
+		[FAB_TYPE.SURFACE]: token.colors.primary,
+		[FAB_TYPE.TERTIARY]: token.colors.onTertiaryContainer
 	}
 
 	return underlay[type]
 }
 
-export const animateFAB = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
+export const animateFAB = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTimingFactory) => {
 	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.STANDARD)
 
 	return (disabled?: boolean) => animateSharedValueTo(disabled ? 0 : 1)

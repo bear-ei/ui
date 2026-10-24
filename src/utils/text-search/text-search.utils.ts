@@ -8,8 +8,8 @@ const matchByKeys = <T>(matchText: string, keys: (keyof T)[], item: T) =>
  * - Non-string field values are skipped (not coerced).
  * - Pure substring match — no regex, no special-character escaping needed.
  */
-export const textSearch = <T>(searchText: string, data: T[], keys: (keyof T)[]): T[] => {
+export const searchItemsByText = <T>(searchText: string, items: T[], keys: (keyof T)[]): T[] => {
 	const matchText = searchText.toLowerCase()
 
-	return data.filter(item => matchByKeys(matchText, keys, item))
+	return items.filter(item => matchByKeys(matchText, keys, item))
 }

@@ -3,12 +3,12 @@ import type {Updater} from 'use-immer'
 
 import type {
 	HandleMenuKeyDownEventOptions,
-	HandleMenuKeyDownOptions,
+	HandleMenuKeyCommandOptions,
 	MenuState,
 	UpdateMenuVisibleOptions
 } from './Menu.interface'
 
-import {arrayEqual} from '../../utils'
+import {isArrayEqual} from '../../utils'
 import {POPOVER_TYPE} from '../Popover'
 
 const handleMenuActiveKeys = (key: string, activeKeys: string[] = []) => {
@@ -19,12 +19,20 @@ const handleMenuActiveKeys = (key: string, activeKeys: string[] = []) => {
 	return [...activeKeys, key]
 }
 
-export const handleMenuKeyDown =
+export const handleMenuKeyCommand =
 	(
 		setState: Updater<MenuState>,
-		{activeKey, activeKeys, data, multiple, onActive, onActives, onFocusKey}: HandleMenuKeyDownOptions
+		{
+			activeKey,
+			activeKeys,
+			data,
+			multiple,
+			onActiveKeyChange,
+			onActiveKeysChange,
+			onFocusKeyChange
+		}: HandleMenuKeyCommandOptions
 	) =>
-	(keyCode?: string) => {
+	(keyCommand?: string) => {
 		if (!data) {
 			return
 		}
@@ -38,43 +46,43 @@ export const handleMenuKeyDown =
 				:	undefined
 
 			switch (true) {
-				case keyCode?.startsWith('ArrowUp'): {
+				case keyCommand?.startsWith('ArrowUp'): {
 					const nextFocusedIndex = currentFocusedIndex - 1 < 0 ? lastIndex : currentFocusedIndex - 1
 
 					draft.focusedIndex = nextFocusedIndex
 
-					if (onFocusKey) {
-						draft.pendingFocusKeyEvent = data[nextFocusedIndex]?.indexKey
+					if (onFocusKeyChange) {
+						draft.pendingFocusKeyEvent = data[nextFocusedIndex]?.itemKey
 					}
 
 					break
 				}
 
-				case keyCode?.startsWith('ArrowDown'): {
+				case keyCommand?.startsWith('ArrowDown'): {
 					const nextFocusedIndex = currentFocusedIndex + 1 > lastIndex ? 0 : currentFocusedIndex + 1
 
 					draft.focusedIndex = nextFocusedIndex
 
-					if (onFocusKey) {
-						draft.pendingFocusKeyEvent = data[nextFocusedIndex]?.indexKey
+					if (onFocusKeyChange) {
+						draft.pendingFocusKeyEvent = data[nextFocusedIndex]?.itemKey
 					}
 
 					break
 				}
 
-				case keyCode?.startsWith('Enter'):
+				case keyCommand?.startsWith('Enter'):
 					if (!focusData || typeof draft.focusedIndex !== 'number') {
 						break
 					}
 
-					if (onActives && multiple) {
-						draft.pendingActivesEvent = handleMenuActiveKeys(focusData.indexKey, activeKeys)
+					if (onActiveKeysChange && multiple) {
+						draft.pendingActiveKeysEvent = handleMenuActiveKeys(focusData.itemKey, activeKeys)
 
 						break
 					}
 
-					if (onActive) {
-						draft.pendingActiveEvent = focusData.indexKey === activeKey ? undefined : focusData.indexKey
+					if (onActiveKeyChange) {
+						draft.pendingActiveEvent = focusData.itemKey === activeKey ? undefined : focusData.itemKey
 					}
 
 					break
@@ -97,7 +105,7 @@ export const handleMenuKeyDownEvent =
 		// Ignore key-repeat events (holding Enter / ArrowUp / ArrowDown down).
 		// `nativeEvent.repeat` is a DOM standard property available on RNW's
 		// KeyboardEvent. RN's TextInputKeyPressEvent doesn't have `repeat`,
-		// so native falls through to the `draft.keyCode` dedupe below.
+		// so native falls through to the `draft.keyCommand` dedupe below.
 		const isKeyRepeat =
 			'nativeEvent' in event &&
 			'repeat' in event.nativeEvent &&
@@ -107,18 +115,18 @@ export const handleMenuKeyDownEvent =
 			return
 		}
 
-		handleMenuKeyDown(setState, options)(key)
+		handleMenuKeyCommand(setState, options)(key)
 	}
 
 export const updateMenuVisible =
-	(setState: Updater<MenuState>, {onVisible, type}: UpdateMenuVisibleOptions) =>
-	(value?: boolean) => {
-		if (value === undefined) {
+	(setState: Updater<MenuState>, {onVisibleChange, type}: UpdateMenuVisibleOptions) =>
+	(visible?: boolean) => {
+		if (visible === undefined) {
 			return
 		}
 
 		setState(draft => {
-			if (!value) {
+			if (!visible) {
 				draft.focusedIndex = undefined
 
 				if (type === POPOVER_TYPE.CONTEXT_MENU) {
@@ -126,40 +134,40 @@ export const updateMenuVisible =
 				}
 			}
 
-			if (draft.visible !== value && onVisible) {
-				draft.pendingVisibleEvent = value
+			if (draft.visible !== visible && onVisibleChange) {
+				draft.pendingVisibleEvent = visible
 			}
 
-			draft.visible = value
+			draft.visible = visible
 		})
 	}
 
 export const updateMenuActive =
-	(setState: Updater<MenuState>, onActive?: (indexKey: string) => void) => (indexKey?: string) => {
-		if (indexKey === undefined) {
+	(setState: Updater<MenuState>, onActiveKeyChange?: (itemKey: string) => void) => (itemKey?: string) => {
+		if (itemKey === undefined) {
 			return
 		}
 
 		setState(draft => {
-			if (draft.activeKey !== indexKey && onActive) {
-				draft.pendingActiveEvent = indexKey
+			if (draft.activeKey !== itemKey && onActiveKeyChange) {
+				draft.pendingActiveEvent = itemKey
 			}
 
-			draft.activeKey = indexKey
+			draft.activeKey = itemKey
 		})
 	}
 
-export const updateMenuActives =
-	(setState: Updater<MenuState>, onActives?: (activeKeys?: string[]) => void) => (activeKeys?: string[]) => {
+export const updateMenuActiveKeys =
+	(setState: Updater<MenuState>, onActiveKeysChange?: (activeKeys?: string[]) => void) => (activeKeys?: string[]) => {
 		if (activeKeys === undefined) {
 			return
 		}
 
 		setState(draft => {
-			const isArrayEqual = arrayEqual([...(draft.activeKeys ?? [])], activeKeys)
+			const isActiveKeysEqual = isArrayEqual([...(draft.activeKeys ?? [])], activeKeys)
 
-			if (!isArrayEqual && onActives) {
-				draft.pendingActivesEvent = activeKeys
+			if (!isActiveKeysEqual && onActiveKeysChange) {
+				draft.pendingActiveKeysEvent = activeKeys
 			}
 
 			draft.activeKeys = activeKeys

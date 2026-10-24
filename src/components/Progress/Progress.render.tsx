@@ -7,14 +7,14 @@ import {useTheme} from '../../hooks'
 import {DENSITY_SIZE, DENSITY_TYPE} from '../../theme'
 import {ProgressActiveIndicatorCircular} from './Progress-active-indicator-circular'
 import {ProgressActiveIndicatorLinear} from './Progress-active-indicator-linear'
-import {PROGRESS_ANIMATED, PROGRESS_TYPE} from './Progress.enum'
+import {PROGRESS_MODE, PROGRESS_TYPE} from './Progress.enum'
 
 export const RenderProgress: FC<RenderProgressProps> = ({
-	animatedType,
-	content,
 	defaultValue,
-	enableAnimated,
+	enableLoop,
 	id,
+	mode,
+	overlayContent,
 	size = DENSITY_SIZE.MEDIUM,
 	strokeWidth,
 	testID,
@@ -23,17 +23,16 @@ export const RenderProgress: FC<RenderProgressProps> = ({
 	...containerProps
 }) => {
 	const {token} = useTheme()
-	const {classesName, densityClasses} = token.classes
+	const {classNames, densityClasses} = token.classes
 	const densityInlineClasses = densityClasses(DENSITY_TYPE.INLINE)
-	const resolvedAnimatedType =
-		animatedType ??
-		(type === PROGRESS_TYPE.LINEAR ? PROGRESS_ANIMATED.DETERMINATE : PROGRESS_ANIMATED.INDETERMINATE)
+	const resolvedMode =
+		mode ?? (type === PROGRESS_TYPE.LINEAR ? PROGRESS_MODE.DETERMINATE : PROGRESS_MODE.INDETERMINATE)
 
 	return (
 		<View
 			{...containerProps}
 			accessibilityRole='progressbar'
-			className={classesName('pointer-events-none flex flex-col', {
+			className={classNames('pointer-events-none flex flex-col', {
 				[densityInlineClasses(size)]: type === PROGRESS_TYPE.CIRCULAR,
 
 				['h-[--border-x-large] min-w-[--density-inline-medium] self-stretch']: type === PROGRESS_TYPE.LINEAR
@@ -42,9 +41,9 @@ export const RenderProgress: FC<RenderProgressProps> = ({
 		>
 			{type === PROGRESS_TYPE.CIRCULAR && (
 				<ProgressActiveIndicatorCircular
-					animatedType={resolvedAnimatedType}
-					content={content}
-					enableAnimated={enableAnimated}
+					enableLoop={enableLoop}
+					mode={resolvedMode}
+					overlayContent={overlayContent}
 					size={size}
 					strokeWidth={strokeWidth}
 					testID={`progress__progressActiveIndicatorCircular--${id}`}
@@ -53,8 +52,8 @@ export const RenderProgress: FC<RenderProgressProps> = ({
 
 			{type === PROGRESS_TYPE.LINEAR && (
 				<ProgressActiveIndicatorLinear
-					animatedType={resolvedAnimatedType}
 					defaultValue={defaultValue}
+					mode={resolvedMode}
 					testID={`progress__progressActiveIndicatorLinear--${id}`}
 					value={value}
 				/>

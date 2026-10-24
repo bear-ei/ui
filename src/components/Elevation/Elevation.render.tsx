@@ -17,12 +17,12 @@ export const RenderElevation: FC<RenderElevationProps> = ({
 	...containerProps
 }) => {
 	const {token} = useTheme()
-	const {classesName, shapeClasses} = token.classes
+	const {classNames, shapeClasses} = token.classes
 
 	return (
 		<View
 			{...containerProps}
-			className={classesName(
+			className={classNames(
 				'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-20 flex flex-col items-center justify-center bg-transparent',
 				className
 			)}
@@ -30,7 +30,7 @@ export const RenderElevation: FC<RenderElevationProps> = ({
 			testID={testID ?? `elevation--${id}`}
 		>
 			<AnimatedView
-				className={classesName('flex-1 self-stretch', shapeClasses(shape)(radius))}
+				className={classNames('flex-1 self-stretch', shapeClasses(shape)(radius))}
 				style={shadowAnimatedStyle}
 				testID={`elevation__shadow--${id}`}
 			/>

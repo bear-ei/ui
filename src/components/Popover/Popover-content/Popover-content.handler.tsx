@@ -2,11 +2,11 @@ import type {WritableDraft} from 'immer'
 import type {LayoutChangeEvent, View} from 'react-native'
 import type {Updater} from 'use-immer'
 
-import type {StateEvent} from '../../../hooks'
+import type {InteractionEvent} from '../../../hooks'
 import type {
 	GetSafeMenuPositionOptions,
 	HandlePopoverContentPositionWindowOptions,
-	HandlePopoverContentStateEventChangeOptions,
+	HandlePopoverContentInteractionStateChangeOptions,
 	PopoverContentState,
 	UpdatePopoverContentInvertOptions,
 	UpdatePopoverContentPositionOptions
@@ -17,9 +17,9 @@ import {EVENT_NAME, TRIGGER_EVENT_NAMES, TRIGGER_ON} from '../../../constants'
 import {DENSITY_SIZE} from '../../../theme'
 
 export const handlePopoverContentStateChange = (
-	event: StateEvent,
+	event: InteractionEvent,
 	setState: Updater<PopoverContentState>,
-	{eventName, onVisible, triggerEvent = TRIGGER_ON.HOVER}: HandlePopoverContentStateEventChangeOptions
+	{eventName, onVisibleChange, triggerOn = TRIGGER_ON.HOVER}: HandlePopoverContentInteractionStateChangeOptions
 ) => {
 	if (eventName === EVENT_NAME.LAYOUT) {
 		const {height, width} = (event as LayoutChangeEvent).nativeEvent.layout
@@ -36,10 +36,10 @@ export const handlePopoverContentStateChange = (
 		return
 	}
 
-	const triggerEventNames = TRIGGER_EVENT_NAMES[triggerEvent]
+	const triggerEventNames = TRIGGER_EVENT_NAMES[triggerOn]
 
 	if (triggerEventNames.includes(eventName)) {
-		onVisible?.(eventName === triggerEventNames[0])
+		onVisibleChange?.(eventName === triggerEventNames[0])
 	}
 }
 
@@ -51,8 +51,8 @@ export const handlePopoverContentAnimationFinished =
 		}
 
 		setState(draft => {
-			if (draft.invert && !visible) {
-				draft.invert = false
+			if (draft.inverted && !visible) {
+				draft.inverted = false
 			}
 
 			if (onAnimationFinished) {
@@ -95,13 +95,13 @@ export const getSafeMenuPosition = ({
 
 export const updatePopoverContentPosition = (
 	ref: React.RefObject<View | null>,
-	{containerLayout, popoverContentPosition, setState, token, type}: UpdatePopoverContentPositionOptions
+	{containerLayout, contentPosition, setState, token, type}: UpdatePopoverContentPositionOptions
 ) => {
 	const updatePopoverContentInvert =
 		({height, width, windowHeight, windowWidth, x, y}: UpdatePopoverContentInvertOptions) =>
 		(draft: WritableDraft<PopoverContentState>) => {
-			draft.invert =
-				popoverContentPosition?.startsWith('HORIZONTAL') ?
+			draft.inverted =
+				contentPosition?.startsWith('HORIZONTAL') ?
 					width + x >= windowWidth && x > width
 				:	height + y >= windowHeight && y > height
 		}
@@ -140,25 +140,25 @@ export const updatePopoverContentPosition = (
 	}
 }
 
-export const getPopoverContentPosition = (popoverContentPosition?: PopoverContentPosition, invert?: boolean) => {
+export const getPopoverContentPosition = (contentPosition?: PopoverContentPosition, invert?: boolean) => {
 	const position = {
 		invertX:
-			popoverContentPosition === POPOVER_CONTENT_POSITION.HORIZONTAL_END ?
+			contentPosition === POPOVER_CONTENT_POSITION.HORIZONTAL_END ?
 				POPOVER_CONTENT_POSITION.HORIZONTAL_START
 			:	POPOVER_CONTENT_POSITION.HORIZONTAL_END,
 
 		invertY:
-			popoverContentPosition === POPOVER_CONTENT_POSITION.VERTICAL_END ?
+			contentPosition === POPOVER_CONTENT_POSITION.VERTICAL_END ?
 				POPOVER_CONTENT_POSITION.VERTICAL_START
 			:	POPOVER_CONTENT_POSITION.VERTICAL_END
 	}
 
 	const invertPosition = (
-		popoverContentPosition?.startsWith('HORIZONTAL') ?
+		contentPosition?.startsWith('HORIZONTAL') ?
 			position.invertX
 		:	position.invertY) as PopoverContentPosition
 
-	return invert ? invertPosition : popoverContentPosition
+	return invert ? invertPosition : contentPosition
 }
 
-export const handleMaskPressOut = (onVisible?: (value?: boolean) => void) => () => onVisible?.(false)
+export const handleMaskPressOut = (onVisibleChange?: (visible?: boolean) => void) => () => onVisibleChange?.(false)

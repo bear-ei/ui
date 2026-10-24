@@ -6,10 +6,10 @@ import type {MenuBaseProps, MenuState} from './Menu.interface'
 import {usePendingEvent} from '../../hooks'
 import {POPOVER_TYPE} from '../Popover'
 import {
-	handleMenuKeyDown,
+	handleMenuKeyCommand,
 	handleMenuKeyDownEvent,
 	updateMenuActive,
-	updateMenuActives,
+	updateMenuActiveKeys,
 	updateMenuVisible
 } from './Menu.handler'
 import {RenderMenu} from './Menu.render'
@@ -21,12 +21,12 @@ export const MenuBase: FC<MenuBaseProps> = ({
 	defaultActiveKey,
 	defaultActiveKeys,
 	defaultVisible,
-	keyCode,
+	keyCommand,
 	multiple,
-	onActive: rawOnActive,
-	onActives: rawOnActives,
-	onFocusKey,
-	onVisible: rawOnVisible,
+	onActiveKeyChange: rawOnActiveKeyChange,
+	onActiveKeysChange: rawOnActiveKeysChange,
+	onFocusKeyChange,
+	onVisibleChange: rawOnVisibleChange,
 	type = POPOVER_TYPE.CONTEXT_MENU,
 	visible: rawIsVisible,
 	...renderProps
@@ -37,7 +37,7 @@ export const MenuBase: FC<MenuBaseProps> = ({
 			activeKeys,
 			focusedIndex,
 			pendingActiveEvent,
-			pendingActivesEvent,
+			pendingActiveKeysEvent,
 			pendingFocusKeyEvent,
 			pendingVisibleEvent,
 			visible: isVisible
@@ -49,52 +49,64 @@ export const MenuBase: FC<MenuBaseProps> = ({
 		visible: rawIsVisible ?? defaultVisible
 	})
 
-	usePendingEvent('pendingActiveEvent', rawOnActive, {pendingEvent: pendingActiveEvent, setState})
-	usePendingEvent('pendingActivesEvent', rawOnActives, {pendingEvent: pendingActivesEvent, setState})
-	usePendingEvent('pendingFocusKeyEvent', onFocusKey, {pendingEvent: pendingFocusKeyEvent, setState})
-	usePendingEvent('pendingVisibleEvent', rawOnVisible, {pendingEvent: pendingVisibleEvent, setState})
+	usePendingEvent('pendingActiveEvent', rawOnActiveKeyChange, {pendingEvent: pendingActiveEvent, setState})
+	usePendingEvent('pendingActiveKeysEvent', rawOnActiveKeysChange, {pendingEvent: pendingActiveKeysEvent, setState})
+	usePendingEvent('pendingFocusKeyEvent', onFocusKeyChange, {pendingEvent: pendingFocusKeyEvent, setState})
+	usePendingEvent('pendingVisibleEvent', rawOnVisibleChange, {pendingEvent: pendingVisibleEvent, setState})
 
 	const id = useId()
-	const onActive = useMemo(() => updateMenuActive(setState, rawOnActive), [rawOnActive, setState])
-	const onActives = useMemo(() => updateMenuActives(setState, rawOnActives), [rawOnActives, setState])
+	const onActiveKeyChange = useMemo(
+		() => updateMenuActive(setState, rawOnActiveKeyChange),
+		[rawOnActiveKeyChange, setState]
+	)
+	const onActiveKeysChange = useMemo(
+		() => updateMenuActiveKeys(setState, rawOnActiveKeysChange),
+		[rawOnActiveKeysChange, setState]
+	)
 	const onKeyDown = useMemo(
-		() => handleMenuKeyDownEvent(setState, {data, onActive: rawOnActive, onActives: rawOnActives, onFocusKey}),
-		[data, onFocusKey, rawOnActive, rawOnActives, setState]
+		() =>
+			handleMenuKeyDownEvent(setState, {
+				data,
+				onActiveKeyChange: rawOnActiveKeyChange,
+				onActiveKeysChange: rawOnActiveKeysChange,
+				onFocusKeyChange
+			}),
+		[data, onFocusKeyChange, rawOnActiveKeyChange, rawOnActiveKeysChange, setState]
 	)
 
-	const onVisible = useMemo(
-		() => updateMenuVisible(setState, {onVisible: rawOnVisible, type}),
-		[rawOnVisible, setState, type]
+	const onVisibleChange = useMemo(
+		() => updateMenuVisible(setState, {onVisibleChange: rawOnVisibleChange, type}),
+		[rawOnVisibleChange, setState, type]
 	)
 
-	const runUpdateActive = onActive
-	const runUpdateActives = onActives
-	const runUpdateVisible = onVisible
+	const runUpdateActive = onActiveKeyChange
+	const runUpdateActiveKeys = onActiveKeysChange
+	const runUpdateVisible = onVisibleChange
 	const runKeyDown = useMemo(
 		() =>
-			handleMenuKeyDown(setState, {
+			handleMenuKeyCommand(setState, {
 				activeKey,
 				activeKeys,
 				data,
 				multiple,
-				onActive: rawOnActive,
-				onActives: rawOnActives,
-				onFocusKey
+				onActiveKeyChange: rawOnActiveKeyChange,
+				onActiveKeysChange: rawOnActiveKeysChange,
+				onFocusKeyChange
 			}),
-		[activeKey, activeKeys, data, multiple, rawOnActive, rawOnActives, setState, onFocusKey]
+		[activeKey, activeKeys, data, multiple, rawOnActiveKeyChange, rawOnActiveKeysChange, setState, onFocusKeyChange]
 	)
 
 	useEffect(() => {
-		runKeyDown(keyCode)
-	}, [keyCode, runKeyDown])
+		runKeyDown(keyCommand)
+	}, [keyCommand, runKeyDown])
 
 	useEffect(() => {
 		runUpdateActive(rawActiveKey)
 	}, [rawActiveKey, runUpdateActive])
 
 	useEffect(() => {
-		runUpdateActives(rawActiveKeys)
-	}, [rawActiveKeys, runUpdateActives])
+		runUpdateActiveKeys(rawActiveKeys)
+	}, [rawActiveKeys, runUpdateActiveKeys])
 
 	useEffect(() => {
 		runUpdateVisible(rawIsVisible)
@@ -109,10 +121,10 @@ export const MenuBase: FC<MenuBaseProps> = ({
 			focusedIndex={focusedIndex}
 			id={id}
 			multiple={multiple}
-			onActive={onActive}
-			onActives={onActives}
+			onActiveKeyChange={onActiveKeyChange}
+			onActiveKeysChange={onActiveKeysChange}
 			onKeyDown={onKeyDown}
-			onVisible={onVisible}
+			onVisibleChange={onVisibleChange}
 			type={type}
 			visible={isVisible}
 		/>

@@ -1,52 +1,57 @@
 import {useCallback, useId, useMemo, useRef, type FC} from 'react'
 import {useImmer} from 'use-immer'
 
-import type {LayoutRectangle, State} from '../../constants'
-import type {PressableType, TouchableBaseProps, TouchableRippleSequence, TouchableState} from './Touchable.interface'
+import type {MeasuredLayoutRectangle, InteractionState} from '../../constants'
+import type {PressableType, TouchableBaseProps, TouchableRippleLocations, TouchableState} from './Touchable.interface'
 
-import {useInteractionStateEvent, useMergeRefs, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {deleteTouchableRippleByIndex, handleTouchableStateChange} from './Touchable.handler'
+import {
+	useInteractionStateEvent,
+	useMergeRefs,
+	type HandleInteractionStateChangeOptions,
+	type InteractionEvent
+} from '../../hooks'
+import {deleteTouchableRippleByKey, handleTouchableStateChange} from './Touchable.handler'
 import {RenderTouchable, RenderTouchableRipples} from './Touchable.render'
 
 export const TouchableBase: FC<TouchableBaseProps> = ({
-	centered,
 	disabled,
 	enableTouchableRipple = true,
-	onStateEventChange: rawOnStateEventChange,
+	onInteractionStateChange: rawOnInteractionStateChange,
 	ref,
+	rippleCentered,
 	underlayColor,
 	...renderTouchableProps
 }) => {
-	const [{contentLayout, rippleSequence}, setState] = useImmer<TouchableState>({
-		contentLayout: {} as Partial<LayoutRectangle>,
-		rippleSequence: {} as TouchableRippleSequence
+	const [{contentLayout, rippleLocations}, setState] = useImmer<TouchableState>({
+		contentLayout: {} as Partial<MeasuredLayoutRectangle>,
+		rippleLocations: {} as TouchableRippleLocations
 	})
 
 	const id = useId()
 	const pressableRef = useRef<PressableType>(null)
 	const mergedRef = useMergeRefs([ref, pressableRef])
-	const onAnimateFinished = useMemo(() => deleteTouchableRippleByIndex(setState), [setState])
-	const onStateEventChange = useCallback(
-		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) => {
+	const onAnimationFinished = useMemo(() => deleteTouchableRippleByKey(setState), [setState])
+	const onInteractionStateChange = useCallback(
+		(event: InteractionEvent, interactionState: InteractionState, options: HandleInteractionStateChangeOptions) => {
 			handleTouchableStateChange(event, setState, {
 				...options,
 				enableTouchableRipple,
-				onStateEventChange: rawOnStateEventChange,
-				ref: pressableRef,
-				state
+				interactionState,
+				onInteractionStateChange: rawOnInteractionStateChange,
+				ref: pressableRef
 			})
 		},
-		[enableTouchableRipple, rawOnStateEventChange, setState]
+		[enableTouchableRipple, rawOnInteractionStateChange, setState]
 	)
 
-	const interactionHandlers = useInteractionStateEvent({...renderTouchableProps, disabled, onStateEventChange})
+	const interactionHandlers = useInteractionStateEvent({...renderTouchableProps, disabled, onInteractionStateChange})
 	const rippleElements = (
 		<RenderTouchableRipples
-			centered={centered}
 			containerLayout={contentLayout}
 			id={id}
-			onAnimateFinished={onAnimateFinished}
-			rippleSequence={rippleSequence}
+			onAnimationFinished={onAnimationFinished}
+			rippleCentered={rippleCentered}
+			rippleLocations={rippleLocations}
 			underlayColor={underlayColor}
 		/>
 	)

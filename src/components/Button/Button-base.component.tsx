@@ -3,8 +3,8 @@ import {useImmer} from 'use-immer'
 
 import type {ButtonBaseProps, ButtonState} from './Button.interface'
 
-import {COMPONENT_STATUS, EVENT_NAME, type State} from '../../constants'
-import {useTheme, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {COMPONENT_STATUS, EVENT_NAME, type InteractionState} from '../../constants'
+import {useTheme, type HandleInteractionStateChangeOptions, type InteractionEvent} from '../../hooks'
 import {BUTTON_TYPE} from './Button.enum'
 import {
 	getButtonUnderlayColor,
@@ -35,9 +35,9 @@ export const ButtonBase: FC<ButtonBaseProps> = ({
 	const isDisabled = loading || rawDisabled
 	const {token} = useTheme()
 	const underlayColor = getButtonUnderlayColor(type, token, linkColor)
-	const onStateEventChange = useCallback(
-		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) =>
-			handleButtonStateChange(event, setState, {...options, state, type}),
+	const onInteractionStateChange = useCallback(
+		(event: InteractionEvent, interactionState: InteractionState, options: HandleInteractionStateChangeOptions) =>
+			handleButtonStateChange(event, setState, {...options, interactionState, type}),
 		[setState, type]
 	)
 
@@ -82,7 +82,7 @@ export const ButtonBase: FC<ButtonBaseProps> = ({
 			labelTextAnimatedStyle={labelTextAnimatedStyle}
 			linkColor={linkColor}
 			loading={loading}
-			onStateEventChange={onStateEventChange}
+			onInteractionStateChange={onInteractionStateChange}
 			size={size}
 			status={status}
 			type={type}

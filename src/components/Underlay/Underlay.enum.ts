@@ -1,4 +1,4 @@
-export const ACTIVE_ANIMATED = {
+export const ACTIVE_ANIMATION = {
 	FADE: 'FADE',
 	SCALE: 'SCALE',
 	SCALE_X: 'SCALE_X',

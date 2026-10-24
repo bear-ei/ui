@@ -7,12 +7,12 @@ import {useTheme} from '../../../hooks'
 
 export const RenderFormItem: FC<RenderFormItemProps> = ({className, controlElement, id, testID, ...containerProps}) => {
 	const {token} = useTheme()
-	const {classesName} = token.classes
+	const {classNames} = token.classes
 
 	return (
 		<View
 			{...containerProps}
-			className={classesName('min-h-[--density-control-medium] flex-1 self-stretch', className)}
+			className={classNames('min-h-[--density-control-medium] flex-1 self-stretch', className)}
 			testID={testID ?? `formItem--${id}`}
 		>
 			{controlElement}

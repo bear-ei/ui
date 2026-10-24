@@ -1,31 +1,35 @@
-import type {Platform} from '../theme.interface'
+import type {TargetPlatform} from '../theme.interface'
 import type {Font} from './font.interface'
 
-import {PLATFORM} from '../theme.enum'
+import {TARGET_PLATFORM} from '../theme.enum'
 
 const PLATFORM_CODE_FONT_FAMILY = {
-	[PLATFORM.ANDROID]: 'System',
-	[PLATFORM.IOS]: 'System',
-	[PLATFORM.MACOS]: 'SF Mono',
-	[PLATFORM.WEB]:
+	[TARGET_PLATFORM.ANDROID]: 'System',
+	[TARGET_PLATFORM.IOS]: 'System',
+	[TARGET_PLATFORM.MACOS]: 'SF Mono',
+	[TARGET_PLATFORM.WEB]:
 		'Source Code Pro, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace',
-	[PLATFORM.WINDOWS]: 'System'
+	[TARGET_PLATFORM.WINDOWS]: 'System'
 }
 
 const PLATFORM_FONT_FAMILY = {
-	[PLATFORM.ANDROID]: 'System',
-	[PLATFORM.IOS]: 'System',
-	[PLATFORM.MACOS]:
+	[TARGET_PLATFORM.ANDROID]: 'System',
+	[TARGET_PLATFORM.IOS]: 'System',
+	[TARGET_PLATFORM.MACOS]:
 		'-apple-system, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji',
-	[PLATFORM.WEB]:
+	[TARGET_PLATFORM.WEB]:
 		'-apple-system, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji',
-	[PLATFORM.WINDOWS]: 'System'
+	[TARGET_PLATFORM.WINDOWS]: 'System'
 }
 
-export const createFont = (platform: Platform = PLATFORM.IOS, fontFamily?: string, codeFontFamily?: string): Font => ({
+export const createFont = (
+	platform: TargetPlatform = TARGET_PLATFORM.IOS,
+	fontFamily?: string,
+	codeFontFamily?: string
+): Font => ({
 	family: {
-		codeFamily: codeFontFamily || PLATFORM_CODE_FONT_FAMILY[platform] || 'System',
-		family: fontFamily || PLATFORM_FONT_FAMILY[platform] || 'System'
+		code: codeFontFamily || PLATFORM_CODE_FONT_FAMILY[platform] || 'System',
+		text: fontFamily || PLATFORM_FONT_FAMILY[platform] || 'System'
 	},
 	height: {
 		height0: 17,

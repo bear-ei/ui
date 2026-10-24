@@ -5,8 +5,8 @@ import type {RenderListAffordanceButtonProps} from './List-affordance-button.int
 
 import {EVENT_NAME} from '../../../constants'
 import {useTheme} from '../../../hooks'
-import {DENSITY_SIZE, DENSITY_TYPE, stepDownDensitySize, densitySizeMapTypographySize, TYPOGRAPHY} from '../../../theme'
-import {platformValue} from '../../../utils'
+import {DENSITY_SIZE, DENSITY_TYPE, stepDownDensitySize, toTypographySize, TYPOGRAPHY} from '../../../theme'
+import {toPlatformUnit} from '../../../utils'
 import {AnimatedText, AnimatedView} from '../../Animated'
 import {Touchable} from '../../Touchable'
 import {Underlay} from '../../Underlay'
@@ -27,11 +27,11 @@ export const RenderListAffordanceButton: FC<RenderListAffordanceButtonProps> = (
 }) => {
 	const {token} = useTheme()
 	const underlayEventName = disabled ? EVENT_NAME.NONE : eventName
-	const {classesName, densityClasses, typographyClasses} = token.classes
+	const {classNames, densityClasses, typographyClasses} = token.classes
 	const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)
-	const underlayColor = token.scheme.onPrimary
+	const underlayColor = token.colors.onPrimary
 	const iconSize = token.density.icon[stepDownDensitySize(size)]
-	const color = token.scheme.onPrimary
+	const color = token.colors.onPrimary
 	const backgroundUnderlayElement = (
 		<AnimatedView
 			className='pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10'
@@ -44,7 +44,7 @@ export const RenderListAffordanceButton: FC<RenderListAffordanceButtonProps> = (
 		<View
 			accessibilityLabel={accessibilityLabel ?? labelText}
 			accessibilityRole='button'
-			className={classesName(
+			className={classNames(
 				'flex cursor-pointer flex-col',
 				`${densityControlClasses(DENSITY_SIZE.XX_LARGE)} h-auto`
 			)}
@@ -64,13 +64,13 @@ export const RenderListAffordanceButton: FC<RenderListAffordanceButtonProps> = (
 					testID={`listAffordanceButton__content--${id}`}
 				>
 					{icon ?
-						cloneElement(icon, {color, size: platformValue(iconSize)})
+						cloneElement(icon, {color, size: toPlatformUnit(iconSize)})
 					:	<AnimatedText
-							className={classesName(
+							className={classNames(
 								'z-20 select-none text-center',
 								typographyClasses(TYPOGRAPHY.LABEL, {
 									colorClasses: 'color-[--color-on-primary]'
-								})(densitySizeMapTypographySize(size))
+								})(toTypographySize(size))
 							)}
 							ellipsizeMode='tail'
 							numberOfLines={1}
@@ -82,7 +82,7 @@ export const RenderListAffordanceButton: FC<RenderListAffordanceButtonProps> = (
 					}
 
 					<Underlay
-						eventName={underlayEventName}
+						interactionEventName={underlayEventName}
 						testID={`listAffordanceButton__underlay--${id}`}
 						underlayColor={underlayColor}
 					/>

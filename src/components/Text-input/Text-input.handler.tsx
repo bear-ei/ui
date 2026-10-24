@@ -2,22 +2,22 @@ import type {TextInput, TextInputContentSizeChangeEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import type {AnimatedTiming, StateEvent} from '../../hooks'
+import type {AnimatedTimingFactory, InteractionEvent} from '../../hooks'
 import type {
 	AnimateTextInputOptions,
-	HandleTextInputStateChangeOptions,
+	HandleTextInputInteractionStateChangeOptions,
 	TextInputState,
-	TextInputStateAnimated,
+	TextInputInteractionStateAnimations,
 	UpdateTextInputSupportingTextOptions
 } from './Text-input.interface'
 
-import {COMPONENT_STATUS, EVENT_NAME, STATE, type State} from '../../constants'
+import {COMPONENT_STATUS, EVENT_NAME, INTERACTION_STATE, type InteractionState} from '../../constants'
 import {ANIMATED_TIMING} from '../../theme'
 
 export const handleTextInputStateChange = (
-	_event: StateEvent,
+	_event: InteractionEvent,
 	setState: Updater<TextInputState>,
-	{content, eventName, ref, state}: HandleTextInputStateChangeOptions
+	{eventName, headerContent, interactionState, ref}: HandleTextInputInteractionStateChangeOptions
 ) => {
 	setState(draft => {
 		if (eventName === EVENT_NAME.LAYOUT) {
@@ -28,14 +28,14 @@ export const handleTextInputStateChange = (
 			return
 		}
 
-		if ((draft.state === STATE.FOCUSED && eventName !== EVENT_NAME.BLUR) || content) {
+		if ((draft.interactionState === INTERACTION_STATE.FOCUSED && eventName !== EVENT_NAME.BLUR) || headerContent) {
 			return
 		}
 
 		draft.eventName = eventName
 
-		if (state) {
-			draft.state = state
+		if (interactionState) {
+			draft.interactionState = interactionState
 		}
 	})
 
@@ -44,7 +44,7 @@ export const handleTextInputStateChange = (
 	}
 }
 
-export const createUpdateTextInputContentSize =
+export const handleTextInputContentSizeChange =
 	(setState: Updater<TextInputState>, onContentSizeChange?: (contentSize: {height: number; width: number}) => void) =>
 	(event: TextInputContentSizeChangeEvent) => {
 		const contentSize = event.nativeEvent.contentSize
@@ -101,7 +101,7 @@ export const handleTextInputSupportingTextAnimationFinished =
 			draft.supportingText = supportingText
 		})
 
-export const updateTextInputValueWithCallback =
+export const handleTextInputTextChange =
 	(setState: Updater<TextInputState>, onChangeText?: (value: string) => void) => (value: string) =>
 		setState(draft => {
 			if (draft.value !== value && onChangeText) {
@@ -126,13 +126,13 @@ export const blurTextInputIfEditable = (ref: React.RefObject<TextInput | null>) 
 	editable && ref.current?.blur()
 
 export const focusTextInput = (ref: React.RefObject<TextInput | null>) => () => ref.current?.focus()
-export const createAnimateTextInputEnabledState = (
+export const animateTextInputEnabledState = (
 	[activeIndicatorScaleYSharedValue, colorSharedValue, headerInnerBackgroundColorSharedValue]: [
 		SharedValue<number>,
 		SharedValue<number>,
 		SharedValue<number>
 	],
-	animatedTiming: AnimatedTiming,
+	animatedTiming: AnimatedTimingFactory,
 	error?: boolean
 ) => {
 	const activeIndicatorScaleYAnimateSharedValueTo = animatedTiming(
@@ -155,13 +155,13 @@ export const createAnimateTextInputEnabledState = (
 	headerInnerBackgroundColorAnimateSharedValueTo(1)
 }
 
-export const createAnimateTextInputDisabledState = (
+export const animateTextInputDisabledState = (
 	[activeIndicatorScaleYSharedValue, colorSharedValue, headerInnerBackgroundColorSharedValue]: [
 		SharedValue<number>,
 		SharedValue<number>,
 		SharedValue<number>
 	],
-	animatedTiming: AnimatedTiming
+	animatedTiming: AnimatedTimingFactory
 ) => {
 	const activeIndicatorScaleYAnimateSharedValueTo = animatedTiming(
 		activeIndicatorScaleYSharedValue,
@@ -181,13 +181,13 @@ export const createAnimateTextInputDisabledState = (
 	headerInnerBackgroundColorAnimateSharedValueTo(toValue)
 }
 
-export const createAnimateTextInputErrorState = (
+export const animateTextInputErrorState = (
 	[activeIndicatorScaleYSharedValue, colorSharedValue, headerInnerBackgroundColorSharedValue]: [
 		SharedValue<number>,
 		SharedValue<number>,
 		SharedValue<number>
 	],
-	animatedTiming: AnimatedTiming
+	animatedTiming: AnimatedTimingFactory
 ) => {
 	const activeIndicatorScaleYAnimateSharedValueTo = animatedTiming(
 		activeIndicatorScaleYSharedValue,
@@ -205,13 +205,13 @@ export const createAnimateTextInputErrorState = (
 	headerInnerBackgroundColorAnimateSharedValueTo(1)
 }
 
-export const createAnimateTextInputFocusedState = (
+export const animateTextInputFocusedState = (
 	[activeIndicatorScaleYSharedValue, colorSharedValue, headerInnerBackgroundColorSharedValue]: [
 		SharedValue<number>,
 		SharedValue<number>,
 		SharedValue<number>
 	],
-	animatedTiming: AnimatedTiming,
+	animatedTiming: AnimatedTimingFactory,
 	error?: boolean
 ) => {
 	const activeIndicatorScaleYAnimateSharedValueTo = animatedTiming(
@@ -235,13 +235,13 @@ export const createAnimateTextInputFocusedState = (
 }
 
 export const animateTextInput =
-	(stateAnimated: TextInputStateAnimated, {disabled, error}: AnimateTextInputOptions) =>
-	(state: State) => {
+	(interactionStateAnimations: TextInputInteractionStateAnimations, {disabled, error}: AnimateTextInputOptions) =>
+	(interactionState: InteractionState) => {
 		if (disabled) {
-			stateAnimated[STATE.DISABLED]?.()
+			interactionStateAnimations[INTERACTION_STATE.DISABLED]?.()
 
 			return
 		}
 
-		stateAnimated[error ? STATE.ERROR : state]?.()
+		interactionStateAnimations[error ? INTERACTION_STATE.ERROR : interactionState]?.()
 	}

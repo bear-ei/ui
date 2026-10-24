@@ -6,7 +6,7 @@ import {View} from 'react-native'
 import type {FormItemControlProps, FormItemProps} from './Form-item'
 import type {FormProps} from './Form.interface'
 
-import {LAYOUT} from '../../constants'
+import {ORIENTATION} from '../../constants'
 import {BUTTON_TYPE, Button} from '../Button'
 import {TextInput} from '../Text-input'
 import {Form} from './Form.component'
@@ -39,7 +39,7 @@ const RenderForm = (props: FormProps) => {
 		/>
 	)
 
-	const items: FormItemProps[] = [
+	const fields: FormItemProps[] = [
 		{
 			labelText: 'name',
 			name: 'name',
@@ -71,9 +71,9 @@ const RenderForm = (props: FormProps) => {
 		<View className='flex flex-col'>
 			<Form
 				{...props}
+				fields={fields}
 				form={form}
 				initialValues={{age: 'CCCC', name: '233'}}
-				items={items}
 				onFinish={handleFinish}
 			/>
 
@@ -91,8 +91,8 @@ const RenderForm = (props: FormProps) => {
 	)
 }
 
-export const Horizontal = () => <RenderForm layoutType={LAYOUT.HORIZONTAL} />
-export const Vertical = () => <RenderForm layoutType={LAYOUT.VERTICAL} />
+export const Horizontal = () => <RenderForm orientation={ORIENTATION.HORIZONTAL} />
+export const Vertical = () => <RenderForm orientation={ORIENTATION.VERTICAL} />
 
 export default {
 	component: Form,

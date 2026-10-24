@@ -4,19 +4,19 @@ import type {View, ViewProps} from 'react-native'
 import type {PORTAL_TYPE} from './Portal-provider.enum'
 
 export type PortalType = (typeof PORTAL_TYPE)[keyof typeof PORTAL_TYPE]
-export interface Portal {
+export interface PortalEntry {
 	id: string
 	props?: Record<string, unknown>
+	shouldUnmount?: boolean
 	type: PortalType
-	unmount?: boolean
 }
 
-export type EmitterEvent = {
-	portal: Portal
+export type PortalEventMap = {
+	portal: PortalEntry
 }
 
 export interface PortalState {
-	portals: Portal[]
+	portals: PortalEntry[]
 }
 
 export interface PortalItemProps extends Pick<ViewProps, 'testID'> {

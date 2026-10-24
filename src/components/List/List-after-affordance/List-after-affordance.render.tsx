@@ -5,7 +5,7 @@ import type {RenderListAfterAffordanceProps} from './List-after-affordance.inter
 
 import {useTheme} from '../../../hooks'
 import {DENSITY_SIZE, ENTRY_EXIT, UI_DENSITY} from '../../../theme'
-import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
+import {LAYOUT_ANIMATION, LayoutAnimated} from '../../Layout-animated'
 import {ListAffordanceButton} from '../List-affordance-button'
 import {LIST_AFTER_AFFORDANCE_PHASE} from './List-after-affordance.enum'
 
@@ -13,8 +13,8 @@ export const RenderListAfterAffordance: FC<RenderListAfterAffordanceProps> = ({
 	dangerAnimatedStyle,
 	id,
 	interactionHandlers,
-	onConfirm,
-	onSecondaryAction,
+	onPrimaryAction,
+	onSecondaryPress,
 	phase,
 	primaryButtonDisabled,
 	primaryButtonLabelText = 'Edit',
@@ -30,7 +30,7 @@ export const RenderListAfterAffordance: FC<RenderListAfterAffordanceProps> = ({
 	...containerProps
 }) => {
 	const {token, uiDensity} = useTheme()
-	const {classesName} = token.classes
+	const {classNames} = token.classes
 	const buttonTabIndex = visible ? 0 : -1
 	const checkIconElement = <Check testID={`listAfterAffordance__listAffordanceButtonIconCheck--${id}`} />
 	const closeIconElement = <X testID={`listAfterAffordance__listAffordanceButtonIconClose--${id}`} />
@@ -44,15 +44,15 @@ export const RenderListAfterAffordance: FC<RenderListAfterAffordanceProps> = ({
 		<LayoutAnimated
 			{...containerProps}
 			{...interactionHandlers}
-			animatedType={LAYOUT_ANIMATED.FADE}
-			className={classesName('relative flex flex-row self-stretch', {
+			animation={LAYOUT_ANIMATION.FADE}
+			className={classNames('relative flex flex-row self-stretch', {
 				['bg-[--color-primary]']: isDangerVisible,
 				['w-24']: uiDensity === UI_DENSITY.COMPACT,
 				['w-32']: uiDensity === UI_DENSITY.COMFORTABLE
 			})}
 			entry={entry}
 			exit={exit}
-			lazy={true}
+			lazyMount={true}
 			testID={testID ?? `listAfterAffordance--${id}`}
 			visible={visible}
 		>
@@ -62,7 +62,7 @@ export const RenderListAfterAffordance: FC<RenderListAfterAffordanceProps> = ({
 				disabled={primaryButtonDisabled}
 				labelText={primaryButtonLabelText}
 				loading={primaryButtonLoading}
-				onPressOut={onConfirm}
+				onPressOut={onPrimaryAction}
 				size={size}
 				style={primaryButtonStyle}
 				tabIndex={buttonTabIndex}
@@ -75,7 +75,7 @@ export const RenderListAfterAffordance: FC<RenderListAfterAffordanceProps> = ({
 				disabled={secondaryButtonDisabled}
 				labelText={secondaryButtonLabelText}
 				loading={secondaryButtonLoading}
-				onPressOut={onSecondaryAction}
+				onPressOut={onSecondaryPress}
 				size={size}
 				style={secondaryButtonStyle}
 				tabIndex={buttonTabIndex}
@@ -83,11 +83,11 @@ export const RenderListAfterAffordance: FC<RenderListAfterAffordanceProps> = ({
 			/>
 
 			<LayoutAnimated
-				animatedType={LAYOUT_ANIMATED.FADE}
+				animation={LAYOUT_ANIMATION.FADE}
 				className='pointer-events-none absolute bottom-0 right-0 top-0 -z-10 w-1/2 bg-[--color-error]'
 				entry={entry}
 				exit={exit}
-				lazy={true}
+				lazyMount={true}
 				style={dangerAnimatedStyle}
 				testID={`listAfterAffordance__animatedDanger--${id}`}
 				visible={isDangerVisible}

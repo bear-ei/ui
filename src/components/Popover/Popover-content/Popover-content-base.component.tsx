@@ -5,15 +5,15 @@ import {useImmer} from 'use-immer'
 import type {PopoverContentBaseProps, PopoverContentState} from './Popover-content.interface'
 
 import {POPOVER_TYPE} from '..'
-import {type State} from '../../../constants'
+import {type InteractionState} from '../../../constants'
 import {
 	useInteractionStateEvent,
 	useMergeRefs,
 	usePendingEvent,
 	useTheme,
 	useWindowDimensions,
-	type HandleStateEventChangeOptions,
-	type StateEvent
+	type HandleInteractionStateChangeOptions,
+	type InteractionEvent
 } from '../../../hooks'
 import {DENSITY_SIZE, UI_DENSITY} from '../../../theme'
 import {
@@ -27,16 +27,16 @@ import {RenderPopoverContent} from './Popover-content.render'
 
 export const PopoverContentBase: FC<PopoverContentBaseProps> = ({
 	containerLayout,
+	contentPosition,
 	onAnimationFinished: rawOnAnimationFinished,
-	onVisible,
-	popoverContentPosition,
+	onVisibleChange,
 	ref,
-	triggerEvent,
+	triggerOn,
 	type = POPOVER_TYPE.TOOLTIP,
 	visible,
 	...renderPopoverContentProps
 }) => {
-	const [{invert: isInvert, layout, menuPosition, pendingAnimationFinishedEvent}, setState] =
+	const [{inverted: isInverted, layout, menuPosition, pendingAnimationFinishedEvent}, setState] =
 		useImmer<PopoverContentState>({layout: {} as Partial<LayoutRectangle>, menuPosition: {}})
 
 	usePendingEvent('pendingAnimationFinishedEvent', rawOnAnimationFinished, {
@@ -50,7 +50,7 @@ export const PopoverContentBase: FC<PopoverContentBaseProps> = ({
 	const id = useId()
 	const {token, uiDensity} = useTheme()
 	const isMenuOrPicker = type === POPOVER_TYPE.CONTEXT_MENU || type === POPOVER_TYPE.TEXT_INPUT_PICKER
-	const position = getPopoverContentPosition(popoverContentPosition, isInvert)
+	const position = getPopoverContentPosition(contentPosition, isInverted)
 
 	// Menu width targets 180px on both densities:
 	// desktop (spacing.XX_SMALL = 2) × 90, mobile (4) × 45.
@@ -66,24 +66,29 @@ export const PopoverContentBase: FC<PopoverContentBaseProps> = ({
 		[rawOnAnimationFinished, setState]
 	)
 
-	const onMaskPressOut = useMemo(() => handleMaskPressOut(onVisible), [onVisible])
-	const onStateEventChange = useCallback(
-		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) =>
-			handlePopoverContentStateChange(event, setState, {...options, onVisible, state, triggerEvent}),
-		[onVisible, setState, triggerEvent]
+	const onMaskPressOut = useMemo(() => handleMaskPressOut(onVisibleChange), [onVisibleChange])
+	const onInteractionStateChange = useCallback(
+		(event: InteractionEvent, interactionState: InteractionState, options: HandleInteractionStateChangeOptions) =>
+			handlePopoverContentStateChange(event, setState, {
+				...options,
+				interactionState,
+				onVisibleChange,
+				triggerOn
+			}),
+		[onVisibleChange, setState, triggerOn]
 	)
 
-	const interactionHandlers = useInteractionStateEvent({...renderPopoverContentProps, onStateEventChange})
+	const interactionHandlers = useInteractionStateEvent({...renderPopoverContentProps, onInteractionStateChange})
 	const runUpdatePosition = useMemo(
 		() =>
 			updatePopoverContentPosition(containerRef, {
 				containerLayout,
-				popoverContentPosition,
+				contentPosition,
 				setState,
 				token,
 				type
 			}),
-		[containerLayout, setState, popoverContentPosition, token, type]
+		[containerLayout, setState, contentPosition, token, type]
 	)
 
 	useEffect(() => {
@@ -100,14 +105,14 @@ export const PopoverContentBase: FC<PopoverContentBaseProps> = ({
 		<RenderPopoverContent
 			{...renderPopoverContentProps}
 			containerLayout={containerLayout}
+			contentPosition={position}
 			height={layout.height}
 			id={id}
 			interactionHandlers={interactionHandlers}
-			menuOrPicker={isMenuOrPicker}
+			isMenuOrPicker={isMenuOrPicker}
 			menuPosition={menuPosition}
 			onAnimationFinished={onAnimationFinished}
 			onMaskPressOut={onMaskPressOut}
-			popoverContentPosition={position}
 			ref={mergedRef}
 			type={type}
 			visible={visible}

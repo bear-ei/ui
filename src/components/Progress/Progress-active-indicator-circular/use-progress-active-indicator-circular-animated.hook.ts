@@ -5,7 +5,7 @@ import type {UseProgressActiveIndicatorCircularAnimatedOptions} from './Progress
 
 import {COMPONENT_STATUS} from '../../../constants'
 import {useAnimatedTiming} from '../../../hooks'
-import {platformValue} from '../../../utils'
+import {toPlatformUnit} from '../../../utils'
 import {
 	animateProgressActiveIndicatorCircular,
 	computeProgressStrokeDashoffset
@@ -13,7 +13,7 @@ import {
 
 export const useProgressActiveIndicatorCircularAnimated = ({
 	circumference,
-	enableAnimated,
+	enableLoop,
 	status
 }: UseProgressActiveIndicatorCircularAnimatedOptions) => {
 	const animatedTiming = useAnimatedTiming()
@@ -30,7 +30,7 @@ export const useProgressActiveIndicatorCircularAnimated = ({
 	}, [circumference])
 
 	const circleAnimatedProps = useAnimatedProps(() => ({
-		strokeDashoffset: platformValue(
+		strokeDashoffset: toPlatformUnit(
 			interpolate(circleSharedValue.value, [0, 1, 2], circleStrokeDashoffsetOutputRanges)
 		)
 	}))
@@ -42,9 +42,9 @@ export const useProgressActiveIndicatorCircularAnimated = ({
 
 	useEffect(() => {
 		if (status === COMPONENT_STATUS.SUCCEEDED) {
-			runAnimate(enableAnimated)
+			runAnimate(enableLoop)
 		}
-	}, [enableAnimated, runAnimate, status])
+	}, [enableLoop, runAnimate, status])
 
 	useEffect(
 		() => () => {

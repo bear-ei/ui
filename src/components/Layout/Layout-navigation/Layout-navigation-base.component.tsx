@@ -2,11 +2,11 @@ import {useId, type FC} from 'react'
 
 import type {LayoutNavigationBaseProps} from './Layout-navigation.interface'
 
-import {LAYOUT_ANIMATED} from '../../Layout-animated'
+import {LAYOUT_ANIMATION} from '../../Layout-animated'
 import {RenderLayoutNavigation} from './Layout-navigation.render'
 
 export const LayoutNavigationBase: FC<LayoutNavigationBaseProps> = ({
-	animatedType = LAYOUT_ANIMATED.NONE,
+	animation = LAYOUT_ANIMATION.NONE,
 	defaultVisible = true,
 	...renderLayoutNavigationProps
 }) => {
@@ -15,11 +15,9 @@ export const LayoutNavigationBase: FC<LayoutNavigationBaseProps> = ({
 	return (
 		<RenderLayoutNavigation
 			{...renderLayoutNavigationProps}
-			animatedType={animatedType}
+			animation={animation}
 			defaultVisible={defaultVisible}
 			id={id}
 		/>
 	)
 }
-
-

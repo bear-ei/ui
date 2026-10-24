@@ -1,4 +1,4 @@
-import type {Animated, AnimatedLoop, CreateAnimatedConfigOptions, Duration, Loop} from './animated.interface'
+import type {AnimatedTimingSpec, AnimatedLoop, CreateAnimatedConfigOptions, Duration, Loop} from './animated.interface'
 
 import {UI_DENSITY, type UIDensity} from '../density'
 import {DURATION, EASING, LOOP} from './animated.enum'
@@ -61,7 +61,7 @@ const ANIMATED_BEZIER = {
 
 export const createAnimatedConfig =
 	(density: UIDensity = UI_DENSITY.COMPACT) =>
-	({duration = DURATION.MEDIUM_1, easing = EASING.STANDARD}: CreateAnimatedConfigOptions): Animated => {
+	({duration = DURATION.MEDIUM_1, easing = EASING.STANDARD}: CreateAnimatedConfigOptions): AnimatedTimingSpec => {
 		const isLoop = typeof duration !== 'number' && duration in ANIMATED_LOOP_DURATION[density]
 		const baseDuration =
 			typeof duration === 'number' ? duration

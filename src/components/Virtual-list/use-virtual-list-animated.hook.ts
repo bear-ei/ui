@@ -12,24 +12,26 @@ import Animated, {
 
 import type {UseVirtualListScrollAnimatedOptions} from './Virtual-list.interface'
 
-import {LAYOUT} from '../../constants'
+import {ORIENTATION} from '../../constants'
 import {useAnimatedTiming} from '../../hooks'
-import {platformValue} from '../../utils'
+import {toPlatformUnit} from '../../utils'
 import {animateVirtualList} from './Virtual-list.handler'
 
 export const useVirtualListAnimated = ({
 	contentSize = 0,
 	focusedIndex = 0,
 	itemSize = 0,
-	layoutType
+	orientation
 }: UseVirtualListScrollAnimatedOptions) => {
 	const animatedRef = useAnimatedRef<Animated.ScrollView>()
 	const animatedTiming = useAnimatedTiming()
 	const contentSharedValue = useSharedValue(contentSize)
 	const lastScrollTo = useSharedValue(-1)
 	const contentAnimatedStyle = useAnimatedStyle(() => ({
-		...(layoutType === LAYOUT.VERTICAL && ({minHeight: platformValue(contentSharedValue.value)} as ViewStyle)),
-		...(layoutType === LAYOUT.HORIZONTAL && ({minWidth: platformValue(contentSharedValue.value)} as ViewStyle))
+		...(orientation === ORIENTATION.VERTICAL &&
+			({minHeight: toPlatformUnit(contentSharedValue.value)} as ViewStyle)),
+		...(orientation === ORIENTATION.HORIZONTAL &&
+			({minWidth: toPlatformUnit(contentSharedValue.value)} as ViewStyle))
 	}))
 
 	const runAnimate = useMemo(
@@ -38,8 +40,8 @@ export const useVirtualListAnimated = ({
 	)
 
 	useAnimatedReaction(
-		() => ({focusedIndex, itemSize, layoutType}),
-		({focusedIndex: nextFocusedIndex, itemSize: nextItemSize, layoutType: nextLayoutType}) => {
+		() => ({focusedIndex, itemSize, orientation}),
+		({focusedIndex: nextFocusedIndex, itemSize: nextItemSize, orientation: nextOrientation}) => {
 			if (!animatedRef.current) {
 				return
 			}
@@ -52,7 +54,7 @@ export const useVirtualListAnimated = ({
 
 			lastScrollTo.value = scrollToValue
 
-			if (nextLayoutType === LAYOUT.VERTICAL) {
+			if (nextOrientation === ORIENTATION.VERTICAL) {
 				scrollTo(animatedRef, 0, scrollToValue, true)
 
 				return

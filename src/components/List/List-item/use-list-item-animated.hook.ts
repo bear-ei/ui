@@ -8,12 +8,12 @@ import type {UseListItemAnimatedOptions} from './List-item.interface'
 import {COMPONENT_STATUS} from '../../../constants'
 import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {DENSITY_SIZE, hexToRGBA} from '../../../theme'
-import {platformValue} from '../../../utils'
+import {toPlatformUnit} from '../../../utils'
 import {animateListItemActiveState, animateListItemAffordanceVisible} from './List-item.handler'
 
 export const useListItemAnimated = ({active, afterAffordanceVisible, status}: UseListItemAnimatedOptions) => {
 	const {token} = useTheme()
-	const {density, opacity, scheme} = token
+	const {colors, density, opacity} = token
 	const animatedTiming = useAnimatedTiming()
 	const contentTransformXSharedValue = useSharedValue(0)
 	const headlineTextSharedValue = useSharedValue(active ? 1 : 0)
@@ -27,7 +27,7 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
 			({
 				transform: [
 					{
-						translateX: platformValue(
+						translateX: toPlatformUnit(
 							interpolate(contentTransformXSharedValue.value, [0, 1], contentTranslateXOutputRanges)
 						)
 					}
@@ -36,8 +36,8 @@ export const useListItemAnimated = ({active, afterAffordanceVisible, status}: Us
 	)
 
 	const headlineTextColorOutputRanges = useMemo(
-		() => [hexToRGBA(scheme.onSurface, opacity.level10), hexToRGBA(scheme.onSecondaryContainer, opacity.level10)],
-		[scheme, opacity]
+		() => [hexToRGBA(colors.onSurface, opacity.level10), hexToRGBA(colors.onSecondaryContainer, opacity.level10)],
+		[colors, opacity]
 	)
 
 	const headlineTextAnimatedStyle = useAnimatedStyle(() => ({

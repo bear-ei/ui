@@ -9,15 +9,15 @@ import type {Updater} from 'use-immer'
 
 import {scheduleOnRN} from 'react-native-worklets'
 
-import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
-import type {DragState, UpdatePrevTranslateSharedValueOptions, UpdateTranslateScreenOptions} from './Drag.interface'
+import type {AnimatedTimingFactory, HandleInteractionStateChangeOptions, InteractionEvent} from '../../hooks'
+import type {DragState, HandlePanGestureStartOptions, HandlePanGestureUpdateOptions} from './Drag.interface'
 
-import {EVENT_NAME, LAYOUT, type LayoutRectangle} from '../../constants'
+import {EVENT_NAME, ORIENTATION, type MeasuredLayoutRectangle} from '../../constants'
 import {ANIMATED_TIMING} from '../../theme'
 
 export const updateDragLayout =
 	(setState: Updater<DragState>) =>
-	({height, width}: LayoutRectangle) =>
+	({height, width}: MeasuredLayoutRectangle) =>
 		setState(draft => {
 			if (draft.layout.width !== width || draft.layout.height !== height) {
 				draft.layout.width = width
@@ -26,22 +26,22 @@ export const updateDragLayout =
 		})
 
 export const handleDragStateChange = (
-	event: StateEvent,
-	onLayoutChange: (layout: LayoutRectangle) => void,
-	{eventName}: HandleStateEventChangeOptions
+	event: InteractionEvent,
+	onLayoutChange: (layout: MeasuredLayoutRectangle) => void,
+	{eventName}: HandleInteractionStateChangeOptions
 ) => {
 	if (eventName !== EVENT_NAME.LAYOUT) {
 		return
 	}
 
-	onLayoutChange((event as LayoutChangeEvent).nativeEvent.layout as LayoutRectangle)
+	onLayoutChange((event as LayoutChangeEvent).nativeEvent.layout as MeasuredLayoutRectangle)
 }
 
-export const updatePrevTranslate =
+export const handlePanGestureStart =
 	(
 		[prevTranslateXSharedValue, prevTranslateYSharedValue]: [SharedValue<number>, SharedValue<number>],
 		[translateXSharedValue, translateYSharedValue]: [SharedValue<number>, SharedValue<number>],
-		{onStart}: UpdatePrevTranslateSharedValueOptions
+		{onStart}: HandlePanGestureStartOptions
 	) =>
 	(event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
 		'worklet'
@@ -55,10 +55,10 @@ export const updatePrevTranslate =
 	}
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
-export const updateTranslate = (
+export const handlePanGestureUpdate = (
 	[prevTranslateXSharedValue, prevTranslateYSharedValue]: [SharedValue<number>, SharedValue<number>],
 	[translateXSharedValue, translateYSharedValue]: [SharedValue<number>, SharedValue<number>],
-	{height, layout, layoutType = LAYOUT.VERTICAL, offset, onUpdate, width}: UpdateTranslateScreenOptions
+	{height, layout, offset, onUpdate, orientation = ORIENTATION.VERTICAL, width}: HandlePanGestureUpdateOptions
 ) => {
 	const maxTranslateX = width - (layout.width ?? 0)
 	const maxTranslateY = height - (layout.height ?? 0)
@@ -75,8 +75,8 @@ export const updateTranslate = (
 		const clampedX = clamp(nextTranslationX, minTranslateX, maxTranslateX)
 		const clampedY = clamp(nextTranslationY, minTranslateY, maxTranslateY)
 
-		translateXSharedValue.value = layoutType === LAYOUT.HORIZONTAL ? clampedX - offsetX : minTranslateX
-		translateYSharedValue.value = layoutType === LAYOUT.VERTICAL ? clampedY - offsetY : minTranslateY
+		translateXSharedValue.value = orientation === ORIENTATION.HORIZONTAL ? clampedX - offsetX : minTranslateX
+		translateYSharedValue.value = orientation === ORIENTATION.VERTICAL ? clampedY - offsetY : minTranslateY
 
 		if (onUpdate) {
 			scheduleOnRN(onUpdate, event)
@@ -96,7 +96,7 @@ export const handlePanGestureEnd =
 
 export const animateDrag = (
 	[translateXSharedValue, translateYSharedValue]: [SharedValue<number>, SharedValue<number>],
-	animatedTiming: AnimatedTiming
+	animatedTiming: AnimatedTimingFactory
 ) => {
 	const translateXAnimateSharedValueTo = animatedTiming(translateXSharedValue, ANIMATED_TIMING.STANDARD)
 	const translateYAnimateSharedValueTo = animatedTiming(translateYSharedValue, ANIMATED_TIMING.STANDARD)

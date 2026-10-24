@@ -31,7 +31,7 @@ export interface RenderFormItemProps extends Omit<FormItemProps, 'rule' | 'name'
 
 export type FormItemBaseProps = FormItemProps
 export interface FormItemState {
-	shouldUpdate: Record<string, unknown>
+	renderToken: Record<string, unknown>
 	status: ComponentStatus
 }
 
@@ -42,4 +42,4 @@ export interface UpdateFormFieldValueIfChangedOptions extends Pick<FormStore, 's
 export type ApplyFormItemStatusInitToDraftOptions = Pick<FormItemBaseProps, 'rule'> & {
 	onComponentUpdate: () => void
 	validatorOptions?: ValidatorOptions
-} & Pick<FormStore, 'signInField'>
+} & Pick<FormStore, 'registerField'>

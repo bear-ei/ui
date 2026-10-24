@@ -2,33 +2,33 @@ import type {RefAttributes} from 'react'
 import type {StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
-import type {ComponentStatus, LayoutRectangle, PartialSize} from '../../constants'
-import type {AnimatedTimingOptions, HandleStateEventChangeOptions, InteractionHandlers} from '../../hooks'
-import type {ThemeProps} from '../../theme'
-import type {LAYOUT_ANIMATED} from './Layout-animated.enum'
+import type {ComponentStatus, MeasuredLayoutRectangle, PartialSize} from '../../constants'
+import type {AnimatedTimingOptions, HandleInteractionStateChangeOptions, InteractionHandlers} from '../../hooks'
+import type {ThemeableProps} from '../../theme'
+import type {LAYOUT_ANIMATION} from './Layout-animated.enum'
 
-export type LayoutAnimatedType = (typeof LAYOUT_ANIMATED)[keyof typeof LAYOUT_ANIMATED]
-export interface LayoutAnimatedProps extends Omit<ViewProps & RefAttributes<View> & ThemeProps, 'style'> {
-	animatedType?: LayoutAnimatedType
+export type LayoutAnimationType = (typeof LAYOUT_ANIMATION)[keyof typeof LAYOUT_ANIMATION]
+export interface LayoutAnimatedProps extends Omit<ViewProps & RefAttributes<View> & ThemeableProps, 'style'> {
+	animation?: LayoutAnimationType
 	contentSize?: PartialSize | number
+	debounceDelay?: number
 	defaultVisible?: boolean
-	delay?: number
 	entry?: AnimatedTimingOptions
 	exit?: AnimatedTimingOptions
-	lazy?: boolean
+	lazyMount?: boolean
 	onAnimationFinished?: (visible?: boolean) => void
 	onUnmount?: () => void
-	onVisible?: (visible?: boolean) => void
+	onVisibleChange?: (visible?: boolean) => void
 	opacity?: number
 
 	// [ These parameters are only effective when the animation type is Collapse.
 	outputRanges?: number[]
-	scale?: boolean
+	scaleOnCollapse?: boolean
 	style?: StyleProp<AnimatedStyle<ViewStyle>>
 	// ]
 
-	translate?: boolean
-	unmount?: boolean
+	translateOnCollapse?: boolean
+	unmountOnHide?: boolean
 	visible?: boolean
 }
 
@@ -39,7 +39,7 @@ export interface RenderLayoutAnimatedProps extends Omit<LayoutAnimatedProps, 'co
 }
 
 export interface LayoutAnimatedState {
-	layout: Partial<LayoutRectangle>
+	layout: Partial<MeasuredLayoutRectangle>
 	pendingAnimationFinishedEvent?: boolean
 	pendingUnmountEvent?: boolean
 	pendingVisibleEvent?: boolean
@@ -50,24 +50,24 @@ export interface LayoutAnimatedState {
 export type LayoutAnimatedBaseProps = LayoutAnimatedProps
 export type FinalizeLayoutAnimatedVisibleChangeOptions = Pick<
 	RenderLayoutAnimatedProps,
-	'onUnmount' | 'unmount' | 'onAnimationFinished'
+	'onUnmount' | 'unmountOnHide' | 'onAnimationFinished'
 >
 
-export interface HandleLayoutAnimatedStateChangeOptions extends HandleStateEventChangeOptions {
-	onLayoutChange: (layout: LayoutRectangle) => void
+export interface HandleLayoutAnimatedInteractionStateChangeOptions extends HandleInteractionStateChangeOptions {
+	onLayoutChange: (layout: MeasuredLayoutRectangle) => void
 }
 
 export interface UseLayoutAnimatedOptions extends Pick<
 	LayoutAnimatedProps,
-	| 'animatedType'
-	| 'delay'
+	| 'animation'
+	| 'debounceDelay'
 	| 'entry'
 	| 'exit'
 	| 'opacity'
 	| 'outputRanges'
-	| 'scale'
-	| 'translate'
-	| 'unmount'
+	| 'scaleOnCollapse'
+	| 'translateOnCollapse'
+	| 'unmountOnHide'
 	| 'visible'
 > {
 	height?: number
@@ -78,5 +78,5 @@ export interface UseLayoutAnimatedOptions extends Pick<
 
 export type AnimateLayoutAnimatedOptions = Pick<
 	UseLayoutAnimatedOptions,
-	'animatedType' | 'entry' | 'exit' | 'onAnimationFinished'
+	'animation' | 'entry' | 'exit' | 'onAnimationFinished'
 >

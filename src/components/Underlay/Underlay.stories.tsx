@@ -9,7 +9,7 @@ import {EVENT_NAME, type EventName} from '../../constants'
 import {Underlay} from './Underlay.component'
 
 const UnderlayComponent = (props: UnderlayProps) => {
-	const [eventName, setEventName] = useState<EventName>(EVENT_NAME.NONE)
+	const [interactionEventName, setEventName] = useState<EventName>(EVENT_NAME.NONE)
 
 	return (
 		<Pressable
@@ -21,7 +21,7 @@ const UnderlayComponent = (props: UnderlayProps) => {
 		>
 			<Underlay
 				{...props}
-				eventName={eventName}
+				interactionEventName={interactionEventName}
 			/>
 		</Pressable>
 	)

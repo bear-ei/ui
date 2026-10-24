@@ -2,21 +2,21 @@ import {useId, type FC} from 'react'
 
 import type {SheetContentProps} from './Sheet-content.interface'
 
-import {SIDE_SHEET_POSITION} from '../Sheet.enum'
+import {SHEET_POSITION} from '../Sheet.enum'
 import {RenderSheetContent, RenderSheetContentLeading, RenderSheetContentTrailing} from './Sheet-content.render'
 import {useSheetContentAnimated} from './use-sheet-content-animated.hook'
 
 export const SheetContentBase: FC<SheetContentProps> = ({
-	back,
-	close,
-	disabledBack,
+	backButtonDisabled,
+	backButtonVisible,
+	closeButtonVisible,
 	footerVisible,
 	headlineLeading,
 	headlineText = 'Title',
 	headlineTrailing,
 	onBack,
 	onClose,
-	position = SIDE_SHEET_POSITION.HORIZONTAL_END,
+	position = SHEET_POSITION.HORIZONTAL_END,
 	type,
 	visible,
 	...renderSheetContentProps
@@ -24,10 +24,10 @@ export const SheetContentBase: FC<SheetContentProps> = ({
 	const id = useId()
 	const {containerAnimatedStyle} = useSheetContentAnimated({type, visible})
 	const leadingElement =
-		back || headlineLeading ?
+		backButtonVisible || headlineLeading ?
 			<RenderSheetContentLeading
-				back={back}
-				disabled={disabledBack}
+				backButtonVisible={backButtonVisible}
+				disabled={backButtonDisabled}
 				headlineLeading={headlineLeading}
 				id={id}
 				onBack={onBack}
@@ -36,9 +36,9 @@ export const SheetContentBase: FC<SheetContentProps> = ({
 		:	undefined
 
 	const trailingElement =
-		close || headlineTrailing ?
+		closeButtonVisible || headlineTrailing ?
 			<RenderSheetContentTrailing
-				close={close}
+				closeButtonVisible={closeButtonVisible}
 				headlineTrailing={headlineTrailing}
 				id={id}
 				onClose={onClose}

@@ -13,10 +13,10 @@ import {COMPONENT_STATUS} from '../../../constants'
 export const applyFormItemStatusInitToDraft =
 	(
 		setState: Updater<FormItemState>,
-		{onComponentUpdate, rule, signInField, validatorOptions}: ApplyFormItemStatusInitToDraftOptions
+		{onComponentUpdate, registerField, rule, validatorOptions}: ApplyFormItemStatusInitToDraftOptions
 	) =>
 	(name: string) => {
-		const {signOut} = signInField({name, onComponentUpdate, rule, touched: false, validatorOptions}) ?? {}
+		const {unregister} = registerField({name, onComponentUpdate, rule, touched: false, validatorOptions}) ?? {}
 
 		setState(draft => {
 			if (draft.status !== COMPONENT_STATUS.IDLE) {
@@ -26,7 +26,7 @@ export const applyFormItemStatusInitToDraft =
 			draft.status = COMPONENT_STATUS.SUCCEEDED
 		})
 
-		return signOut
+		return unregister
 	}
 
 export const updateFormFieldValueIfChanged =
@@ -39,9 +39,9 @@ export const updateFormFieldValueIfChanged =
 		setFieldsValue({[name]: value})
 	}
 
-export const triggerFormItemShouldUpdate = (setState: Updater<FormItemState>) => () =>
+export const triggerFormItemUpdate = (setState: Updater<FormItemState>) => () =>
 	setState(draft => {
-		draft.shouldUpdate = {}
+		draft.renderToken = {}
 	})
 
 export const validateFormFieldOnBlur =

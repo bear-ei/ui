@@ -5,7 +5,7 @@ import {Dimensions} from 'react-native'
 import {useImmer} from 'use-immer'
 
 import {debounce} from '../../utils'
-import {updateWindowScaledSize} from './use-window-dimensions.handler'
+import {handleWindowScaledSizeChange} from './use-window-dimensions.handler'
 
 /**
  * Window dimensions with desktop-aware debouncing.
@@ -18,11 +18,11 @@ import {updateWindowScaledSize} from './use-window-dimensions.handler'
  * re-evaluate this hook before keeping it — but do not delete it without
  * verification on the current target platforms.
  */
-export const useWindowDimensions = (changeEventThrottle = 100) => {
+export const useWindowDimensions = (resizeDebounce = 100) => {
 	const [scaledSize, setState] = useImmer<ScaledSize>(() => Dimensions.get('window'))
 	const onUpdateWindowScaledSize = useMemo(
-		() => debounce(updateWindowScaledSize(setState), changeEventThrottle),
-		[setState, changeEventThrottle]
+		() => debounce(handleWindowScaledSizeChange(setState), resizeDebounce),
+		[setState, resizeDebounce]
 	)
 
 	useEffect(() => {

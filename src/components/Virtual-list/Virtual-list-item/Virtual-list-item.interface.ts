@@ -9,7 +9,7 @@ import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {ComponentStatus} from '../../../constants'
 import type {DragRef} from '../../Drag'
-import type {Item, NativeDragEvent, VirtualListProps} from '../Virtual-list.interface'
+import type {VirtualListBaseItem, VirtualListDragEvent, VirtualListProps} from '../Virtual-list.interface'
 
 export interface VirtualListItemProps
 	extends
@@ -21,18 +21,18 @@ export interface VirtualListItemProps
 			| 'draggable'
 			| 'gap'
 			| 'itemSize'
-			| 'layoutType'
+			| 'orientation'
 			| 'onLoadEnd'
 			| 'radius'
 			| 'renderItem'
 			| 'shape'
 		> {
 	containerLayout?: Partial<LayoutRectangle>
-	item: Item
-	onClose?: (indexKey: string) => void
-	onDragEnd?: (event: NativeDragEvent) => void
-	onDragStart?: (event: NativeDragEvent) => void
-	onDragUpdate?: (event: NativeDragEvent) => void
+	item: VirtualListBaseItem
+	onClose?: (itemKey: string) => void
+	onDragEnd?: (event: VirtualListDragEvent) => void
+	onDragStart?: (event: VirtualListDragEvent) => void
+	onDragUpdate?: (event: VirtualListDragEvent) => void
 	scrollOffset?: number
 }
 
@@ -57,13 +57,13 @@ export type VirtualListItemBaseProps = VirtualListItemProps
 export interface VirtualListItemState {
 	dragging?: boolean
 	index?: number
-	pendingDragEndEvent?: NativeDragEvent
-	pendingDragStartEvent?: NativeDragEvent
+	pendingDragEndEvent?: VirtualListDragEvent
+	pendingDragStartEvent?: VirtualListDragEvent
 	status: ComponentStatus
 	zIndex: number
 }
 
-export interface UseVirtualListItemAnimatedOptions extends Pick<VirtualListItemProps, 'layoutType'> {
+export interface UseVirtualListItemAnimatedOptions extends Pick<VirtualListItemProps, 'orientation'> {
 	dragging?: boolean
 	offset?: number
 	onAnimationFinished?: (visible?: boolean) => void

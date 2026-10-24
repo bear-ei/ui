@@ -2,25 +2,25 @@ import type {Updater} from 'use-immer'
 
 import {View, type MouseEvent, type PressableProps} from 'react-native'
 
-import type {StateEvent} from '../../hooks'
+import type {InteractionEvent} from '../../hooks'
 import type {PopoverContentProps} from './Popover-content'
 import type {
 	EmitPopoverEvent,
 	HandlePopoverContentAnimationFinishedOptions,
-	HandlePopoverStateEventChangeOptions,
+	HandlePopoverInteractionStateChangeOptions,
 	PopoverState,
-	UpdatePopoverContextMenuLayoutOptions,
+	HandlePopoverContextMenuOptions,
 	UpdatePopoverVisibleOptions
 } from './Popover.interface'
 
 import {EVENT_NAME, TRIGGER_EVENT_NAMES, TRIGGER_ON} from '../../constants'
-import {emitter, PORTAL_TYPE} from '../../contexts'
+import {PORTAL_TYPE, portalEmitter} from '../../contexts'
 import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
 import {POPOVER_TYPE} from './Popover.enum'
 
 export const updatePopoverVisible = (
 	setState: Updater<PopoverState>,
-	{onVisible, type}: UpdatePopoverVisibleOptions
+	{onVisibleChange, type}: UpdatePopoverVisibleOptions
 ) => {
 	const isMenuOrPicker = type && (type === POPOVER_TYPE.CONTEXT_MENU || type === POPOVER_TYPE.TEXT_INPUT_PICKER)
 
@@ -30,7 +30,7 @@ export const updatePopoverVisible = (
 		}
 
 		setState(draft => {
-			if (draft.visible !== visible && onVisible) {
+			if (draft.visible !== visible && onVisibleChange) {
 				draft.pendingVisibleEvent = visible
 			}
 
@@ -52,7 +52,7 @@ export const updatePopoverVisible = (
 }
 
 export const handleElevationAnimationFinished =
-	(setState: Updater<PopoverState>, onVisible?: (visible: boolean) => void) => (visible?: boolean) => {
+	(setState: Updater<PopoverState>, onVisibleChange?: (visible: boolean) => void) => (visible?: boolean) => {
 		if (!(typeof visible === 'boolean' && !visible)) {
 			return
 		}
@@ -60,7 +60,7 @@ export const handleElevationAnimationFinished =
 		setState(draft => {
 			draft.visible = false
 
-			if (onVisible) {
+			if (onVisibleChange) {
 				draft.pendingVisibleEvent = false
 			}
 		})
@@ -71,8 +71,8 @@ export const updatePopoverElevation = (setState: Updater<PopoverState>) => (elev
 		draft.elevation = elevation
 	})
 
-export const updatePopoverContextMenuLayout =
-	(setState: Updater<PopoverState>, {disabled, onVisible}: UpdatePopoverContextMenuLayoutOptions) =>
+export const handlePopoverContextMenu =
+	(setState: Updater<PopoverState>, {disabled, onVisibleChange}: HandlePopoverContextMenuOptions) =>
 	(event: MouseEvent) => {
 		if (disabled) {
 			return
@@ -86,14 +86,14 @@ export const updatePopoverContextMenuLayout =
 		setState(draft => {
 			draft.contextMenuLayout = {x, y}
 
-			if (onVisible) {
-				draft.pendingVisibleChangeEvent = true
+			if (onVisibleChange) {
+				draft.pendingVisibleRequestEvent = true
 			}
 		})
 	}
 
 export const handlePopoverStateChange = (
-	_event: StateEvent,
+	_event: InteractionEvent,
 	setState: Updater<PopoverState>,
 	{
 		childrenRef,
@@ -102,10 +102,10 @@ export const handlePopoverStateChange = (
 		onEmitContent,
 		onUnmountContent,
 		onUnmountPressableLayout,
-		onVisible,
-		triggerEvent = TRIGGER_ON.HOVER,
+		onVisibleChange,
+		triggerOn = TRIGGER_ON.HOVER,
 		type
-	}: HandlePopoverStateEventChangeOptions
+	}: HandlePopoverInteractionStateChangeOptions
 ) => {
 	if (eventName === EVENT_NAME.LAYOUT || type === POPOVER_TYPE.CONTEXT_MENU) {
 		return
@@ -118,13 +118,13 @@ export const handlePopoverStateChange = (
 		childrenRef.current?.focus()
 	}
 
-	const triggerEventNames = TRIGGER_EVENT_NAMES[triggerEvent]
+	const triggerEventNames = TRIGGER_EVENT_NAMES[triggerOn]
 
 	setState(draft => {
 		const isUnmount = type === POPOVER_TYPE.TEXT_INPUT_PICKER && eventName === EVENT_NAME.BLUR && !draft.visible
 
-		if (triggerEventNames.includes(eventName) && onVisible) {
-			draft.pendingVisibleChangeEvent = eventName === triggerEventNames[0]
+		if (triggerEventNames.includes(eventName) && onVisibleChange) {
+			draft.pendingVisibleRequestEvent = eventName === triggerEventNames[0]
 		}
 
 		if (!isUnmount) {
@@ -160,7 +160,7 @@ export const emitPopoverContent =
 			return
 		}
 
-		emitter.emit('portal', {
+		portalEmitter.emit('portal', {
 			id: `popoverContent--${id}`,
 			props: {...props, containerLayout, content, visible},
 			type: PORTAL_TYPE.POPOVER
@@ -168,16 +168,16 @@ export const emitPopoverContent =
 	}
 
 export const unmountPopoverContent = (id: string) => () =>
-	emitter.emit('portal', {
+	portalEmitter.emit('portal', {
 		id: `popoverContent--${id}`,
-		type: PORTAL_TYPE.POPOVER,
-		unmount: true
+		shouldUnmount: true,
+		type: PORTAL_TYPE.POPOVER
 	})
 
 export const emitPopoverPressableLayout =
 	(id: string, containerRef: React.RefObject<View | null>) => (props: PressableProps) =>
 		containerRef.current?.measureInWindow((x, y, width, height) =>
-			emitter.emit('portal', {
+			portalEmitter.emit('portal', {
 				id: `popoverPressableLayout--${id}`,
 				props: {...props, containerLayout: {height, width, x, y}, id},
 				type: PORTAL_TYPE.PRESSABLE_LAYOUT
@@ -185,10 +185,10 @@ export const emitPopoverPressableLayout =
 		)
 
 export const unmountPopoverPressableLayout = (id: string) => () =>
-	emitter.emit('portal', {
+	portalEmitter.emit('portal', {
 		id: `popoverPressableLayout--${id}`,
-		type: PORTAL_TYPE.PRESSABLE_LAYOUT,
-		unmount: true
+		shouldUnmount: true,
+		type: PORTAL_TYPE.PRESSABLE_LAYOUT
 	})
 
 export const handlePopoverContentAnimationFinished =

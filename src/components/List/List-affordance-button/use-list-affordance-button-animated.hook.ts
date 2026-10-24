@@ -12,29 +12,29 @@ export const useListAffordanceButtonAnimated = ({
 	disabled
 }: UseListAffordanceButtonAnimatedOptions) => {
 	const {token} = useTheme()
-	const {opacity, scheme} = token
+	const {colors, opacity} = token
 	const animatedTiming = useAnimatedTiming()
 	const disabledValue = disabled ? 0 : 1
 	const animatedValue = backgroundVisible ? 2 : disabledValue
 	const colorSharedValue = useSharedValue(animatedValue)
-	const disabledBackgroundColor = hexToRGBA(scheme.onSurface, opacity.level2)
-	const disabledColor = hexToRGBA(scheme.onSurface, opacity.level5)
+	const disabledBackgroundColor = hexToRGBA(colors.onSurface, opacity.level2)
+	const disabledColor = hexToRGBA(colors.onSurface, opacity.level5)
 	const backgroundColorOutputRanges = useMemo(
 		() => [
 			disabledBackgroundColor,
-			hexToRGBA(scheme.primary, opacity.level0),
-			hexToRGBA(scheme.primary, opacity.level10)
+			hexToRGBA(colors.primary, opacity.level0),
+			hexToRGBA(colors.primary, opacity.level10)
 		],
-		[disabledBackgroundColor, scheme, opacity]
+		[disabledBackgroundColor, colors, opacity]
 	)
 
 	const colorOutputRanges = useMemo(
 		() => [
 			disabledColor,
-			hexToRGBA(scheme.onPrimary, opacity.level10),
-			hexToRGBA(scheme.onPrimary, opacity.level10)
+			hexToRGBA(colors.onPrimary, opacity.level10),
+			hexToRGBA(colors.onPrimary, opacity.level10)
 		],
-		[disabledColor, scheme, opacity]
+		[disabledColor, colors, opacity]
 	)
 
 	const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({

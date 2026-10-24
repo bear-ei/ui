@@ -16,12 +16,12 @@ import {
 	RADIUS,
 	SHAPE
 } from '../../theme'
-import {platformValue} from '../../utils'
+import {toPlatformUnit} from '../../utils'
 import {AnimatedView} from '../Animated'
-import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
-import {Progress, PROGRESS_ANIMATED, PROGRESS_TYPE} from '../Progress'
+import {LAYOUT_ANIMATION, LayoutAnimated} from '../Layout-animated'
+import {Progress, PROGRESS_MODE, PROGRESS_TYPE} from '../Progress'
 import {Touchable} from '../Touchable'
-import {ACTIVE_ANIMATED, Underlay} from '../Underlay'
+import {ACTIVE_ANIMATION, Underlay} from '../Underlay'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 
 export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
@@ -34,14 +34,14 @@ export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
 }) => {
 	const {token} = useTheme()
 	const color = {
-		[ICON_BUTTON_TYPE.ACTIVE]: token.scheme.onSecondaryContainer,
-		[ICON_BUTTON_TYPE.FILLED]: token.scheme.onPrimary,
-		[ICON_BUTTON_TYPE.OUTLINED]: token.scheme.onSurfaceVariant,
-		[ICON_BUTTON_TYPE.STANDARD]: token.scheme.onSurfaceVariant,
-		[ICON_BUTTON_TYPE.TONAL]: token.scheme.onSecondaryContainer
+		[ICON_BUTTON_TYPE.FILLED]: token.colors.onPrimary,
+		[ICON_BUTTON_TYPE.OUTLINED]: token.colors.onSurfaceVariant,
+		[ICON_BUTTON_TYPE.SELECTED]: token.colors.onSecondaryContainer,
+		[ICON_BUTTON_TYPE.STANDARD]: token.colors.onSurfaceVariant,
+		[ICON_BUTTON_TYPE.TONAL]: token.colors.onSecondaryContainer
 	} as Record<IconButtonType, string>
 
-	const disabledColor = hexToRGBA(token.scheme.onSurface, token.opacity.level5)
+	const disabledColor = hexToRGBA(token.colors.onSurface, token.opacity.level5)
 	const iconColor = rawColor ?? color[type]
 	const iconSize = token.density.icon[stepDownDensitySize(size)]
 
@@ -56,7 +56,7 @@ export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
 	return cloneElement(icon ?? <Circle />, {
 		color: disabled ? disabledColor : iconColor,
 		disabled,
-		size: platformValue(iconSize),
+		size: toPlatformUnit(iconSize),
 		testID: `iconButton__icon--${id}`
 	})
 }
@@ -72,7 +72,7 @@ export const RenderIconButton: FC<RenderIconButtonProps> = ({
 	id,
 	labelText,
 	loading,
-	onStateEventChange,
+	onInteractionStateChange,
 	ref,
 	size = DENSITY_SIZE.MEDIUM,
 	testID,
@@ -81,9 +81,9 @@ export const RenderIconButton: FC<RenderIconButtonProps> = ({
 	...touchableProps
 }) => {
 	const {token} = useTheme()
-	const {classesName, densityClasses, shapeClasses} = token.classes
+	const {classNames, densityClasses, shapeClasses} = token.classes
 	const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)
-	const activeColor = token.scheme.secondaryContainer
+	const activeColor = token.colors.secondaryContainer
 	const radius = RADIUS.FULL
 	const shape = SHAPE.ALL
 	const underlayEventName = disabled ? EVENT_NAME.NONE : eventName
@@ -91,7 +91,7 @@ export const RenderIconButton: FC<RenderIconButtonProps> = ({
 
 	const backgroundUnderlayElement = (
 		<AnimatedView
-			className={classesName(
+			className={classNames(
 				'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
 				shapeClasses(shape)(radius)
 			)}
@@ -106,25 +106,25 @@ export const RenderIconButton: FC<RenderIconButtonProps> = ({
 			accessibilityRole='button'
 			accessibilityState={{disabled}}
 			accessible={true}
-			className={classesName('relative cursor-pointer', densityControlClasses(size), {
+			className={classNames('relative cursor-pointer', densityControlClasses(size), {
 				['pointer-events-none']: disabled
 			})}
 			tabIndex={-1}
 			testID={testID ?? `iconButton--${id}`}
 		>
 			<LayoutAnimated
-				animatedType={LAYOUT_ANIMATED.FADE}
+				animation={LAYOUT_ANIMATION.FADE}
 				className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center '
 				entry={entry}
 				exit={exit}
-				lazy={true}
+				lazyMount={true}
 				testID={`iconButton__contentItemLayout--${id}`}
 				visible={loading}
 			>
 				<Progress
-					animatedType={PROGRESS_ANIMATED.INDETERMINATE}
-					content={iconElement}
-					enableAnimated={loading}
+					enableLoop={loading}
+					mode={PROGRESS_MODE.INDETERMINATE}
+					overlayContent={iconElement}
 					size={stepDownDensitySize(size)}
 					strokeWidth={token.border[BORDER_SIZE.MEDIUM]}
 					testID={`iconButton__progress--${id}`}
@@ -133,7 +133,7 @@ export const RenderIconButton: FC<RenderIconButtonProps> = ({
 			</LayoutAnimated>
 
 			<LayoutAnimated
-				animatedType={LAYOUT_ANIMATED.FADE}
+				animation={LAYOUT_ANIMATION.FADE}
 				className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center'
 				entry={entry}
 				exit={exit}
@@ -143,12 +143,12 @@ export const RenderIconButton: FC<RenderIconButtonProps> = ({
 				<Touchable
 					{...touchableProps}
 					backgroundUnderlay={backgroundUnderlayElement}
-					centered={true}
 					disabled={disabled}
-					enableTouchableRipple={type !== ICON_BUTTON_TYPE.ACTIVE}
-					onStateEventChange={onStateEventChange}
+					enableTouchableRipple={type !== ICON_BUTTON_TYPE.SELECTED}
+					onInteractionStateChange={onInteractionStateChange}
 					radius={radius}
 					ref={ref}
+					rippleCentered={true}
 					shape={shape}
 					testID={`iconButton__touchable--${id}`}
 					underlayColor={underlayColor}
@@ -166,10 +166,10 @@ export const RenderIconButton: FC<RenderIconButtonProps> = ({
 
 						<Underlay
 							active={active}
-							activeAnimatedType={ACTIVE_ANIMATED.SCALE}
+							activeAnimation={ACTIVE_ANIMATION.SCALE}
 							activeColor={activeColor}
 							defaultActive={defaultActive}
-							eventName={underlayEventName}
+							interactionEventName={underlayEventName}
 							radius={radius}
 							shape={shape}
 							testID={`iconButton__underlay--${id}`}

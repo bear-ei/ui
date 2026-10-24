@@ -6,14 +6,14 @@ import type {UseUnderlayAnimatedOptions} from './Underlay.interface'
 import {COMPONENT_STATUS, EVENT_NAME} from '../../constants'
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {debounce} from '../../utils'
-import {ACTIVE_ANIMATED} from './Underlay.enum'
+import {ACTIVE_ANIMATION} from './Underlay.enum'
 import {animateUnderlayActiveState, animateUnderlayHoverState} from './Underlay.handler'
 
 export const useUnderlayAnimated = ({
 	active,
-	activeAnimatedType = ACTIVE_ANIMATED.SCALE,
+	activeAnimation = ACTIVE_ANIMATION.SCALE,
 	activeScale,
-	eventName,
+	interactionEventName,
 	opacities: rawOpacities,
 	status
 }: UseUnderlayAnimatedOptions) => {
@@ -56,10 +56,10 @@ export const useUnderlayAnimated = ({
 
 	const activeLayerAnimated = useMemo(
 		() => ({
-			[ACTIVE_ANIMATED.FADE]: activeLayerFadeAnimatedStyle,
-			[ACTIVE_ANIMATED.SCALE]: activeLayerScaleAnimatedStyle,
-			[ACTIVE_ANIMATED.SCALE_X]: activeLayerScaleXAnimatedStyle,
-			[ACTIVE_ANIMATED.SCALE_Y]: activeLayerScaleYAnimatedStyle
+			[ACTIVE_ANIMATION.FADE]: activeLayerFadeAnimatedStyle,
+			[ACTIVE_ANIMATION.SCALE]: activeLayerScaleAnimatedStyle,
+			[ACTIVE_ANIMATION.SCALE_X]: activeLayerScaleXAnimatedStyle,
+			[ACTIVE_ANIMATION.SCALE_Y]: activeLayerScaleYAnimatedStyle
 		}),
 		[
 			activeLayerFadeAnimatedStyle,
@@ -89,18 +89,20 @@ export const useUnderlayAnimated = ({
 			return
 		}
 
-		const isDebounce = eventName && (eventName === EVENT_NAME.HOVER_IN || eventName === EVENT_NAME.HOVER_OUT)
+		const isDebounce =
+			interactionEventName &&
+			(interactionEventName === EVENT_NAME.HOVER_IN || interactionEventName === EVENT_NAME.HOVER_OUT)
 
 		if (!isDebounce) {
-			runAnimateHoverState(eventName)
+			runAnimateHoverState(interactionEventName)
 
 			return
 		}
 
-		runDebounceAnimateHoverState(eventName)
+		runDebounceAnimateHoverState(interactionEventName)
 
 		return () => runDebounceAnimateHoverState.cancel()
-	}, [eventName, runAnimateHoverState, status, runDebounceAnimateHoverState])
+	}, [interactionEventName, runAnimateHoverState, status, runDebounceAnimateHoverState])
 
 	useEffect(() => {
 		if (status === COMPONENT_STATUS.SUCCEEDED) {
@@ -116,5 +118,5 @@ export const useUnderlayAnimated = ({
 		[activeLayerSharedValue, hoverLayerSharedValue]
 	)
 
-	return {activeLayerAnimatedStyle: activeLayerAnimated[activeAnimatedType], hoverLayerAnimatedStyle}
+	return {activeLayerAnimatedStyle: activeLayerAnimated[activeAnimation], hoverLayerAnimatedStyle}
 }

@@ -3,21 +3,21 @@ import type {LayoutRectangle} from 'react-native'
 import {useCallback, useId, useImperativeHandle, useMemo, useRef, type FC} from 'react'
 import {useImmer} from 'use-immer'
 
-import type {State} from '../../constants'
+import type {InteractionState} from '../../constants'
 import type {DragBaseProps, DragRef, DragState} from './Drag.interface'
 
-import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {useInteractionStateEvent, type HandleInteractionStateChangeOptions, type InteractionEvent} from '../../hooks'
 import {handleDragStateChange, updateDragLayout} from './Drag.handler'
 import {RenderDrag} from './Drag.render'
 import {useDragAnimated} from './use-drag-animated.hook'
 
 export const DragBase: FC<DragBaseProps> = ({
 	height,
-	layoutType,
 	offset,
 	onEnd,
 	onStart,
 	onUpdate,
+	orientation,
 	ref,
 	width,
 	...renderDragProps
@@ -26,21 +26,21 @@ export const DragBase: FC<DragBaseProps> = ({
 	const dragRef = useRef<DragRef>(null)
 	const id = useId()
 	const onLayoutChange = useMemo(() => updateDragLayout(setState), [setState])
-	const onStateEventChange = useCallback(
-		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) =>
-			handleDragStateChange(event, onLayoutChange, {...options, state}),
+	const onInteractionStateChange = useCallback(
+		(event: InteractionEvent, interactionState: InteractionState, options: HandleInteractionStateChangeOptions) =>
+			handleDragStateChange(event, onLayoutChange, {...options, interactionState}),
 		[onLayoutChange]
 	)
 
-	const interactionHandlers = useInteractionStateEvent({...renderDragProps, onStateEventChange})
+	const interactionHandlers = useInteractionStateEvent({...renderDragProps, onInteractionStateChange})
 	const {animatedStyle, panGesture, runAnimate} = useDragAnimated({
 		height,
 		layout,
-		layoutType,
 		offset,
 		onEnd,
 		onStart,
 		onUpdate,
+		orientation,
 		width
 	})
 
@@ -65,5 +65,3 @@ export const DragBase: FC<DragBaseProps> = ({
 		/>
 	)
 }
-
-

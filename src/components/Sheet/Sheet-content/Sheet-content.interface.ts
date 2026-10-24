@@ -14,12 +14,15 @@ export interface RenderSheetContentProps extends SheetContentProps {
 export type UseSheetContentAnimatedOptions = Pick<RenderSheetContentProps, 'visible' | 'type'>
 export interface RenderSheetContentLeadingProps extends Pick<
 	SheetContentProps,
-	'headlineLeading' | 'back' | 'position' | 'id'
+	'headlineLeading' | 'backButtonVisible' | 'position' | 'id'
 > {
 	disabled?: boolean
 	onBack?: () => void
 }
 
-export interface RenderSheetContentTrailingProps extends Pick<SheetContentProps, 'headlineTrailing' | 'close' | 'id'> {
+export interface RenderSheetContentTrailingProps extends Pick<
+	SheetContentProps,
+	'headlineTrailing' | 'closeButtonVisible' | 'id'
+> {
 	onClose?: () => void
 }

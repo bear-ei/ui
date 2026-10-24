@@ -8,7 +8,7 @@ import type {UseListAfterAffordanceAnimatedOptions} from './List-after-affordanc
 import {COMPONENT_STATUS} from '../../../constants'
 import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {DENSITY_SIZE} from '../../../theme'
-import {platformValue} from '../../../utils'
+import {toPlatformUnit} from '../../../utils'
 import {animateListAfterAffordance} from './List-after-affordance.handler'
 
 export const useListAfterAffordanceAnimated = ({phase, status}: UseListAfterAffordanceAnimatedOptions) => {
@@ -26,7 +26,7 @@ export const useListAfterAffordanceAnimated = ({phase, status}: UseListAfterAffo
 			({
 				transform: [
 					{
-						translateX: platformValue(
+						translateX: toPlatformUnit(
 							interpolate(translateXSharedValue.value, [0, 1], dangerTranslateXOutputRanges)
 						)
 					}

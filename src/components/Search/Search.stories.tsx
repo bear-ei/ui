@@ -7,7 +7,7 @@ import type {SearchProps} from './Search.interface'
 import {TRIGGER_ON} from '../../constants'
 import {DENSITY_SIZE} from '../../theme'
 import {IconButton} from '../Icon-button'
-import {LIST_SELECT_TYPE} from '../List'
+import {LIST_SELECTION_TYPE} from '../List'
 import {Search} from './Search.component'
 
 export const Leading: StoryObj<SearchProps> = {
@@ -62,36 +62,36 @@ export const ExtraSmall: StoryObj<SearchProps> = {
 export const SearchList: StoryObj<SearchProps> = {
 	args: {
 		activeKey: 'TitleB',
-		closeTrailing: true,
 		data: [
 			{
 				headline: 'TitleA',
-				indexKey: 'TitleA',
+				itemKey: 'TitleA',
 				leading: <Circle />
 				// supporting: 'www.bilibili.com'
 			},
 			{
 				headline: 'TitleB',
-				indexKey: 'TitleB',
+				itemKey: 'TitleB',
 				leading: <Circle />
 				// supporting: 'www.baidu.com'
 			},
 			{
 				headline: 'TitleC',
-				indexKey: 'TitleC',
+				itemKey: 'TitleC',
 				leading: <Circle />
 				// supporting: 'www.github.com'
 			},
 			{
 				headline: 'TitleD',
-				indexKey: 'TitleD',
+				itemKey: 'TitleD',
 				leading: <Circle />
 				// supporting: 'www.xiaohongshu.com'
 			}
 		],
-		filter: true,
+		enableLocalFilter: true,
+		enableTrailingClose: true,
 		placeholder: 'Hinted search text',
-		selectType: LIST_SELECT_TYPE.SINGLE,
+		selectionType: LIST_SELECTION_TYPE.SINGLE,
 		size: DENSITY_SIZE.LARGE,
 		trailingTriggerOn: TRIGGER_ON.HOVER
 	}

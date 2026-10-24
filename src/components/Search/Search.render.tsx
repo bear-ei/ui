@@ -11,24 +11,24 @@ import {SearchTextInput} from './Search-text-input'
 
 export const RenderSearch: FC<RenderSearchProps> = ({
 	activeKey,
-	closeTrailing,
 	data,
 	emptyElement,
+	enableTrailingClose,
 	id,
+	isTextInputPicker,
 	listVisible,
-	onActive,
+	onActiveKeyChange,
 	onAnimationFinished,
 	onFocus,
-	onFocusKey,
+	onFocusKeyChange,
 	onMenuClose,
-	onVisible,
+	onVisibleChange,
 	ref,
 	size,
-	textInputPicker: isTextInputPicker,
 	...textInputProps
 }) => {
 	const {token} = useTheme()
-	const {classesName, densityClasses} = token.classes
+	const {classNames, densityClasses} = token.classes
 	const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)
 	const searchTextInputElement = (
 		<SearchTextInput
@@ -45,23 +45,23 @@ export const RenderSearch: FC<RenderSearchProps> = ({
 			{isTextInputPicker ?
 				<Menu
 					activeKey={activeKey}
-					className={classesName('justify-center self-stretch', `${densityControlClasses(size)} w-auto`)}
-					closeTrailing={closeTrailing}
+					className={classNames('justify-center self-stretch', `${densityControlClasses(size)} w-auto`)}
+					contentPosition={POPOVER_CONTENT_POSITION.VERTICAL_END}
 					data={data}
 					emptyElement={emptyElement}
-					onActive={onActive}
+					enableTrailingClose={enableTrailingClose}
+					onActiveKeyChange={onActiveKeyChange}
 					onAnimationFinished={onAnimationFinished}
 					onClose={onMenuClose}
 					onFocus={onFocus}
-					onFocusKey={onFocusKey}
-					onVisible={onVisible}
-					popoverContentPosition={POPOVER_CONTENT_POSITION.VERTICAL_END}
+					onFocusKeyChange={onFocusKeyChange}
+					onVisibleChange={onVisibleChange}
 					radius={listVisible ? RADIUS.MEDIUM : RADIUS.X_LARGE}
 					shape={SHAPE.ALL}
 					size={size}
 					testID={`search__picker--${id}`}
 					trailingTriggerOn={TRIGGER_ON.HOVER}
-					triggerEvent={TRIGGER_ON.NONE}
+					triggerOn={TRIGGER_ON.NONE}
 					type={POPOVER_TYPE.TEXT_INPUT_PICKER}
 					visible={listVisible}
 				>

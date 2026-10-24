@@ -1,4 +1,4 @@
-export const PLATFORM = {
+export const TARGET_PLATFORM = {
 	ANDROID: 'ANDROID',
 	IOS: 'IOS',
 	MACOS: 'MACOS',

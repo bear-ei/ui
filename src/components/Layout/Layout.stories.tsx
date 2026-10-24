@@ -2,7 +2,7 @@ import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 
 import type {LayoutProps} from './Layout.interface'
 
-import {LAYOUT} from '../../constants'
+import {ORIENTATION} from '../../constants'
 import {LayoutNavigation} from './Layout-navigation'
 import {LayoutPane} from './Layout-pane'
 import {Layout} from './Layout.component'
@@ -33,7 +33,7 @@ export const Vertical: StoryObj<LayoutProps> = {
 				<LayoutPane />
 			</>
 		),
-		layoutType: LAYOUT.VERTICAL
+		orientation: ORIENTATION.VERTICAL
 	}
 }
 

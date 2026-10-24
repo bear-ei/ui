@@ -1,10 +1,10 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import type {AnimatedTiming, StateEvent} from '../../../hooks'
+import type {AnimatedTimingFactory, InteractionEvent} from '../../../hooks'
 import type {
 	AnimateNavigationRailItemOptions,
-	HandleNavigationRailItemStateChangeOptions,
+	HandleNavigationRailItemInteractionStateChangeOptions,
 	NavigationRailItemProps,
 	NavigationRailItemState
 } from './Navigation-rail-item.interface'
@@ -19,60 +19,60 @@ export const compareNavigationRailItemProps = (
 ) => {
 	const {
 		activeKey: prevActiveKey,
-		animatedType: prevAnimatedType,
+		animation: prevAnimation,
 		backgroundUnderlay: prevBackgroundUnderlay,
-		centered: isPrevCentered,
 		dependencies: prevDependencies,
 		disabled: isPrevDisabled,
 		elevationUnderlay: prevElevationUnderlay,
 		enableTouchableRipple: isPrevEnableTouchableRipple,
 		icon: prevIcon,
-		indexKey: prevIndexKey,
+		itemKey: prevItemKey,
 		labelText: prevLabelText,
-		onActive: prevOnActive,
+		onActiveKeyChange: prevOnActiveKeyChange,
 		onBlur: prevOnBlur,
 		onFocus: prevOnFocus,
 		onHoverIn: prevOnHoverIn,
 		onHoverOut: prevOnHoverOut,
+		onInteractionStateChange: prevOnInteractionStateChange,
 		onLayout: prevOnLayout,
 		onLongPress: prevOnLongPress,
 		onPress: prevOnPress,
 		onPressIn: prevOnPressIn,
 		onPressOut: prevOnPressOut,
-		onStateEventChange: prevOnStateEventChange,
+		rippleCentered: isPrevRippleCentered,
 		type: prevType,
 		underlayColor: prevUnderlayColor
 	} = prevProps
 
 	const {
 		activeKey: nextActiveKey,
-		animatedType: nextAnimatedType,
+		animation: nextAnimation,
 		backgroundUnderlay: nextBackgroundUnderlay,
-		centered: isNextCentered,
 		dependencies: nextDependencies,
 		disabled: isNextDisabled,
 		elevationUnderlay: nextElevationUnderlay,
 		enableTouchableRipple: isNextEnableTouchableRipple,
 		icon: nextIcon,
-		indexKey: nextIndexKey,
+		itemKey: nextItemKey,
 		labelText: nextLabelText,
-		onActive: nextOnActive,
+		onActiveKeyChange: nextOnActiveKeyChange,
 		onBlur: nextOnBlur,
 		onFocus: nextOnFocus,
 		onHoverIn: nextOnHoverIn,
 		onHoverOut: nextOnHoverOut,
+		onInteractionStateChange: nextOnInteractionStateChange,
 		onLayout: nextOnLayout,
 		onLongPress: nextOnLongPress,
 		onPress: nextOnPress,
 		onPressIn: nextOnPressIn,
 		onPressOut: nextOnPressOut,
-		onStateEventChange: nextOnStateEventChange,
+		rippleCentered: isNextRippleCentered,
 		type: nextType,
 		underlayColor: nextUnderlayColor
 	} = nextProps
 
 	const isActiveChange =
-		prevActiveKey !== nextActiveKey && (nextActiveKey === nextIndexKey || prevActiveKey === prevIndexKey)
+		prevActiveKey !== nextActiveKey && (nextActiveKey === nextItemKey || prevActiveKey === prevItemKey)
 
 	const isDependenciesChanged =
 		prevDependencies?.length !== nextDependencies?.length ||
@@ -81,15 +81,15 @@ export const compareNavigationRailItemProps = (
 	return ![
 		isActiveChange,
 		isDependenciesChanged,
-		prevAnimatedType !== nextAnimatedType,
+		prevAnimation !== nextAnimation,
 		prevBackgroundUnderlay !== nextBackgroundUnderlay,
-		isPrevCentered !== isNextCentered,
+		isPrevRippleCentered !== isNextRippleCentered,
 		isPrevDisabled !== isNextDisabled,
 		prevElevationUnderlay !== nextElevationUnderlay,
 		isPrevEnableTouchableRipple !== isNextEnableTouchableRipple,
 		prevIcon !== nextIcon,
 		prevLabelText !== nextLabelText,
-		prevOnActive !== nextOnActive,
+		prevOnActiveKeyChange !== nextOnActiveKeyChange,
 		prevOnBlur !== nextOnBlur,
 		prevOnFocus !== nextOnFocus,
 		prevOnHoverIn !== nextOnHoverIn,
@@ -99,16 +99,16 @@ export const compareNavigationRailItemProps = (
 		prevOnPress !== nextOnPress,
 		prevOnPressIn !== nextOnPressIn,
 		prevOnPressOut !== nextOnPressOut,
-		prevOnStateEventChange !== nextOnStateEventChange,
+		prevOnInteractionStateChange !== nextOnInteractionStateChange,
 		prevType !== nextType,
 		prevUnderlayColor !== nextUnderlayColor
 	].some(Boolean)
 }
 
 export const handleNavigationRailItemStateChange = (
-	_event: StateEvent,
+	_event: InteractionEvent,
 	setState: Updater<NavigationRailItemState>,
-	{eventName, indexKey, onActive, ref}: HandleNavigationRailItemStateChangeOptions
+	{eventName, itemKey, onActiveKeyChange, ref}: HandleNavigationRailItemInteractionStateChangeOptions
 ) => {
 	setState(draft => {
 		if (eventName === EVENT_NAME.LAYOUT) {
@@ -121,8 +121,8 @@ export const handleNavigationRailItemStateChange = (
 
 		draft.eventName = eventName
 
-		if (eventName === EVENT_NAME.PRESS_OUT && onActive) {
-			draft.pendingPressOutEvent = indexKey
+		if (eventName === EVENT_NAME.PRESS_OUT && onActiveKeyChange) {
+			draft.pendingPressOutEvent = itemKey
 		}
 	})
 
@@ -133,7 +133,7 @@ export const handleNavigationRailItemStateChange = (
 
 export const animateNavigationRailItem = (
 	[contentTranslateYSharedValue, labelTextSharedValue]: [SharedValue<number>, SharedValue<number>],
-	animatedTiming: AnimatedTiming,
+	animatedTiming: AnimatedTimingFactory,
 	{type}: AnimateNavigationRailItemOptions
 ) => {
 	const contentTranslateYAnimateSharedValueTo = animatedTiming(contentTranslateYSharedValue, ANIMATED_TIMING.STANDARD)

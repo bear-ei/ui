@@ -15,8 +15,8 @@ export interface ListAfterAffordanceProps
 		RefAttributes<View>,
 		Pick<
 			ListItemProps,
-			| 'indexKey'
-			| 'onSecondaryAction'
+			| 'itemKey'
+			| 'onSecondaryPress'
 			| 'primaryButtonDisabled'
 			| 'primaryButtonLabelText'
 			| 'primaryButtonLoading'
@@ -27,33 +27,33 @@ export interface ListAfterAffordanceProps
 			| 'secondaryButtonStyle'
 			| 'size'
 		>,
-		Pick<ListProps, 'onConfirm'> {
+		Pick<ListProps, 'onPrimaryAction'> {
 	visible?: boolean
 }
 
 export interface RenderListAfterAffordanceProps
 	extends
-		Omit<ListAfterAffordanceProps, 'indexKey' | 'onSecondaryAction' | 'onConfirm'>,
+		Omit<ListAfterAffordanceProps, 'itemKey' | 'onSecondaryPress' | 'onPrimaryAction'>,
 		Pick<ListAfterAffordancePressOutEvent, 'phase'> {
 	dangerAnimatedStyle: AnimatedStyle<ViewStyle>
 	interactionHandlers: InteractionHandlers
-	onConfirm: (event: GestureResponderEvent) => void
-	onSecondaryAction: (event: GestureResponderEvent) => void
+	onPrimaryAction: (event: GestureResponderEvent) => void
+	onSecondaryPress: (event: GestureResponderEvent) => void
 }
 
 export type ListAfterAffordanceBaseProps = ListAfterAffordanceProps
 export interface ListAfterAffordanceState extends Pick<ListAfterAffordancePressOutEvent, 'phase'> {
-	pendingSecondaryActionEvent?: ListAfterAffordancePressOutEvent
+	pendingSecondaryPressEvent?: ListAfterAffordancePressOutEvent
 	status: ComponentStatus
 }
 
-export type TriggerListAfterAffordanceConfirmOptions = Pick<ListAfterAffordanceProps, 'indexKey' | 'onConfirm'> &
+export type TriggerListAfterAffordancePrimaryActionOptions = Pick<
+	ListAfterAffordanceProps,
+	'itemKey' | 'onPrimaryAction'
+> &
 	Pick<ListAfterAffordanceState, 'phase'>
 
-export type UpdateListAffordanceSecondaryActionStateOptions = Pick<
-	ListAfterAffordanceProps,
-	'onSecondaryAction' | 'indexKey'
-> &
+export type UpdateListAffordanceSecondaryPressOptions = Pick<ListAfterAffordanceProps, 'onSecondaryPress' | 'itemKey'> &
 	Pick<ListAfterAffordanceState, 'phase'>
 
 export interface UseListAfterAffordanceAnimatedOptions extends Pick<ListAfterAffordancePressOutEvent, 'phase'> {
@@ -73,20 +73,20 @@ export interface UseListAfterAffordanceAnimatedOptions extends Pick<ListAfterAff
  *   └──────────────────┴──────────────────┘
  *
  * Tap routing:
- *   - primary   → onConfirm({ phase })
+ *   - primary   → onPrimaryAction({ phase })
  *       phase === IDLE   → normal action (edit, navigate, …)
  *       phase === DANGER → destructive action (delete, …)
  *
- *   - secondary → onSecondaryAction({ phase })
+ *   - secondary → onSecondaryPress({ phase })
  *       phase === IDLE   → the user *entered* the danger phase
  *       phase === DANGER → the user *exited* the danger phase
  *
- * ⚠️ `onSecondaryAction` is NOT "cancel the affordance" — it's "the user
+ * ⚠️ `onSecondaryPress` is NOT "cancel the affordance" — it's "the user
  * tapped the destructive side". Actual destructive work belongs in
- * `onConfirm` when `phase === DANGER`. `onSecondaryAction` is typically a
+ * `onPrimaryAction` when `phase === DANGER`. `onSecondaryPress` is typically a
  * no-op — the UI already handles the state transition.
  */
 export interface ListAfterAffordancePressOutEvent {
-	indexKey?: string
+	itemKey?: string
 	phase: ListAfterAffordancePhase
 }

@@ -1,30 +1,31 @@
 import {type FC} from 'react'
 import {Pressable, View} from 'react-native'
 
-import type {RenderTouchableProps, RenderTouchableRippleProps} from './Touchable.interface'
+import type {RenderTouchableProps, RenderTouchableRipplesProps} from './Touchable.interface'
 
 import {useTheme} from '../../hooks'
 import {SHAPE} from '../../theme'
 import {TouchableRipple} from './Touchable-ripple'
 
-export const RenderTouchableRipples: FC<RenderTouchableRippleProps> = ({
-	centered,
+export const RenderTouchableRipples: FC<RenderTouchableRipplesProps> = ({
 	containerLayout,
 	id,
-	rippleSequence,
+	rippleCentered,
+	rippleLocations,
 	...props
 }) => (
 	<>
-		{Object.entries(rippleSequence).map(([indexKey, touchableLocation]) => {
-			const isCenteredTouchableRipple = typeof centered === 'boolean' ? centered : !touchableLocation?.locationX
+		{Object.entries(rippleLocations).map(([rippleKey, touchableLocation]) => {
+			const isCenteredTouchableRipple =
+				typeof rippleCentered === 'boolean' ? rippleCentered : !touchableLocation?.locationX
 
 			return (
 				<TouchableRipple
 					{...props}
-					centered={isCenteredTouchableRipple}
 					containerLayout={containerLayout}
-					indexKey={indexKey}
-					key={indexKey}
+					key={rippleKey}
+					rippleCentered={isCenteredTouchableRipple}
+					rippleKey={rippleKey}
 					testID={`touchable__touchableRipple--${id}`}
 					touchableLocation={touchableLocation}
 				/>
@@ -46,7 +47,7 @@ export const RenderTouchable: FC<RenderTouchableProps> = ({
 	...touchableProps
 }) => {
 	const {token} = useTheme()
-	const {classesName, shapeClasses} = token.classes
+	const {classNames, shapeClasses} = token.classes
 	const radiusClasses = shapeClasses(shape)
 
 	// interactionHandlers wraps the raw callbacks (onPress, onPressIn, …)
@@ -61,12 +62,12 @@ export const RenderTouchable: FC<RenderTouchableProps> = ({
 			testID={testID ?? `touchable--${id}`}
 		>
 			<View
-				className={classesName('relative z-30 flex-1 self-stretch', radiusClasses(radius))}
+				className={classNames('relative z-30 flex-1 self-stretch', radiusClasses(radius))}
 				testID={`touchable__main--${id}`}
 			>
 				{children}
 				<View
-					className={classesName(
+					className={classNames(
 						'absolute bottom-0 left-0 right-0 top-0 overflow-hidden',
 						radiusClasses(radius)
 					)}

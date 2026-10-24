@@ -6,8 +6,8 @@ import type {
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import type {AnimatedTiming} from '../../../hooks'
-import type {NativeDragEvent} from '../Virtual-list.interface'
+import type {AnimatedTimingFactory} from '../../../hooks'
+import type {VirtualListDragEvent} from '../Virtual-list.interface'
 import type {
 	AnimateVirtualListItemTranslateOptions,
 	HandleVirtualListItemDragEndOptions,
@@ -28,12 +28,12 @@ export const compareVirtualListItemProps = (prevProps: VirtualListItemProps, nex
 		gap: prevGap,
 		item: prevItem,
 		itemSize: prevItemSize,
-		layoutType: prevLayoutType,
 		onClose: prevOnClose,
 		onDragEnd: prevOnDragEnd,
 		onDragStart: prevOnDragStart,
 		onDragUpdate: prevOnDragUpdate,
 		onLoadEnd: prevOnLoadEnd,
+		orientation: prevOrientation,
 		radius: prevRadius,
 		renderItem: prevRenderItem,
 		scrollOffset: prevScrollOffset,
@@ -47,12 +47,12 @@ export const compareVirtualListItemProps = (prevProps: VirtualListItemProps, nex
 		gap: nextGap,
 		item: nextItem,
 		itemSize: nextItemSize,
-		layoutType: nextLayoutType,
 		onClose: nextOnClose,
 		onDragEnd: nextOnDragEnd,
 		onDragStart: nextOnDragStart,
 		onDragUpdate: nextOnDragUpdate,
 		onLoadEnd: nextOnLoadEnd,
+		orientation: nextOrientation,
 		radius: nextRadius,
 		renderItem: nextRenderItem,
 		scrollOffset: nextScrollOffset,
@@ -76,7 +76,7 @@ export const compareVirtualListItemProps = (prevProps: VirtualListItemProps, nex
 		prevGap !== nextGap,
 		prevItem.index !== nextItem.index,
 		prevItemSize !== nextItemSize,
-		prevLayoutType !== nextLayoutType,
+		prevOrientation !== nextOrientation,
 		prevOnClose !== nextOnClose,
 		prevOnDragEnd !== nextOnDragEnd,
 		prevOnDragStart !== nextOnDragStart,
@@ -91,18 +91,21 @@ export const compareVirtualListItemProps = (prevProps: VirtualListItemProps, nex
 
 export const animateVirtualListItemTranslate = (
 	sharedValue: SharedValue<number>,
-	animatedTiming: AnimatedTiming,
+	animatedTiming: AnimatedTimingFactory,
 	{onAnimationFinished}: AnimateVirtualListItemTranslateOptions
 ) => {
 	const animateSharedValueTo = animatedTiming(sharedValue, {
 		...ANIMATED_TIMING.STANDARD,
-		callback: (finished?: boolean) => finished && onAnimationFinished?.()
+		onFinish: (finished?: boolean) => finished && onAnimationFinished?.()
 	})
 
 	return (offsetY: number) => animateSharedValueTo(offsetY)
 }
 
-export const animateVirtualListItemScale = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
+export const animateVirtualListItemScale = (
+	sharedValue: SharedValue<number>,
+	animatedTiming: AnimatedTimingFactory
+) => {
 	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.STANDARD)
 
 	return (dragging?: boolean) => {
@@ -122,13 +125,13 @@ export const updateVirtualListItemStatus = (setState: Updater<VirtualListItemSta
 	})
 
 export const handleVirtualListItemDragUpdate =
-	(indexKey: string, onDragUpdate?: (event: NativeDragEvent) => void) =>
+	(itemKey: string, onDragUpdate?: (event: VirtualListDragEvent) => void) =>
 	(event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
-		if (!indexKey) {
+		if (!itemKey) {
 			return
 		}
 
-		onDragUpdate?.({...event, indexKey})
+		onDragUpdate?.({...event, itemKey})
 	}
 
 export const handleVirtualListItemAnimationFinished = (setState: Updater<VirtualListItemState>) => () =>
@@ -137,7 +140,7 @@ export const handleVirtualListItemAnimationFinished = (setState: Updater<Virtual
 	})
 
 export const handleVirtualListItemDragStart =
-	(indexKey: string, setState: Updater<VirtualListItemState>, {onDragStart}: HandleVirtualListItemDragStartOptions) =>
+	(itemKey: string, setState: Updater<VirtualListItemState>, {onDragStart}: HandleVirtualListItemDragStartOptions) =>
 	(event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) =>
 		setState(draft => {
 			draft.dragging = true
@@ -146,14 +149,14 @@ export const handleVirtualListItemDragStart =
 			if (onDragStart) {
 				draft.pendingDragStartEvent = {
 					...extractDragEventPayload(event),
-					indexKey
+					itemKey
 				}
 			}
 		})
 
 export const handleVirtualListItemDragEnd =
 	(
-		indexKey: string,
+		itemKey: string,
 		setState: Updater<VirtualListItemState>,
 		{dragRef, onDragEnd}: HandleVirtualListItemDragEndOptions
 	) =>
@@ -164,7 +167,7 @@ export const handleVirtualListItemDragEnd =
 			if (onDragEnd) {
 				draft.pendingDragEndEvent = {
 					...extractDragEventPayload(event),
-					indexKey
+					itemKey
 				}
 			}
 		})

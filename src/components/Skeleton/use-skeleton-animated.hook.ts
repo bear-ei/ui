@@ -6,7 +6,7 @@ import type {UseSkeletonAnimatedOptions} from './Skeleton.interface'
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {animateSkeleton} from './Skeleton.handler'
 
-export const useSkeletonAnimated = ({enableAnimated, visible}: UseSkeletonAnimatedOptions) => {
+export const useSkeletonAnimated = ({enableLoop, visible}: UseSkeletonAnimatedOptions) => {
 	const {token} = useTheme()
 	const {opacity} = token
 	const opacitySharedValue = useSharedValue(0)
@@ -16,8 +16,8 @@ export const useSkeletonAnimated = ({enableAnimated, visible}: UseSkeletonAnimat
 	}))
 
 	const runAnimate = useMemo(
-		() => animateSkeleton(opacitySharedValue, animatedTiming, {enableAnimated}),
-		[animatedTiming, enableAnimated, opacitySharedValue]
+		() => animateSkeleton(opacitySharedValue, animatedTiming, {enableLoop}),
+		[animatedTiming, enableLoop, opacitySharedValue]
 	)
 
 	useEffect(() => {

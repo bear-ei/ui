@@ -1,17 +1,17 @@
 import type {JSX, RefAttributes, RefObject} from 'react'
-import type {PressableProps, TextInput, TextInputProps, TextStyle, View, ViewStyle} from 'react-native'
+import type {PressableProps, TextInput, TextInputProps, TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
-import type {ComponentStatus, EventName, State} from '../../../constants'
-import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
-import type {ThemeProps} from '../../../theme'
+import type {ComponentStatus, EventName, InteractionState} from '../../../constants'
+import type {HandleInteractionStateChangeOptions, InteractionHandlers} from '../../../hooks'
+import type {ThemeableProps} from '../../../theme'
 import type {RenderSearchProps} from '../Search.interface'
 
 export interface SearchTextInputProps
 	extends
 		Partial<TextInputProps & PressableProps & RefAttributes<TextInput> & InteractionHandlers>,
 		Pick<RenderSearchProps, 'expanded' | 'leading' | 'trailing' | 'listVisible'>,
-		ThemeProps {
+		ThemeableProps {
 	disabled?: boolean
 }
 
@@ -27,18 +27,14 @@ export interface RenderSearchTextInputProps extends SearchTextInputProps {
 export type SearchTextInputBaseProps = SearchTextInputProps
 export interface SearchTextInputState {
 	eventName?: EventName
+	interactionState: InteractionState
 	pendingChangeTextEvent?: string
-	state: State
 	status: ComponentStatus
 	value?: string
 }
 
-export interface HandleSearchTextInputStateChangeOptions extends HandleStateEventChangeOptions {
+export interface HandleSearchTextInputInteractionStateChangeOptions extends HandleInteractionStateChangeOptions {
 	ref?: RefObject<TextInput | null>
-}
-
-export interface HandleSearchContainerLayoutOptions {
-	containerCurrent?: View | null
 }
 
 export type UseSearchTextInputAnimatedOptions = Pick<RenderSearchTextInputProps, 'disabled' | 'expanded'>

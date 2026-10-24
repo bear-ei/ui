@@ -2,14 +2,14 @@ import {useId, type FC} from 'react'
 
 import type {LayoutPaneBaseProps} from './Layout-pane.interface'
 
-import {LAYOUT} from '../../../constants'
-import {LAYOUT_ANIMATED} from '../../Layout-animated'
+import {ORIENTATION} from '../../../constants'
+import {LAYOUT_ANIMATION} from '../../Layout-animated'
 import {RenderLayoutPane} from './Layout-pane.render'
 
 export const LayoutPaneBase: FC<LayoutPaneBaseProps> = ({
-	animatedType = LAYOUT_ANIMATED.NONE,
+	animation = LAYOUT_ANIMATION.NONE,
 	defaultVisible = true,
-	layoutType = LAYOUT.HORIZONTAL,
+	orientation = ORIENTATION.HORIZONTAL,
 	...renderLayoutPaneProps
 }) => {
 	const id = useId()
@@ -17,12 +17,10 @@ export const LayoutPaneBase: FC<LayoutPaneBaseProps> = ({
 	return (
 		<RenderLayoutPane
 			{...renderLayoutPaneProps}
-			animatedType={animatedType}
+			animation={animation}
 			defaultVisible={defaultVisible}
 			id={id}
-			layoutType={layoutType}
+			orientation={orientation}
 		/>
 	)
 }
-
-

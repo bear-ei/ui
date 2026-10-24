@@ -8,22 +8,22 @@ import type {UseLayoutAnimatedOptions} from './Layout-animated.interface'
 import {COMPONENT_STATUS} from '../../constants'
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {DENSITY_SIZE} from '../../theme'
-import {debounce, platformValue} from '../../utils'
-import {LAYOUT_ANIMATED} from './Layout-animated.enum'
+import {debounce, toPlatformUnit} from '../../utils'
+import {LAYOUT_ANIMATION} from './Layout-animated.enum'
 import {animateLayoutAnimated} from './Layout-animated.handler'
 
 export const useLayoutAnimated = ({
-	animatedType = LAYOUT_ANIMATED.FADE,
-	delay = 30,
+	animation = LAYOUT_ANIMATION.FADE,
+	debounceDelay = 30,
 	entry,
 	exit,
 	height = 0,
 	onAnimationFinished,
 	opacity: rawOpacity,
 	outputRanges,
-	scale,
+	scaleOnCollapse,
 	status,
-	translate = true,
+	translateOnCollapse = true,
 	visible,
 	width = 0
 }: UseLayoutAnimatedOptions) => {
@@ -32,8 +32,8 @@ export const useLayoutAnimated = ({
 	const containerSharedValue = useSharedValue(visible ? 1 : 0)
 	const animatedTiming = useAnimatedTiming()
 	const animateLayoutAnimatedOptions = useMemo(
-		() => ({animatedType, entry, exit, onAnimationFinished}),
-		[entry, exit, onAnimationFinished, animatedType]
+		() => ({animation, entry, exit, onAnimationFinished}),
+		[entry, exit, onAnimationFinished, animation]
 	)
 
 	const opacityOutputRanges = useMemo(() => [opacity.level0, rawOpacity ?? opacity.level10], [opacity, rawOpacity])
@@ -50,19 +50,21 @@ export const useLayoutAnimated = ({
 	const collapseXAnimatedStyle = useAnimatedStyle(() => {
 		const transforms = []
 
-		if (scale) {
+		if (scaleOnCollapse) {
 			transforms.push({scaleX: interpolate(containerSharedValue.value, [0, 1], [0, 1])})
 		}
 
-		if (translate) {
+		if (translateOnCollapse) {
 			transforms.push({
-				translateX: platformValue(interpolate(containerSharedValue.value, [0, 1], transformXOutputRanges))
+				translateX: toPlatformUnit(interpolate(containerSharedValue.value, [0, 1], transformXOutputRanges))
 			})
 		}
 
 		return {
 			...(transforms.length && {transform: transforms}),
-			width: platformValue(translate ? width : interpolate(containerSharedValue.value, [0, 1], widthOutputRanges))
+			width: toPlatformUnit(
+				translateOnCollapse ? width : interpolate(containerSharedValue.value, [0, 1], widthOutputRanges)
+			)
 		} as ViewStyle
 	})
 
@@ -75,20 +77,20 @@ export const useLayoutAnimated = ({
 	const collapseYAnimatedStyle = useAnimatedStyle(() => {
 		const transforms = []
 
-		if (scale) {
+		if (scaleOnCollapse) {
 			transforms.push({scaleY: interpolate(containerSharedValue.value, [0, 1], [0, 1])})
 		}
 
-		if (translate) {
+		if (translateOnCollapse) {
 			transforms.push({
-				translateY: platformValue(interpolate(containerSharedValue.value, [0, 1], transformYOutputRanges))
+				translateY: toPlatformUnit(interpolate(containerSharedValue.value, [0, 1], transformYOutputRanges))
 			})
 		}
 
 		return {
 			...(transforms.length && {transform: transforms}),
-			height: platformValue(
-				translate ? height : interpolate(containerSharedValue.value, [0, 1], heightOutputRanges)
+			height: toPlatformUnit(
+				translateOnCollapse ? height : interpolate(containerSharedValue.value, [0, 1], heightOutputRanges)
 			)
 		} as ViewStyle
 	})
@@ -97,15 +99,15 @@ export const useLayoutAnimated = ({
 		transform: [{scale: interpolate(containerSharedValue.value, [0, 1], [0, 1])}]
 	}))
 
-	const containerAnimatedTypeStyle = useMemo(
+	const containerAnimationStyleByType = useMemo(
 		() => ({
-			[LAYOUT_ANIMATED.COLLAPSE_X]: collapseXAnimatedStyle,
-			[LAYOUT_ANIMATED.COLLAPSE_X_AND_FADE]: [collapseXAnimatedStyle, fadeAnimatedStyle],
-			[LAYOUT_ANIMATED.COLLAPSE_Y]: collapseYAnimatedStyle,
-			[LAYOUT_ANIMATED.COLLAPSE_Y_AND_FADE]: [collapseYAnimatedStyle, fadeAnimatedStyle],
-			[LAYOUT_ANIMATED.FADE]: fadeAnimatedStyle,
-			[LAYOUT_ANIMATED.NONE]: undefined,
-			[LAYOUT_ANIMATED.SCALE]: scaleAnimatedStyle
+			[LAYOUT_ANIMATION.COLLAPSE_X]: collapseXAnimatedStyle,
+			[LAYOUT_ANIMATION.COLLAPSE_X_AND_FADE]: [collapseXAnimatedStyle, fadeAnimatedStyle],
+			[LAYOUT_ANIMATION.COLLAPSE_Y]: collapseYAnimatedStyle,
+			[LAYOUT_ANIMATION.COLLAPSE_Y_AND_FADE]: [collapseYAnimatedStyle, fadeAnimatedStyle],
+			[LAYOUT_ANIMATION.FADE]: fadeAnimatedStyle,
+			[LAYOUT_ANIMATION.NONE]: undefined,
+			[LAYOUT_ANIMATION.SCALE]: scaleAnimatedStyle
 		}),
 		[collapseXAnimatedStyle, fadeAnimatedStyle, scaleAnimatedStyle, collapseYAnimatedStyle]
 	)
@@ -114,16 +116,16 @@ export const useLayoutAnimated = ({
 	// 30ms is below the perceptual threshold for animation-start latency.
 	const runAnimate = useMemo(
 		() =>
-			(animatedType !== LAYOUT_ANIMATED.NONE ?
+			(animation !== LAYOUT_ANIMATION.NONE ?
 				debounce(
 					animateLayoutAnimated(containerSharedValue, animatedTiming, animateLayoutAnimatedOptions),
-					delay
+					debounceDelay
 				)
 			:	animateLayoutAnimated(containerSharedValue, animatedTiming, animateLayoutAnimatedOptions)) as {
 				(visible?: boolean | undefined): void
 				cancel?: () => void
 			},
-		[animateLayoutAnimatedOptions, containerSharedValue, delay, animatedType, animatedTiming]
+		[animateLayoutAnimatedOptions, containerSharedValue, debounceDelay, animation, animatedTiming]
 	)
 
 	useEffect(() => {
@@ -132,9 +134,9 @@ export const useLayoutAnimated = ({
 		}
 
 		return () => runAnimate.cancel?.()
-	}, [animatedType, runAnimate, status, visible])
+	}, [animation, runAnimate, status, visible])
 
 	useEffect(() => () => cancelAnimation(containerSharedValue), [containerSharedValue])
 
-	return {containerAnimatedStyle: containerAnimatedTypeStyle[animatedType]}
+	return {containerAnimatedStyle: containerAnimationStyleByType[animation]}
 }

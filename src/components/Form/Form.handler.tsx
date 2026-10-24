@@ -24,10 +24,10 @@ export const registerFormCallbacks =
 	({onFinish, onFinishFailed, onValuesChange}: RegisterFormCallbacksOptions<T>) =>
 		setCallbacks({onFinish, onFinishFailed, onValuesChange})
 
-export const extractAndSetFormFieldKeys = (setFieldKeys: (keys?: string[]) => void) => (items?: FormItemProps[]) => {
-	if (!items) {
+export const extractAndSetFormFieldKeys = (setFieldKeys: (keys?: string[]) => void) => (fields?: FormItemProps[]) => {
+	if (!fields) {
 		return
 	}
 
-	setFieldKeys(items.map(({name}) => name).filter(Boolean))
+	setFieldKeys(fields.map(({name}) => name).filter(Boolean))
 }

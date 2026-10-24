@@ -1,7 +1,7 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
+import type {AnimatedTimingFactory, HandleInteractionStateChangeOptions, InteractionEvent} from '../../../hooks'
 import type {ProgressActiveIndicatorLinearState} from './Progress-active-indicator-linear.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
@@ -14,7 +14,7 @@ import {ANIMATED_TIMING} from '../../../theme'
 // }
 export const animateProgressActiveIndicatorLinear = (
 	sharedValue: SharedValue<number>,
-	animatedTiming: AnimatedTiming
+	animatedTiming: AnimatedTimingFactory
 ) => {
 	const widthAnimateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.PROGRESS)
 
@@ -42,9 +42,9 @@ export const updateProgressValue = (setState: Updater<ProgressActiveIndicatorLin
 }
 
 export const handleProgressStateChange = (
-	_event: StateEvent,
+	_event: InteractionEvent,
 	setState: Updater<ProgressActiveIndicatorLinearState>,
-	{eventName}: HandleStateEventChangeOptions
+	{eventName}: HandleInteractionStateChangeOptions
 ) =>
 	setState(draft => {
 		if (eventName === EVENT_NAME.LAYOUT && draft.status !== COMPONENT_STATUS.SUCCEEDED) {

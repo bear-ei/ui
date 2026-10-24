@@ -3,7 +3,7 @@ import type {TYPOGRAPHY, TYPOGRAPHY_SIZE} from './typography.enum'
 
 export type TypographyType = (typeof TYPOGRAPHY)[keyof typeof TYPOGRAPHY]
 export type TypographySize = (typeof TYPOGRAPHY_SIZE)[keyof typeof TYPOGRAPHY_SIZE]
-export interface CreateBuildStyleOptions {
+export interface BuildFontStyleOptions {
 	height: FontHeight
 	letterSpacing: FontLetterSpacing
 	prominent?: keyof Font['weight']

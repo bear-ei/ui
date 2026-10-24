@@ -4,24 +4,28 @@ import type {View} from 'react-native'
 import type {Updater} from 'use-immer'
 
 import type {PopoverProps} from '..'
-import type {HandleStateEventChangeOptions, InteractionHandlers, UseHandleStateEventOptions} from '../../../hooks'
+import type {
+	HandleInteractionStateChangeOptions,
+	InteractionHandlers,
+	UseInteractionStateEventOptions
+} from '../../../hooks'
 import type {Token} from '../../../theme'
 
 export interface PopoverContentProps
 	extends
 		ViewProps,
-		UseHandleStateEventOptions,
+		UseInteractionStateEventOptions,
 		RefAttributes<View>,
 		Pick<
 			PopoverProps,
 			| 'content'
 			| 'elevation'
 			| 'onAnimationFinished'
-			| 'onVisible'
-			| 'popoverContentPosition'
+			| 'onVisibleChange'
+			| 'contentPosition'
 			| 'radius'
 			| 'shape'
-			| 'triggerEvent'
+			| 'triggerOn'
 			| 'type'
 			| 'visible'
 		> {
@@ -32,7 +36,7 @@ export interface PopoverContentProps
 export interface RenderPopoverContentProps extends PopoverContentProps {
 	height?: number
 	interactionHandlers: InteractionHandlers
-	menuOrPicker?: boolean
+	isMenuOrPicker?: boolean
 	menuPosition: {left?: number; top?: number}
 	onMaskPressOut?: () => void
 	width?: number
@@ -42,14 +46,14 @@ export interface RenderPopoverContentProps extends PopoverContentProps {
 
 export type PopoverContentBaseProps = PopoverContentProps
 export interface PopoverContentState {
-	invert?: boolean
+	inverted?: boolean
 	layout: Partial<LayoutRectangle>
 	menuPosition: {left?: number; top?: number}
 	pendingAnimationFinishedEvent?: boolean
 }
 
-export type HandlePopoverContentStateEventChangeOptions = HandleStateEventChangeOptions &
-	Pick<PopoverContentProps, 'onVisible' | 'triggerEvent'>
+export type HandlePopoverContentInteractionStateChangeOptions = HandleInteractionStateChangeOptions &
+	Pick<PopoverContentProps, 'onVisibleChange' | 'triggerOn'>
 
 export interface UpdatePopoverContentInvertOptions {
 	height: number
@@ -62,7 +66,7 @@ export interface UpdatePopoverContentInvertOptions {
 
 export interface UpdatePopoverContentPositionOptions extends Pick<
 	PopoverContentProps,
-	'popoverContentPosition' | 'type' | 'containerLayout'
+	'contentPosition' | 'type' | 'containerLayout'
 > {
 	setState: Updater<PopoverContentState>
 	token: Token

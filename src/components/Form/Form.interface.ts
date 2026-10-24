@@ -3,7 +3,7 @@ import type {JSX, RefAttributes} from 'react'
 import type {View, ViewProps} from 'react-native'
 import type {Updater} from 'use-immer'
 
-import type {ComponentStatus, LayoutType} from '../../constants'
+import type {ComponentStatus, Orientation} from '../../constants'
 import type {NamePath} from '../../utils'
 import type {FormItemProps} from './Form-item'
 
@@ -31,7 +31,7 @@ export interface FormFieldEntity<T> {
 	validatorOptions?: FormValidatorOptions
 }
 
-export type SignInFieldOptions<T> = Omit<FormFieldEntity<T>, 'validate'>
+export type RegisterFieldOptions<T> = Omit<FormFieldEntity<T>, 'validate'>
 export interface SetFieldsValueOptions {
 	componentUpdate?: boolean
 	enableValidate?: boolean
@@ -42,12 +42,13 @@ export interface FormStoreOptions<T> {
 }
 
 export interface FormStore<T = any> {
-	getFieldEntities: (signOut?: boolean) => FormFieldEntity<T>[]
-	getFieldEntitiesName: (namePaths?: (keyof T)[], signOut?: boolean) => (keyof T | undefined)[]
+	getFieldEntities: (includeUnnamed?: boolean) => FormFieldEntity<T>[]
+	getFieldEntityNames: (namePaths?: (keyof T)[], includeUnnamed?: boolean) => (keyof T | undefined)[]
 	getFieldsError(namePaths?: NamePath<T>): FormErrors<T> | FormErrors<T>[keyof T]
 	getFieldsValue(namePaths?: NamePath<T>): T | T[keyof T]
 	getInitialValues(namePaths?: NamePath<T>): T | T[keyof T]
 	isFieldsTouched: (namePaths?: NamePath<T>) => boolean
+	registerField: (entity: FormFieldEntity<T>) => {unregister: () => void} | undefined
 	resetFields: (namePaths?: NamePath<T>) => void
 	setCallbacks: (formCallbacks: FormCallbacks<T>) => void
 	setFieldKeys: (fieldKeys?: (keyof T)[]) => void
@@ -56,22 +57,21 @@ export interface FormStore<T = any> {
 	setFieldsValidate: (rule: FormValidateRule<T>, options?: FormValidatorOptions) => void
 	setFieldsValue: (value?: T, options?: SetFieldsValueOptions) => void
 	setInitialValues: (values?: T) => void
-	signInField: (entity: FormFieldEntity<T>) => {signOut: () => void} | undefined
-	signOutFields: (namePaths?: NamePath<T>) => void
 	submit: (enableValidate?: boolean) => void
+	unregisterFields: (namePaths?: NamePath<T>) => void
 	validateFields(namePaths?: NamePath<T>): Promise<FormErrors<T> | FormErrors<T>[keyof T]>
 }
 
 export interface FormProps<T = any> extends ViewProps, FormCallbacks<T>, RefAttributes<View> {
+	fields?: FormItemProps[]
 	form?: FormStore<T>
 	initialValues?: T
-	items?: FormItemProps[]
-	layoutType?: LayoutType
+	orientation?: Orientation
 	validatorOptions?: FormValidatorOptions
 }
 
 export interface RenderFormProps extends FormProps, Pick<FormState, 'status'> {
-	itemElements?: JSX.Element[] | JSX.Element
+	fieldElements?: JSX.Element[] | JSX.Element
 }
 
 export type FormBaseProps = FormProps
@@ -80,17 +80,13 @@ export interface FormState {
 }
 
 export type RegisterFormCallbacksOptions<T> = Pick<FormProps<T>, 'onFinish' | 'onFinishFailed' | 'onValuesChange'>
-export interface RenderFormItemsProps extends Pick<FormProps, 'validatorOptions' | 'id' | 'items'> {
+export interface RenderFormFieldsProps extends Pick<FormProps, 'validatorOptions' | 'id' | 'fields'> {
 	status: ComponentStatus
 }
 
 export interface CreateFormFieldValidatorOptions {
 	rule?: ValidationRule
 	validatorOptions?: ValidatorOptions
-}
-
-export interface UseFormOptions<T> {
-	form?: FormStore<T>
 }
 
 export interface InitializeFormStateWithValuesOptions {

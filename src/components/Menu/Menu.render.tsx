@@ -11,19 +11,19 @@ export const RenderMenu: FC<RenderMenuProps> = ({
 	activeKey,
 	activeKeys,
 	children,
-	closeTrailing,
 	data,
 	elevation,
 	emptyElement,
+	enableTrailingClose,
 	focusedIndex,
 	id,
 	listType,
 	multiple,
-	onActive,
-	onActives,
+	onActiveKeyChange,
+	onActiveKeysChange,
 	onClose,
 	onKeyDown,
-	onVisible,
+	onVisibleChange,
 	radius = RADIUS.MEDIUM,
 	ref,
 	shape = SHAPE.ALL,
@@ -39,14 +39,14 @@ export const RenderMenu: FC<RenderMenuProps> = ({
 			{...(type === POPOVER_TYPE.CONTEXT_MENU && {onKeyDown})}
 			activeKey={activeKey}
 			activeKeys={activeKeys}
-			closeTrailing={closeTrailing}
 			data={data}
 			emptyElement={emptyElement}
+			enableTrailingClose={enableTrailingClose}
 			focusedIndex={focusedIndex}
 			listType={listType}
 			multiple={multiple}
-			onActive={onActive}
-			onActives={onActives}
+			onActiveKeyChange={onActiveKeyChange}
+			onActiveKeysChange={onActiveKeysChange}
 			onClose={onClose}
 			ref={ref}
 			size={size}
@@ -66,7 +66,7 @@ export const RenderMenu: FC<RenderMenuProps> = ({
 				content={popoverContentElement}
 				elevation={elevation}
 				onKeyDown={onKeyDown}
-				onVisible={onVisible}
+				onVisibleChange={onVisibleChange}
 				radius={radius}
 				shape={shape}
 				type={type}

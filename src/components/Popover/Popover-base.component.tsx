@@ -13,15 +13,15 @@ import {
 import {TextInput, View} from 'react-native'
 import {useImmer} from 'use-immer'
 
-import type {State} from '../../constants'
+import type {InteractionState} from '../../constants'
 import type {PopoverBaseProps, PopoverState} from './Popover.interface'
 
 import {
 	useInteractionStateEvent,
 	useMergeRefs,
 	usePendingEvent,
-	type HandleStateEventChangeOptions,
-	type StateEvent
+	type HandleInteractionStateChangeOptions,
+	type InteractionEvent
 } from '../../hooks'
 import {debounce} from '../../utils'
 import {POPOVER_TYPE} from './Popover.enum'
@@ -33,7 +33,7 @@ import {
 	handlePopoverStateChange,
 	unmountPopoverContent,
 	unmountPopoverPressableLayout,
-	updatePopoverContextMenuLayout,
+	handlePopoverContextMenu,
 	updatePopoverElevation,
 	updatePopoverVisible
 } from './Popover.handler'
@@ -42,16 +42,16 @@ import {RenderPopover} from './Popover.render'
 export const PopoverBase: FC<PopoverBaseProps> = ({
 	children: rawChildren,
 	content,
+	contentPosition,
 	defaultVisible,
 	disabled: isDisabled = false,
 	elevation: rawElevation,
 	onAnimationFinished: rawOnAnimationFinished,
 	onKeyDown,
-	onVisible: rawOnVisible,
-	popoverContentPosition,
+	onVisibleChange: rawOnVisibleChange,
 	ref,
 	shape,
-	triggerEvent,
+	triggerOn,
 	type = POPOVER_TYPE.TOOLTIP,
 	visible: rawVisible,
 	...renderPopoverProps
@@ -64,14 +64,14 @@ export const PopoverBase: FC<PopoverBaseProps> = ({
 			pendingEmitContentEvent,
 			pendingUnmountContentEvent,
 			pendingUnmountPressableLayoutEvent,
-			pendingVisibleChangeEvent,
 			pendingVisibleEvent,
+			pendingVisibleRequestEvent,
 			visible: isVisible
 		},
 		setState
 	] = useImmer<PopoverState>({visible: rawVisible ?? defaultVisible})
 
-	usePendingEvent('pendingVisibleEvent', rawOnVisible, {pendingEvent: pendingVisibleEvent, setState})
+	usePendingEvent('pendingVisibleEvent', rawOnVisibleChange, {pendingEvent: pendingVisibleEvent, setState})
 	usePendingEvent('pendingAnimationFinishedEvent', rawOnAnimationFinished, {
 		pendingEvent: pendingAnimationFinishedEvent,
 		setState
@@ -89,25 +89,25 @@ export const PopoverBase: FC<PopoverBaseProps> = ({
 
 	const id = useId()
 	const debounceVisibleDelay = type === POPOVER_TYPE.TEXT_INPUT_PICKER ? 0 : 100
-	const onVisible = useMemo(() => {
+	const onVisibleChange = useMemo(() => {
 		const delayedVisible = debounce(
-			updatePopoverVisible(setState, {onVisible: rawOnVisible, type}),
+			updatePopoverVisible(setState, {onVisibleChange: rawOnVisibleChange, type}),
 			debounceVisibleDelay
 		)
 
-		const immediateVisible = updatePopoverVisible(setState, {onVisible: rawOnVisible, type})
-		const func = (visible?: boolean) => (visible ? delayedVisible(visible) : immediateVisible(visible))
+		const immediateVisible = updatePopoverVisible(setState, {onVisibleChange: rawOnVisibleChange, type})
+		const resolveVisible = (visible?: boolean) => (visible ? delayedVisible(visible) : immediateVisible(visible))
 
-		func.cancel = delayedVisible.cancel
+		resolveVisible.cancel = delayedVisible.cancel
 
-		return func
-	}, [debounceVisibleDelay, rawOnVisible, setState, type])
+		return resolveVisible
+	}, [debounceVisibleDelay, rawOnVisibleChange, setState, type])
 
-	usePendingEvent('pendingVisibleChangeEvent', onVisible, {pendingEvent: pendingVisibleChangeEvent, setState})
+	usePendingEvent('pendingVisibleRequestEvent', onVisibleChange, {pendingEvent: pendingVisibleRequestEvent, setState})
 
 	const onElevationAnimationFinished = useMemo(
-		() => handleElevationAnimationFinished(setState, rawOnVisible),
-		[rawOnVisible, setState]
+		() => handleElevationAnimationFinished(setState, rawOnVisibleChange),
+		[rawOnVisibleChange, setState]
 	)
 
 	const onUnmountContent = useMemo(() => unmountPopoverContent(id), [id])
@@ -136,21 +136,21 @@ export const PopoverBase: FC<PopoverBaseProps> = ({
 	)
 
 	const onContextMenu = useMemo(
-		() => updatePopoverContextMenuLayout(setState, {disabled: isDisabled, onVisible}),
-		[isDisabled, onVisible, setState]
+		() => handlePopoverContextMenu(setState, {disabled: isDisabled, onVisibleChange}),
+		[isDisabled, onVisibleChange, setState]
 	)
 
 	const onEmitContent = useMemo(
 		() =>
 			emitPopoverContent(id, {
 				content,
+				contentPosition,
 				elevation,
 				onAnimationFinished: onContentAnimationFinished,
 				onElevationAnimationFinished,
-				onVisible,
-				popoverContentPosition,
+				onVisibleChange,
 				shape,
-				triggerEvent,
+				triggerOn,
 				type
 			}),
 		[
@@ -159,10 +159,10 @@ export const PopoverBase: FC<PopoverBaseProps> = ({
 			id,
 			onContentAnimationFinished,
 			onElevationAnimationFinished,
-			onVisible,
-			popoverContentPosition,
+			onVisibleChange,
+			contentPosition,
 			shape,
-			triggerEvent,
+			triggerOn,
 			type
 		]
 	)
@@ -171,33 +171,33 @@ export const PopoverBase: FC<PopoverBaseProps> = ({
 
 	usePendingEvent('pendingEmitContentEvent', onEmitContent, {pendingEvent: pendingEmitContentEvent, setState})
 
-	const onStateEventChange = useCallback(
-		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) =>
+	const onInteractionStateChange = useCallback(
+		(event: InteractionEvent, interactionState: InteractionState, options: HandleInteractionStateChangeOptions) =>
 			handlePopoverStateChange(event, setState, {
 				...options,
 				childrenRef,
 				containerRef,
+				interactionState,
 				onEmitContent,
 				onUnmountContent,
 				onUnmountPressableLayout,
-				onVisible,
-				state,
-				triggerEvent,
+				onVisibleChange,
+				triggerOn,
 				type
 			}),
-		[onEmitContent, onUnmountContent, onUnmountPressableLayout, onVisible, setState, triggerEvent, type]
+		[onEmitContent, onUnmountContent, onUnmountPressableLayout, onVisibleChange, setState, triggerOn, type]
 	)
 
 	const interactionHandlers = useInteractionStateEvent({
 		...renderPopoverProps,
 		disabled: isDisabled,
-		onStateEventChange
+		onInteractionStateChange
 	})
 
 	const runEmitPressableLayout = useMemo(() => emitPopoverPressableLayout(id, containerRef), [id])
 	const runUnmountContent = onUnmountContent
 	const runUnmountPressableLayout = onUnmountPressableLayout
-	const runUpdateVisible = onVisible
+	const runUpdateVisible = onVisibleChange
 	const runUpdateElevation = useMemo(() => updatePopoverElevation(setState), [setState])
 	const children = cloneElement(rawChildren ?? <></>, {
 		...(type === POPOVER_TYPE.CONTEXT_MENU && {onContextMenu}),

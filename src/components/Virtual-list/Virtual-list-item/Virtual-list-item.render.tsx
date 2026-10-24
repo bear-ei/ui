@@ -3,8 +3,8 @@ import {View, type ViewStyle} from 'react-native'
 
 import type {RenderVirtualListItemProps} from './Virtual-list-item.interface'
 
-import {LAYOUT} from '../../../constants'
-import {platformValue} from '../../../utils'
+import {ORIENTATION} from '../../../constants'
+import {toPlatformUnit} from '../../../utils'
 import {AnimatedView} from '../../Animated'
 import {Drag} from '../../Drag'
 import {Elevation} from '../../Elevation'
@@ -20,10 +20,10 @@ export const RenderVirtualListItem: FC<RenderVirtualListItemProps> = ({
 	id,
 	itemElement,
 	itemSize = 0,
-	layoutType,
 	onDragEnd,
 	onDragStart,
 	onDragUpdate,
+	orientation,
 	shape,
 	testID,
 	zIndex,
@@ -32,15 +32,17 @@ export const RenderVirtualListItem: FC<RenderVirtualListItemProps> = ({
 	const animatedViewStyle = [
 		containerAnimatedStyle,
 		{
-			...(layoutType === LAYOUT.VERTICAL ? {height: platformValue(itemSize)} : {width: platformValue(itemSize)}),
+			...(orientation === ORIENTATION.VERTICAL ?
+				{height: toPlatformUnit(itemSize)}
+			:	{width: toPlatformUnit(itemSize)}),
 			zIndex
 		} as ViewStyle
 	]
 
 	const dragContentStyle = {
-		...(layoutType === LAYOUT.VERTICAL ?
-			{height: platformValue(itemSize - gap)}
-		:	{width: platformValue(itemSize - gap)}),
+		...(orientation === ORIENTATION.VERTICAL ?
+			{height: toPlatformUnit(itemSize - gap)}
+		:	{width: toPlatformUnit(itemSize - gap)}),
 		zIndex
 	} as ViewStyle
 
@@ -54,11 +56,11 @@ export const RenderVirtualListItem: FC<RenderVirtualListItemProps> = ({
 			{draggable ?
 				<Drag
 					height={containerLayout?.height}
-					layoutType={layoutType}
 					offset={dragOffset}
 					onEnd={onDragEnd}
 					onStart={onDragStart}
 					onUpdate={onDragUpdate}
+					orientation={orientation}
 					ref={dragRef}
 					testID={`virtualListItem__drag--${id}`}
 					width={containerLayout?.width}

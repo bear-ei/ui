@@ -1,18 +1,18 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import type {AnimatedTimingFactory, HandleInteractionStateChangeOptions, InteractionEvent} from '../../hooks'
 import type {UnderlayState} from './Underlay.interface'
 
-import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../../constants'
+import {COMPONENT_STATUS, EVENT_NAME, INTERACTION_STATE, type EventName} from '../../constants'
 import {ANIMATED_TIMING} from '../../theme'
 
-export const handleUnderlayStateChange = (
-	_event: StateEvent,
+export const handleUnderlayInteractionStateChange = (
+	_event: InteractionEvent,
 	setState: Updater<UnderlayState>,
-	{eventName}: HandleStateEventChangeOptions
+	{eventName: interactionEventName}: HandleInteractionStateChangeOptions
 ) => {
-	if (eventName !== EVENT_NAME.LAYOUT) {
+	if (interactionEventName !== EVENT_NAME.LAYOUT) {
 		return
 	}
 
@@ -23,34 +23,34 @@ export const handleUnderlayStateChange = (
 	})
 }
 
-export const updateUnderlayEventName =
+export const updateUnderlayInteractionEventName =
 	(setState: Updater<UnderlayState>) =>
-	(eventName: EventName = EVENT_NAME.NONE) =>
+	(interactionEventName: EventName = EVENT_NAME.NONE) =>
 		setState(draft => {
-			if (draft.eventName === eventName) {
+			if (draft.interactionEventName === interactionEventName) {
 				return
 			}
 
-			if (draft.eventName === EVENT_NAME.FOCUS) {
-				draft.state = STATE.FOCUSED
+			if (draft.interactionEventName === EVENT_NAME.FOCUS) {
+				draft.interactionState = INTERACTION_STATE.FOCUSED
 			}
 
-			if (draft.eventName === EVENT_NAME.BLUR || draft.eventName === EVENT_NAME.PRESS_IN) {
-				draft.state = STATE.ENABLED
+			if (draft.interactionEventName === EVENT_NAME.BLUR || draft.interactionEventName === EVENT_NAME.PRESS_IN) {
+				draft.interactionState = INTERACTION_STATE.ENABLED
 			}
 
-			if (draft.state === STATE.FOCUSED && eventName === EVENT_NAME.HOVER_OUT) {
-				draft.eventName = EVENT_NAME.FOCUS
+			if (draft.interactionState === INTERACTION_STATE.FOCUSED && interactionEventName === EVENT_NAME.HOVER_OUT) {
+				draft.interactionEventName = EVENT_NAME.FOCUS
 
 				return
 			}
 
-			draft.eventName = eventName
+			draft.interactionEventName = interactionEventName
 		})
 
 export const animateUnderlayHoverState = (
 	sharedValue: SharedValue<number>,
-	animatedTiming: AnimatedTiming,
+	animatedTiming: AnimatedTimingFactory,
 	activeValue: number
 ) => {
 	const event: Partial<Record<EventName, number>> = {
@@ -67,12 +67,12 @@ export const animateUnderlayHoverState = (
 
 	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.HOVER)
 
-	return (eventName?: EventName) => {
-		if (!eventName) {
+	return (interactionEventName?: EventName) => {
+		if (!interactionEventName) {
 			return
 		}
 
-		const value = event[eventName]
+		const value = event[interactionEventName]
 
 		if (typeof value === 'number') {
 			animateSharedValueTo(value)
@@ -94,7 +94,7 @@ export const updateUnderlayActive = (setState: Updater<UnderlayState>) => (activ
 	})
 }
 
-export const animateUnderlayActiveState = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
+export const animateUnderlayActiveState = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTimingFactory) => {
 	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.STANDARD)
 
 	return (active?: boolean) => {

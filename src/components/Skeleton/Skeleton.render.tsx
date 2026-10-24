@@ -2,18 +2,18 @@ import {type FC} from 'react'
 
 import type {RenderSkeletonProps} from './Skeleton.interface'
 
-import {LAYOUT} from '../../constants'
+import {ORIENTATION} from '../../constants'
 import {useTheme} from '../../hooks'
 import {ENTRY_EXIT} from '../../theme'
 import {AnimatedView} from '../Animated'
-import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
+import {LAYOUT_ANIMATION, LayoutAnimated} from '../Layout-animated'
 
 export const RenderSkeleton: FC<RenderSkeletonProps> = ({
 	children,
 	className,
 	containerAnimatedStyle,
 	id,
-	layoutType = LAYOUT.HORIZONTAL,
+	orientation = ORIENTATION.HORIZONTAL,
 	ref,
 	skeleton,
 	style,
@@ -21,7 +21,7 @@ export const RenderSkeleton: FC<RenderSkeletonProps> = ({
 	...containerProps
 }) => {
 	const {token} = useTheme()
-	const {classesName} = token.classes
+	const {classNames} = token.classes
 	const isSkeletonVisible = !!(skeleton && visible)
 	const {entry, exit} = ENTRY_EXIT.SHORT
 
@@ -31,13 +31,13 @@ export const RenderSkeleton: FC<RenderSkeletonProps> = ({
 		<>
 			{skeleton && (
 				<LayoutAnimated
-					animatedType={LAYOUT_ANIMATED.FADE}
+					animation={LAYOUT_ANIMATION.FADE}
 					className='absolute bottom-0 left-0 right-0 top-0'
 					entry={entry}
 					exit={exit}
-					lazy={true}
+					lazyMount={true}
 					testID={`skeleton__contentItemLayoutVisible--${id}`}
-					unmount={true}
+					unmountOnHide={true}
 					visible={isSkeletonVisible}
 				>
 					{
@@ -49,11 +49,11 @@ export const RenderSkeleton: FC<RenderSkeletonProps> = ({
 					}
 					<AnimatedView
 						{...containerProps}
-						className={classesName(
+						className={classNames(
 							'flex min-h-[--density-inline-x-small] min-w-[--density-inline-x-small]',
 							{
-								['flex-col justify-center']: layoutType === LAYOUT.VERTICAL,
-								['flex-row items-center']: layoutType === LAYOUT.HORIZONTAL
+								['flex-col justify-center']: orientation === ORIENTATION.VERTICAL,
+								['flex-row items-center']: orientation === ORIENTATION.HORIZONTAL
 							},
 							className
 						)}
@@ -66,11 +66,11 @@ export const RenderSkeleton: FC<RenderSkeletonProps> = ({
 			)}
 
 			<LayoutAnimated
-				animatedType={LAYOUT_ANIMATED.FADE}
+				animation={LAYOUT_ANIMATION.FADE}
 				className='absolute bottom-0 left-0 right-0 top-0'
 				entry={entry}
 				exit={exit}
-				lazy={true}
+				lazyMount={true}
 				ref={ref}
 				testID={`skeleton__contentItemLayoutNotVisible--${id}`}
 				visible={!isSkeletonVisible}

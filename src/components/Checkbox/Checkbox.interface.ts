@@ -1,39 +1,38 @@
 import type {ComponentStatus, EventName} from '../../constants'
-import type {HandleStateEventChangeOptions, StateEventChangeHandler} from '../../hooks'
-import type {ThemeProps} from '../../theme'
+import type {HandleInteractionStateChangeOptions, InteractionStateChangeHandler} from '../../hooks'
+import type {ThemeableProps} from '../../theme'
 import type {TouchableProps} from '../Touchable'
 import type {CHECKBOX_VALUE} from './Checkbox.enum'
 
 export type CheckboxValue = (typeof CHECKBOX_VALUE)[keyof typeof CHECKBOX_VALUE]
-export interface CheckboxProps extends TouchableProps, ThemeProps {
-	active?: boolean
-	defaultActive?: boolean
+export interface CheckboxProps extends TouchableProps, ThemeableProps {
+	checked?: boolean
+	defaultChecked?: boolean
 	disabled?: boolean
 	error?: boolean
 	indeterminate?: boolean
 	labelText?: string
-	onActive?: (active: boolean) => void
-	value?: CheckboxValue
+	onCheckedChange?: (checked: boolean) => void
 }
 
-export interface RenderCheckboxProps extends CheckboxProps, Pick<CheckboxState, 'status'> {
+export interface RenderCheckboxProps extends CheckboxProps, Pick<CheckboxState, 'status' | 'value'> {
 	eventName?: EventName
-	onStateEventChange: StateEventChangeHandler
+	onInteractionStateChange: InteractionStateChangeHandler
 }
 
 export type CheckboxBaseProps = CheckboxProps
 export interface CheckboxState {
-	active?: boolean
+	checked?: boolean
 	eventName?: EventName
-	pendingActiveEvent?: boolean
+	pendingCheckedEvent?: boolean
 	status: ComponentStatus
 	value?: CheckboxValue
 }
 
-export interface UpdateCheckboxActiveOptions extends Pick<RenderCheckboxProps, 'onActive' | 'indeterminate'> {
-	triggerEvent?: boolean
+export interface UpdateCheckboxCheckedOptions extends Pick<RenderCheckboxProps, 'onCheckedChange' | 'indeterminate'> {
+	notify?: boolean
 }
 
-export type HandleCheckboxStateChangeOptions = HandleStateEventChangeOptions &
-	Pick<RenderCheckboxProps, 'active' | 'indeterminate'> &
-	Omit<UpdateCheckboxActiveOptions, 'triggerEvent'>
+export type HandleCheckboxInteractionStateChangeOptions = HandleInteractionStateChangeOptions &
+	Pick<RenderCheckboxProps, 'checked' | 'indeterminate'> &
+	Omit<UpdateCheckboxCheckedOptions, 'notify'>

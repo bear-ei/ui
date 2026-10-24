@@ -8,17 +8,17 @@ import type {UseDragAnimatedOptions} from './Drag.interface'
 
 import {useAnimatedTiming, useTheme, useWindowDimensions} from '../../hooks'
 import {DENSITY_SIZE} from '../../theme'
-import {platformValue} from '../../utils'
-import {animateDrag, handlePanGestureEnd, updatePrevTranslate, updateTranslate} from './Drag.handler'
+import {toPlatformUnit} from '../../utils'
+import {animateDrag, handlePanGestureEnd, handlePanGestureStart, handlePanGestureUpdate} from './Drag.handler'
 
 export const useDragAnimated = ({
 	height: rawHeight,
 	layout,
-	layoutType,
 	offset,
 	onEnd,
 	onStart,
 	onUpdate,
+	orientation,
 	width: rawWidth
 }: UseDragAnimatedOptions) => {
 	const {height: screenHeight, width: screenWidth} = useWindowDimensions()
@@ -35,15 +35,15 @@ export const useDragAnimated = ({
 		() =>
 			({
 				transform: [
-					{translateX: platformValue(translateXSharedValue.value)},
-					{translateY: platformValue(translateYSharedValue.value)}
+					{translateX: toPlatformUnit(translateXSharedValue.value)},
+					{translateY: toPlatformUnit(translateYSharedValue.value)}
 				]
 			}) as ViewStyle
 	)
 
 	const onPanGestureStart = useMemo(
 		() =>
-			updatePrevTranslate(
+			handlePanGestureStart(
 				[prevTranslateXSharedValue, prevTranslateYSharedValue],
 				[translateXSharedValue, translateYSharedValue],
 				{onStart}
@@ -53,15 +53,15 @@ export const useDragAnimated = ({
 
 	const onPanGestureUpdate = useMemo(
 		() =>
-			updateTranslate(
+			handlePanGestureUpdate(
 				[prevTranslateXSharedValue, prevTranslateYSharedValue],
 				[translateXSharedValue, translateYSharedValue],
-				{height, layout, layoutType, offset, onUpdate, width}
+				{height, layout, offset, onUpdate, orientation, width}
 			),
 		[
 			height,
 			layout,
-			layoutType,
+			orientation,
 			offset,
 			onUpdate,
 			prevTranslateXSharedValue,

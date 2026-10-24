@@ -17,7 +17,7 @@ export const RenderLayoutAnimated: FC<RenderLayoutAnimatedProps> = ({
 	...containerProps
 }) => {
 	const {token} = useTheme()
-	const {classesName} = token.classes
+	const {classNames} = token.classes
 	const {onLayout} = interactionHandlers
 	const animatedViewStyle = [
 		style,
@@ -27,7 +27,7 @@ export const RenderLayoutAnimated: FC<RenderLayoutAnimatedProps> = ({
 	return (
 		<AnimatedView
 			{...containerProps}
-			className={classesName('flex flex-col', className, {['pointer-events-none -z-40']: !visible})}
+			className={classNames('flex flex-col', className, {['pointer-events-none -z-40']: !visible})}
 			onLayout={onLayout}
 			style={animatedViewStyle}
 			testID={testID ?? `layoutAnimated--${id}`}

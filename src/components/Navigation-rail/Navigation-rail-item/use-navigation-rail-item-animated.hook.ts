@@ -8,18 +8,18 @@ import type {UseNavigationRailItemAnimatedOptions} from './Navigation-rail-item.
 import {COMPONENT_STATUS} from '../../../constants'
 import {useAnimatedTiming, useTheme} from '../../../hooks'
 import {DENSITY_SIZE, hexToRGBA} from '../../../theme'
-import {platformValue} from '../../../utils'
+import {toPlatformUnit} from '../../../utils'
 import {animateNavigationRailItem} from './Navigation-rail-item.handler'
 
 export const useNavigationRailItemAnimated = ({active, status, type}: UseNavigationRailItemAnimatedOptions) => {
 	const {token} = useTheme()
-	const {density, opacity, scheme} = token
+	const {colors, density, opacity} = token
 	const animatedTiming = useAnimatedTiming()
 	const contentTranslateYSharedValue = useSharedValue(active ? 1 : 0)
 	const labelTextSharedValue = useSharedValue(active ? 1 : 0)
 	const labelTextColorOutputRanges = useMemo(
-		() => [hexToRGBA(scheme.onSurfaceVariant, opacity.level10), hexToRGBA(scheme.onSurface, opacity.level10)],
-		[opacity, scheme]
+		() => [hexToRGBA(colors.onSurfaceVariant, opacity.level10), hexToRGBA(colors.onSurface, opacity.level10)],
+		[opacity, colors]
 	)
 
 	const contentTranslateYOutputRanges = useMemo(
@@ -37,7 +37,7 @@ export const useNavigationRailItemAnimated = ({active, status, type}: UseNavigat
 			({
 				transform: [
 					{
-						translateY: platformValue(
+						translateY: toPlatformUnit(
 							interpolate(contentTranslateYSharedValue.value, [0, 1], contentTranslateYOutputRanges)
 						)
 					}

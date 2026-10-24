@@ -16,13 +16,13 @@ export const RenderPopover: FC<RenderPopoverProps> = ({
 	...containerProps
 }) => {
 	const {token} = useTheme()
-	const {classesName} = token.classes
+	const {classNames} = token.classes
 
 	return (
 		<View
 			{...containerProps}
 			{...(type === POPOVER_TYPE.CONTEXT_MENU && {onContextMenu})}
-			className={classesName('relative flex flex-col', className)}
+			className={classNames('relative flex flex-col', className)}
 			testID={testID ?? `popover--${id}`}
 		>
 			{children}

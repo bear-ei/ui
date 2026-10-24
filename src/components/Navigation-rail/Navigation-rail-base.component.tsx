@@ -13,13 +13,13 @@ import {RenderNavigationRail, RenderNavigationRailItems} from './Navigation-rail
 
 export const NavigationRailBase: FC<NavigationRailBaseProps> = ({
 	activeKey: rawActiveKey,
-	animatedType,
+	animation,
 	data: rawData,
 	defaultActiveKey,
 	destinationPosition = NAVIGATION_DESTINATION_POSITION.TOP,
 	fab,
 	menu,
-	onActive: rawOnActive,
+	onActiveKeyChange: rawOnActiveKeyChange,
 	type,
 	...renderNavigationRailProps
 }) => {
@@ -27,24 +27,24 @@ export const NavigationRailBase: FC<NavigationRailBaseProps> = ({
 		activeKey: rawActiveKey ?? defaultActiveKey
 	})
 
-	usePendingEvent('pendingActiveEvent', rawOnActive, {pendingEvent: pendingActiveEvent, setState})
+	usePendingEvent('pendingActiveEvent', rawOnActiveKeyChange, {pendingEvent: pendingActiveEvent, setState})
 
 	const id = useId()
-	const onActive = useMemo(
-		() => updateNavigationRailActiveKey(setState, {onActive: rawOnActive}),
-		[rawOnActive, setState]
+	const onActiveKeyChange = useMemo(
+		() => updateNavigationRailActiveKey(setState, {onActiveKeyChange: rawOnActiveKeyChange}),
+		[rawOnActiveKeyChange, setState]
 	)
 
 	const runUpdateData = useMemo(() => updateNavigationRailData(setState), [setState])
-	const runUpdateActiveKey = useMemo(() => updateNavigationRailActiveKey(setState, {triggerEvent: false}), [setState])
+	const runUpdateActiveKey = useMemo(() => updateNavigationRailActiveKey(setState, {notify: false}), [setState])
 
 	const itemElements = (
 		<RenderNavigationRailItems
 			activeKey={activeKey}
-			animatedType={animatedType}
+			animation={animation}
 			data={data}
 			id={id}
-			onActive={onActive}
+			onActiveKeyChange={onActiveKeyChange}
 			type={type}
 		/>
 	)

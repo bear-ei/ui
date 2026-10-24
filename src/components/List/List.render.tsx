@@ -1,21 +1,26 @@
 import {type FC} from 'react'
 import {View} from 'react-native'
 
-import type {RenderListItemOptions, RenderListProps} from './List.interface'
+import type {RenderDefaultListItemProps, RenderListProps} from './List.interface'
 
-import {LAYOUT} from '../../constants'
+import {ORIENTATION} from '../../constants'
 import {useTheme} from '../../hooks'
 import {DENSITY_SIZE, DENSITY_TYPE} from '../../theme'
 import {VirtualList} from '../Virtual-list'
 import {ListItem} from './List-item'
 
-export const RenderDefaultListItem: FC<RenderListItemOptions> = ({id, item, supportingTextNumberOfLines, ...props}) => (
+export const RenderDefaultListItem: FC<RenderDefaultListItemProps> = ({
+	id,
+	item,
+	supportingTextNumberOfLines,
+	...props
+}) => (
 	<ListItem
 		{...(typeof item.supportingTextNumberOfLines !== 'number' && {supportingTextNumberOfLines})}
 		{...item}
 		{...props}
-		indexKey={item.indexKey}
 		itemIndex={item.index}
+		itemKey={item.itemKey}
 		testID={`list__listItem--${id}`}
 	/>
 )
@@ -27,25 +32,25 @@ export const RenderList: FC<RenderListProps> = ({
 	dependencies = [],
 	focusedIndex,
 	id,
-	layoutType,
 	loading,
+	orientation,
 	style,
 	testID,
 	...virtualListProps
 }) => {
 	const {token} = useTheme()
-	const {classesName, densityClasses} = token.classes
-	const densityHorizontalInsetClasses = densityClasses(DENSITY_TYPE.INSET, LAYOUT.HORIZONTAL)
-	const densityVerticalInsetClasses = densityClasses(DENSITY_TYPE.INSET, LAYOUT.VERTICAL)
+	const {classNames, densityClasses} = token.classes
+	const densityHorizontalInsetClasses = densityClasses(DENSITY_TYPE.INSET, ORIENTATION.HORIZONTAL)
+	const densityVerticalInsetClasses = densityClasses(DENSITY_TYPE.INSET, ORIENTATION.VERTICAL)
 
 	return (
 		<View
 			accessibilityLabel='list'
 			accessibilityRole='list'
 			accessible={true}
-			className={classesName('flex-1 self-stretch', {
-				[densityHorizontalInsetClasses(DENSITY_SIZE.X_SMALL)]: layoutType === LAYOUT.HORIZONTAL,
-				[densityVerticalInsetClasses(DENSITY_SIZE.X_SMALL)]: layoutType === LAYOUT.VERTICAL
+			className={classNames('flex-1 self-stretch', {
+				[densityHorizontalInsetClasses(DENSITY_SIZE.X_SMALL)]: orientation === ORIENTATION.HORIZONTAL,
+				[densityVerticalInsetClasses(DENSITY_SIZE.X_SMALL)]: orientation === ORIENTATION.VERTICAL
 			})}
 			style={style}
 			testID={testID ?? `list--${id}`}
@@ -62,8 +67,8 @@ export const RenderList: FC<RenderListProps> = ({
 					loading
 				]}
 				focusedIndex={focusedIndex}
-				layoutType={layoutType}
 				loading={loading}
+				orientation={orientation}
 				testID={`list__virtualList--${id}`}
 			/>
 		</View>

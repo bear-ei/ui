@@ -6,7 +6,7 @@ import type {CreateAnimatedTimingOptions} from './use-animated-timing.interface'
 export const createAnimatedTiming = (
 	toValue: number,
 	{bezier, delay, duration, repeat, ...options}: CreateAnimatedTimingOptions,
-	callback?: AnimationCallback
+	onFinish?: AnimationCallback
 ) => {
 	'worklet'
 
@@ -16,8 +16,8 @@ export const createAnimatedTiming = (
 		finished => {
 			'worklet'
 
-			if (callback) {
-				scheduleOnRN(callback, finished)
+			if (onFinish) {
+				scheduleOnRN(onFinish, finished)
 			}
 		}
 	)

@@ -7,9 +7,9 @@
  *   const fn = useMemo(() => throttle(handleSearch, 300), [])
  *   useEffect(() => () => fn.cancel(), [fn])
  *
- * Returns void; `func`'s return value (incl. Promise) is discarded.
+ * Returns void; `callback`'s return value (incl. Promise) is discarded.
  */
-export const throttle = <T extends (...args: any[]) => unknown>(func: T, wait: number) => {
+export const throttle = <T extends (...args: any[]) => unknown>(callback: T, wait: number) => {
 	let lastTime = 0
 	let timeoutId: ReturnType<typeof setTimeout> | number | undefined
 	let lastArgs: Parameters<T> | undefined
@@ -23,11 +23,11 @@ export const throttle = <T extends (...args: any[]) => unknown>(func: T, wait: n
 		lastArgs = undefined
 
 		if (args) {
-			func(...args)
+			callback(...args)
 		}
 	}
 
-	const throttledFunc = (...args: Parameters<T>) => {
+	const throttledCallback = (...args: Parameters<T>) => {
 		lastArgs = args
 
 		const now = Date.now()
@@ -49,7 +49,7 @@ export const throttle = <T extends (...args: any[]) => unknown>(func: T, wait: n
 		}
 	}
 
-	throttledFunc.cancel = () => {
+	throttledCallback.cancel = () => {
 		if (timeoutId !== undefined) {
 			clearTimeout(timeoutId)
 			timeoutId = undefined
@@ -59,5 +59,5 @@ export const throttle = <T extends (...args: any[]) => unknown>(func: T, wait: n
 		lastTime = 0
 	}
 
-	return throttledFunc
+	return throttledCallback
 }

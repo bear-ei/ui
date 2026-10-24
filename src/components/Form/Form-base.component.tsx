@@ -5,13 +5,13 @@ import type {FormBaseProps, FormState} from './Form.interface'
 
 import {COMPONENT_STATUS} from '../../constants'
 import {extractAndSetFormFieldKeys, initializeFormStateWithValues, registerFormCallbacks} from './Form.handler'
-import {RenderForm, RenderFormItems} from './Form.render'
+import {RenderForm, RenderFormFields} from './Form.render'
 import {useForm} from './use-form.hook'
 
 export const FormBase = ({
+	fields,
 	form,
 	initialValues,
-	items,
 	onFinish,
 	onFinishFailed,
 	onValuesChange,
@@ -29,10 +29,10 @@ export const FormBase = ({
 
 	const runRegisterCallbacks = useMemo(() => registerFormCallbacks(setCallbacks), [setCallbacks])
 	const runExtractAndSetFieldKeys = useMemo(() => extractAndSetFormFieldKeys(setFieldKeys), [setFieldKeys])
-	const itemElements = (
-		<RenderFormItems
+	const fieldElements = (
+		<RenderFormFields
+			fields={fields}
 			id={id}
-			items={items}
 			status={status}
 			validatorOptions={validatorOptions}
 		/>
@@ -43,8 +43,8 @@ export const FormBase = ({
 	}, [runRegisterCallbacks, onFinish, onFinishFailed, onValuesChange])
 
 	useEffect(() => {
-		runExtractAndSetFieldKeys(items)
-	}, [runExtractAndSetFieldKeys, items])
+		runExtractAndSetFieldKeys(fields)
+	}, [runExtractAndSetFieldKeys, fields])
 
 	useEffect(() => {
 		runInitializeStateWithValues(initialValues)
@@ -53,9 +53,9 @@ export const FormBase = ({
 	return (
 		<RenderForm
 			{...renderFormProps}
+			fieldElements={fieldElements}
 			form={formStore}
 			id={id}
-			itemElements={itemElements}
 			status={status}
 		/>
 	)

@@ -5,17 +5,17 @@ import {useEffect, useMemo} from 'react'
 import {View} from 'react-native'
 import {useImmer} from 'use-immer'
 
-import type {EmitterEvent, Portal, PortalComponentType, PortalItemProps, PortalState} from './Portal-provider.interface'
+import type {PortalComponentType, PortalEventMap, PortalItemProps, PortalState} from './Portal-provider.interface'
 
 import {PopoverContent, PopoverPressableLayout} from '../../components'
 import {typedMemo} from '../../utils'
 import {PORTAL_TYPE} from './Portal-provider.enum'
-import {updatePortals} from './Portal-provider.handler'
+import {handlePortalChange} from './Portal-provider.handler'
 
 const COMPONENT = {
 	[PORTAL_TYPE.POPOVER]: PopoverContent,
 	[PORTAL_TYPE.PRESSABLE_LAYOUT]: PopoverPressableLayout,
-	[PORTAL_TYPE.SIDE_SHEET]: View
+	[PORTAL_TYPE.SHEET]: View
 }
 
 const PortalItem = typedMemo(({componentProps, testID, type}: PortalItemProps) => {
@@ -54,27 +54,25 @@ let portalProviderCount = 0
  *
  * ⚠️ `props` (callbacks, JSX, refs) are stored in state on purpose. PortalProvider
  * and the opening component (Popover / Sheet / …) are NOT parent-child — the
- * only channel is the shared `emitter`. Without storing props in state, prop
+ * only channel is the shared `portalEmitter`. Without storing props in state, prop
  * updates on the source component could never reach the portal.
  *
- * In `updatePortals`, the fast path compares props by reference — using
+ * In `handlePortalChange`, the fast path compares props by reference — using
  * `original()` to unwrap the Immer draft wrapper back to the source ref. If
  * you ever add code that mutates `draft.portals[i].props.*` in place, it will
  * finalize `props` into a NEW object and break ref / callback identity
  * downstream — always replace the whole `props` reference instead.
  */
-export const emitter = mitt<EmitterEvent>()
+export const portalEmitter = mitt<PortalEventMap>()
 export const PortalProvider: FC = () => {
 	const [{portals}, setState] = useImmer<PortalState>({portals: []})
-	const runUpdatePortals = useMemo(() => updatePortals(setState), [setState])
+	const applyPortalChange = useMemo(() => handlePortalChange(setState), [setState])
 
 	useEffect(() => {
-		const handler = (portal: Portal) => runUpdatePortals(portal)
+		portalEmitter.on('portal', applyPortalChange)
 
-		emitter.on('portal', handler)
-
-		return () => emitter.off('portal', handler)
-	}, [runUpdatePortals])
+		return () => portalEmitter.off('portal', applyPortalChange)
+	}, [applyPortalChange])
 
 	useEffect(() => {
 		if (process.env.NODE_ENV !== 'production') {

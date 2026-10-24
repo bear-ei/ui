@@ -2,20 +2,20 @@ import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 
 import type {DividerProps} from './Divider.interface'
 
-import {LAYOUT} from '../../constants'
+import {ORIENTATION} from '../../constants'
 import {DENSITY_SIZE} from '../../theme'
 import {Divider} from './Divider.component'
 
 export const Horizontal: StoryObj<DividerProps> = {
-	args: {layoutType: LAYOUT.HORIZONTAL}
+	args: {orientation: ORIENTATION.HORIZONTAL}
 }
 
 export const Subheader: StoryObj<DividerProps> = {
-	args: {layoutType: LAYOUT.HORIZONTAL, subheader: 'Subheader'}
+	args: {orientation: ORIENTATION.HORIZONTAL, subheaderText: 'Subheader'}
 }
 
 export const Vertical: StoryObj<DividerProps> = {
-	args: {layoutType: LAYOUT.VERTICAL}
+	args: {orientation: ORIENTATION.VERTICAL}
 }
 
 export const Medium: StoryObj<DividerProps> = {
@@ -31,7 +31,7 @@ export const Small: StoryObj<DividerProps> = {
 }
 
 export const LargeSubheader: StoryObj<DividerProps> = {
-	args: {layoutType: LAYOUT.HORIZONTAL, size: DENSITY_SIZE.LARGE, subheader: 'Subheader'}
+	args: {orientation: ORIENTATION.HORIZONTAL, size: DENSITY_SIZE.LARGE, subheaderText: 'Subheader'}
 }
 
 export default {

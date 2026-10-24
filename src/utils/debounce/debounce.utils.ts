@@ -1,4 +1,4 @@
-export const debounce = <T extends (...args: any[]) => unknown>(func: T, delay: number) => {
+export const debounce = <T extends (...args: any[]) => unknown>(callback: T, delay: number) => {
 	let timeoutId: ReturnType<typeof setTimeout> | number | undefined
 
 	const cancel = () => {
@@ -8,16 +8,16 @@ export const debounce = <T extends (...args: any[]) => unknown>(func: T, delay: 
 		}
 	}
 
-	const debouncedFunc = (...args: Parameters<T>) => {
+	const debouncedCallback = (...args: Parameters<T>) => {
 		cancel()
 
 		timeoutId = setTimeout(() => {
 			timeoutId = undefined
-			func(...args)
+			callback(...args)
 		}, delay)
 	}
 
-	debouncedFunc.cancel = cancel
+	debouncedCallback.cancel = cancel
 
-	return debouncedFunc
+	return debouncedCallback
 }

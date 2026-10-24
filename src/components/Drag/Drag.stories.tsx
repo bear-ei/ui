@@ -2,7 +2,7 @@ import type {Meta} from '@storybook/react-native-web-vite'
 
 import {View} from 'react-native'
 
-import {LAYOUT} from '../../constants'
+import {ORIENTATION} from '../../constants'
 import {Avatar} from '../Avatar'
 import {Drag} from './Drag.component'
 
@@ -16,7 +16,7 @@ export const DragAvatar = () => (
 
 export const DragHorizontal = () => (
 	<View className='h-20 w-80'>
-		<Drag layoutType={LAYOUT.HORIZONTAL}>
+		<Drag orientation={ORIENTATION.HORIZONTAL}>
 			<Avatar />
 		</Drag>
 	</View>

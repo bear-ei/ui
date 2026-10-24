@@ -3,24 +3,24 @@ import {View} from 'react-native'
 
 import type {ButtonType, RenderButtonIconProps, RenderButtonProps} from './Button.interface'
 
-import {COMPONENT_STATUS, EVENT_NAME, LAYOUT, type EventName} from '../../constants'
+import {COMPONENT_STATUS, EVENT_NAME, ORIENTATION, type EventName} from '../../constants'
 import {useTheme} from '../../hooks'
 import {
 	DENSITY_SIZE,
 	DENSITY_TYPE,
 	ENTRY_EXIT,
 	stepDownDensitySize,
-	densitySizeMapTypographySize,
+	toTypographySize,
 	hexToRGBA,
 	RADIUS,
 	SHAPE,
 	TYPOGRAPHY,
 	TYPOGRAPHY_SIZE
 } from '../../theme'
-import {platformValue} from '../../utils'
+import {toPlatformUnit} from '../../utils'
 import {AnimatedText, AnimatedView} from '../Animated'
 import {Elevation} from '../Elevation'
-import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
+import {LAYOUT_ANIMATION, LayoutAnimated} from '../Layout-animated'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {BUTTON_TYPE} from './Button.enum'
@@ -44,15 +44,15 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({
 }) => {
 	const {token} = useTheme()
 	const color = {
-		[BUTTON_TYPE.ELEVATED]: token.scheme.primary,
-		[BUTTON_TYPE.FILLED]: token.scheme.onPrimary,
-		[BUTTON_TYPE.LINK]: token.scheme.primary,
-		[BUTTON_TYPE.OUTLINED]: token.scheme.primary,
-		[BUTTON_TYPE.TEXT]: token.scheme.primary,
-		[BUTTON_TYPE.TONAL]: token.scheme.onSecondaryContainer
+		[BUTTON_TYPE.ELEVATED]: token.colors.primary,
+		[BUTTON_TYPE.FILLED]: token.colors.onPrimary,
+		[BUTTON_TYPE.LINK]: token.colors.primary,
+		[BUTTON_TYPE.OUTLINED]: token.colors.primary,
+		[BUTTON_TYPE.TEXT]: token.colors.primary,
+		[BUTTON_TYPE.TONAL]: token.colors.onSecondaryContainer
 	} as Record<ButtonType, string>
 
-	const disabledColor = hexToRGBA(token.scheme.onSurface, token.opacity.level5)
+	const disabledColor = hexToRGBA(token.colors.onSurface, token.opacity.level5)
 
 	if (!icon) {
 		return <></>
@@ -67,7 +67,7 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({
 	return cloneElement(icon, {
 		color: disabled ? disabledColor : color[type],
 		disabled,
-		size: platformValue(iconSize),
+		size: toPlatformUnit(iconSize),
 		testID: `button__icon--${id}`
 	})
 }
@@ -84,7 +84,7 @@ export const RenderButton: FC<RenderButtonProps> = ({
 	labelTextAnimatedStyle,
 	linkColor,
 	loading,
-	onStateEventChange,
+	onInteractionStateChange,
 	ref,
 	size = DENSITY_SIZE.MEDIUM,
 	status,
@@ -96,9 +96,9 @@ export const RenderButton: FC<RenderButtonProps> = ({
 	...touchableProps
 }) => {
 	const {token} = useTheme()
-	const {classesName, densityClasses, shapeClasses, typographyClasses} = token.classes
+	const {classNames, densityClasses, shapeClasses, typographyClasses} = token.classes
 	const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)
-	const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET, LAYOUT.HORIZONTAL)
+	const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET, ORIENTATION.HORIZONTAL)
 	const isActiveIndicatorVisible =
 		type === BUTTON_TYPE.LINK && ACTIVE_INDICATOR_EVENT_NAMES.includes(eventName) && !disabled
 
@@ -115,7 +115,7 @@ export const RenderButton: FC<RenderButtonProps> = ({
 
 	const backgroundUnderlayElement = (
 		<AnimatedView
-			className={classesName(
+			className={classNames(
 				'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
 				shapeClasses(shape)(radius)
 			)}
@@ -142,7 +142,7 @@ export const RenderButton: FC<RenderButtonProps> = ({
 			accessibilityRole='button'
 			accessibilityState={{disabled}}
 			accessible={true}
-			className={classesName('cursor-pointer', {
+			className={classNames('cursor-pointer', {
 				[`${densityControlClasses(size)} w-auto min-w-20`]: !isLink,
 				[`${typographyClasses(TYPOGRAPHY.LABEL)(TYPOGRAPHY_SIZE.SMALL)} min-w-[--density-inline-xx-small]`]:
 					isLink,
@@ -160,7 +160,7 @@ export const RenderButton: FC<RenderButtonProps> = ({
 					backgroundUnderlay={backgroundUnderlayElement}
 					disabled={disabled}
 					elevationUnderlay={elevationUnderlayElement}
-					onStateEventChange={onStateEventChange}
+					onInteractionStateChange={onInteractionStateChange}
 					radius={radius}
 					ref={ref}
 					shape={shape}
@@ -172,7 +172,7 @@ export const RenderButton: FC<RenderButtonProps> = ({
 						testID={`button__content--${id}`}
 					>
 						<View
-							className={classesName(
+							className={classNames(
 								'z-10 flex flex-1 flex-row items-center justify-center gap-[--density-spacing-snug] self-stretch',
 								{[densityInsetClasses(size)]: !isLink}
 							)}
@@ -188,10 +188,10 @@ export const RenderButton: FC<RenderButtonProps> = ({
 							)}
 
 							<AnimatedText
-								className={classesName(
+								className={classNames(
 									'select-none text-center',
 									typographyClasses(isLink ? TYPOGRAPHY.BODY : TYPOGRAPHY.LABEL)(
-										densitySizeMapTypographySize(size)
+										toTypographySize(size)
 									)
 								)}
 								ellipsizeMode='tail'
@@ -205,7 +205,7 @@ export const RenderButton: FC<RenderButtonProps> = ({
 
 						{isLink && (
 							<LayoutAnimated
-								animatedType={LAYOUT_ANIMATED.FADE}
+								animation={LAYOUT_ANIMATION.FADE}
 								className='absolute bottom-0 left-0 right-0 z-20 min-h-[--border-small] bg-[--color-primary]'
 								entry={entry}
 								exit={exit}
@@ -216,7 +216,7 @@ export const RenderButton: FC<RenderButtonProps> = ({
 						)}
 
 						<Underlay
-							eventName={underlayEventName}
+							interactionEventName={underlayEventName}
 							radius={radius}
 							shape={shape}
 							testID={`button__underlay--${id}`}

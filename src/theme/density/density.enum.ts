@@ -1,4 +1,4 @@
-export const WINDOW_SIZE = {
+export const BREAKPOINT = {
 	COMPACT: 'COMPACT',
 	EXPANDED: 'EXPANDED',
 	LARGE: 'LARGE',

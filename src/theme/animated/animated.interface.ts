@@ -10,7 +10,7 @@ export interface Bezier {
 	y1: number
 }
 
-export interface Animated {
+export interface AnimatedTimingSpec {
 	bezier: Bezier
 	duration: number
 }

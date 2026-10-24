@@ -5,14 +5,14 @@ import {useImmer} from 'use-immer'
 
 import type {LayoutAnimatedBaseProps, LayoutAnimatedState} from './Layout-animated.interface'
 
-import {COMPONENT_STATUS, type State} from '../../constants'
+import {COMPONENT_STATUS, type InteractionState} from '../../constants'
 import {
 	useInteractionStateEvent,
 	usePendingEvent,
-	type HandleStateEventChangeOptions,
-	type StateEvent
+	type HandleInteractionStateChangeOptions,
+	type InteractionEvent
 } from '../../hooks'
-import {LAYOUT_ANIMATED} from './Layout-animated.enum'
+import {LAYOUT_ANIMATION} from './Layout-animated.enum'
 import {
 	finalizeLayoutAnimatedVisibleChange,
 	handleLayoutAnimatedStateChange,
@@ -24,21 +24,21 @@ import {RenderLayoutAnimated} from './Layout-animated.render'
 import {useLayoutAnimated} from './use-layout-animated.hook'
 
 export const LayoutAnimatedBase: FC<LayoutAnimatedBaseProps> = ({
-	animatedType = LAYOUT_ANIMATED.FADE,
+	animation = LAYOUT_ANIMATION.FADE,
 	contentSize: rawContentSize,
+	debounceDelay,
 	defaultVisible,
-	delay,
 	entry,
 	exit,
-	lazy = false,
+	lazyMount = false,
 	onAnimationFinished: rawOnAnimationFinished,
 	onUnmount,
-	onVisible,
+	onVisibleChange,
 	opacity,
 	outputRanges,
-	scale,
-	translate,
-	unmount,
+	scaleOnCollapse,
+	translateOnCollapse,
+	unmountOnHide,
 	visible,
 	...renderLayoutAnimatedProps
 }) => {
@@ -51,7 +51,7 @@ export const LayoutAnimatedBase: FC<LayoutAnimatedBaseProps> = ({
 		visible: visible ?? defaultVisible
 	})
 
-	usePendingEvent('pendingVisibleEvent', onVisible, {pendingEvent: pendingVisibleEvent, setState})
+	usePendingEvent('pendingVisibleEvent', onVisibleChange, {pendingEvent: pendingVisibleEvent, setState})
 	usePendingEvent('pendingUnmountEvent', onUnmount, {pendingEvent: pendingUnmountEvent, setState})
 	usePendingEvent('pendingAnimationFinishedEvent', rawOnAnimationFinished, {
 		pendingEvent: pendingAnimationFinishedEvent,
@@ -69,37 +69,41 @@ export const LayoutAnimatedBase: FC<LayoutAnimatedBaseProps> = ({
 			finalizeLayoutAnimatedVisibleChange(setState, {
 				onAnimationFinished: rawOnAnimationFinished,
 				onUnmount,
-				unmount
+				unmountOnHide
 			}),
-		[onUnmount, rawOnAnimationFinished, setState, unmount]
+		[onUnmount, rawOnAnimationFinished, setState, unmountOnHide]
 	)
 
 	const onLayoutChange = useMemo(() => updateLayoutAnimatedSize(setState, contentSize), [contentSize, setState])
-	const onStateEventChange = useCallback(
-		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) =>
-			handleLayoutAnimatedStateChange(event, {...options, onLayoutChange, state}),
+	const onInteractionStateChange = useCallback(
+		(event: InteractionEvent, interactionState: InteractionState, options: HandleInteractionStateChangeOptions) =>
+			handleLayoutAnimatedStateChange(event, {...options, interactionState, onLayoutChange}),
 		[onLayoutChange]
 	)
 
-	const interactionHandlers = useInteractionStateEvent({...renderLayoutAnimatedProps, onStateEventChange})
+	const interactionHandlers = useInteractionStateEvent({...renderLayoutAnimatedProps, onInteractionStateChange})
 	const {containerAnimatedStyle} = useLayoutAnimated({
-		animatedType,
-		delay,
+		animation,
+		debounceDelay,
 		entry,
 		exit,
 		height: layout.height ?? contentSize?.height,
 		onAnimationFinished,
 		opacity,
 		outputRanges,
-		scale,
+		scaleOnCollapse,
 		status,
-		translate,
+		translateOnCollapse,
 		visible: isVisible,
 		width: layout.width ?? contentSize?.width
 	})
 
-	const runUpdateStatus = useMemo(() => updateLayoutAnimatedStatus(setState, lazy), [lazy, setState])
-	const runUpdateVisible = useMemo(() => updateLayoutAnimatedVisible(setState, onVisible), [setState, onVisible])
+	const runUpdateStatus = useMemo(() => updateLayoutAnimatedStatus(setState, lazyMount), [lazyMount, setState])
+	const runUpdateVisible = useMemo(
+		() => updateLayoutAnimatedVisible(setState, onVisibleChange),
+		[setState, onVisibleChange]
+	)
+
 	const runLayoutChange = onLayoutChange
 
 	useEffect(() => {
@@ -116,14 +120,14 @@ export const LayoutAnimatedBase: FC<LayoutAnimatedBaseProps> = ({
 		runUpdateStatus(visible)
 	}, [visible, runUpdateStatus])
 
-	if (status === COMPONENT_STATUS.IDLE && (lazy || unmount)) {
+	if (status === COMPONENT_STATUS.IDLE && (lazyMount || unmountOnHide)) {
 		return <></>
 	}
 
 	return (
 		<RenderLayoutAnimated
 			{...renderLayoutAnimatedProps}
-			animatedType={animatedType}
+			animation={animation}
 			containerAnimatedStyle={containerAnimatedStyle}
 			id={id}
 			interactionHandlers={interactionHandlers}

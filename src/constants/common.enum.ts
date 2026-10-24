@@ -1,4 +1,4 @@
-export const LAYOUT = {
+export const ORIENTATION = {
 	HORIZONTAL: 'HORIZONTAL',
 	VERTICAL: 'VERTICAL'
 } as const
@@ -10,7 +10,7 @@ export const COMPONENT_STATUS = {
 	SUCCEEDED: 'SUCCEEDED'
 } as const
 
-export const STATE = {
+export const INTERACTION_STATE = {
 	DISABLED: 'DISABLED',
 	ENABLED: 'ENABLED',
 	ERROR: 'ERROR',

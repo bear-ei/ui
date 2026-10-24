@@ -15,8 +15,8 @@ const GESTURE_ROOT_STYLE = {flex: 1}
  * MUST never be mutated — its reference identity is the entire mechanism.
  * See use-theme.hook.ts for the check.
  */
-export const EMPTY_THEME: Theme = {colorScheme: 'light', token: {} as Token, uiDensity: UI_DENSITY.COMPACT}
-export const ThemeContext = createContext<Theme>(EMPTY_THEME)
+export const FALLBACK_THEME: Theme = {colorScheme: 'light', token: {} as Token, uiDensity: UI_DENSITY.COMPACT}
+export const ThemeContext = createContext<Theme>(FALLBACK_THEME)
 export const ThemeProvider: FC<ThemeProviderProps> = ({children, token: rawToken, uiDensity = UI_DENSITY.COMPACT}) => {
 	const {colorScheme = 'light'} = useColorScheme()
 	const id = useId()

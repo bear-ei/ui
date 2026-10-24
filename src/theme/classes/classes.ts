@@ -5,8 +5,8 @@ import {twMerge} from 'tailwind-merge'
 import type {Token} from '../token'
 import type {TypographyClassesOptions} from './classes.interface'
 
-import {LAYOUT, type LayoutType} from '../../constants'
-import {platformValue} from '../../utils'
+import {ORIENTATION, type Orientation} from '../../constants'
+import {toPlatformUnit} from '../../utils'
 import {DENSITY_SIZE, DENSITY_TYPE, LAYOUT_DENSITY, type DensitySize, type DensityType} from '../density'
 import {RADIUS, SHAPE, type RadiusType, type ShapeType} from '../shape'
 import {
@@ -161,7 +161,7 @@ const DENSITY_ICON = {
 }
 
 const DENSITY_INSET = {
-	[LAYOUT.HORIZONTAL]: {
+	[ORIENTATION.HORIZONTAL]: {
 		[DENSITY_SIZE.LARGE]: 'pl-[--density-inset-large] pr-[--density-inset-large]',
 		[DENSITY_SIZE.MEDIUM]: 'pl-[--density-inset-medium] pr-[--density-inset-medium]',
 		[DENSITY_SIZE.NONE]: 'pl-[--density-inset-none] pr-[--density-inset-none]',
@@ -171,7 +171,7 @@ const DENSITY_INSET = {
 		[DENSITY_SIZE.XX_LARGE]: 'pl-[--density-inset-xx-large] pr-[--density-inset-xx-large]',
 		[DENSITY_SIZE.XX_SMALL]: 'pl-[--density-inset-xx-small] pr-[--density-inset-xx-small]'
 	},
-	[LAYOUT.VERTICAL]: {
+	[ORIENTATION.VERTICAL]: {
 		[DENSITY_SIZE.LARGE]: 'pt-[--density-inset-large] pb-[--density-inset-large]',
 		[DENSITY_SIZE.MEDIUM]: 'pt-[--density-inset-medium] pb-[--density-inset-medium]',
 		[DENSITY_SIZE.NONE]: 'pt-[--density-inset-none] pb-[--density-inset-none]',
@@ -184,7 +184,7 @@ const DENSITY_INSET = {
 }
 
 const DENSITY_SPACING = {
-	[LAYOUT.HORIZONTAL]: {
+	[ORIENTATION.HORIZONTAL]: {
 		[DENSITY_SIZE.LARGE]: 'ml-[--density-spacing-large] mr-[--density-spacing-large]',
 		[DENSITY_SIZE.MEDIUM]: 'ml-[--density-spacing-medium] mr-[--density-spacing-medium]',
 		[DENSITY_SIZE.NONE]: 'ml-[--density-spacing-none] mr-[--density-spacing-none]',
@@ -196,7 +196,7 @@ const DENSITY_SPACING = {
 		[DENSITY_SIZE.XX_LARGE]: 'ml-[--density-spacing-xx-large] mr-[--density-spacing-xx-large]',
 		[DENSITY_SIZE.XX_SMALL]: 'ml-[--density-spacing-xx-small] mr-[--density-spacing-xx-small]'
 	},
-	[LAYOUT.VERTICAL]: {
+	[ORIENTATION.VERTICAL]: {
 		[DENSITY_SIZE.LARGE]: 'mt-[--density-spacing-large] mb-[--density-spacing-large]',
 		[DENSITY_SIZE.MEDIUM]: 'mt-[--density-spacing-medium] mb-[--density-spacing-medium]',
 		[DENSITY_SIZE.NONE]: 'mt-[--density-spacing-none] mb-[--density-spacing-none]',
@@ -245,7 +245,7 @@ const createCssVariables = <T extends object>(prefix: string, obj: T, platformVa
 			[`${prefix}-${toKebabCase(key)}`]:
 				platformValueKeys ?
 					platformValueKeys.includes(key) && typeof value === 'number' ?
-						platformValue(value)
+						toPlatformUnit(value)
 					:	value
 				:	value
 		}),
@@ -269,10 +269,10 @@ const buildTypographyStyleVariables = (typography: Typography) => {
 
 const processStyleVariables = ({
 	border,
+	colors,
 	density,
 	font,
 	opacity,
-	scheme,
 	shape,
 	typography
 }: Omit<Token, 'styleVariables'>) =>
@@ -286,14 +286,14 @@ const processStyleVariables = ({
 		...createCssVariables('density-spacing', density.spacing, TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...createCssVariables('font', font.family),
 		...createCssVariables('opacity', opacity),
-		...createCssVariables('color', scheme),
+		...createCssVariables('color', colors),
 		...createCssVariables('radius', shape.radius, TYPOGRAPHY_PLATFORM_VALUE_KEYS),
 		...buildTypographyStyleVariables(typography)
 	})
 
-const classesName = (...inputs: ClassValue[]) => twMerge(clsx(inputs))
+const classNames = (...inputs: ClassValue[]) => twMerge(clsx(inputs))
 const densityClasses =
-	(type: Exclude<DensityType, 'LAYOUT'>, layout: LayoutType = LAYOUT.HORIZONTAL) =>
+	(type: Exclude<DensityType, 'LAYOUT'>, orientation: Orientation = ORIENTATION.HORIZONTAL) =>
 	(size: Exclude<DensitySize, 'TIGHT' | 'SNUG'> | number = DENSITY_SIZE.MEDIUM) => {
 		if (typeof size === 'number') {
 			return ''
@@ -302,7 +302,7 @@ const densityClasses =
 		const isWithLayout = LAYOUT_AWARE_DENSITY_TYPES.includes(type)
 
 		if (isWithLayout) {
-			return (DENSITY[type] as typeof DENSITY_SPACING)[layout][size] || ''
+			return (DENSITY[type] as typeof DENSITY_SPACING)[orientation][size] || ''
 		}
 
 		return (DENSITY[type] as typeof DENSITY_CONTROL)[size]
@@ -317,10 +317,10 @@ const typographyClasses =
 		typography: TypographyType = TYPOGRAPHY.BODY,
 		{
 			colorClasses = 'text-[--color-on-surface]',
-			fontFamilyClasses = 'font-[family-name:var(--font-family)]'
+			fontFamilyClasses = 'font-[family-name:var(--font-text)]'
 		} = {} as TypographyClassesOptions
 	) =>
 	(size: TypographySize = TYPOGRAPHY_SIZE.MEDIUM) =>
 		clsx(TYPOGRAPHY_TYPE[typography][size], fontFamilyClasses, colorClasses)
 
-export {classesName, densityClasses, processStyleVariables, shapeClasses, typographyClasses}
+export {classNames, densityClasses, processStyleVariables, shapeClasses, typographyClasses}

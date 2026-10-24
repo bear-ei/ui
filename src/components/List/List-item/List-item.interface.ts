@@ -1,13 +1,13 @@
 import type {GestureResponderEvent, PanResponderInstance, TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
-import type {ComponentStatus, EventName, State} from '../../../constants'
-import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
+import type {ComponentStatus, EventName} from '../../../constants'
+import type {HandleInteractionStateChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {PressableType, TouchableProps} from '../../Touchable'
 import type {ListItemData, ListProps} from '../List.interface'
 
 export interface ListItemRef extends PressableType {
-	active: () => void
+	activate: () => void
 	close: () => void
 }
 
@@ -21,19 +21,19 @@ export interface ListItemProps
 			| 'afterAffordance'
 			| 'afterAffordanceActiveKey'
 			| 'beforeAffordance'
-			| 'closeTrailing'
+			| 'enableTrailingClose'
 			| 'divider'
 			| 'enableUnderlay'
 			| 'enableUnderlayActive'
 			| 'focusedIndex'
 			| 'gap'
-			| 'onActive'
-			| 'onActiveAfterAffordance'
-			| 'onSecondaryAction'
-			| 'selectType'
+			| 'onActiveKeyChange'
+			| 'onAfterAffordanceActiveChange'
+			| 'onSecondaryPress'
+			| 'selectionType'
 			| 'shape'
 			| 'size'
-			| 'skeletonDuration'
+			| 'skeletonAutoHideDelay'
 			| 'skeletonElement'
 			| 'trailingTriggerOn'
 			| 'type'
@@ -56,14 +56,14 @@ export interface ListItemProps
 			| 'supportingTextNumberOfLines'
 			| 'trailing'
 		> {
-	indexKey: string
 	itemIndex: number
-	onClose?: (indexKey?: string) => void
-	onLoadEnd?: (indexKey?: string) => void
+	itemKey: string
+	onClose?: (itemKey?: string) => void
+	onLoadEnd?: (itemKey?: string) => void
 	onTrailingPressOut?: (event: GestureResponderEvent) => void
 }
 
-export interface RenderListItemProps extends Omit<ListItemProps, 'itemIndex'>, Pick<ListProps, 'onConfirm'> {
+export interface RenderListItemProps extends Omit<ListItemProps, 'itemIndex'>, Pick<ListProps, 'onPrimaryAction'> {
 	active?: boolean
 	affordanceVisible?: boolean
 	afterAffordanceExpanded?: boolean
@@ -76,7 +76,6 @@ export interface RenderListItemProps extends Omit<ListItemProps, 'itemIndex'>, P
 	onTrailingUnmount?: () => void
 	panResponder?: PanResponderInstance
 	skeletonVisible?: boolean
-	state?: State
 	trailingElement?: React.JSX.Element
 	trailingVisible?: boolean
 }
@@ -87,40 +86,40 @@ export interface ListItemState {
 	afterAffordanceExpanded?: boolean
 	eventName?: EventName
 	pendingActiveEvent?: string
-	pendingLoadEnd?: string
+	pendingLoadEndEvent?: string
 	status: ComponentStatus
 	trailingVisible?: boolean
 }
 
-export interface HandleListItemStateChangeOptions
+export interface HandleListItemInteractionStateChangeOptions
 	extends
-		HandleStateEventChangeOptions,
-		Pick<ListItemProps, 'itemIndex' | 'indexKey' | 'onActive' | 'onLoadEnd' | 'type'> {}
+		HandleInteractionStateChangeOptions,
+		Pick<ListItemProps, 'itemIndex' | 'itemKey' | 'onActiveKeyChange' | 'onLoadEnd' | 'type'> {}
 
-export interface ConfirmListItemAffordanceActionOptions extends Pick<RenderListItemProps, 'onActiveAfterAffordance'> {
-	onClose: (indexKey?: string) => void
+export interface ConfirmListItemAffordanceActionOptions extends Pick<
+	RenderListItemProps,
+	'onAfterAffordanceActiveChange'
+> {
+	onClose: (itemKey?: string) => void
 }
 
 export interface RenderListItemTrailingProps extends Pick<
 	RenderListItemProps,
-	'afterAffordance' | 'closeTrailing' | 'disabled' | 'id' | 'size' | 'trailing' | 'trailingTriggerOn'
+	'afterAffordance' | 'enableTrailingClose' | 'disabled' | 'id' | 'size' | 'trailing' | 'trailingTriggerOn'
 > {
 	interactionHandlers: InteractionHandlers
-	onTrailingVisible?: (eventName: EventName) => void
+	onTrailingHoverIn?: (eventName: EventName) => void
 }
 
 export interface UseListItemAnimatedOptions {
 	active?: boolean
 	afterAffordanceVisible?: boolean
-	onVisibleFinished?: (visible?: boolean) => false
 	status: ComponentStatus
 }
 
 export interface TriggerListItemTrailingActionsOptions extends Pick<
 	ListItemProps,
-	'closeTrailing' | 'afterAffordance' | 'onActiveAfterAffordance' | 'onPressOut'
+	'enableTrailingClose' | 'afterAffordance' | 'onAfterAffordanceActiveChange' | 'onPressOut'
 > {
 	onClose: (close?: boolean) => void
 }
-
-export type AffordanceLayoutProps = Pick<RenderListItemProps, 'afterAffordanceExpanded'>

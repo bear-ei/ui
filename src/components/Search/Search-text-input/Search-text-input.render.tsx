@@ -4,19 +4,19 @@ import {Pressable, View} from 'react-native'
 
 import type {RenderSearchTextInputProps} from './Search-text-input.interface'
 
-import {EVENT_NAME, LAYOUT} from '../../../constants'
+import {EVENT_NAME, ORIENTATION} from '../../../constants'
 import {useTheme} from '../../../hooks'
 import {
 	DENSITY_SIZE,
 	DENSITY_TYPE,
-	densitySizeMapTypographySize,
+	toTypographySize,
 	hexToRGBA,
 	RADIUS,
 	SHAPE,
 	stepDownDensitySize,
 	TYPOGRAPHY
 } from '../../../theme'
-import {platformValue} from '../../../utils'
+import {toPlatformUnit} from '../../../utils'
 import {AnimatedTextInput, AnimatedView} from '../../Animated'
 import {ICON_BUTTON_TYPE} from '../../Icon-button'
 import {Underlay} from '../../Underlay'
@@ -46,16 +46,16 @@ export const RenderSearchTextInput: FC<RenderSearchTextInputProps> = ({
 }) => {
 	const {onBlur, onFocus, ...touchableInteractionHandlers} = interactionHandlers
 	const {token} = useTheme()
-	const {classes, density, opacity, scheme} = token
+	const {classes, colors, density, opacity} = token
 	const underlayEventName = disabled ? EVENT_NAME.NONE : eventName
-	const {classesName, densityClasses, typographyClasses} = classes
+	const {classNames, densityClasses, typographyClasses} = classes
 	const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)
-	const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET, LAYOUT.HORIZONTAL)
+	const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET, ORIENTATION.HORIZONTAL)
 	const iconSize = density.icon[stepDownDensitySize(size)]
 	const isLeadingShow = !!leadingElement
 	const isTrailingShow = !!trailingElement
-	const placeholderTextColor = disabled ? hexToRGBA(scheme.onSurface, opacity.level5) : scheme.onSurfaceVariant
-	const underlayColor = scheme.onSurface
+	const placeholderTextColor = disabled ? hexToRGBA(colors.onSurface, opacity.level5) : colors.onSurfaceVariant
+	const underlayColor = colors.onSurface
 	const underlayOpacities = useMemo(
 		() => [opacity.level0, opacity.level1, opacity.level0] as [number, number, number],
 		[opacity.level0, opacity.level1]
@@ -63,7 +63,7 @@ export const RenderSearchTextInput: FC<RenderSearchTextInputProps> = ({
 
 	return (
 		<View
-			className={classesName('relative justify-center self-stretch', `${densityControlClasses(size)} w-auto`)}
+			className={classNames('relative justify-center self-stretch', `${densityControlClasses(size)} w-auto`)}
 			testID={testID ?? `searchTextInput--${id}`}
 		>
 			<Pressable
@@ -75,7 +75,7 @@ export const RenderSearchTextInput: FC<RenderSearchTextInputProps> = ({
 				<AnimatedView
 					accessibilityLabel={accessibilityLabel ?? placeholder}
 					accessibilityRole='search'
-					className={classesName(
+					className={classNames(
 						'relative z-10 flex flex-1 flex-row items-center justify-between self-stretch',
 						densityInsetClasses(size),
 
@@ -88,16 +88,13 @@ export const RenderSearchTextInput: FC<RenderSearchTextInputProps> = ({
 					testID={`searchTextInput__content--${id}`}
 				>
 					<View
-						className={classesName(
-							'flex flex-col items-center justify-center',
-							densityControlClasses(size)
-						)}
+						className={classNames('flex flex-col items-center justify-center', densityControlClasses(size))}
 						testID={`searchTextInput__leading--${id}`}
 					>
 						{cloneElement(leadingElement, {
-							color: scheme.onSurfaceVariant,
+							color: colors.onSurfaceVariant,
 							disabled,
-							size: platformValue(iconSize),
+							size: toPlatformUnit(iconSize),
 							testID: `searchTextInput__leadingIcon--${id}`
 						})}
 					</View>
@@ -115,9 +112,9 @@ export const RenderSearchTextInput: FC<RenderSearchTextInputProps> = ({
 								autoCapitalize={autoCapitalize}
 								autoComplete={autoComplete}
 								autoCorrect={autoCorrect}
-								className={classesName(
+								className={classNames(
 									'flex-1 self-stretch pb-0 pl-0 pr-0 pt-0 text-left outline-none',
-									typographyClasses(TYPOGRAPHY.BODY)(densitySizeMapTypographySize(size))
+									typographyClasses(TYPOGRAPHY.BODY)(toTypographySize(size))
 								)}
 								editable={typeof disabled === 'boolean' ? !disabled : editable}
 								onBlur={onBlur}
@@ -135,7 +132,7 @@ export const RenderSearchTextInput: FC<RenderSearchTextInputProps> = ({
 
 					{trailingElement && (
 						<View
-							className={classesName(
+							className={classNames(
 								'flex flex-col items-center justify-center',
 								densityControlClasses(size)
 							)}
@@ -151,7 +148,7 @@ export const RenderSearchTextInput: FC<RenderSearchTextInputProps> = ({
 					)}
 
 					<Underlay
-						eventName={underlayEventName}
+						interactionEventName={underlayEventName}
 						opacities={underlayOpacities}
 						radius={listVisible ? RADIUS.MEDIUM : RADIUS.XX_LARGE}
 						shape={listVisible ? SHAPE.TOP : SHAPE.ALL}

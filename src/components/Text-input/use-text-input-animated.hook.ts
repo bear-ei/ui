@@ -3,27 +3,27 @@ import {cancelAnimation, interpolate, interpolateColor, useAnimatedStyle, useSha
 
 import type {UseTextInputAnimatedOptions} from './Text-input.interface'
 
-import {COMPONENT_STATUS, STATE} from '../../constants'
+import {COMPONENT_STATUS, INTERACTION_STATE} from '../../constants'
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {hexToRGBA} from '../../theme'
 import {TEXT_INPUT_TYPE} from './Text-input.enum'
 import {
 	animateTextInput,
-	createAnimateTextInputDisabledState,
-	createAnimateTextInputEnabledState,
-	createAnimateTextInputErrorState,
-	createAnimateTextInputFocusedState
+	animateTextInputDisabledState,
+	animateTextInputEnabledState,
+	animateTextInputErrorState,
+	animateTextInputFocusedState
 } from './Text-input.handler'
 
 export const useTextInputAnimated = ({
 	disabled,
 	error,
-	state,
+	interactionState,
 	status,
 	type = TEXT_INPUT_TYPE.FILLED
 }: UseTextInputAnimatedOptions) => {
 	const {token} = useTheme()
-	const {opacity, scheme} = token
+	const {colors, opacity} = token
 	const disabledAnimatedValue = disabled ? 0 : 1
 	const defaultAnimatedValue = {activeIndicatorScaleYSharedValue: error ? 1 : 0, colorSharedValue: error ? 3 : 1}
 	const activeIndicatorScaleYSharedValue = useSharedValue(
@@ -33,20 +33,20 @@ export const useTextInputAnimated = ({
 	const headerInnerBackgroundColorSharedValue = useSharedValue(disabledAnimatedValue)
 	const colorSharedValue = useSharedValue(disabled ? disabledAnimatedValue : defaultAnimatedValue.colorSharedValue)
 	const animatedTiming = useAnimatedTiming()
-	const disabledBackgroundColor = hexToRGBA(scheme.onSurface, opacity.level1)
-	const disabledColor = hexToRGBA(scheme.onSurface, opacity.level5)
+	const disabledBackgroundColor = hexToRGBA(colors.onSurface, opacity.level1)
+	const disabledColor = hexToRGBA(colors.onSurface, opacity.level5)
 	const backgroundColorType = useMemo(
 		() => ({
 			[TEXT_INPUT_TYPE.FILLED]: {
 				inputRanges: [0, 1],
-				outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.surfaceContainerHighest, opacity.level10)]
+				outputRanges: [disabledBackgroundColor, hexToRGBA(colors.surfaceContainerHighest, opacity.level10)]
 			},
 			[TEXT_INPUT_TYPE.OUTLINED]: {
 				inputRanges: [0, 1],
-				outputRanges: [hexToRGBA(scheme.surface, opacity.level0), hexToRGBA(scheme.surface, opacity.level0)]
+				outputRanges: [hexToRGBA(colors.surface, opacity.level0), hexToRGBA(colors.surface, opacity.level0)]
 			}
 		}),
-		[disabledBackgroundColor, opacity, scheme]
+		[disabledBackgroundColor, opacity, colors]
 	)
 
 	const headerAnimatedStyle = useAnimatedStyle(() => ({
@@ -58,8 +58,8 @@ export const useTextInputAnimated = ({
 	}))
 
 	const inputColorOutputRanges = useMemo(
-		() => [disabledColor, hexToRGBA(scheme.onSurface, opacity.level10)],
-		[disabledColor, opacity, scheme]
+		() => [disabledColor, hexToRGBA(colors.onSurface, opacity.level10)],
+		[disabledColor, opacity, colors]
 	)
 	const inputAnimatedStyle = useAnimatedStyle(() => ({
 		color: interpolateColor(colorSharedValue.value, [0, 1], inputColorOutputRanges)
@@ -68,11 +68,11 @@ export const useTextInputAnimated = ({
 	const activeIndicatorBackgroundColorOutputRanges = useMemo(
 		() => [
 			disabledColor,
-			hexToRGBA(scheme.onSurfaceVariant, opacity.level10),
-			hexToRGBA(scheme.primary, opacity.level10),
-			hexToRGBA(scheme.error, opacity.level10)
+			hexToRGBA(colors.onSurfaceVariant, opacity.level10),
+			hexToRGBA(colors.primary, opacity.level10),
+			hexToRGBA(colors.error, opacity.level10)
 		],
-		[disabledColor, opacity, scheme]
+		[disabledColor, opacity, colors]
 	)
 
 	const activeIndicatorAnimatedStyle = useAnimatedStyle(() => ({
@@ -84,9 +84,9 @@ export const useTextInputAnimated = ({
 		transform: [{scaleY: interpolate(activeIndicatorScaleYSharedValue.value, [0, 1], [0.5, 1])}]
 	}))
 
-	const animateTextInputEnabledState = useCallback(
+	const runAnimateTextInputEnabledState = useCallback(
 		() =>
-			createAnimateTextInputEnabledState(
+			animateTextInputEnabledState(
 				[activeIndicatorScaleYSharedValue, colorSharedValue, headerInnerBackgroundColorSharedValue],
 				animatedTiming,
 				error
@@ -100,27 +100,27 @@ export const useTextInputAnimated = ({
 		]
 	)
 
-	const animateTextInputDisabledState = useCallback(
+	const runAnimateTextInputDisabledState = useCallback(
 		() =>
-			createAnimateTextInputDisabledState(
+			animateTextInputDisabledState(
 				[activeIndicatorScaleYSharedValue, colorSharedValue, headerInnerBackgroundColorSharedValue],
 				animatedTiming
 			),
 		[activeIndicatorScaleYSharedValue, animatedTiming, colorSharedValue, headerInnerBackgroundColorSharedValue]
 	)
 
-	const animateTextInputErrorState = useCallback(
+	const runAnimateTextInputErrorState = useCallback(
 		() =>
-			createAnimateTextInputErrorState(
+			animateTextInputErrorState(
 				[activeIndicatorScaleYSharedValue, colorSharedValue, headerInnerBackgroundColorSharedValue],
 				animatedTiming
 			),
 		[activeIndicatorScaleYSharedValue, animatedTiming, colorSharedValue, headerInnerBackgroundColorSharedValue]
 	)
 
-	const animateTextInputFocusedState = useCallback(
+	const runAnimateTextInputFocusedState = useCallback(
 		() =>
-			createAnimateTextInputFocusedState(
+			animateTextInputFocusedState(
 				[activeIndicatorScaleYSharedValue, colorSharedValue, headerInnerBackgroundColorSharedValue],
 				animatedTiming,
 				error
@@ -138,18 +138,18 @@ export const useTextInputAnimated = ({
 		() =>
 			animateTextInput(
 				{
-					[STATE.DISABLED]: animateTextInputDisabledState,
-					[STATE.ENABLED]: animateTextInputEnabledState,
-					[STATE.ERROR]: animateTextInputErrorState,
-					[STATE.FOCUSED]: animateTextInputFocusedState
+					[INTERACTION_STATE.DISABLED]: runAnimateTextInputDisabledState,
+					[INTERACTION_STATE.ENABLED]: runAnimateTextInputEnabledState,
+					[INTERACTION_STATE.ERROR]: runAnimateTextInputErrorState,
+					[INTERACTION_STATE.FOCUSED]: runAnimateTextInputFocusedState
 				},
 				{disabled, error}
 			),
 		[
-			animateTextInputDisabledState,
-			animateTextInputEnabledState,
-			animateTextInputErrorState,
-			animateTextInputFocusedState,
+			runAnimateTextInputDisabledState,
+			runAnimateTextInputEnabledState,
+			runAnimateTextInputErrorState,
+			runAnimateTextInputFocusedState,
 			disabled,
 			error
 		]
@@ -160,8 +160,8 @@ export const useTextInputAnimated = ({
 			return
 		}
 
-		runAnimateTextInput(state)
-	}, [runAnimateTextInput, state, status])
+		runAnimateTextInput(interactionState)
+	}, [runAnimateTextInput, interactionState, status])
 
 	useEffect(
 		() => () => {

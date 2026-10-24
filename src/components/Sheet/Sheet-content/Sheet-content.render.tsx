@@ -8,7 +8,7 @@ import type {
 	RenderSheetContentTrailingProps
 } from './Sheet-content.interface'
 
-import {LAYOUT} from '../../../constants'
+import {ORIENTATION} from '../../../constants'
 import {useTheme} from '../../../hooks'
 import {
 	BORDER_SIZE,
@@ -23,11 +23,11 @@ import {
 import {Button, BUTTON_TYPE} from '../../Button'
 import {Divider} from '../../Divider'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
-import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
-import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Sheet.enum'
+import {LAYOUT_ANIMATION, LayoutAnimated} from '../../Layout-animated'
+import {SHEET_POSITION, SHEET_TYPE} from '../Sheet.enum'
 
 export const RenderSheetContentLeading: FC<RenderSheetContentLeadingProps> = ({
-	back,
+	backButtonVisible,
 	disabled,
 	headlineLeading,
 	id,
@@ -35,10 +35,10 @@ export const RenderSheetContentLeading: FC<RenderSheetContentLeadingProps> = ({
 	position
 }) =>
 	headlineLeading ??
-	(back ?
+	(backButtonVisible ?
 		<IconButton
 			disabled={disabled}
-			icon={position === SIDE_SHEET_POSITION.HORIZONTAL_START ? <ArrowRight /> : <ArrowLeft />}
+			icon={position === SHEET_POSITION.HORIZONTAL_START ? <ArrowRight /> : <ArrowLeft />}
 			onPressOut={onBack}
 			size={DENSITY_SIZE.MEDIUM}
 			testID={`sheet__backIconButton--${id}`}
@@ -47,13 +47,13 @@ export const RenderSheetContentLeading: FC<RenderSheetContentLeadingProps> = ({
 	:	undefined)
 
 export const RenderSheetContentTrailing: FC<RenderSheetContentTrailingProps> = ({
-	close,
+	closeButtonVisible,
 	headlineTrailing,
 	id,
 	onClose
 }) =>
 	headlineTrailing ??
-	(close ?
+	(closeButtonVisible ?
 		<IconButton
 			icon={<X />}
 			onPressOut={onClose}
@@ -75,7 +75,7 @@ export const RenderSheetContent: FC<RenderSheetContentProps> = ({
 	leadingElement,
 	onCancel,
 	onConfirm,
-	onVisible,
+	onVisibleChange,
 	position,
 	primaryButton,
 	primaryButtonDisabled,
@@ -97,47 +97,47 @@ export const RenderSheetContent: FC<RenderSheetContentProps> = ({
 	...contentProps
 }) => {
 	const {token} = useTheme()
-	const {classesName, densityClasses, shapeClasses, typographyClasses} = token.classes
+	const {classNames, densityClasses, shapeClasses, typographyClasses} = token.classes
 	const densityInlineClasses = densityClasses(DENSITY_TYPE.INLINE)
-	const densityVerticalInsetClasses = densityClasses(DENSITY_TYPE.INSET, LAYOUT.VERTICAL)
-	const densityHorizontalInsetClasses = densityClasses(DENSITY_TYPE.INSET, LAYOUT.HORIZONTAL)
+	const densityVerticalInsetClasses = densityClasses(DENSITY_TYPE.INSET, ORIENTATION.VERTICAL)
+	const densityHorizontalInsetClasses = densityClasses(DENSITY_TYPE.INSET, ORIENTATION.HORIZONTAL)
 	const footerLayoutAnimatedContentSize =
 		token.density.inline[DENSITY_SIZE.XX_LARGE] +
 		token.density.spacing[DENSITY_SIZE.SMALL] +
 		token.border[BORDER_SIZE.SMALL]
 
-	const positionShape = position === SIDE_SHEET_POSITION.HORIZONTAL_START ? SHAPE.END : SHAPE.START
-	const sheetShape = shape ?? (type === SIDE_SHEET_TYPE.SIDEBAR ? SHAPE.ALL : positionShape)
+	const positionShape = position === SHEET_POSITION.HORIZONTAL_START ? SHAPE.END : SHAPE.START
+	const sheetShape = shape ?? (type === SHEET_TYPE.SIDEBAR ? SHAPE.ALL : positionShape)
 	const buttonTabIndex = footerVisible ? 0 : -1
 	const {entry, exit} = ENTRY_EXIT.SHORT
 
 	return (
 		<LayoutAnimated
-			animatedType={LAYOUT_ANIMATED.FADE}
-			className={classesName('flex flex-1 flex-row self-stretch overflow-hidden', {
-				['justify-end']: type === SIDE_SHEET_TYPE.MODAL && position === SIDE_SHEET_POSITION.HORIZONTAL_END,
-				['justify-start']: type === SIDE_SHEET_TYPE.MODAL && position === SIDE_SHEET_POSITION.HORIZONTAL_START
+			animation={LAYOUT_ANIMATION.FADE}
+			className={classNames('flex flex-1 flex-row self-stretch overflow-hidden', {
+				['justify-end']: type === SHEET_TYPE.MODAL && position === SHEET_POSITION.HORIZONTAL_END,
+				['justify-start']: type === SHEET_TYPE.MODAL && position === SHEET_POSITION.HORIZONTAL_START
 			})}
 			defaultVisible={true}
 			entry={entry}
 			exit={exit}
-			onVisible={onVisible}
+			onVisibleChange={onVisibleChange}
 			style={containerAnimatedStyle}
 			testID={testID ?? `sheetContent--${id}`}
 			visible={visible}
 		>
 			<View
 				{...contentProps}
-				className={classesName(
+				className={classNames(
 					'relative flex flex-1 flex-col overflow-hidden bg-[--color-surface-container-low]',
-					{['max-w-[--density-layout-sidebar]']: type === SIDE_SHEET_TYPE.SIDEBAR},
+					{['max-w-[--density-layout-sidebar]']: type === SHEET_TYPE.SIDEBAR},
 					shapeClasses(sheetShape)(radius)
 				)}
 				style={style}
 				testID={`sheetContent__content--${id}`}
 			>
 				<View
-					className={classesName(
+					className={classNames(
 						'flex flex-row items-center gap-[--density-spacing-xx-small] self-stretch',
 						densityVerticalInsetClasses(DENSITY_SIZE.MEDIUM),
 						densityHorizontalInsetClasses(DENSITY_SIZE.LARGE),
@@ -158,14 +158,14 @@ export const RenderSheetContent: FC<RenderSheetContentProps> = ({
 					)}
 
 					<View
-						className={classesName(
+						className={classNames(
 							'flex flex-1 flex-row items-center',
 							`${densityInlineClasses(DENSITY_SIZE.MEDIUM)} w-auto`
 						)}
 						testID={`sheetContent__headlineLayout--${id}`}
 					>
 						<Text
-							className={classesName(
+							className={classNames(
 								'select-none text-center',
 								typographyClasses(TYPOGRAPHY.TITLE, {
 									colorClasses: 'color-[--color-on-surface-variant]'
@@ -196,24 +196,24 @@ export const RenderSheetContent: FC<RenderSheetContentProps> = ({
 				</View>
 
 				<LayoutAnimated
-					animatedType={LAYOUT_ANIMATED.COLLAPSE_Y}
+					animation={LAYOUT_ANIMATION.COLLAPSE_Y}
 					className='absolute bottom-0 left-0 right-0 origin-bottom'
 					contentSize={footerLayoutAnimatedContentSize}
 					entry={entry}
 					exit={exit}
 					testID={`sheetContent__footerLayout--${id}`}
-					translate={true}
+					translateOnCollapse={true}
 					visible={footerVisible}
 				>
 					<View testID={`sheetContent__footerLayout--${id}`}>
 						<Divider
-							layoutType={LAYOUT.HORIZONTAL}
+							orientation={ORIENTATION.HORIZONTAL}
 							size={DENSITY_SIZE.LARGE}
 							testID={`sheetContent__divider--${id}`}
 						/>
 
 						<View
-							className={classesName(
+							className={classNames(
 								'flex flex-row gap-[--density-spacing-x-small] bg-[--color-surface-container-low] ',
 								densityVerticalInsetClasses(DENSITY_SIZE.MEDIUM),
 								densityHorizontalInsetClasses(DENSITY_SIZE.LARGE)

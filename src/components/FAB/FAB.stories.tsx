@@ -5,7 +5,7 @@ import {Circle} from 'lucide-react-native'
 import type {FABProps} from './FAB.interface'
 
 import {DENSITY_SIZE} from '../../theme'
-import {Fab} from './FAB.component'
+import {FAB} from './FAB.component'
 import {FAB_TYPE} from './FAB.enum'
 
 export const Primary: StoryObj<FABProps> = {
@@ -80,6 +80,6 @@ export const Disabled: StoryObj<FABProps> = {
 
 export default {
 	argTypes: {onPress: {action: 'pressed'}},
-	component: Fab,
+	component: FAB,
 	title: 'components/FAB'
-} as Meta<typeof Fab>
+} as Meta<typeof FAB>

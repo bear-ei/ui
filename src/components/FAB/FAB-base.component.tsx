@@ -3,8 +3,8 @@ import {useImmer} from 'use-immer'
 
 import type {FABBaseProps, FABState} from './FAB.interface'
 
-import {COMPONENT_STATUS, type State} from '../../constants'
-import {useTheme, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {COMPONENT_STATUS, type InteractionState} from '../../constants'
+import {useTheme, type HandleInteractionStateChangeOptions, type InteractionEvent} from '../../hooks'
 import {DENSITY_SIZE} from '../../theme'
 import {ELEVATION_VALUE} from '../Elevation'
 import {FAB_TYPE} from './FAB.enum'
@@ -32,9 +32,9 @@ export const FABBase: FC<FABBaseProps> = ({
 	const isDisabled = loading || rawDisabled
 	const isExtended = !!labelText
 	const underlayColor = getFABUnderlayColor(type, theme)
-	const onStateEventChange = useCallback(
-		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) =>
-			handleFABStateChange(event, setState, {...options, elevated, state}),
+	const onInteractionStateChange = useCallback(
+		(event: InteractionEvent, interactionState: InteractionState, options: HandleInteractionStateChangeOptions) =>
+			handleFABStateChange(event, setState, {...options, elevated, interactionState}),
 		[elevated, setState]
 	)
 
@@ -73,7 +73,7 @@ export const FABBase: FC<FABBaseProps> = ({
 			labelText={labelText}
 			labelTextAnimatedStyle={labelTextAnimatedStyle}
 			loading={loading}
-			onStateEventChange={onStateEventChange}
+			onInteractionStateChange={onInteractionStateChange}
 			size={size}
 			status={status}
 			type={type}
@@ -81,5 +81,3 @@ export const FABBase: FC<FABBaseProps> = ({
 		/>
 	)
 }
-
-

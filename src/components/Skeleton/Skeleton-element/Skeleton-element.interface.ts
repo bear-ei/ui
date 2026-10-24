@@ -1,11 +1,11 @@
 import type {RefAttributes} from 'react'
 import type {View, ViewProps} from 'react-native'
 
-import type {ThemeProps} from '../../../theme'
+import type {ThemeableProps} from '../../../theme'
 import type {RenderSkeletonProps} from '../Skeleton.interface'
 
 export interface SkeletonElementProps
-	extends ViewProps, RefAttributes<View>, Pick<RenderSkeletonProps, 'layoutType'>, Omit<ThemeProps, 'size'> {
+	extends ViewProps, RefAttributes<View>, Pick<RenderSkeletonProps, 'orientation'>, Omit<ThemeableProps, 'size'> {
 	size?: number | {height: number; width?: number}
 }
 

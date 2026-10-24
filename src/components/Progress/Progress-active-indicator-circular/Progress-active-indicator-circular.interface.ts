@@ -5,16 +5,16 @@ import type {CircleProps} from 'react-native-svg'
 
 import type {ComponentStatus} from '../../../constants'
 import type {InteractionHandlers} from '../../../hooks'
-import type {ThemeProps} from '../../../theme'
+import type {ThemeableProps} from '../../../theme'
 import type {ProgressProps} from '../Progress.interface'
 
 export interface ProgressActiveIndicatorCircularProps
 	extends
 		ViewProps,
 		RefAttributes<View>,
-		ThemeProps,
-		Pick<ProgressProps, 'animatedType' | 'value' | 'defaultValue' | 'strokeWidth' | 'size' | 'enableAnimated'> {
-	content?: React.JSX.Element
+		ThemeableProps,
+		Pick<ProgressProps, 'mode' | 'value' | 'defaultValue' | 'strokeWidth' | 'size' | 'enableLoop'> {
+	overlayContent?: React.JSX.Element
 }
 
 export interface ProgressActiveIndicatorCircularState {
@@ -37,7 +37,7 @@ export interface RenderProgressActiveIndicatorCircularProps extends Omit<
 export type ProgressActiveIndicatorCircularBaseProps = ProgressActiveIndicatorCircularProps
 export interface UseProgressActiveIndicatorCircularAnimatedOptions extends Pick<
 	RenderProgressActiveIndicatorCircularProps,
-	'circumference' | 'enableAnimated'
+	'circumference' | 'enableLoop'
 > {
 	status: ComponentStatus
 }

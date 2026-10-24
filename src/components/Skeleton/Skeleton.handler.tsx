@@ -2,7 +2,7 @@ import type {Updater} from 'use-immer'
 
 import {cancelAnimation, type SharedValue} from 'react-native-reanimated'
 
-import type {AnimatedTiming} from '../../hooks'
+import type {AnimatedTimingFactory} from '../../hooks'
 import type {AnimateSkeletonOptions, SkeletonState} from './Skeleton.interface'
 
 import {ANIMATED_TIMING} from '../../theme'
@@ -10,8 +10,8 @@ import {ANIMATED_TIMING} from '../../theme'
 export const updateSkeletonVisible = (setState: Updater<SkeletonState>) => {
 	let timeoutId: ReturnType<typeof setTimeout> | number | undefined
 
-	return (duration?: number) => {
-		if (typeof duration !== 'number') {
+	return (autoHideDelay?: number) => {
+		if (typeof autoHideDelay !== 'number') {
 			setState(draft => {
 				if (!draft.visible) {
 					draft.visible = true
@@ -21,7 +21,7 @@ export const updateSkeletonVisible = (setState: Updater<SkeletonState>) => {
 			return
 		}
 
-		if (duration >= 0) {
+		if (autoHideDelay >= 0) {
 			if (timeoutId !== undefined) {
 				clearTimeout(timeoutId)
 			}
@@ -35,7 +35,7 @@ export const updateSkeletonVisible = (setState: Updater<SkeletonState>) => {
 					setState(draft => {
 						draft.visible = false
 					}),
-				duration
+				autoHideDelay
 			)
 
 			return () => clearTimeout(timeoutId)
@@ -49,13 +49,13 @@ export const updateSkeletonVisible = (setState: Updater<SkeletonState>) => {
 
 export const animateSkeleton = (
 	sharedValue: SharedValue<number>,
-	animatedTiming: AnimatedTiming,
-	{enableAnimated}: AnimateSkeletonOptions
+	animatedTiming: AnimatedTimingFactory,
+	{enableLoop}: AnimateSkeletonOptions
 ) => {
 	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.LOOP)
 
 	return (visible?: boolean) => {
-		if (!enableAnimated || !visible) {
+		if (!enableLoop || !visible) {
 			cancelAnimation(sharedValue)
 
 			return

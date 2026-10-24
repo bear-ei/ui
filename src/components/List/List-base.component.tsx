@@ -5,7 +5,7 @@ import {useImmer} from 'use-immer'
 
 import type {ListBaseProps, ListState} from './List.interface'
 
-import {LAYOUT} from '../../constants'
+import {ORIENTATION} from '../../constants'
 import {useMergeRefs, usePendingEvent, useTheme} from '../../hooks'
 import {DENSITY_SIZE} from '../../theme'
 import {LIST_TYPE} from './List.enum'
@@ -22,31 +22,32 @@ export const ListBase: FC<ListBaseProps> = ({
 	activeKeys: rawActiveKeys,
 	afterAffordance,
 	beforeAffordance,
-	closeTrailing,
 	defaultActiveKey,
 	defaultActiveKeys,
-	deselect,
+	deselectable,
 	divider,
+	enableTrailingClose,
 	enableUnderlay,
 	enableUnderlayActive,
 	focusedIndex,
+	itemInteractionHandlers,
 	itemSize: rawItemSize,
-	layoutType = LAYOUT.VERTICAL,
 	loading,
 	loadingElement,
-	onActive: rawOnActive,
-	onActives,
+	onActiveKeyChange: rawOnActiveKeyChange,
+	onActiveKeysChange,
+	onAfterAffordanceActiveChange: rawOnAfterAffordanceActiveChange,
 	onClose: rawOnClose,
-	onConfirm,
-	onItemStateEvent,
-	onSecondaryAction,
+	onPrimaryAction,
+	onSecondaryPress,
+	orientation = ORIENTATION.VERTICAL,
 	radius,
 	ref,
 	renderItem: rawRenderItem,
-	selectType,
+	selectionType,
 	shape,
 	size = DENSITY_SIZE.MEDIUM,
-	skeletonDuration = 0,
+	skeletonAutoHideDelay = 0,
 	skeletonElement,
 	supportingTextNumberOfLines,
 	trailingTriggerOn,
@@ -59,9 +60,9 @@ export const ListBase: FC<ListBaseProps> = ({
 			activeKeys,
 			afterAffordanceActiveKey,
 			pendingActiveEvent,
-			pendingActivesEvent,
+			pendingActiveKeysEvent,
 			pendingAfterAffordanceActiveEvent,
-			pendingAfterAffordanceEvent,
+			pendingAfterAffordancePrimaryActionEvent,
 			pendingCloseEvent
 		},
 		setState
@@ -70,61 +71,83 @@ export const ListBase: FC<ListBaseProps> = ({
 		activeKeys: rawActiveKeys ?? defaultActiveKeys
 	})
 
-	usePendingEvent('pendingActiveEvent', rawOnActive, {pendingEvent: pendingActiveEvent, setState})
-	usePendingEvent('pendingActivesEvent', onActives, {pendingEvent: pendingActivesEvent, setState})
-	usePendingEvent('pendingAfterAffordanceActiveEvent', rawOnActive, {
-		pendingEvent: pendingAfterAffordanceActiveEvent,
-		setState
-	})
+	usePendingEvent('pendingActiveEvent', rawOnActiveKeyChange, {pendingEvent: pendingActiveEvent, setState})
+	usePendingEvent('pendingActiveKeysEvent', onActiveKeysChange, {pendingEvent: pendingActiveKeysEvent, setState})
+	usePendingEvent(
+		'pendingAfterAffordanceActiveEvent',
+		(changedKey?: string) => {
+			if (changedKey === undefined) {
+				return
+			}
+
+			rawOnActiveKeyChange?.(changedKey)
+			rawOnAfterAffordanceActiveChange?.({activeKey: changedKey})
+		},
+		{pendingEvent: pendingAfterAffordanceActiveEvent, setState}
+	)
 
 	usePendingEvent('pendingCloseEvent', rawOnClose, {pendingEvent: pendingCloseEvent, setState})
-	usePendingEvent('pendingAfterAffordanceEvent', onConfirm, {pendingEvent: pendingAfterAffordanceEvent, setState})
+	usePendingEvent('pendingAfterAffordancePrimaryActionEvent', onPrimaryAction, {
+		pendingEvent: pendingAfterAffordancePrimaryActionEvent,
+		setState
+	})
 
 	const listRef = useRef<ScrollView>(null)
 	const mergedRef = useMergeRefs([ref, listRef])
 	const id = useId()
 	const {token} = useTheme()
 	const itemSize = rawItemSize ?? token.density.control[size]
-	const onActive = useMemo(
-		() => updateListActiveState(setState, {deselect, onActive: rawOnActive, onActives, selectType}),
-		[deselect, onActives, rawOnActive, selectType, setState]
+	const onActiveKeyChange = useMemo(
+		() =>
+			updateListActiveState(setState, {
+				deselectable,
+				onActiveKeyChange: rawOnActiveKeyChange,
+				onActiveKeysChange,
+				selectionType
+			}),
+		[deselectable, onActiveKeysChange, rawOnActiveKeyChange, selectionType, setState]
 	)
 
-	const onActiveAfterAffordance = useMemo(
-		() => updateListAffordanceActiveState(setState, {onActive: rawOnActive, selectType}),
-		[rawOnActive, selectType, setState]
+	const handleAfterAffordanceActiveChange = useMemo(
+		() =>
+			updateListAffordanceActiveState(setState, {
+				onActiveKeyChange: rawOnActiveKeyChange,
+				onAfterAffordanceActiveChange: rawOnAfterAffordanceActiveChange,
+				selectionType
+			}),
+		[rawOnActiveKeyChange, rawOnAfterAffordanceActiveChange, selectionType, setState]
 	)
 
 	const onClose = useMemo(() => triggerListClose(setState, rawOnClose), [rawOnClose, setState])
 	const runUpdateActive = useMemo(
-		() => updateListActiveState(setState, {deselect, selectType}),
-		[deselect, selectType, setState]
+		() => updateListActiveState(setState, {deselectable, selectionType}),
+		[deselectable, selectionType, setState]
 	)
 
 	const renderItem = useMemo(
 		() =>
 			createListItemRenderer({
-				...onItemStateEvent,
+				...itemInteractionHandlers,
 				activeKey,
 				activeKeys,
 				afterAffordance,
 				afterAffordanceActiveKey,
 				beforeAffordance,
-				closeTrailing,
 				divider,
+				enableTrailingClose,
 				enableUnderlay,
 				enableUnderlayActive,
 				focusedIndex,
 				id,
-				onActive,
-				onActiveAfterAffordance,
-				onSecondaryAction,
+				onActiveKeyChange,
+				onAfterAffordanceActiveChange: handleAfterAffordanceActiveChange,
+				onSecondaryPress,
 				radius,
 				renderItem: rawRenderItem,
-				selectType,
+				selectionType,
 				shape,
 				size,
-				skeletonDuration: loading && !loadingElement ? -1 : skeletonDuration,
+				skeletonAutoHideDelay: loading && !loadingElement ? -1 : skeletonAutoHideDelay,
 				skeletonElement,
 				supportingTextNumberOfLines,
 				trailingTriggerOn,
@@ -136,7 +159,7 @@ export const ListBase: FC<ListBaseProps> = ({
 			afterAffordance,
 			afterAffordanceActiveKey,
 			beforeAffordance,
-			closeTrailing,
+			enableTrailingClose,
 			divider,
 			enableUnderlay,
 			enableUnderlayActive,
@@ -144,16 +167,16 @@ export const ListBase: FC<ListBaseProps> = ({
 			id,
 			loading,
 			loadingElement,
-			onActive,
-			onActiveAfterAffordance,
-			onSecondaryAction,
-			onItemStateEvent,
+			onActiveKeyChange,
+			handleAfterAffordanceActiveChange,
+			onSecondaryPress,
+			itemInteractionHandlers,
 			radius,
 			rawRenderItem,
-			selectType,
+			selectionType,
 			shape,
 			size,
-			skeletonDuration,
+			skeletonAutoHideDelay,
 			skeletonElement,
 			supportingTextNumberOfLines,
 			trailingTriggerOn,
@@ -174,10 +197,10 @@ export const ListBase: FC<ListBaseProps> = ({
 			focusedIndex={focusedIndex}
 			id={id}
 			itemSize={itemSize}
-			layoutType={layoutType}
 			loading={loading}
 			loadingElement={loadingElement}
 			onClose={onClose}
+			orientation={orientation}
 			ref={mergedRef}
 			renderItem={renderItem}
 			shape={shape}

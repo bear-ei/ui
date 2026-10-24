@@ -2,29 +2,29 @@ import type {Meta, StoryObj} from '@storybook/react-native-web-vite'
 
 import type {SkeletonProps} from './Skeleton.interface'
 
-import {LAYOUT} from '../../constants'
-import {Circle, Rectangular, Skeleton, Square} from './Skeleton.component'
+import {ORIENTATION} from '../../constants'
+import {Skeleton, SkeletonCircle, SkeletonRectangular, SkeletonSquare} from './Skeleton.component'
 
 const SkeletonComponent = (props: SkeletonProps) => {
 	const skeleton = (
 		<>
-			<Square />
-			<Rectangular
-				layoutType={LAYOUT.VERTICAL}
+			<SkeletonSquare />
+			<SkeletonRectangular
+				orientation={ORIENTATION.VERTICAL}
 				size={{height: 48, width: 56}}
 			>
-				<Rectangular size={{height: 24}} />
-				<Rectangular size={{height: 24}} />
-			</Rectangular>
-			<Circle />
+				<SkeletonRectangular size={{height: 24}} />
+				<SkeletonRectangular size={{height: 24}} />
+			</SkeletonRectangular>
+			<SkeletonCircle />
 		</>
 	)
 
 	return (
 		<Skeleton
 			{...props}
+			autoHideDelay={-1}
 			className='h-14 gap-2'
-			duration={-1}
 			skeleton={skeleton}
 		/>
 	)
@@ -36,9 +36,9 @@ export const DefaultSkeleton: StoryObj<SkeletonProps> = {
 
 export const AutoHide = () => (
 	<Skeleton
+		autoHideDelay={300}
 		className='h-14'
-		duration={300}
-		skeleton={<Rectangular size={{height: 48, width: 56}} />}
+		skeleton={<SkeletonRectangular size={{height: 48, width: 56}} />}
 	/>
 )
 

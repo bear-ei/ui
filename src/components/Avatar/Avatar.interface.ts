@@ -1,12 +1,12 @@
 import type {JSX, RefAttributes} from 'react'
 import type {ImageSourcePropType, ImageURISource, View, ViewProps} from 'react-native'
 
-import type {ThemeProps, DensitySizeScale} from '../../theme'
+import type {ThemeableProps, DensitySizeScale} from '../../theme'
 
-export interface AvatarProps extends ViewProps, RefAttributes<View>, Omit<ThemeProps, 'size'> {
+export interface AvatarProps extends ViewProps, RefAttributes<View>, Omit<ThemeableProps, 'size'> {
 	backgroundColor?: string
 	defaultSource?: ImageURISource | number
-	labelText?: string
+	initialsText?: string
 	size?: number | DensitySizeScale
 	source?: ImageSourcePropType
 	svgElement?: JSX.Element

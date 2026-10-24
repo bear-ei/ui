@@ -16,7 +16,7 @@ const MaskComponent = (props: MaskProps) => {
 			<View className='h-60 w-80'>
 				<Mask
 					{...props}
-					unmount={true}
+					unmountOnHide={true}
 					visible={isVisible}
 				/>
 			</View>
@@ -29,7 +29,7 @@ const MaskComponent = (props: MaskProps) => {
 export const CustomBackground: StoryObj<MaskProps> = {
 	args: {
 		backgroundColor: '#000000',
-		opacity: 0.5
+		backgroundOpacity: 0.5
 	}
 }
 

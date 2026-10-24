@@ -2,23 +2,28 @@ import type {WritableDraft} from 'immer'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import type {AnimatedTiming, StateEvent} from '../../hooks'
-import type {AnimateButtonOptions, ButtonState, ButtonType, HandleButtonStateChangeOptions} from './Button.interface'
+import type {AnimatedTimingFactory, InteractionEvent} from '../../hooks'
+import type {
+	AnimateButtonOptions,
+	ButtonState,
+	ButtonType,
+	HandleButtonInteractionStateChangeOptions
+} from './Button.interface'
 
-import {COMPONENT_STATUS, EVENT_NAME, type EventName, type State, STATE} from '../../constants'
+import {COMPONENT_STATUS, EVENT_NAME, type EventName, type InteractionState, INTERACTION_STATE} from '../../constants'
 import {ANIMATED_TIMING, type Token} from '../../theme'
 import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
 import {BUTTON_TYPE} from './Button.enum'
 
 const ELEVATED_BUTTON_TYPES = [BUTTON_TYPE.ELEVATED, BUTTON_TYPE.FILLED, BUTTON_TYPE.TONAL] as readonly ButtonType[]
 const ELEVATION_VALUE_MAP = {
-	[STATE.DISABLED]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.ENABLED]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.ERROR]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.FOCUSED]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.HOVERED]: ELEVATION_VALUE.LEVEL_1,
-	[STATE.LONG_PRESS]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.PRESS_IN]: ELEVATION_VALUE.LEVEL_0
+	[INTERACTION_STATE.DISABLED]: ELEVATION_VALUE.LEVEL_0,
+	[INTERACTION_STATE.ENABLED]: ELEVATION_VALUE.LEVEL_0,
+	[INTERACTION_STATE.ERROR]: ELEVATION_VALUE.LEVEL_0,
+	[INTERACTION_STATE.FOCUSED]: ELEVATION_VALUE.LEVEL_0,
+	[INTERACTION_STATE.HOVERED]: ELEVATION_VALUE.LEVEL_1,
+	[INTERACTION_STATE.LONG_PRESS]: ELEVATION_VALUE.LEVEL_0,
+	[INTERACTION_STATE.PRESS_IN]: ELEVATION_VALUE.LEVEL_0
 }
 
 export const updateButtonStatus = (setState: Updater<ButtonState>, disabled?: boolean) => (type?: ButtonType) =>
@@ -34,7 +39,11 @@ export const updateButtonStatus = (setState: Updater<ButtonState>, disabled?: bo
 		draft.status = COMPONENT_STATUS.SUCCEEDED
 	})
 
-export const updateButtonElevation = (draft: WritableDraft<ButtonState>, state?: State, type?: ButtonType) => {
+export const updateButtonElevation = (
+	draft: WritableDraft<ButtonState>,
+	interactionState?: InteractionState,
+	type?: ButtonType
+) => {
 	const isElevated = type && ELEVATED_BUTTON_TYPES.includes(type)
 
 	if (!isElevated) {
@@ -43,20 +52,20 @@ export const updateButtonElevation = (draft: WritableDraft<ButtonState>, state?:
 
 	const correctionCoefficient = type === BUTTON_TYPE.ELEVATED ? ELEVATION_VALUE.LEVEL_1 : ELEVATION_VALUE.LEVEL_0
 
-	if (!state) {
+	if (!interactionState) {
 		return
 	}
 
 	draft.elevation = (
-		state === STATE.DISABLED ?
-			ELEVATION_VALUE_MAP[state]
-		:	ELEVATION_VALUE_MAP[state] + correctionCoefficient) as ElevationValue
+		interactionState === INTERACTION_STATE.DISABLED ?
+			ELEVATION_VALUE_MAP[interactionState]
+		:	ELEVATION_VALUE_MAP[interactionState] + correctionCoefficient) as ElevationValue
 }
 
 export const handleButtonStateChange = (
-	_event: StateEvent,
+	_event: InteractionEvent,
 	setState: Updater<ButtonState>,
-	{eventName, state, type}: HandleButtonStateChangeOptions
+	{eventName, interactionState, type}: HandleButtonInteractionStateChangeOptions
 ) => {
 	if (eventName === EVENT_NAME.LAYOUT) {
 		return
@@ -69,7 +78,7 @@ export const handleButtonStateChange = (
 
 		draft.eventName = eventName
 
-		updateButtonElevation(draft, state, type)
+		updateButtonElevation(draft, interactionState, type)
 	})
 }
 
@@ -95,12 +104,12 @@ export const updateButtonDisabledState =
 
 export const getButtonUnderlayColor = (type: ButtonType, token: Token, linkColor?: string) => {
 	const underlay = {
-		[BUTTON_TYPE.ELEVATED]: token.scheme.primary,
-		[BUTTON_TYPE.FILLED]: token.scheme.onPrimary,
-		[BUTTON_TYPE.LINK]: linkColor ?? token.scheme.primary,
-		[BUTTON_TYPE.OUTLINED]: token.scheme.primary,
-		[BUTTON_TYPE.TEXT]: token.scheme.primary,
-		[BUTTON_TYPE.TONAL]: token.scheme.onSecondaryContainer
+		[BUTTON_TYPE.ELEVATED]: token.colors.primary,
+		[BUTTON_TYPE.FILLED]: token.colors.onPrimary,
+		[BUTTON_TYPE.LINK]: linkColor ?? token.colors.primary,
+		[BUTTON_TYPE.OUTLINED]: token.colors.primary,
+		[BUTTON_TYPE.TEXT]: token.colors.primary,
+		[BUTTON_TYPE.TONAL]: token.colors.onSecondaryContainer
 	}
 
 	return underlay[type]
@@ -108,7 +117,7 @@ export const getButtonUnderlayColor = (type: ButtonType, token: Token, linkColor
 
 export const animateButton = (
 	[borderSharedValue, colorSharedValue]: [SharedValue<number>, SharedValue<number>],
-	animatedTiming: AnimatedTiming,
+	animatedTiming: AnimatedTimingFactory,
 	{borderColorInputRanges, disabled, type}: AnimateButtonOptions
 ) => {
 	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, ANIMATED_TIMING.STANDARD)

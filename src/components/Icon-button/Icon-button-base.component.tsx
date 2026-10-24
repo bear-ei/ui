@@ -3,8 +3,8 @@ import {useImmer} from 'use-immer'
 
 import type {IconButtonBaseProps, IconButtonState} from './Icon-button.interface'
 
-import {EVENT_NAME, type State} from '../../constants'
-import {useTheme, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
+import {EVENT_NAME, type InteractionState} from '../../constants'
+import {useTheme, type HandleInteractionStateChangeOptions, type InteractionEvent} from '../../hooks'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import {
 	getIconButtonUnderlayColor,
@@ -28,9 +28,9 @@ export const IconButtonBase: FC<IconButtonBaseProps> = ({
 	const isDisabled = loading || rawDisabled
 	const theme = useTheme()
 	const underlayColor = getIconButtonUnderlayColor(type, theme)
-	const onStateEventChange = useCallback(
-		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) =>
-			handleIconButtonStateChange(event, setState, {...options, state}),
+	const onInteractionStateChange = useCallback(
+		(event: InteractionEvent, interactionState: InteractionState, options: HandleInteractionStateChangeOptions) =>
+			handleIconButtonStateChange(event, setState, {...options, interactionState}),
 		[setState]
 	)
 
@@ -60,12 +60,10 @@ export const IconButtonBase: FC<IconButtonBaseProps> = ({
 			iconElement={iconElement}
 			id={id}
 			loading={loading}
-			onStateEventChange={onStateEventChange}
+			onInteractionStateChange={onInteractionStateChange}
 			size={size}
 			type={type}
 			underlayColor={underlayColor}
 		/>
 	)
 }
-
-

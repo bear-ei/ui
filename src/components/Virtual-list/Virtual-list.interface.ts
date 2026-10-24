@@ -3,63 +3,63 @@ import type {NativeScrollEvent, ScrollView, ScrollViewProps, ViewStyle} from 're
 import type {PanGestureHandlerEventPayload} from 'react-native-gesture-handler'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
-import type {ComponentStatus, LayoutRectangle, LayoutType} from '../../constants'
+import type {ComponentStatus, MeasuredLayoutRectangle, Orientation} from '../../constants'
 import type {InteractionHandlers} from '../../hooks'
-import type {ThemeProps} from '../../theme'
+import type {ThemeableProps} from '../../theme'
 
-export interface Item {
+export interface VirtualListBaseItem {
 	dependencies?: string[]
 	index: number
-	indexKey: string
+	itemKey: string
 }
 
-export interface RenderVirtualListItemInfo<T = Item> {
+export interface RenderVirtualListItemInfo<T = VirtualListBaseItem> {
 	item: T & {index: number}
 }
 
-export type VirtualListData<T = Record<string, unknown>> = T & {
+export type VirtualListItemData<T = Record<string, unknown>> = T & {
 	index?: number
-	indexKey: string
+	itemKey: string
 }
 
 export interface VirtualListCloseEvent {
-	activeKey?: string
-	indexKey: string
+	itemKey: string
+	nextActiveKey?: string
 }
 
-export interface NativeDragEvent extends PanGestureHandlerEventPayload {
+export interface VirtualListDragEvent extends PanGestureHandlerEventPayload {
 	endIndex?: number
-	indexKey: string
+	itemKey: string
 	startIndex?: number
 	targetKey?: string
 }
 
 export interface VirtualListProps<T = any>
-	extends Omit<ScrollViewProps, 'onScroll'>, RefAttributes<ScrollView>, ThemeProps {
+	extends Omit<ScrollViewProps, 'onScroll'>, RefAttributes<ScrollView>, ThemeableProps {
 	activeKey?: string
-	data?: VirtualListData<T>[]
+	autoSelectAdjacentOnClose?: boolean
+	data?: VirtualListItemData<T>[]
 	dependencies?: unknown[]
 	draggable?: boolean
 	emptyElement?: React.JSX.Element
-	enableAutoSelect?: boolean
 	endReachedThreshold?: number
 	focusedIndex?: number
 	gap?: number
 	itemSize?: number
-	layoutType?: LayoutType
 	loading?: boolean
 	loadingElement?: React.JSX.Element
 	onClose?: (event: VirtualListCloseEvent) => void
-	onDragEnd?: (event: NativeDragEvent) => void
-	onDragUpdate?: (event: NativeDragEvent) => void
+	onDragEnd?: (event: VirtualListDragEvent) => void
+	onDragUpdate?: (event: VirtualListDragEvent) => void
 	onEndReached?: () => void
-	onLoadEnd?: (indexKey?: string) => void
+	onLoadEnd?: (itemKey?: string) => void
 	onScroll?: (event: NativeScrollEvent) => void
+	orientation?: Orientation
 	renderItem?: (options: RenderVirtualListItemInfo<T>) => JSX.Element
 }
 
 export interface RenderVirtualListProps extends Omit<VirtualListProps, 'onScroll'>, Pick<ScrollViewProps, 'onScroll'> {
-	containerLayout: Partial<LayoutRectangle>
+	containerLayout: Partial<MeasuredLayoutRectangle>
 	contentAnimatedStyle?: AnimatedStyle<ViewStyle>
 	contentSize?: number
 	emptyList?: boolean
@@ -74,54 +74,48 @@ export interface VirtualListState {
 	dragScrollOffset?: number
 	emptyList?: boolean
 	endIndex?: number
-	layout: Partial<LayoutRectangle>
+	layout: Partial<MeasuredLayoutRectangle>
 	loading?: boolean
 	pendingCloseEvent?: VirtualListCloseEvent
-	pendingDragEndEvent?: NativeDragEvent
-	pendingDragUpdateEvent?: NativeDragEvent
+	pendingDragEndEvent?: VirtualListDragEvent
+	pendingDragUpdateEvent?: VirtualListDragEvent
 	pendingEndReachedEvent?: boolean
 	pendingScrollEvent?: NativeScrollEvent
 	scrollOffset?: number
 	startIndex?: number
 	status: ComponentStatus
-	virtualListData?: VirtualListData[]
-	visibleRangeData?: VirtualListData[]
+	virtualListData?: VirtualListItemData[]
+	visibleRangeData?: VirtualListItemData[]
 }
 
 export interface HandleVirtualListScrollOptions
 	extends
 		Pick<RenderVirtualListProps, 'itemSize' | 'endReachedThreshold' | 'onEndReached'>,
-		Pick<VirtualListProps<unknown>, 'layoutType' | 'onScroll'> {
+		Pick<VirtualListProps<unknown>, 'orientation' | 'onScroll'> {
 	scrollOffsetRef?: RefObject<number>
 }
 
-export interface HandleVirtualListLayoutChangeOptions {
-	layout: LayoutRectangle
-}
-
-export type TriggerVirtualListCloseOptions = Pick<RenderVirtualListProps, 'enableAutoSelect' | 'onClose' | 'activeKey'>
+export type TriggerVirtualListCloseOptions = Pick<
+	RenderVirtualListProps,
+	'autoSelectAdjacentOnClose' | 'onClose' | 'activeKey'
+>
 export interface CloseVirtualListOptions
-	extends TriggerVirtualListCloseOptions, Pick<RenderVirtualListProps, 'itemSize' | 'activeKey' | 'layoutType'> {
+	extends TriggerVirtualListCloseOptions, Pick<RenderVirtualListProps, 'itemSize' | 'activeKey' | 'orientation'> {
 	scrollOffsetRef?: RefObject<number>
 }
 
-export interface HandleVirtualListDragStartConfig {
+export interface HandleVirtualListDragStartOptions {
 	scrollOffsetRef?: RefObject<number>
-}
-
-export interface HandleVirtualListContentVisibleOptions {
-	emptyList?: boolean
-	loading?: boolean
 }
 
 export interface UseVirtualListScrollAnimatedOptions extends Pick<
 	RenderVirtualListProps,
-	'focusedIndex' | 'itemSize' | 'layoutType'
+	'focusedIndex' | 'itemSize' | 'orientation'
 > {
 	contentSize?: number
 }
 
-export interface RenderVirtualListItemOptions extends Pick<
+export interface RenderVirtualListItemsProps extends Pick<
 	RenderVirtualListProps,
 	| 'containerLayout'
 	| 'data'
@@ -130,20 +124,20 @@ export interface RenderVirtualListItemOptions extends Pick<
 	| 'gap'
 	| 'id'
 	| 'itemSize'
-	| 'layoutType'
+	| 'orientation'
 	| 'onLoadEnd'
 	| 'radius'
 	| 'renderItem'
 	| 'shape'
 > {
-	onClose?: (indexKey?: string) => void
-	onDragEnd?: (event: NativeDragEvent) => void
-	onDragStart?: (event: NativeDragEvent) => void
-	onDragUpdate?: (event: NativeDragEvent) => void
+	onClose?: (itemKey?: string) => void
+	onDragEnd?: (event: VirtualListDragEvent) => void
+	onDragStart?: (event: VirtualListDragEvent) => void
+	onDragUpdate?: (event: VirtualListDragEvent) => void
 	scrollOffset?: number
 }
 
-export type UpdateVirtualListLayoutOptions = Pick<RenderVirtualListProps, 'itemSize' | 'layoutType'> & {
+export type UpdateVirtualListLayoutOptions = Pick<RenderVirtualListProps, 'itemSize' | 'orientation'> & {
 	scrollOffsetRef?: RefObject<number>
 }
 
@@ -160,5 +154,5 @@ export interface HandleVirtualListDragEndOptions {
 
 export type HandleVirtualListDragUpdateOptions = Pick<
 	RenderVirtualListProps,
-	'itemSize' | 'layoutType' | 'onDragUpdate'
+	'itemSize' | 'orientation' | 'onDragUpdate'
 >

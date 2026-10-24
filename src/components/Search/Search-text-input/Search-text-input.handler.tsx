@@ -1,30 +1,33 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import type {AnimatedTiming, StateEvent} from '../../../hooks'
-import type {HandleSearchTextInputStateChangeOptions, SearchTextInputState} from './Search-text-input.interface'
+import type {AnimatedTimingFactory, InteractionEvent} from '../../../hooks'
+import type {
+	HandleSearchTextInputInteractionStateChangeOptions,
+	SearchTextInputState
+} from './Search-text-input.interface'
 
-import {COMPONENT_STATUS, EVENT_NAME, STATE} from '../../../constants'
+import {COMPONENT_STATUS, EVENT_NAME, INTERACTION_STATE} from '../../../constants'
 import {ANIMATED_TIMING} from '../../../theme'
 
 export const handleSearchTextInputStateChange = (
-	_event: StateEvent,
+	_event: InteractionEvent,
 	setState: Updater<SearchTextInputState>,
-	{eventName, ref, state}: HandleSearchTextInputStateChangeOptions
+	{eventName, interactionState, ref}: HandleSearchTextInputInteractionStateChangeOptions
 ) => {
 	if (eventName === EVENT_NAME.LAYOUT) {
 		return
 	}
 
 	setState(draft => {
-		if (draft.state === STATE.FOCUSED && eventName !== EVENT_NAME.BLUR) {
+		if (draft.interactionState === INTERACTION_STATE.FOCUSED && eventName !== EVENT_NAME.BLUR) {
 			return
 		}
 
 		draft.eventName = eventName
 
-		if (state) {
-			draft.state = state
+		if (interactionState) {
+			draft.interactionState = interactionState
 		}
 	})
 
@@ -56,7 +59,7 @@ export const updateSearchTextInputValue = (setState: Updater<SearchTextInputStat
 		}
 	})
 
-export const animateSearchColor = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
+export const animateSearchColor = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTimingFactory) => {
 	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.STANDARD)
 
 	return (disabled?: boolean) => animateSharedValueTo(disabled ? 0 : 1)
@@ -64,7 +67,7 @@ export const animateSearchColor = (sharedValue: SharedValue<number>, animatedTim
 
 export const animateSearchBorderRadius = (
 	[borderBottomRadiusSharedValue, borderTopRadiusSharedValue]: [SharedValue<number>, SharedValue<number>],
-	animatedTiming: AnimatedTiming
+	animatedTiming: AnimatedTimingFactory
 ) => {
 	const borderBottomAnimateSharedValueTo = animatedTiming(borderBottomRadiusSharedValue, ANIMATED_TIMING.STANDARD)
 	const borderTopAnimateSharedValueTo = animatedTiming(borderTopRadiusSharedValue, ANIMATED_TIMING.STANDARD)

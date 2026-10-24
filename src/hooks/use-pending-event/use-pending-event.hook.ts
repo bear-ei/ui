@@ -7,7 +7,7 @@ import type {UsePendingEventOptions} from './use-pending-event.interface'
  *
  * Solves the "state stores a function" anti-pattern:
  *   - state stores DATA (`pendingEvent: Evt`) instead of a closure
- *   - the handler (`func`) is read from the latest props via a ref
+ *   - the handler (`onConsume`) is read from the latest props via a ref
  *   - the state slot is cleared immediately after consumption
  *
  * @example
@@ -16,21 +16,21 @@ import type {UsePendingEventOptions} from './use-pending-event.interface'
  *       pendingEvent: pendingEndReached,
  *   })
  *
- * Why not put `func` in deps: it changes identity every render; the
+ * Why not put `onConsume` in deps: it changes identity every render; the
  * effect would re-fire and re-consume the same event indefinitely.
  * The latest-ref pattern decouples handler identity from the effect.
  */
-export const usePendingEvent = <Evt, E, K extends keyof E>(
+export const usePendingEvent = <PendingEvent, State, K extends keyof State>(
 	eventKey?: K,
-	func?: (event: Evt) => void,
-	{pendingEvent, setState} = {} as UsePendingEventOptions<Evt, E>
+	onConsume?: (event: PendingEvent) => void,
+	{pendingEvent, setState} = {} as UsePendingEventOptions<PendingEvent, State>
 ) => {
-	const funcRef = useRef(func)
+	const onConsumeRef = useRef(onConsume)
 
 	// Latest-ref pattern: must write during render (not in an effect) so that
-	// the consumption effect below always sees the freshest `func`, avoiding
+	// the consumption effect below always sees the freshest `onConsume`, avoiding
 	// stale-closure bugs from the previous render's props.
-	funcRef.current = func
+	onConsumeRef.current = onConsume
 
 	useEffect(() => {
 		if (!(pendingEvent !== undefined && setState && eventKey)) {
@@ -41,6 +41,6 @@ export const usePendingEvent = <Evt, E, K extends keyof E>(
 			;(draft as Record<K, undefined>)[eventKey] = undefined
 		})
 
-		funcRef.current?.(pendingEvent)
+		onConsumeRef.current?.(pendingEvent)
 	}, [pendingEvent, setState, eventKey])
 }

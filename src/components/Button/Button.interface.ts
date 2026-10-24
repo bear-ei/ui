@@ -2,14 +2,14 @@ import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {ComponentStatus, EventName} from '../../constants'
-import type {HandleStateEventChangeOptions, StateEventChangeHandler} from '../../hooks'
-import type {ThemeProps} from '../../theme'
+import type {HandleInteractionStateChangeOptions, InteractionStateChangeHandler} from '../../hooks'
+import type {ThemeableProps} from '../../theme'
 import type {ElevationValue} from '../Elevation'
 import type {TouchableProps} from '../Touchable'
 import type {BUTTON_TYPE} from './Button.enum'
 
 export type ButtonType = (typeof BUTTON_TYPE)[keyof typeof BUTTON_TYPE]
-export interface ButtonProps extends TouchableProps, ThemeProps {
+export interface ButtonProps extends TouchableProps, ThemeableProps {
 	error?: boolean
 	icon?: React.JSX.Element
 	labelText?: string
@@ -25,7 +25,7 @@ export interface RenderButtonProps extends ButtonProps, Pick<ButtonState, 'statu
 	eventName: EventName
 	iconElement?: React.JSX.Element
 	labelTextAnimatedStyle: AnimatedStyle<TextStyle>
-	onStateEventChange: StateEventChangeHandler
+	onInteractionStateChange: InteractionStateChangeHandler
 }
 
 export type ButtonBaseProps = ButtonProps
@@ -35,7 +35,8 @@ export interface ButtonState {
 	status: ComponentStatus
 }
 
-export type HandleButtonStateChangeOptions = HandleStateEventChangeOptions & Pick<RenderButtonProps, 'type'>
+export type HandleButtonInteractionStateChangeOptions = HandleInteractionStateChangeOptions &
+	Pick<RenderButtonProps, 'type'>
 export type RenderButtonIconProps = Pick<RenderButtonProps, 'disabled' | 'type' | 'id' | 'icon' | 'size'>
 export type UseButtonAnimatedOptions = Pick<
 	RenderButtonProps,

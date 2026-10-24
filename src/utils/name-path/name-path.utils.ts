@@ -12,7 +12,7 @@ import type {NamePath} from './name-path.interface'
  * Used by Form.store to distinguish "query all fields" (undefined)
  * from "query specific fields" (array).
  */
-export const namePath = <T = Record<string, unknown>>(name?: NamePath<T>): (keyof T)[] | undefined => {
+export const normalizeNamePath = <T = Record<string, unknown>>(name?: NamePath<T>): (keyof T)[] | undefined => {
 	if (name === undefined) {
 		return undefined
 	}

@@ -5,36 +5,36 @@ import type {RenderMaskProps} from './Mask.interface'
 
 import {useTheme} from '../../hooks'
 import {ENTRY_EXIT, hexToRGBA} from '../../theme'
-import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
+import {LAYOUT_ANIMATION, LayoutAnimated} from '../Layout-animated'
 
 export const RenderMask: FC<RenderMaskProps> = ({
 	backgroundColor,
+	backgroundOpacity = 0.2,
 	className,
 	defaultVisible,
 	id,
 	interactionHandlers,
-	opacity = 0.2,
 	style,
 	testID,
 	visible,
 	...containerProps
 }) => {
 	const {token} = useTheme()
-	const {classes, scheme} = token
-	const {classesName} = classes
+	const {classes, colors} = token
+	const {classNames} = classes
 	const {entry, exit} = ENTRY_EXIT.MASK
 
 	const maskStyle = useMemo(
-		() => [style, {backgroundColor: hexToRGBA(backgroundColor ?? scheme.scrim, opacity)}],
-		[style, backgroundColor, opacity, scheme.scrim]
+		() => [style, {backgroundColor: hexToRGBA(backgroundColor ?? colors.scrim, backgroundOpacity)}],
+		[style, backgroundColor, backgroundOpacity, colors.scrim]
 	)
 
 	return (
 		<LayoutAnimated
 			{...containerProps}
 			accessibilityElementsHidden={true}
-			animatedType={LAYOUT_ANIMATED.FADE}
-			className={classesName('absolute bottom-0 left-0 right-0 top-0 cursor-default', className, {
+			animation={LAYOUT_ANIMATION.FADE}
+			className={classNames('absolute bottom-0 left-0 right-0 top-0 cursor-default', className, {
 				['z-40']: visible ?? defaultVisible
 			})}
 			defaultVisible={defaultVisible}

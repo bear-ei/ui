@@ -5,13 +5,13 @@ import {useImmer} from 'use-immer'
 
 import type {SearchTextInputBaseProps, SearchTextInputState} from './Search-text-input.interface'
 
-import {COMPONENT_STATUS, STATE, type State} from '../../../constants'
+import {COMPONENT_STATUS, INTERACTION_STATE, type InteractionState} from '../../../constants'
 import {
 	useInteractionStateEvent,
 	useMergeRefs,
 	usePendingEvent,
-	type HandleStateEventChangeOptions,
-	type StateEvent
+	type HandleInteractionStateChangeOptions,
+	type InteractionEvent
 } from '../../../hooks'
 import {
 	handleSearchTextInputStateChange,
@@ -33,7 +33,7 @@ export const SearchTextInputBase: FC<SearchTextInputBaseProps> = ({
 	...renderSearchProps
 }) => {
 	const [{eventName, pendingChangeTextEvent, status, value}, setState] = useImmer<SearchTextInputState>({
-		state: STATE.ENABLED,
+		interactionState: INTERACTION_STATE.ENABLED,
 		status: COMPONENT_STATUS.IDLE,
 		value: rawValue ?? defaultValue
 	})
@@ -48,13 +48,13 @@ export const SearchTextInputBase: FC<SearchTextInputBaseProps> = ({
 		[rawOnChangeText, setState]
 	)
 
-	const onStateEventChange = useCallback(
-		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) =>
-			handleSearchTextInputStateChange(event, setState, {...options, ref: inputRef, state}),
+	const onInteractionStateChange = useCallback(
+		(event: InteractionEvent, interactionState: InteractionState, options: HandleInteractionStateChangeOptions) =>
+			handleSearchTextInputStateChange(event, setState, {...options, interactionState, ref: inputRef}),
 		[setState]
 	)
 
-	const interactionHandlers = useInteractionStateEvent({...renderSearchProps, disabled, onStateEventChange})
+	const interactionHandlers = useInteractionStateEvent({...renderSearchProps, disabled, onInteractionStateChange})
 	const runUpdateValue = useMemo(() => updateSearchTextInputValue(setState), [setState])
 	const {contentAnimatedStyle, inputAnimatedStyle} = useSearchTextInputAnimated({
 		disabled,

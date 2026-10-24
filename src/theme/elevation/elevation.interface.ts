@@ -8,7 +8,7 @@ export interface Shadow {
 	shadowRadius: number
 }
 
-export type Elevation = Record<ElevationLevel, Shadow>
+export type ElevationMap = Record<ElevationLevel, Shadow>
 export interface ShadowSpec {
 	offset: number
 	opacity: number

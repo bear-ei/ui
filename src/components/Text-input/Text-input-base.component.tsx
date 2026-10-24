@@ -5,10 +5,10 @@ import {useImmer} from 'use-immer'
 
 import type {TextInputBaseProps, TextInputState} from './Text-input.interface'
 
-import {COMPONENT_STATUS, type State, STATE} from '../../constants'
+import {COMPONENT_STATUS, type InteractionState, INTERACTION_STATE} from '../../constants'
 import {
-	type HandleStateEventChangeOptions,
-	type StateEvent,
+	type HandleInteractionStateChangeOptions,
+	type InteractionEvent,
 	useInteractionStateEvent,
 	useMergeRefs,
 	usePendingEvent
@@ -17,24 +17,24 @@ import {debounce} from '../../utils'
 import {TEXT_INPUT_TYPE} from './Text-input.enum'
 import {
 	blurTextInputIfEditable,
-	createUpdateTextInputContentSize,
+	handleTextInputContentSizeChange,
 	focusTextInput,
 	handleTextInputStateChange,
 	handleTextInputSupportingTextAnimationFinished,
+	handleTextInputTextChange,
 	updateTextInputSupportingText,
 	updateTextInputSupportingTextClose,
-	updateTextInputValue,
-	updateTextInputValueWithCallback
+	updateTextInputValue
 } from './Text-input.handler'
 import {RenderTextInput} from './Text-input.render'
 import {useTextInputAnimated} from './use-text-input-animated.hook'
 
 export const TextInputBase: FC<TextInputBaseProps> = ({
-	content,
 	defaultValue,
 	disabled,
 	editable,
 	error,
+	headerContent,
 	leading,
 	multiline,
 	onChangeText: rawOnChangeText,
@@ -52,11 +52,11 @@ export const TextInputBase: FC<TextInputBaseProps> = ({
 		{
 			contentSize,
 			eventName,
+			interactionState,
 			pendingChangeTextEvent,
 			pendingContentSizeChangeEvent,
 			pendingSupportingTextAnimationFinishedEvent,
 			pendingSupportingTextCloseEvent,
-			state,
 			status,
 			supportingText,
 			supportingTextVisible: isSupportingTextVisible,
@@ -65,7 +65,7 @@ export const TextInputBase: FC<TextInputBaseProps> = ({
 		setState
 	] = useImmer<TextInputState>({
 		contentSize: {height: 0, width: 0},
-		state: STATE.ENABLED,
+		interactionState: INTERACTION_STATE.ENABLED,
 		status: COMPONENT_STATUS.IDLE,
 		value: rawValue ?? defaultValue ?? ''
 	})
@@ -85,7 +85,7 @@ export const TextInputBase: FC<TextInputBaseProps> = ({
 	const textInputRef = useRef<TextInput>(null)
 	const mergedRef = useMergeRefs([ref, textInputRef])
 	const onContentSizeChange = useMemo(
-		() => createUpdateTextInputContentSize(setState, rawOnContentSizeChange),
+		() => handleTextInputContentSizeChange(setState, rawOnContentSizeChange),
 		[rawOnContentSizeChange, setState]
 	)
 
@@ -100,7 +100,7 @@ export const TextInputBase: FC<TextInputBaseProps> = ({
 	})
 
 	const onChangeText = useMemo(
-		() => updateTextInputValueWithCallback(setState, rawOnChangeText),
+		() => handleTextInputTextChange(setState, rawOnChangeText),
 		[rawOnChangeText, setState]
 	)
 
@@ -110,27 +110,27 @@ export const TextInputBase: FC<TextInputBaseProps> = ({
 	)
 
 	const onHeaderFocus = focusTextInput(textInputRef)
-	const onStateEventChange = useCallback(
-		(event: StateEvent, changedState: State, options: HandleStateEventChangeOptions) => () => () =>
+	const onInteractionStateChange = useCallback(
+		(event: InteractionEvent, changedState: InteractionState, options: HandleInteractionStateChangeOptions) =>
 			handleTextInputStateChange(event, setState, {
 				...options,
-				content,
-				ref: textInputRef,
-				state: changedState
+				headerContent,
+				interactionState: changedState,
+				ref: textInputRef
 			}),
-		[content, setState]
+		[headerContent, setState]
 	)
 
 	const interactionHandlers = useInteractionStateEvent({
 		...renderTextInputProps,
 		disabled: disabled ?? (typeof editable === 'boolean' ? !editable : undefined),
-		onStateEventChange
+		onInteractionStateChange
 	})
 
 	const {activeIndicatorAnimatedStyle, headerAnimatedStyle, inputAnimatedStyle} = useTextInputAnimated({
 		disabled,
 		error,
-		state,
+		interactionState,
 		status,
 		type
 	})
@@ -160,13 +160,13 @@ export const TextInputBase: FC<TextInputBaseProps> = ({
 		<RenderTextInput
 			{...renderTextInputProps}
 			activeIndicatorAnimatedStyle={activeIndicatorAnimatedStyle}
-			content={content}
 			contentSize={contentSize}
 			disabled={disabled}
 			editable={editable}
 			error={error}
 			eventName={eventName}
 			headerAnimatedStyle={headerAnimatedStyle}
+			headerContent={headerContent}
 			id={id}
 			inputAnimatedStyle={inputAnimatedStyle}
 			interactionHandlers={interactionHandlers}

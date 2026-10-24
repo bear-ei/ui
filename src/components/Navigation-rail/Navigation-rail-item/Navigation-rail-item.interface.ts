@@ -2,19 +2,19 @@ import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {ComponentStatus, EventName} from '../../../constants'
-import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
+import type {HandleInteractionStateChangeOptions, InteractionHandlers} from '../../../hooks'
 import type {PressableType, TouchableProps} from '../../Touchable'
 import type {NavigationRailProps} from '../Navigation-rail.interface'
 
 export interface NavigationRailItemProps
-	extends TouchableProps, Pick<NavigationRailProps, 'activeKey' | 'onActive' | 'type' | 'animatedType'> {
+	extends TouchableProps, Pick<NavigationRailProps, 'activeKey' | 'onActiveKeyChange' | 'type' | 'animation'> {
 	dependencies?: unknown[]
 	icon?: React.JSX.Element
-	indexKey?: string
+	itemKey?: string
 	labelText?: string
 }
 
-export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemProps, 'indexKey'> {
+export interface RenderNavigationRailItemProps extends Omit<NavigationRailItemProps, 'itemKey'> {
 	active?: boolean
 	contentAnimatedStyle: AnimatedStyle<ViewStyle>
 	eventName: EventName
@@ -30,8 +30,8 @@ export interface NavigationRailItemState {
 	status: ComponentStatus
 }
 
-export interface HandleNavigationRailItemStateChangeOptions
-	extends HandleStateEventChangeOptions, Pick<NavigationRailItemProps, 'indexKey' | 'onActive'> {
+export interface HandleNavigationRailItemInteractionStateChangeOptions
+	extends HandleInteractionStateChangeOptions, Pick<NavigationRailItemProps, 'itemKey' | 'onActiveKeyChange'> {
 	ref: React.RefObject<PressableType | null>
 }
 

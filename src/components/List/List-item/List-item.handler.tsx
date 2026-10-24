@@ -2,12 +2,12 @@ import type {GestureResponderEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import type {AnimatedTiming, StateEvent} from '../../../hooks'
+import type {AnimatedTimingFactory, InteractionEvent} from '../../../hooks'
 import type {ListAfterAffordancePressOutEvent} from '../List-after-affordance'
-import type {ListSelectType} from '../List.interface'
+import type {ListSelectionType} from '../List.interface'
 import type {
 	ConfirmListItemAffordanceActionOptions,
-	HandleListItemStateChangeOptions,
+	HandleListItemInteractionStateChangeOptions,
 	ListItemProps,
 	ListItemState,
 	TriggerListItemTrailingActionsOptions
@@ -26,21 +26,21 @@ export const compareListItemProps = (prevProps: ListItemProps, nextProps: ListIt
 		afterAffordance: prevAfterAffordance,
 		afterAffordanceActiveKey: prevAfterAffordanceActiveKey,
 		beforeAffordance: prevBeforeAffordance,
-		closeTrailing: isPrevCloseTrailing,
 		dependencies: prevDependencies,
 		disabled: isPrevDisabled,
 		divider: isPrevDivider,
+		enableTrailingClose: isPrevEnableTrailingClose,
 		enableUnderlay: isPrevEnableUnderlay,
 		enableUnderlayActive: isPrevEnableUnderlayActive,
 		focusedIndex: prevFocusedIndex,
 		gap: prevGap,
-		indexKey: prevIndexKey,
 		itemIndex: prevItemIndex,
-		onActive: prevOnActive,
-		onActiveAfterAffordance: prevOnActiveAfterAffordance,
+		itemKey: prevItemKey,
+		onActiveKeyChange: prevOnActiveKeyChange,
+		onAfterAffordanceActiveChange: prevOnAfterAffordanceActiveChange,
 		onClose: prevOnClose,
 		onLoadEnd: prevOnLoadEnd,
-		onSecondaryAction: prevOnSecondaryAction,
+		onSecondaryPress: prevOnSecondaryPress,
 		onTrailingPressOut: prevOnTrailingPressOut,
 		primaryButtonDisabled: isPrevPrimaryButtonDisabled,
 		primaryButtonLabelText: prevPrimaryButtonLabelText,
@@ -50,10 +50,10 @@ export const compareListItemProps = (prevProps: ListItemProps, nextProps: ListIt
 		secondaryButtonLabelText: prevSecondaryButtonLabelText,
 		secondaryButtonLoading: isPrevSecondaryButtonLoading,
 		secondaryButtonStyle: prevSecondaryButtonStyle,
-		selectType: prevSelectType,
+		selectionType: prevSelectionType,
 		shape: prevShape,
 		size: prevSize,
-		skeletonDuration: prevSkeletonDuration,
+		skeletonAutoHideDelay: prevSkeletonAutoHideDelay,
 		skeletonElement: prevSkeletonElement,
 		supportingTextNumberOfLines: prevSupportingTextNumberOfLines,
 		trailingTriggerOn: prevTrailingTriggerOn,
@@ -66,21 +66,21 @@ export const compareListItemProps = (prevProps: ListItemProps, nextProps: ListIt
 		afterAffordance: nextAfterAffordance,
 		afterAffordanceActiveKey: nextAfterAffordanceActiveKey,
 		beforeAffordance: nextBeforeAffordance,
-		closeTrailing: isNextCloseTrailing,
 		dependencies: nextDependencies,
 		disabled: isNextDisabled,
 		divider: isNextDivider,
+		enableTrailingClose: isNextEnableTrailingClose,
 		enableUnderlay: isNextEnableUnderlay,
 		enableUnderlayActive: isNextEnableUnderlayActive,
 		focusedIndex: nextFocusedIndex,
 		gap: nextGap,
-		indexKey: nextIndexKey,
 		itemIndex: nextItemIndex,
-		onActive: nextOnActive,
-		onActiveAfterAffordance: nextOnActiveAfterAffordance,
+		itemKey: nextItemKey,
+		onActiveKeyChange: nextOnActiveKeyChange,
+		onAfterAffordanceActiveChange: nextOnAfterAffordanceActiveChange,
 		onClose: nextOnClose,
 		onLoadEnd: nextOnLoadEnd,
-		onSecondaryAction: nextOnSecondaryAction,
+		onSecondaryPress: nextOnSecondaryPress,
 		onTrailingPressOut: nextOnTrailingPressOut,
 		primaryButtonDisabled: isNextPrimaryButtonDisabled,
 		primaryButtonLabelText: nextPrimaryButtonLabelText,
@@ -90,10 +90,10 @@ export const compareListItemProps = (prevProps: ListItemProps, nextProps: ListIt
 		secondaryButtonLabelText: nextSecondaryButtonLabelText,
 		secondaryButtonLoading: isNextSecondaryButtonLoading,
 		secondaryButtonStyle: nextSecondaryButtonStyle,
-		selectType: nextSelectType,
+		selectionType: nextSelectionType,
 		shape: nextShape,
 		size: nextSize,
-		skeletonDuration: nextSkeletonDuration,
+		skeletonAutoHideDelay: nextSkeletonAutoHideDelay,
 		skeletonElement: nextSkeletonElement,
 		supportingTextNumberOfLines: nextSupportingTextNumberOfLines,
 		trailingTriggerOn: nextTrailingTriggerOn,
@@ -101,18 +101,19 @@ export const compareListItemProps = (prevProps: ListItemProps, nextProps: ListIt
 	} = nextProps
 
 	const isActiveKeyChange =
-		prevActiveKey !== nextActiveKey && (nextActiveKey === nextIndexKey || prevActiveKey === prevIndexKey)
+		prevActiveKey !== nextActiveKey && (nextActiveKey === nextItemKey || prevActiveKey === prevItemKey)
 
-	const isNextActive = nextIndexKey && nextActiveKeys?.includes(nextIndexKey)
-	const isPrevActive = prevIndexKey && prevActiveKeys?.includes(prevIndexKey)
-	const isAreArraysEqual =
+	const isNextActive = nextItemKey && nextActiveKeys?.includes(nextItemKey)
+	const isPrevActive = prevItemKey && prevActiveKeys?.includes(prevItemKey)
+	const isActiveKeysEqual =
 		nextActiveKeys?.length === prevActiveKeys?.length &&
 		nextActiveKeys?.every((key, index) => key === prevActiveKeys?.[index])
 
-	const isActiveKeysChange = !isAreArraysEqual && ((isNextActive && !isPrevActive) || (isPrevActive && !isNextActive))
+	const isActiveKeysChange =
+		!isActiveKeysEqual && ((isNextActive && !isPrevActive) || (isPrevActive && !isNextActive))
 	const isAfterAffordanceActiveChange =
 		prevAfterAffordanceActiveKey !== nextAfterAffordanceActiveKey &&
-		(nextAfterAffordanceActiveKey === nextIndexKey || prevAfterAffordanceActiveKey === prevIndexKey)
+		(nextAfterAffordanceActiveKey === nextItemKey || prevAfterAffordanceActiveKey === prevItemKey)
 
 	const isFocusedIndexChange =
 		nextFocusedIndex !== prevFocusedIndex &&
@@ -128,7 +129,7 @@ export const compareListItemProps = (prevProps: ListItemProps, nextProps: ListIt
 		isAfterAffordanceActiveChange,
 		isDependenciesChanged,
 		isFocusedIndexChange,
-		isPrevCloseTrailing !== isNextCloseTrailing,
+		isPrevEnableTrailingClose !== isNextEnableTrailingClose,
 		isPrevDisabled !== isNextDisabled,
 		isPrevDivider !== isNextDivider,
 		isPrevEnableUnderlay !== isNextEnableUnderlay,
@@ -140,20 +141,20 @@ export const compareListItemProps = (prevProps: ListItemProps, nextProps: ListIt
 		prevAfterAffordance !== nextAfterAffordance,
 		prevBeforeAffordance !== nextBeforeAffordance,
 		prevGap !== nextGap,
-		prevOnActive !== nextOnActive,
-		prevOnActiveAfterAffordance !== nextOnActiveAfterAffordance,
+		prevOnActiveKeyChange !== nextOnActiveKeyChange,
+		prevOnAfterAffordanceActiveChange !== nextOnAfterAffordanceActiveChange,
 		prevOnClose !== nextOnClose,
 		prevOnLoadEnd !== nextOnLoadEnd,
-		prevOnSecondaryAction !== nextOnSecondaryAction,
+		prevOnSecondaryPress !== nextOnSecondaryPress,
 		prevOnTrailingPressOut !== nextOnTrailingPressOut,
 		prevPrimaryButtonLabelText !== nextPrimaryButtonLabelText,
 		prevPrimaryButtonStyle !== nextPrimaryButtonStyle,
 		prevSecondaryButtonLabelText !== nextSecondaryButtonLabelText,
 		prevSecondaryButtonStyle !== nextSecondaryButtonStyle,
-		prevSelectType !== nextSelectType,
+		prevSelectionType !== nextSelectionType,
 		prevShape !== nextShape,
 		prevSize !== nextSize,
-		prevSkeletonDuration !== nextSkeletonDuration,
+		prevSkeletonAutoHideDelay !== nextSkeletonAutoHideDelay,
 		prevSkeletonElement !== nextSkeletonElement,
 		prevSupportingTextNumberOfLines !== nextSupportingTextNumberOfLines,
 		prevTrailingTriggerOn !== nextTrailingTriggerOn,
@@ -161,13 +162,13 @@ export const compareListItemProps = (prevProps: ListItemProps, nextProps: ListIt
 	].some(Boolean)
 }
 
-export const updateListItemActive =
-	(selectType?: ListSelectType, onActive?: (indexKey: string) => void) => (indexKey: string) => {
-		if (!selectType) {
+export const handleListItemActive =
+	(selectionType?: ListSelectionType, onActiveKeyChange?: (itemKey: string) => void) => (itemKey: string) => {
+		if (!selectionType) {
 			return
 		}
 
-		onActive?.(indexKey)
+		onActiveKeyChange?.(itemKey)
 	}
 
 export const handleTrailingTriggerEvent = (setState: Updater<ListItemState>, trailingTriggerOn?: TriggerOn) => {
@@ -189,9 +190,9 @@ export const handleTrailingTriggerEvent = (setState: Updater<ListItemState>, tra
 }
 
 export const handleListItemStateChange = (
-	_event: StateEvent,
+	_event: InteractionEvent,
 	setState: Updater<ListItemState>,
-	{eventName, indexKey, onActive, onLoadEnd, type}: HandleListItemStateChangeOptions
+	{eventName, itemKey, onActiveKeyChange, onLoadEnd, type}: HandleListItemInteractionStateChangeOptions
 ) =>
 	setState(draft => {
 		if (eventName === EVENT_NAME.LAYOUT && draft.status !== COMPONENT_STATUS.IDLE) {
@@ -212,7 +213,7 @@ export const handleListItemStateChange = (
 
 		if (eventName === EVENT_NAME.LAYOUT) {
 			if (onLoadEnd) {
-				draft.pendingLoadEnd = indexKey
+				draft.pendingLoadEndEvent = itemKey
 			}
 
 			if (draft.status !== COMPONENT_STATUS.SUCCEEDED) {
@@ -222,18 +223,18 @@ export const handleListItemStateChange = (
 			return
 		}
 
-		if (ACTIVE_EVENT_NAMES.includes(eventName) && onActive) {
-			draft.pendingActiveEvent = indexKey
+		if (ACTIVE_EVENT_NAMES.includes(eventName) && onActiveKeyChange) {
+			draft.pendingActiveEvent = itemKey
 		}
 	})
 
 export const triggerListItemTrailingActions =
 	(
-		indexKey: string,
+		itemKey: string,
 		{
 			afterAffordance,
-			closeTrailing,
-			onActiveAfterAffordance,
+			enableTrailingClose,
+			onAfterAffordanceActiveChange,
 			onClose,
 			onPressOut
 		}: TriggerListItemTrailingActionsOptions
@@ -246,17 +247,17 @@ export const triggerListItemTrailingActions =
 		}
 
 		if (afterAffordance) {
-			onActiveAfterAffordance?.({activeKey: indexKey})
+			onAfterAffordanceActiveChange?.({activeKey: itemKey})
 		}
 
-		if (closeTrailing) {
+		if (enableTrailingClose) {
 			onClose()
 		}
 	}
 
 export const confirmListItemAffordanceAction =
-	({onActiveAfterAffordance, onClose}: ConfirmListItemAffordanceActionOptions) =>
-	({indexKey, ...options}: ListAfterAffordancePressOutEvent) => {
+	({onAfterAffordanceActiveChange, onClose}: ConfirmListItemAffordanceActionOptions) =>
+	({itemKey, ...options}: ListAfterAffordancePressOutEvent) => {
 		const {phase} = options
 
 		if (phase === LIST_AFTER_AFFORDANCE_PHASE.DANGER) {
@@ -265,7 +266,7 @@ export const confirmListItemAffordanceAction =
 			return
 		}
 
-		onActiveAfterAffordance?.({callbackEvent: {...options, indexKey}})
+		onAfterAffordanceActiveChange?.({pressOutEvent: {...options, itemKey}})
 	}
 
 export const updateListItemFocusState =
@@ -278,21 +279,24 @@ export const updateListItemFocusState =
 				: draft.eventName
 		})
 
-export const maybeTriggerListItemClose = (indexKey: string, onClose?: (indexKey?: string) => void) => () =>
-	onClose?.(indexKey)
+export const maybeTriggerListItemClose = (itemKey: string, onClose?: (itemKey?: string) => void) => () =>
+	onClose?.(itemKey)
 
 export const updateListItemAfterAffordanceExpanded = (setState: Updater<ListItemState>) => (visible?: boolean) =>
 	setState(draft => {
 		draft.afterAffordanceExpanded = visible
 	})
 
-export const updateListItemTrailingVisible = (setState: Updater<ListItemState>) => (eventName: EventName) =>
+export const updateListItemTrailingHoverEvent = (setState: Updater<ListItemState>) => (eventName: EventName) =>
 	eventName === EVENT_NAME.HOVER_IN &&
 	setState(draft => {
 		draft.eventName = eventName
 	})
 
-export const animateListItemAffordanceVisible = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
+export const animateListItemAffordanceVisible = (
+	sharedValue: SharedValue<number>,
+	animatedTiming: AnimatedTimingFactory
+) => {
 	const entryAnimateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.ENTER)
 
 	const exitAnimateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.EXIT)
@@ -301,7 +305,7 @@ export const animateListItemAffordanceVisible = (sharedValue: SharedValue<number
 		typeof visible === 'boolean' && (visible ? entryAnimateSharedValueTo(1) : exitAnimateSharedValueTo(0))
 }
 
-export const animateListItemActiveState = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
+export const animateListItemActiveState = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTimingFactory) => {
 	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.STANDARD)
 
 	return (active?: boolean) => typeof active === 'boolean' && animateSharedValueTo(active ? 1 : 0)

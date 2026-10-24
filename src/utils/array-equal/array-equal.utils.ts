@@ -6,9 +6,9 @@
  * - `[]` vs `undefined` is NOT equal (length mismatch).
  *
  * @example
- * arrayEqual(prev.dependencies, next.dependencies)
+ * isArrayEqual(prev.dependencies, next.dependencies)
  */
-export const arrayEqual = <T>(prevArray?: T[], nextArray?: T[]) => {
+export const isArrayEqual = <T>(prevArray?: T[], nextArray?: T[]) => {
 	if (prevArray === undefined && nextArray === undefined) {
 		return true
 	}

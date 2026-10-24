@@ -2,22 +2,22 @@ import type {RefAttributes} from 'react'
 import type {View, ViewProps, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
-import type {ComponentStatus, EventName, State} from '../../constants'
+import type {ComponentStatus, EventName, InteractionState} from '../../constants'
 import type {InteractionHandlers} from '../../hooks'
-import type {RadiusType, ThemeProps} from '../../theme'
-import type {ACTIVE_ANIMATED} from './Underlay.enum'
+import type {RadiusType, ThemeableProps} from '../../theme'
+import type {ACTIVE_ANIMATION} from './Underlay.enum'
 
-export type ActiveAnimatedType = (typeof ACTIVE_ANIMATED)[keyof typeof ACTIVE_ANIMATED]
-export interface UnderlayProps extends ViewProps, RefAttributes<View>, ThemeProps {
+export type ActiveAnimationType = (typeof ACTIVE_ANIMATION)[keyof typeof ACTIVE_ANIMATION]
+export interface UnderlayProps extends ViewProps, RefAttributes<View>, ThemeableProps {
 	active?: boolean
-	activeAnimatedType?: ActiveAnimatedType
+	activeAnimation?: ActiveAnimationType
 	activeColor?: string
 	activeRadius?: RadiusType
 	/**
-	 * Scale factors for the active layer, keyed by `activeAnimatedType`:
-	 *   - `scale`  → used by ACTIVE_ANIMATED.SCALE (uniform)
-	 *   - `scaleX` → used by ACTIVE_ANIMATED.SCALE_X
-	 *   - `scaleY` → used by ACTIVE_ANIMATED.SCALE_Y
+	 * Scale factors for the active layer, keyed by `activeAnimation`:
+	 *   - `scale`  → used by ACTIVE_ANIMATION.SCALE (uniform)
+	 *   - `scaleX` → used by ACTIVE_ANIMATION.SCALE_X
+	 *   - `scaleY` → used by ACTIVE_ANIMATION.SCALE_Y
 	 *
 	 * Defaults to 1.2 — not an M3 spec, but intentional: the active layer's
 	 * shape may differ from its container's, so it needs to scale slightly
@@ -25,7 +25,7 @@ export interface UnderlayProps extends ViewProps, RefAttributes<View>, ThemeProp
 	 */
 	activeScale?: {scale?: number; scaleX?: number; scaleY?: number}
 	defaultActive?: boolean
-	eventName?: EventName
+	interactionEventName?: EventName
 	opacities?: [number, number, number] | [number, number]
 	underlayColor?: string
 }
@@ -39,14 +39,14 @@ export interface RenderUnderlayProps extends UnderlayProps {
 export type UnderlayBaseProps = UnderlayProps
 export interface UnderlayState {
 	active?: boolean
-	eventName: EventName
-	state?: State
+	interactionEventName: EventName
+	interactionState?: InteractionState
 	status: ComponentStatus
 }
 
 export interface UseUnderlayAnimatedOptions extends Pick<
 	RenderUnderlayProps,
-	'active' | 'activeAnimatedType' | 'activeScale' | 'eventName' | 'opacities'
+	'active' | 'activeAnimation' | 'activeScale' | 'interactionEventName' | 'opacities'
 > {
 	status: ComponentStatus
 }

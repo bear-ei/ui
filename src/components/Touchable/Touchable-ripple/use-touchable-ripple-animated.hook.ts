@@ -7,13 +7,13 @@ import type {UseTouchableRippleAnimatedOptions} from './Touchable-ripple.interfa
 
 import {COMPONENT_STATUS} from '../../../constants'
 import {useAnimatedTiming, useTheme} from '../../../hooks'
-import {platformValue} from '../../../utils'
+import {toPlatformUnit} from '../../../utils'
 import {animateTouchableRipple} from './Touchable-ripple.handler'
 
 export const useTouchableRippleAnimated = ({
-	indexKey,
-	onAnimateFinished,
+	onAnimationFinished,
 	radius,
+	rippleKey,
 	status
 }: UseTouchableRippleAnimatedOptions) => {
 	const {token} = useTheme()
@@ -26,8 +26,8 @@ export const useTouchableRippleAnimated = ({
 			({
 				opacity: interpolate(opacitySharedValue.value, [0, 1], [opacity.level0, opacity.level2]),
 				transform: [
-					{translateX: platformValue(-radius)},
-					{translateY: platformValue(-radius)},
+					{translateX: toPlatformUnit(-radius)},
+					{translateY: toPlatformUnit(-radius)},
 					{scale: interpolate(scaleSharedValue.value, [0, 1], [0, 1])}
 				]
 			}) as ViewStyle
@@ -36,17 +36,17 @@ export const useTouchableRippleAnimated = ({
 	const runAnimate = useMemo(
 		() =>
 			animateTouchableRipple([opacitySharedValue, scaleSharedValue], animatedTiming, {
-				indexKey,
-				onAnimateFinished
+				onAnimationFinished,
+				rippleKey
 			}),
-		[animatedTiming, onAnimateFinished, opacitySharedValue, scaleSharedValue, indexKey]
+		[animatedTiming, onAnimationFinished, opacitySharedValue, scaleSharedValue, rippleKey]
 	)
 
 	useEffect(() => {
 		if (status === COMPONENT_STATUS.SUCCEEDED) {
 			runAnimate()
 		}
-	}, [runAnimate, indexKey, status])
+	}, [runAnimate, rippleKey, status])
 
 	useEffect(
 		() => () => {

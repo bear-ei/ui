@@ -3,46 +3,50 @@ import {useImmer} from 'use-immer'
 
 import type {UnderlayBaseProps, UnderlayState} from './Underlay.interface'
 
-import {COMPONENT_STATUS, EVENT_NAME, type State} from '../../constants'
-import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../hooks'
-import {handleUnderlayStateChange, updateUnderlayActive, updateUnderlayEventName} from './Underlay.handler'
+import {COMPONENT_STATUS, EVENT_NAME, type InteractionState} from '../../constants'
+import {useInteractionStateEvent, type HandleInteractionStateChangeOptions, type InteractionEvent} from '../../hooks'
+import {
+	handleUnderlayInteractionStateChange,
+	updateUnderlayActive,
+	updateUnderlayInteractionEventName
+} from './Underlay.handler'
 import {RenderUnderlay} from './Underlay.render'
 import {useUnderlayAnimated} from './use-underlay-animated.hook'
 
 export const UnderlayBase: FC<UnderlayBaseProps> = ({
 	active: rawActive,
-	activeAnimatedType,
+	activeAnimation,
 	activeScale,
 	defaultActive,
-	eventName: rawEventName,
+	interactionEventName: rawEventName,
 	opacities,
 	...renderUnderlayProps
 }) => {
-	const [{active: isActive, eventName, status}, setState] = useImmer<UnderlayState>({
+	const [{active: isActive, interactionEventName, status}, setState] = useImmer<UnderlayState>({
 		active: rawActive ?? defaultActive,
-		eventName: EVENT_NAME.NONE,
+		interactionEventName: EVENT_NAME.NONE,
 		status: COMPONENT_STATUS.IDLE
 	})
 
 	const id = useId()
-	const onStateEventChange = useCallback(
-		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) =>
-			handleUnderlayStateChange(event, setState, {...options, state}),
+	const onInteractionStateChange = useCallback(
+		(event: InteractionEvent, interactionState: InteractionState, options: HandleInteractionStateChangeOptions) =>
+			handleUnderlayInteractionStateChange(event, setState, {...options, interactionState}),
 		[setState]
 	)
 
-	const interactionHandlers = useInteractionStateEvent({...renderUnderlayProps, onStateEventChange})
+	const interactionHandlers = useInteractionStateEvent({...renderUnderlayProps, onInteractionStateChange})
 	const {activeLayerAnimatedStyle, hoverLayerAnimatedStyle} = useUnderlayAnimated({
 		active: isActive,
-		activeAnimatedType,
+		activeAnimation,
 		activeScale,
-		eventName,
+		interactionEventName,
 		opacities,
 		status
 	})
 
 	const runUnderlayActive = useMemo(() => updateUnderlayActive(setState), [setState])
-	const runUnderlayEventName = useMemo(() => updateUnderlayEventName(setState), [setState])
+	const runUnderlayEventName = useMemo(() => updateUnderlayInteractionEventName(setState), [setState])
 
 	useEffect(() => {
 		runUnderlayEventName(rawEventName)

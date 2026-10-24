@@ -6,8 +6,8 @@ import type {
 	ProgressActiveIndicatorLinearState
 } from './Progress-active-indicator-linear.interface'
 
-import {COMPONENT_STATUS, type State} from '../../../constants'
-import {useInteractionStateEvent, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
+import {COMPONENT_STATUS, type InteractionState} from '../../../constants'
+import {useInteractionStateEvent, type HandleInteractionStateChangeOptions, type InteractionEvent} from '../../../hooks'
 import {handleProgressStateChange, updateProgressValue} from './Progress-active-indicator-linear.handler'
 import {RenderProgressActiveIndicatorLinear} from './Progress-active-indicator-linear.render'
 import {useProgressActiveIndicatorLinearAnimated} from './use-progress-active-indicator-linear-animated.hook'
@@ -23,15 +23,15 @@ export const ProgressActiveIndicatorLinearBase: FC<ProgressActiveIndicatorLinear
 	})
 
 	const id = useId()
-	const onStateEventChange = useCallback(
-		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) =>
-			handleProgressStateChange(event, setState, {...options, state}),
+	const onInteractionStateChange = useCallback(
+		(event: InteractionEvent, interactionState: InteractionState, options: HandleInteractionStateChangeOptions) =>
+			handleProgressStateChange(event, setState, {...options, interactionState}),
 		[setState]
 	)
 
 	const interactionHandlers = useInteractionStateEvent({
 		...renderProgressActiveIndicatorLinearProps,
-		onStateEventChange
+		onInteractionStateChange
 	})
 
 	const {contentAnimatedStyle} = useProgressActiveIndicatorLinearAnimated({status, value})
@@ -50,5 +50,3 @@ export const ProgressActiveIndicatorLinearBase: FC<ProgressActiveIndicatorLinear
 		/>
 	)
 }
-
-

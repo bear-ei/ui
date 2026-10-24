@@ -1,10 +1,10 @@
 import type {PaletteType} from '../palette'
-import type {ColorSchemeOptions, CreateTokenOptions, Token} from './token.interface'
+import type {ColorMapOptions, CreateTokenOptions, Token} from './token.interface'
 
 import {createAnimatedConfig} from '../animated'
 import {createBorder} from '../border'
 import {
-	classesName,
+	classNames,
 	densityClasses,
 	processStyleVariables as rawProcessStyleVariables,
 	shapeClasses,
@@ -16,9 +16,9 @@ import {createElevation} from '../elevation'
 import {createFont} from '../font'
 import {createOpacity} from '../opacity'
 import {createPalette, PALETTE} from '../palette'
-import {createColorScheme, SCHEME} from '../scheme'
+import {createColorMap, SCHEME} from '../scheme'
 import {createShape} from '../shape'
-import {PLATFORM} from '../theme.enum'
+import {TARGET_PLATFORM} from '../theme.enum'
 import {createTypography} from '../typography'
 
 /**
@@ -26,7 +26,7 @@ import {createTypography} from '../typography'
  *
  *   Layer 1 (CreateTokenOptions): app-level config — fonts, platform, density.
  *                                 Changes rarely.
- *   Layer 2 (ColorSchemeOptions): user preference — light/dark, contrast.
+ *   Layer 2 (ColorMapOptions): user preference — light/dark, contrast.
  *                                 Changes on theme switch.
  *   Layer 3 (PaletteType):        brand palette selection.
  *                                 Nearly never changes.
@@ -35,21 +35,21 @@ import {createTypography} from '../typography'
  */
 export const createToken = (
 	palette: PaletteType = PALETTE.NAVY,
-	{contrast = CONTRAST.STANDARD, scheme = SCHEME.LIGHT}: ColorSchemeOptions = {},
+	{contrast = CONTRAST.STANDARD, scheme = SCHEME.LIGHT}: ColorMapOptions = {},
 	{
 		codeFontFamily,
 		density = UI_DENSITY.COMPACT,
 		fontFamily,
 		// Default to macOS — the product's primary desktop target.
 		// Windows / Linux support (future) must pass `platform` explicitly.
-		platform = PLATFORM.MACOS
+		platform = TARGET_PLATFORM.MACOS
 	}: CreateTokenOptions = {}
 ): Token => {
 	const font = createFont(platform, fontFamily, codeFontFamily)
 	const createdPalette = createPalette(palette)
-	const colorScheme = createColorScheme(createdPalette, scheme, contrast)
+	const colors = createColorMap(createdPalette, scheme, contrast)
 	const classes = {
-		classesName,
+		classNames,
 		densityClasses,
 		processStyleVariables: rawProcessStyleVariables,
 		shapeClasses,
@@ -60,12 +60,12 @@ export const createToken = (
 		animated: createAnimatedConfig(density),
 		border: createBorder(),
 		classes,
+		colors,
 		density: createDensity(density),
 		elevation: createElevation(density),
 		font,
 		opacity: createOpacity(),
 		palette: createdPalette,
-		scheme: colorScheme,
 		shape: createShape(density),
 		typography: createTypography(font, density)
 	}

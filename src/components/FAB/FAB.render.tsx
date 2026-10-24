@@ -3,7 +3,7 @@ import {View} from 'react-native'
 
 import type {FABType, RenderFABIconProps, RenderFABProps} from './FAB.interface'
 
-import {COMPONENT_STATUS, EVENT_NAME, LAYOUT} from '../../constants'
+import {COMPONENT_STATUS, EVENT_NAME, ORIENTATION} from '../../constants'
 import {useTheme} from '../../hooks'
 import {
 	DENSITY_SIZE,
@@ -15,7 +15,7 @@ import {
 	TYPOGRAPHY,
 	TYPOGRAPHY_SIZE
 } from '../../theme'
-import {platformValue} from '../../utils'
+import {toPlatformUnit} from '../../utils'
 import {AnimatedText, AnimatedView} from '../Animated'
 import {Elevation} from '../Elevation'
 import {Touchable} from '../Touchable'
@@ -42,13 +42,13 @@ export const RenderFABIcon: FC<RenderFABIconProps> = ({
 }) => {
 	const {token} = useTheme()
 	const color = {
-		[FAB_TYPE.PRIMARY]: token.scheme.onPrimaryContainer,
-		[FAB_TYPE.SECONDARY]: token.scheme.onSecondaryContainer,
-		[FAB_TYPE.SURFACE]: token.scheme.primary,
-		[FAB_TYPE.TERTIARY]: token.scheme.onTertiaryContainer
+		[FAB_TYPE.PRIMARY]: token.colors.onPrimaryContainer,
+		[FAB_TYPE.SECONDARY]: token.colors.onSecondaryContainer,
+		[FAB_TYPE.SURFACE]: token.colors.primary,
+		[FAB_TYPE.TERTIARY]: token.colors.onTertiaryContainer
 	} as Record<FABType, string>
 
-	const disabledColor = hexToRGBA(token.scheme.onSurface, token.opacity.level5)
+	const disabledColor = hexToRGBA(token.colors.onSurface, token.opacity.level5)
 
 	if (!icon) {
 		return <></>
@@ -57,14 +57,14 @@ export const RenderFABIcon: FC<RenderFABIconProps> = ({
 	const iconSize =
 		extended ? token.density.icon[DENSITY_SIZE.MEDIUM] : token.density.icon[stepDownDensitySize(rawSize)]
 
-	// Intentional override: the parent Fab's semantic props (type, disabled)
+	// Intentional override: the parent FAB's semantic props (type, disabled)
 	// win over anything the caller set on the icon element. This guarantees
-	// the icon's color, size, and disabled state stay in sync with the Fab's
+	// the icon's color, size, and disabled state stay in sync with the FAB's
 	// appearance instead of drifting from it.
 	return cloneElement(icon, {
 		color: disabled ? disabledColor : color[type],
 		disabled,
-		size: platformValue(iconSize),
+		size: toPlatformUnit(iconSize),
 		testID: `fab__icon--${id}`
 	})
 }
@@ -81,7 +81,7 @@ export const RenderFAB: FC<RenderFABProps> = ({
 	labelText,
 	labelTextAnimatedStyle,
 	loading,
-	onStateEventChange,
+	onInteractionStateChange,
 	size = DENSITY_SIZE.MEDIUM,
 	status,
 	testID,
@@ -89,9 +89,9 @@ export const RenderFAB: FC<RenderFABProps> = ({
 	...touchableProps
 }) => {
 	const {token} = useTheme()
-	const {classesName, densityClasses, shapeClasses, typographyClasses} = token.classes
+	const {classNames, densityClasses, shapeClasses, typographyClasses} = token.classes
 	const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)
-	const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET, LAYOUT.HORIZONTAL)
+	const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET, ORIENTATION.HORIZONTAL)
 	const shape = SHAPE.ALL
 	const radius = SHAPE_SIZE_MAP[size]
 	const underlayEventName =
@@ -101,7 +101,7 @@ export const RenderFAB: FC<RenderFABProps> = ({
 
 	const backgroundUnderlayElement = (
 		<AnimatedView
-			className={classesName(
+			className={classNames(
 				'pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10',
 				shapeClasses(shape)(radius)
 			)}
@@ -125,7 +125,7 @@ export const RenderFAB: FC<RenderFABProps> = ({
 			accessibilityLabel={accessibilityLabel ?? labelText}
 			accessibilityRole='button'
 			accessibilityState={{disabled}}
-			className={classesName('cursor-pointer', {
+			className={classNames('cursor-pointer', {
 				[`${densityControlClasses(size)} min-w-24 self-start`]: extended,
 				[densityControlClasses(size)]: !extended,
 				['pointer-events-none']: disabled
@@ -139,7 +139,7 @@ export const RenderFAB: FC<RenderFABProps> = ({
 					backgroundUnderlay={backgroundUnderlayElement}
 					disabled={disabled}
 					elevationUnderlay={elevationUnderlayElement}
-					onStateEventChange={onStateEventChange}
+					onInteractionStateChange={onInteractionStateChange}
 					radius={radius}
 					shape={shape}
 					testID={`fab__touchable--${id}`}
@@ -150,7 +150,7 @@ export const RenderFAB: FC<RenderFABProps> = ({
 						testID={`fab__content--${id}`}
 					>
 						<View
-							className={classesName(
+							className={classNames(
 								'z-10 flex flex-1 flex-row items-center justify-center self-stretch',
 								{[`gap-[--density-spacing-snug] ${densityInsetClasses(size)}`]: extended}
 							)}
@@ -167,7 +167,7 @@ export const RenderFAB: FC<RenderFABProps> = ({
 
 							{extended && labelText && (
 								<AnimatedText
-									className={classesName(
+									className={classNames(
 										'select-none text-center',
 										typographyClasses(TYPOGRAPHY.LABEL)(TYPOGRAPHY_SIZE.LARGE)
 									)}
@@ -182,7 +182,7 @@ export const RenderFAB: FC<RenderFABProps> = ({
 						</View>
 
 						<Underlay
-							eventName={underlayEventName}
+							interactionEventName={underlayEventName}
 							radius={radius}
 							shape={shape}
 							testID={`fab__underlay--${id}`}

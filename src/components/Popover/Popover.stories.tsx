@@ -16,8 +16,8 @@ export const PlainVerticalEnd = () => (
 		<Popover
 			className='h-8 w-8'
 			content='2222222'
+			contentPosition={POPOVER_CONTENT_POSITION.VERTICAL_END}
 			defaultVisible={true}
-			popoverContentPosition={POPOVER_CONTENT_POSITION.VERTICAL_END}
 		>
 			<IconButton
 				icon={<Circle />}
@@ -32,8 +32,8 @@ export const PlainVerticalStart = () => (
 		<Popover
 			className='h-8 w-8'
 			content='2222222'
+			contentPosition={POPOVER_CONTENT_POSITION.VERTICAL_START}
 			defaultVisible={true}
-			popoverContentPosition={POPOVER_CONTENT_POSITION.VERTICAL_START}
 		>
 			<IconButton
 				icon={<Circle />}
@@ -48,8 +48,8 @@ export const PlainHorizontalStart = () => (
 		<Popover
 			className='h-8 w-8'
 			content='Supporting Text'
+			contentPosition={POPOVER_CONTENT_POSITION.HORIZONTAL_START}
 			defaultVisible={true}
-			popoverContentPosition={POPOVER_CONTENT_POSITION.HORIZONTAL_START}
 		>
 			<IconButton
 				icon={<Circle />}
@@ -64,8 +64,8 @@ export const PlainHorizontalEnd = () => (
 		<Popover
 			className='h-8 w-8'
 			content='Supporting Text'
+			contentPosition={POPOVER_CONTENT_POSITION.HORIZONTAL_END}
 			defaultVisible={true}
-			popoverContentPosition={POPOVER_CONTENT_POSITION.HORIZONTAL_END}
 		>
 			<IconButton
 				icon={<Circle />}
@@ -78,16 +78,16 @@ export const PlainHorizontalEnd = () => (
 export const Tooltip: StoryObj<PopoverProps> = {
 	args: {
 		content: 'Tooltip text',
-		defaultVisible: true,
-		popoverContentPosition: POPOVER_CONTENT_POSITION.VERTICAL_END
+		contentPosition: POPOVER_CONTENT_POSITION.VERTICAL_END,
+		defaultVisible: true
 	}
 }
 
 export const Plain: StoryObj<PopoverProps> = {
 	args: {
 		content: 'Plain content',
+		contentPosition: POPOVER_CONTENT_POSITION.VERTICAL_END,
 		defaultVisible: true,
-		popoverContentPosition: POPOVER_CONTENT_POSITION.VERTICAL_END,
 		type: POPOVER_TYPE.PLAIN
 	}
 }
@@ -100,8 +100,8 @@ export const Rich: StoryObj<PopoverProps> = {
 				<Button labelText='Action' />
 			</View>
 		),
+		contentPosition: POPOVER_CONTENT_POSITION.VERTICAL_END,
 		defaultVisible: true,
-		popoverContentPosition: POPOVER_CONTENT_POSITION.VERTICAL_END,
 		type: POPOVER_TYPE.RICH
 	}
 }

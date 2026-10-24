@@ -2,8 +2,8 @@ import type {Updater} from 'use-immer'
 
 import type {EmitSheetModalOptions, SheetProps, SheetState, SheetType} from './Sheet.interface'
 
-import {emitter, PORTAL_TYPE} from '../../contexts'
-import {SIDE_SHEET_TYPE} from './Sheet.enum'
+import {PORTAL_TYPE, portalEmitter} from '../../contexts'
+import {SHEET_TYPE} from './Sheet.enum'
 
 export const updateSheetClose = (setState: Updater<SheetState>, onClose?: () => void) => () =>
 	setState(draft => {
@@ -31,17 +31,17 @@ export const updateSheetVisible = (setState: Updater<SheetState>) => (visible?: 
 export const emitSheetModal =
 	(props: SheetProps, {id, type}: EmitSheetModalOptions) =>
 	(visible?: boolean) => {
-		if (!(typeof visible === 'boolean' && type === SIDE_SHEET_TYPE.MODAL)) {
+		if (!(typeof visible === 'boolean' && type === SHEET_TYPE.MODAL)) {
 			return
 		}
 
-		emitter.emit('modal', {id: `sheet__${id}`, props: {...props}, type: PORTAL_TYPE.SIDE_SHEET})
+		portalEmitter.emit('portal', {id: `sheet__${id}`, props: {...props}, type: PORTAL_TYPE.SHEET})
 	}
 
 export const emitSheetModalUnmount = (id: string) => (type: SheetType) => {
-	if (type !== SIDE_SHEET_TYPE.MODAL) {
+	if (type !== SHEET_TYPE.MODAL) {
 		return
 	}
 
-	emitter.emit('modal', {id: `sheet__${id}`, type: PORTAL_TYPE.SIDE_SHEET, unmount: true})
+	portalEmitter.emit('portal', {id: `sheet__${id}`, shouldUnmount: true, type: PORTAL_TYPE.SHEET})
 }

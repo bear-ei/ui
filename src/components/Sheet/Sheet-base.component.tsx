@@ -5,17 +5,17 @@ import {useImmer} from 'use-immer'
 import type {SheetBaseProps, SheetState} from './Sheet.interface'
 
 import {usePendingEvent} from '../../hooks'
-import {SIDE_SHEET_TYPE} from './Sheet.enum'
+import {SHEET_TYPE} from './Sheet.enum'
 import {emitSheetModal, emitSheetModalUnmount, updateSheetClose, updateSheetVisible} from './Sheet.handler'
 import {RenderSheet} from './Sheet.render'
 
 export const SheetBase: FC<SheetBaseProps> = ({
+	backButtonDisabled,
 	defaultVisible,
-	disabledBack,
 	onBack,
 	onClose: rawOnClose,
 	ref,
-	type = SIDE_SHEET_TYPE.MODAL,
+	type = SHEET_TYPE.MODAL,
 	visible,
 	...renderSheetProps
 }) => {
@@ -33,7 +33,7 @@ export const SheetBase: FC<SheetBaseProps> = ({
 	const renderProps = useMemo(
 		() => ({
 			...renderSheetProps,
-			disabledBack,
+			backButtonDisabled,
 			id,
 			onBack,
 			onClose,
@@ -41,7 +41,7 @@ export const SheetBase: FC<SheetBaseProps> = ({
 			type,
 			visible: isVisible
 		}),
-		[disabledBack, id, isVisible, onBack, onClose, ref, renderSheetProps, type]
+		[backButtonDisabled, id, isVisible, onBack, onClose, ref, renderSheetProps, type]
 	)
 
 	const runEmitSheetModal = useMemo(
@@ -64,5 +64,5 @@ export const SheetBase: FC<SheetBaseProps> = ({
 		[runEmitModalUnmount, type]
 	)
 
-	return type === SIDE_SHEET_TYPE.SIDEBAR ? <RenderSheet {...renderProps} /> : <></>
+	return type === SHEET_TYPE.SIDEBAR ? <RenderSheet {...renderProps} /> : <></>
 }

@@ -1,4 +1,4 @@
-import type {Elevation, Shadow, ShadowSpec} from './elevation.interface'
+import type {ElevationMap, Shadow, ShadowSpec} from './elevation.interface'
 
 import {UI_DENSITY, type UIDensity} from '../density'
 import {ELEVATION_LEVEL} from './elevation.enum'
@@ -29,7 +29,7 @@ const createShadow = (spec: ShadowSpec, elevation: number): Shadow => ({
 	shadowRadius: spec.radius
 })
 
-export const createElevation = (uiDensity: UIDensity): Elevation => {
+export const createElevation = (uiDensity: UIDensity): ElevationMap => {
 	const table = SHADOW_TABLE[uiDensity]
 	const resolveShadow = (level: keyof typeof table, elevation: number): Shadow =>
 		createShadow(table[level], elevation)

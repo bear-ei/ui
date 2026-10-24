@@ -53,7 +53,7 @@ export type FontSize =
 	| 'size12'
 
 export interface Font {
-	family: {codeFamily: string; family: string}
+	family: {code: string; text: string}
 	height: Record<FontHeight, number>
 	letterSpacing: Record<FontLetterSpacing, number>
 	lineHeight: Record<FontLineHeight, number>

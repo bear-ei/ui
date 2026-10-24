@@ -13,12 +13,12 @@ import {createAnimatedTiming} from './use-animated-timing.handler'
  * Returns an `animatedTiming` factory that drives a `SharedValue` toward a target.
  *
  * **Callback semantics — "animation truly finished":**
- *  - Skipped (value already equals target) → callback NOT called.
- *  - Animation completes normally → callback(true).
- *  - Animation interrupted by a newer call → callback(false).
+ *  - Skipped (value already equals target) → onFinish NOT called.
+ *  - Animation completes normally → onFinish(true).
+ *  - Animation interrupted by a newer call → onFinish(false).
  *
  * If you need "value reached target regardless of animation", do NOT
- * rely on this callback — read `sharedValue.value` at the call site.
+ * rely on this onFinish — read `sharedValue.value` at the call site.
  */
 export const useAnimatedTiming = () => {
 	const {token} = useTheme()
@@ -26,10 +26,10 @@ export const useAnimatedTiming = () => {
 		(
 			sharedValue: SharedValue<number>,
 			{
-				callback,
 				duration: rawDuration = DURATION.MEDIUM_0,
 				easing = EASING.STANDARD,
 				immediate,
+				onFinish,
 				...options
 			}: AnimatedTimingOptions = {}
 		): AnimateSharedValueTo => {
@@ -45,14 +45,14 @@ export const useAnimatedTiming = () => {
 				if (immediate) {
 					sharedValue.value = toValue
 
-					if (callback) {
-						scheduleOnRN(callback, true)
+					if (onFinish) {
+						scheduleOnRN(onFinish, true)
 					}
 
 					return
 				}
 
-				sharedValue.value = createAnimatedTiming(toValue, {...options, bezier, duration}, callback)
+				sharedValue.value = createAnimatedTiming(toValue, {...options, bezier, duration}, onFinish)
 			}
 		},
 		[token]

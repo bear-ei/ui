@@ -1,12 +1,12 @@
 import type {RefAttributes} from 'react'
 import type {View, ViewProps} from 'react-native'
 
-import type {LayoutType} from '../../constants'
-import type {ThemeProps} from '../../theme'
+import type {Orientation} from '../../constants'
+import type {ThemeableProps} from '../../theme'
 
-export interface DividerProps extends ViewProps, RefAttributes<View>, ThemeProps {
-	layoutType?: LayoutType
-	subheader?: string
+export interface DividerProps extends ViewProps, RefAttributes<View>, ThemeableProps {
+	orientation?: Orientation
+	subheaderText?: string
 }
 
 export type RenderDividerProps = DividerProps

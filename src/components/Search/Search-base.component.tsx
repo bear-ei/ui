@@ -7,14 +7,14 @@ import type {SearchBaseProps, SearchState} from './Search.interface'
 
 import {useMergeRefs, usePendingEvent} from '../../hooks'
 import {
-	handleSearchActiveKey,
+	handleSearchTextChange,
 	handleSearchFocus,
-	handleSearchFocusKey,
 	handleSearchMenuClose,
+	updateSearchActiveKey,
 	updateSearchData,
 	updateSearchExpanded,
+	updateSearchFocusKey,
 	updateSearchMenuVisible,
-	updateSearchText,
 	updateSearchValue
 } from './Search.handler'
 import {RenderSearch} from './Search.render'
@@ -23,12 +23,12 @@ export const SearchBase: FC<SearchBaseProps> = ({
 	data: rawData,
 	defaultValue,
 	disabled,
-	filter,
+	enableLocalFilter,
 	leading: rawLeading,
-	onActive: rawOnActive,
+	onActiveKeyChange: rawOnActiveKeyChange,
 	onChangeText: rawOnChangeText,
 	onClose: rawOnClose,
-	onFocus: rawOnFocus,
+	onFocusTarget: rawOnFocusTarget,
 	ref,
 	value: rawValue,
 	...renderSearchProps
@@ -49,33 +49,33 @@ export const SearchBase: FC<SearchBaseProps> = ({
 		setState
 	] = useImmer<SearchState>({data: rawData, value: rawValue ?? defaultValue})
 
-	usePendingEvent('pendingActiveEvent', rawOnActive, {pendingEvent: pendingActiveEvent, setState})
+	usePendingEvent('pendingActiveEvent', rawOnActiveKeyChange, {pendingEvent: pendingActiveEvent, setState})
 	usePendingEvent('pendingChangeTextEvent', rawOnChangeText, {pendingEvent: pendingChangeTextEvent, setState})
-	usePendingEvent('pendingFocusEvent', rawOnFocus, {pendingEvent: pendingFocusEvent, setState})
+	usePendingEvent('pendingFocusEvent', rawOnFocusTarget, {pendingEvent: pendingFocusEvent, setState})
 
 	const id = useId()
 	const inputRef = useRef<TextInput>(null)
 	const mergedRef = useMergeRefs([ref, inputRef])
-	const leading = data?.find(({indexKey}) => indexKey === focusKey)?.leading ?? rawLeading
+	const leading = data?.find(({itemKey}) => itemKey === focusKey)?.leading ?? rawLeading
 	const isTextInputPicker = !!rawData
-	const onFocus = useMemo(() => handleSearchFocus(setState, rawOnFocus), [rawOnFocus, setState])
-	const onChangeText = useMemo(() => updateSearchText(setState, rawOnChangeText), [rawOnChangeText, setState])
+	const onFocus = useMemo(() => handleSearchFocus(setState, rawOnFocusTarget), [rawOnFocusTarget, setState])
+	const onChangeText = useMemo(() => handleSearchTextChange(setState, rawOnChangeText), [rawOnChangeText, setState])
 	const onActiveKey = useMemo(
-		() => handleSearchActiveKey(setState, {onActive: rawOnActive, ref: inputRef}),
-		[rawOnActive, setState]
+		() => updateSearchActiveKey(setState, {onActiveKeyChange: rawOnActiveKeyChange, ref: inputRef}),
+		[rawOnActiveKeyChange, setState]
 	)
 
-	const onFocusKey = useMemo(() => handleSearchFocusKey(setState), [setState])
+	const onFocusKeyChange = useMemo(() => updateSearchFocusKey(setState), [setState])
 	const onMenuClose = useMemo(() => handleSearchMenuClose(inputRef, rawOnClose), [rawOnClose])
 	const onUpdateExpanded = useMemo(() => updateSearchExpanded(setState), [setState])
-	const onVisible = useMemo(() => updateSearchMenuVisible(setState), [setState])
+	const onVisibleChange = useMemo(() => updateSearchMenuVisible(setState), [setState])
 	const runUpdateSearchData = useMemo(
-		() => updateSearchData(setState, {data: rawData, filter}),
-		[filter, rawData, setState]
+		() => updateSearchData(setState, {data: rawData, enableLocalFilter}),
+		[enableLocalFilter, rawData, setState]
 	)
 
 	const runUpdateValue = useMemo(() => updateSearchValue(setState), [setState])
-	const runUpdateVisible = onVisible
+	const runUpdateVisible = onVisibleChange
 
 	useEffect(() => {
 		runUpdateSearchData(filterValue)
@@ -99,17 +99,17 @@ export const SearchBase: FC<SearchBaseProps> = ({
 			disabled={disabled}
 			expanded={isExpanded}
 			id={id}
+			isTextInputPicker={isTextInputPicker}
 			leading={leading}
 			listVisible={isListVisible}
-			onActive={onActiveKey}
+			onActiveKeyChange={onActiveKey}
 			onAnimationFinished={onUpdateExpanded}
 			onChangeText={onChangeText}
 			onFocus={onFocus}
-			onFocusKey={onFocusKey}
+			onFocusKeyChange={onFocusKeyChange}
 			onMenuClose={onMenuClose}
-			onVisible={onVisible}
+			onVisibleChange={onVisibleChange}
 			ref={mergedRef}
-			textInputPicker={isTextInputPicker}
 			value={value}
 		/>
 	)

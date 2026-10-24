@@ -6,15 +6,20 @@ import type {
 	ProgressActiveIndicatorCircularState
 } from './Progress-active-indicator-circular.interface'
 
-import {COMPONENT_STATUS, type State} from '../../../constants'
-import {useInteractionStateEvent, useTheme, type HandleStateEventChangeOptions, type StateEvent} from '../../../hooks'
+import {COMPONENT_STATUS, type InteractionState} from '../../../constants'
+import {
+	useInteractionStateEvent,
+	useTheme,
+	type HandleInteractionStateChangeOptions,
+	type InteractionEvent
+} from '../../../hooks'
 import {BORDER_SIZE, DENSITY_SIZE} from '../../../theme'
 import {handleProgressStateChange} from './Progress-active-indicator-circular.handler'
 import {RenderProgressActiveIndicatorCircular} from './Progress-active-indicator-circular.render'
 import {useProgressActiveIndicatorCircularAnimated} from './use-progress-active-indicator-circular-animated.hook'
 
 export const ProgressActiveIndicatorCircularBase: FC<ProgressActiveIndicatorCircularBaseProps> = ({
-	enableAnimated,
+	enableLoop,
 	size = DENSITY_SIZE.MEDIUM,
 	strokeWidth: rawStrokeWidth,
 	...renderProgressActiveIndicatorCircularProps
@@ -26,20 +31,20 @@ export const ProgressActiveIndicatorCircularBase: FC<ProgressActiveIndicatorCirc
 	const viewBoxSize = token.density.inline[size]
 	const radius = (viewBoxSize - strokeWidth) / 2
 	const circumference = 2 * Math.PI * radius
-	const onStateEventChange = useCallback(
-		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) =>
-			handleProgressStateChange(event, setState, {...options, state}),
+	const onInteractionStateChange = useCallback(
+		(event: InteractionEvent, interactionState: InteractionState, options: HandleInteractionStateChangeOptions) =>
+			handleProgressStateChange(event, setState, {...options, interactionState}),
 		[setState]
 	)
 
 	const interactionHandlers = useInteractionStateEvent({
 		...renderProgressActiveIndicatorCircularProps,
-		onStateEventChange
+		onInteractionStateChange
 	})
 
 	const {circleAnimatedProps, containerAnimatedStyle} = useProgressActiveIndicatorCircularAnimated({
 		circumference,
-		enableAnimated,
+		enableLoop,
 		status
 	})
 

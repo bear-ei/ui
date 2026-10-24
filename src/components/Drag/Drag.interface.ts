@@ -8,7 +8,7 @@ import type {
 } from 'react-native-gesture-handler'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
-import type {LayoutRectangle, LayoutType} from '../../constants'
+import type {MeasuredLayoutRectangle, Orientation} from '../../constants'
 import type {InteractionHandlers} from '../../hooks'
 
 export interface DragRef extends View {
@@ -18,11 +18,11 @@ export interface DragRef extends View {
 export interface DragProps extends ViewProps, RefAttributes<DragRef> {
 	children?: JSX.Element
 	height?: number
-	layoutType?: LayoutType
 	offset?: number
 	onEnd?: (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => void
 	onStart?: (event: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => void
 	onUpdate?: (event: GestureUpdateEvent<PanGestureHandlerEventPayload>) => void
+	orientation?: Orientation
 	width?: number
 }
 
@@ -34,20 +34,20 @@ export interface RenderDragProps extends DragProps {
 }
 
 export interface DragState {
-	layout: Partial<LayoutRectangle>
+	layout: Partial<MeasuredLayoutRectangle>
 }
 
-export type UpdatePrevTranslateSharedValueOptions = Pick<UseDragAnimatedOptions, 'onStart'>
+export type HandlePanGestureStartOptions = Pick<UseDragAnimatedOptions, 'onStart'>
 export interface UseDragAnimatedOptions extends Pick<
 	DragProps,
-	'height' | 'width' | 'onEnd' | 'onStart' | 'onUpdate' | 'layoutType' | 'offset'
+	'height' | 'width' | 'onEnd' | 'onStart' | 'onUpdate' | 'orientation' | 'offset'
 > {
-	layout: Partial<LayoutRectangle>
+	layout: Partial<MeasuredLayoutRectangle>
 }
 
-export interface UpdateTranslateScreenOptions extends Pick<
+export interface HandlePanGestureUpdateOptions extends Pick<
 	UseDragAnimatedOptions,
-	'onUpdate' | 'layout' | 'layoutType' | 'offset'
+	'onUpdate' | 'layout' | 'orientation' | 'offset'
 > {
 	height: number
 	width: number

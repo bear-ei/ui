@@ -7,17 +7,17 @@ import {updateSkeletonVisible} from './Skeleton.handler'
 import {RenderSkeleton} from './Skeleton.render'
 import {useSkeletonAnimated} from './use-skeleton-animated.hook'
 
-export const SkeletonBase: FC<SkeletonBaseProps> = ({duration, enableAnimated = true, ...renderSkeletonProps}) => {
+export const SkeletonBase: FC<SkeletonBaseProps> = ({autoHideDelay, enableLoop = true, ...renderSkeletonProps}) => {
 	const [{visible: isVisible}, setState] = useImmer<SkeletonState>({visible: true})
 	const id = useId()
-	const {containerAnimatedStyle} = useSkeletonAnimated({enableAnimated, visible: isVisible})
+	const {containerAnimatedStyle} = useSkeletonAnimated({enableLoop, visible: isVisible})
 	const runUpdateVisible = useMemo(() => updateSkeletonVisible(setState), [setState])
 
 	useEffect(() => {
-		const cancel = runUpdateVisible(duration)
+		const cancel = runUpdateVisible(autoHideDelay)
 
 		return () => cancel?.()
-	}, [duration, runUpdateVisible])
+	}, [autoHideDelay, runUpdateVisible])
 
 	return (
 		<RenderSkeleton

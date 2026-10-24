@@ -3,19 +3,19 @@ import {Pressable, View, type ViewStyle} from 'react-native'
 
 import type {RenderTextInputProps} from './Text-input.interface'
 
-import {LAYOUT} from '../../constants'
+import {ORIENTATION} from '../../constants'
 import {useTheme} from '../../hooks'
 import {
 	DENSITY_SIZE,
 	DENSITY_TYPE,
 	stepDownDensitySize,
-	densitySizeMapTypographySize,
+	toTypographySize,
 	hexToRGBA,
 	RADIUS,
 	SHAPE,
 	TYPOGRAPHY
 } from '../../theme'
-import {platformValue} from '../../utils'
+import {toPlatformUnit} from '../../utils'
 import {AnimatedTextInput, AnimatedView} from '../Animated'
 import {ICON_BUTTON_TYPE} from '../Icon-button'
 import {SupportingText} from '../Supporting-text'
@@ -30,13 +30,13 @@ export const RenderTextInput: FC<RenderTextInputProps> = ({
 	autoCapitalize = 'none',
 	autoComplete = 'off',
 	autoCorrect = false,
-	content,
 	contentSize,
 	disabled,
 	editable,
 	error,
 	eventName,
 	headerAnimatedStyle,
+	headerContent,
 	id,
 	inputAnimatedStyle,
 	interactionHandlers,
@@ -55,11 +55,11 @@ export const RenderTextInput: FC<RenderTextInputProps> = ({
 	...inputProps
 }) => {
 	const {token} = useTheme()
-	const {classesName, densityClasses, shapeClasses, typographyClasses} = token.classes
+	const {classNames, densityClasses, shapeClasses, typographyClasses} = token.classes
 	const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)
-	const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET, LAYOUT.HORIZONTAL)
+	const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET, ORIENTATION.HORIZONTAL)
 	const placeholderTextColor =
-		disabled ? hexToRGBA(token.scheme.onSurface, token.opacity.level5) : token.scheme.onSurfaceVariant
+		disabled ? hexToRGBA(token.colors.onSurface, token.opacity.level5) : token.colors.onSurfaceVariant
 
 	const {onBlur, onFocus, ...onTouchableHeaderEvent} = interactionHandlers
 	const iconSize = token.density.icon[stepDownDensitySize(size)]
@@ -67,10 +67,10 @@ export const RenderTextInput: FC<RenderTextInputProps> = ({
 	const isTrailingShow = !!trailingElement
 	const shape = SHAPE.TOP
 	const radius = RADIUS.X_SMALL
-	const underlayColor = token.scheme.onSurface
+	const underlayColor = token.colors.onSurface
 	const underlayOpacities = useMemo(() => [token.opacity.level0, token.opacity.level1] as [number, number], [token])
 	const controlStyle = {
-		minHeight: platformValue(contentSize?.height ?? token.density.control[DENSITY_SIZE.NONE])
+		minHeight: toPlatformUnit(contentSize?.height ?? token.density.control[DENSITY_SIZE.NONE])
 	} as ViewStyle
 
 	return (
@@ -91,7 +91,7 @@ export const RenderTextInput: FC<RenderTextInputProps> = ({
 						accessibilityLabel: accessibilityLabel ?? labelText,
 						accessibilityRole: 'keyboardkey'
 					})}
-					className={classesName(
+					className={classNames(
 						'flex cursor-text flex-col outline-none',
 						`${densityControlClasses(size)} w-auto`
 					)}
@@ -100,7 +100,7 @@ export const RenderTextInput: FC<RenderTextInputProps> = ({
 					testID={`textInput__touchableHeader--${id}`}
 				>
 					<AnimatedView
-						className={classesName(
+						className={classNames(
 							'relative z-10 flex min-w-20 flex-1 flex-row items-center',
 							densityInsetClasses(size),
 							shapeClasses(shape)(radius),
@@ -114,7 +114,7 @@ export const RenderTextInput: FC<RenderTextInputProps> = ({
 					>
 						{leadingElement && (
 							<View
-								className={classesName(
+								className={classNames(
 									'flex flex-col items-center justify-center',
 									densityControlClasses(size),
 									{['justify-start']: multiline}
@@ -122,22 +122,22 @@ export const RenderTextInput: FC<RenderTextInputProps> = ({
 								testID={`textInput__leading--${id}`}
 							>
 								{cloneElement(leadingElement, {
-									color: token.scheme.onSurfaceVariant,
-									size: platformValue(iconSize),
+									color: token.colors.onSurfaceVariant,
+									size: toPlatformUnit(iconSize),
 									testID: `textInput__leadingIcon--${id}`
 								})}
 							</View>
 						)}
 
 						<View
-							className={classesName('z-10 flex flex-1', {
-								['flex-col justify-end']: !content,
+							className={classNames('z-10 flex flex-1', {
+								['flex-col justify-end']: !headerContent,
 								['flex-row flex-wrap gap-x-[--density-spacing-x-small] gap-y-[--density-spacing-small]']:
-									!!content
+									!!headerContent
 							})}
 							testID={`textInput__main--${id}`}
 						>
-							{content}
+							{headerContent}
 							<View
 								className='flex min-w-16 flex-1 flex-col justify-center self-stretch'
 								style={controlStyle}
@@ -148,9 +148,9 @@ export const RenderTextInput: FC<RenderTextInputProps> = ({
 									autoCapitalize={autoCapitalize}
 									autoComplete={autoComplete}
 									autoCorrect={autoCorrect}
-									className={classesName(
+									className={classNames(
 										'flex-1 self-stretch pb-0 pl-0 pr-0 pt-0 text-left outline-none',
-										typographyClasses(TYPOGRAPHY.BODY)(densitySizeMapTypographySize(size))
+										typographyClasses(TYPOGRAPHY.BODY)(toTypographySize(size))
 									)}
 									editable={typeof disabled === 'boolean' ? !disabled : editable}
 									multiline={multiline}
@@ -167,7 +167,7 @@ export const RenderTextInput: FC<RenderTextInputProps> = ({
 
 						{trailingElement && (
 							<View
-								className={classesName(
+								className={classNames(
 									'flex flex-col items-center justify-center',
 									densityControlClasses(size),
 									{['justify-start']: multiline}
@@ -189,7 +189,7 @@ export const RenderTextInput: FC<RenderTextInputProps> = ({
 						/>
 
 						<Underlay
-							eventName={eventName}
+							interactionEventName={eventName}
 							opacities={underlayOpacities}
 							radius={radius}
 							shape={shape}

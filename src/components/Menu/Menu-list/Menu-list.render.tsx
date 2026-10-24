@@ -5,8 +5,8 @@ import type {RenderMenuListProps} from './Menu-list.interface'
 
 import {useTheme} from '../../../hooks'
 import {DENSITY_SIZE} from '../../../theme'
-import {platformValue} from '../../../utils'
-import {List, LIST_SELECT_TYPE, LIST_TYPE} from '../../List'
+import {toPlatformUnit} from '../../../utils'
+import {List, LIST_SELECTION_TYPE, LIST_TYPE} from '../../List'
 import {POPOVER_TYPE} from '../../Popover'
 
 const PLATFORMS = ['web', 'windows', 'macos']
@@ -23,16 +23,16 @@ export const RenderMenuList: FC<RenderMenuListProps> = ({
 	...menuProps
 }) => {
 	const {token} = useTheme()
-	const {classesName} = token.classes
+	const {classNames} = token.classes
 	const dataNumber = data?.length ?? 0
 	const itemSize = token.density.control[size]
 	const height = dataNumber * itemSize + token.density.spacing[DENSITY_SIZE.X_SMALL] * 2
-	const menuListStyle = {height: platformValue(height)} as ViewStyle
+	const menuListStyle = {height: toPlatformUnit(height)} as ViewStyle
 
 	return (
 		<View
 			{...(PLATFORMS.includes(Platform.OS) && {onKeyDown})}
-			className={classesName('overflow-hidden bg-[--color-surface-container] outline-none', {
+			className={classNames('overflow-hidden bg-[--color-surface-container] outline-none', {
 				['min-h-80']: type === POPOVER_TYPE.TEXT_INPUT_PICKER,
 				['min-w-[11.25rem]']: type === POPOVER_TYPE.CONTEXT_MENU
 			})}
@@ -45,7 +45,7 @@ export const RenderMenuList: FC<RenderMenuListProps> = ({
 				{...menuProps}
 				data={data}
 				itemSize={itemSize}
-				selectType={multiple ? LIST_SELECT_TYPE.MULTIPLE : LIST_SELECT_TYPE.SINGLE}
+				selectionType={multiple ? LIST_SELECTION_TYPE.MULTIPLE : LIST_SELECTION_TYPE.SINGLE}
 				showsVerticalScrollIndicator={false}
 				size={size}
 				testID={`menuList__list--${id}`}

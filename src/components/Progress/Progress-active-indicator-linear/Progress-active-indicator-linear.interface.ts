@@ -7,7 +7,7 @@ import type {InteractionHandlers} from '../../../hooks'
 import type {ProgressProps} from '../Progress.interface'
 
 export interface ProgressActiveIndicatorLinearProps
-	extends ViewProps, RefAttributes<View>, Pick<ProgressProps, 'animatedType' | 'value' | 'defaultValue'> {}
+	extends ViewProps, RefAttributes<View>, Pick<ProgressProps, 'mode' | 'value' | 'defaultValue'> {}
 
 export interface RenderProgressActiveIndicatorLinearProps extends ProgressActiveIndicatorLinearProps {
 	contentAnimatedStyle: AnimatedStyle<ViewStyle>

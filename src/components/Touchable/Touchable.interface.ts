@@ -1,9 +1,9 @@
 import type {RefAttributes} from 'react'
 import type {NativeTouchEvent, Pressable, PressableProps, View, ViewStyle} from 'react-native'
 
-import type {LayoutRectangle, State} from '../../constants'
-import type {HandleStateEventChangeOptions, InteractionHandlers, StateEventChangeHandler} from '../../hooks'
-import type {ThemeProps} from '../../theme'
+import type {MeasuredLayoutRectangle, InteractionState} from '../../constants'
+import type {HandleInteractionStateChangeOptions, InteractionHandlers, InteractionStateChangeHandler} from '../../hooks'
+import type {ThemeableProps} from '../../theme'
 import type {TouchableRippleProps} from './Touchable-ripple'
 
 export type PressableType = typeof Pressable & View
@@ -13,14 +13,14 @@ export interface TouchableProps
 			PressableProps & RefAttributes<PressableType> & InteractionHandlers,
 			'children' | 'disabled' | 'hitSlop' | 'style'
 		>,
-		ThemeProps {
+		ThemeableProps {
 	backgroundUnderlay?: React.JSX.Element
-	centered?: boolean
 	children?: React.JSX.Element
 	disabled?: boolean
 	elevationUnderlay?: React.JSX.Element
 	enableTouchableRipple?: boolean
-	onStateEventChange?: StateEventChangeHandler
+	onInteractionStateChange?: InteractionStateChangeHandler
+	rippleCentered?: boolean
 	style?: ViewStyle
 	underlayColor?: string
 }
@@ -31,24 +31,24 @@ export interface RenderTouchableProps extends TouchableProps {
 }
 
 export type TouchableBaseProps = TouchableProps
-export type TouchableRipple = TouchableRippleProps['touchableLocation']
-export type TouchableRippleSequence = Record<string, TouchableRipple>
+export type TouchableRippleLocation = TouchableRippleProps['touchableLocation']
+export type TouchableRippleLocations = Record<string, TouchableRippleLocation>
 export interface TouchableState {
-	contentLayout: Partial<Omit<LayoutRectangle, 'x' | 'y'>>
-	rippleSequence: TouchableRippleSequence
+	contentLayout: Partial<Omit<MeasuredLayoutRectangle, 'x' | 'y'>>
+	rippleLocations: TouchableRippleLocations
 }
 
-export interface RenderTouchableRippleProps extends Omit<TouchableRippleProps, 'indexKey'> {
-	rippleSequence: TouchableRippleSequence
+export interface RenderTouchableRipplesProps extends Omit<TouchableRippleProps, 'rippleKey'> {
+	rippleLocations: TouchableRippleLocations
 }
 
-export interface HandleTouchableStateChangeOptions
+export interface HandleTouchableInteractionStateChangeOptions
 	extends
 		Pick<TouchableRippleProps, 'touchableLocation'>,
-		HandleStateEventChangeOptions,
-		Pick<TouchableProps, 'enableTouchableRipple' | 'onStateEventChange'> {
+		HandleInteractionStateChangeOptions,
+		Pick<TouchableProps, 'enableTouchableRipple' | 'onInteractionStateChange'> {
+	interactionState: InteractionState
 	ref: React.RefObject<PressableType | null>
-	state: State
 }
 
 export interface AddTouchableRippleOptions extends Pick<TouchableState, 'contentLayout'> {

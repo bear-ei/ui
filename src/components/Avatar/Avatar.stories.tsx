@@ -10,7 +10,7 @@ export const NoneContentText: StoryObj<AvatarProps> = {
 }
 
 export const ContentText: StoryObj<AvatarProps> = {
-	args: {labelText: 'Bearei'}
+	args: {initialsText: 'Bearei'}
 }
 
 export const Medium: StoryObj<AvatarProps> = {

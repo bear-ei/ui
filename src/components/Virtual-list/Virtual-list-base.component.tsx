@@ -5,10 +5,10 @@ import {useImmer} from 'use-immer'
 
 import type {VirtualListBaseProps, VirtualListState} from './Virtual-list.interface'
 
-import {COMPONENT_STATUS, LAYOUT, type LayoutRectangle, type State} from '../../constants'
+import {COMPONENT_STATUS, ORIENTATION, type MeasuredLayoutRectangle, type InteractionState} from '../../constants'
 import {
-	type HandleStateEventChangeOptions,
-	type StateEvent,
+	type HandleInteractionStateChangeOptions,
+	type InteractionEvent,
 	useDesktopScrollEvent,
 	useInteractionStateEvent,
 	useMergeRefs,
@@ -28,19 +28,18 @@ import {
 	updateVirtualListLayout,
 	updateVirtualListVisibleRangeData
 } from './Virtual-list.handler'
-import {RenderVirtualList, RenderVirtualListItem} from './Virtual-list.render'
+import {RenderVirtualList, RenderVirtualListItems} from './Virtual-list.render'
 
 export const VirtualListBase: FC<VirtualListBaseProps> = ({
 	activeKey,
+	autoSelectAdjacentOnClose,
 	data,
 	dependencies,
 	draggable,
-	enableAutoSelect,
 	endReachedThreshold = 0.1,
 	focusedIndex,
 	gap = 0,
 	itemSize: rawItemSize = 0,
-	layoutType = LAYOUT.VERTICAL,
 	onClose: rawOnClose,
 	onDragEnd: rawOnDragEnd,
 	onDragUpdate: rawOnDragUpdate,
@@ -48,6 +47,7 @@ export const VirtualListBase: FC<VirtualListBaseProps> = ({
 	onLoadEnd,
 	onMomentumScrollEnd,
 	onScroll: rawOnScroll,
+	orientation = ORIENTATION.VERTICAL,
 	ref,
 	renderItem,
 	shape,
@@ -70,7 +70,7 @@ export const VirtualListBase: FC<VirtualListBaseProps> = ({
 			visibleRangeData
 		},
 		setState
-	] = useImmer<VirtualListState>({layout: {} as Partial<LayoutRectangle>, status: COMPONENT_STATUS.IDLE})
+	] = useImmer<VirtualListState>({layout: {} as Partial<MeasuredLayoutRectangle>, status: COMPONENT_STATUS.IDLE})
 
 	const onEndReached = useMemo(
 		() => (rawOnEndReached ? debounce(rawOnEndReached, 150) : undefined),
@@ -93,13 +93,13 @@ export const VirtualListBase: FC<VirtualListBaseProps> = ({
 				handleVirtualListScroll(setState, {
 					endReachedThreshold,
 					itemSize,
-					layoutType,
 					onEndReached,
 					onScroll: rawOnScroll,
+					orientation,
 					scrollOffsetRef
 				})
 			),
-		[endReachedThreshold, itemSize, layoutType, onEndReached, rawOnScroll, setState]
+		[endReachedThreshold, itemSize, orientation, onEndReached, rawOnScroll, setState]
 	)
 
 	const scrollEvent = useDesktopScrollEvent({onMomentumScrollEnd, onScroll})
@@ -107,29 +107,29 @@ export const VirtualListBase: FC<VirtualListBaseProps> = ({
 		() =>
 			closeVirtualList(setState, {
 				activeKey,
-				enableAutoSelect,
+				autoSelectAdjacentOnClose,
 				itemSize,
-				layoutType,
 				onClose: rawOnClose,
+				orientation,
 				scrollOffsetRef
 			}),
-		[activeKey, enableAutoSelect, itemSize, layoutType, rawOnClose, setState]
+		[activeKey, autoSelectAdjacentOnClose, itemSize, orientation, rawOnClose, setState]
 	)
 
 	const onLayoutChange = useMemo(
-		() => updateVirtualListLayout(setState, {itemSize, layoutType, scrollOffsetRef}),
-		[itemSize, layoutType, setState]
+		() => updateVirtualListLayout(setState, {itemSize, orientation, scrollOffsetRef}),
+		[itemSize, orientation, setState]
 	)
 
-	const onStateEventChange = useCallback(
-		(event: StateEvent, state: State, options: HandleStateEventChangeOptions) =>
-			handleVirtualListStateChange(event, onLayoutChange, {...options, state}),
+	const onInteractionStateChange = useCallback(
+		(event: InteractionEvent, interactionState: InteractionState, options: HandleInteractionStateChangeOptions) =>
+			handleVirtualListStateChange(event, onLayoutChange, {...options, interactionState}),
 		[onLayoutChange]
 	)
 
 	const onDragUpdate = useMemo(
-		() => handleVirtualListDragUpdate(setState, {itemSize, layoutType, onDragUpdate: rawOnDragUpdate}),
-		[itemSize, layoutType, rawOnDragUpdate, setState]
+		() => handleVirtualListDragUpdate(setState, {itemSize, onDragUpdate: rawOnDragUpdate, orientation}),
+		[itemSize, orientation, rawOnDragUpdate, setState]
 	)
 
 	const onDragStart = useMemo(() => handleVirtualListDragStart(setState, {scrollOffsetRef}), [setState])
@@ -141,25 +141,25 @@ export const VirtualListBase: FC<VirtualListBaseProps> = ({
 	const interactionHandlers = useInteractionStateEvent({
 		...renderVirtualListProps,
 		disabled: false,
-		onStateEventChange
+		onInteractionStateChange
 	})
 
 	const {animatedRef, contentAnimatedStyle} = useVirtualListAnimated({
 		contentSize,
 		focusedIndex,
 		itemSize,
-		layoutType
+		orientation
 	})
 
 	const mergedRef = useMergeRefs([ref, animatedRef])
 	const runUpdateVisibleRangeData = useMemo(
-		() => updateVirtualListVisibleRangeData(setState, {itemSize, layoutType, scrollOffsetRef}),
-		[itemSize, layoutType, setState]
+		() => updateVirtualListVisibleRangeData(setState, {itemSize, orientation, scrollOffsetRef}),
+		[itemSize, orientation, setState]
 	)
 
 	const runUpdateData = useMemo(() => updateVirtualListData(setState), [setState])
 	const itemElements = (
-		<RenderVirtualListItem
+		<RenderVirtualListItems
 			containerLayout={containerLayout}
 			data={visibleRangeData}
 			dependencies={dependencies}
@@ -167,12 +167,12 @@ export const VirtualListBase: FC<VirtualListBaseProps> = ({
 			gap={gap}
 			id={id}
 			itemSize={itemSize}
-			layoutType={layoutType}
 			onClose={onClose}
 			onDragEnd={onDragEnd}
 			onDragStart={onDragStart}
 			onDragUpdate={onDragUpdate}
 			onLoadEnd={onLoadEnd}
+			orientation={orientation}
 			renderItem={renderItem}
 			scrollOffset={dragScrollOffset}
 			shape={shape}
@@ -206,7 +206,7 @@ export const VirtualListBase: FC<VirtualListBaseProps> = ({
 			id={id}
 			interactionHandlers={interactionHandlers}
 			itemElements={itemElements}
-			layoutType={layoutType}
+			orientation={orientation}
 			ref={mergedRef}
 			status={status}
 		/>

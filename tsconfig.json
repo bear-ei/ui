@@ -7,7 +7,7 @@
 		"lib": ["ES2020", "DOM", "DOM.Iterable"],
 		"strictNullChecks": true,
 		"strictPropertyInitialization": false,
-		"types": ["nativewind/types"],
+		"types": ["nativewind/types", "jest"],
 		"verbatimModuleSyntax": true
 	},
 	"include": ["**/*.ts", "**/*.tsx"],

@@ -3,28 +3,28 @@ import type {LayoutChangeEvent, NativeScrollEvent, NativeSyntheticEvent} from 'r
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../hooks'
+import type {AnimatedTimingFactory, HandleInteractionStateChangeOptions, InteractionEvent} from '../../hooks'
 import type {
 	CalculateVirtualListVisibleRangeOptions,
 	CloseVirtualListOptions,
 	HandleVirtualListDragEndOptions,
-	HandleVirtualListDragStartConfig,
+	HandleVirtualListDragStartOptions,
 	HandleVirtualListDragUpdateOptions,
 	HandleVirtualListScrollOptions,
-	NativeDragEvent,
+	VirtualListDragEvent,
 	TriggerVirtualListCloseOptions,
 	UpdateVirtualListLayoutOptions,
-	VirtualListData,
+	VirtualListItemData,
 	VirtualListState
 } from './Virtual-list.interface'
 
-import {COMPONENT_STATUS, EVENT_NAME, LAYOUT, type LayoutRectangle} from '../../constants'
+import {COMPONENT_STATUS, EVENT_NAME, ORIENTATION, type MeasuredLayoutRectangle} from '../../constants'
 import {ANIMATED_TIMING} from '../../theme'
 import {extractDragEventPayload} from './extract-drag-event-payload.utils'
 
 const calculateVirtualListVisibleRange = (
 	draft: WritableDraft<VirtualListState>,
-	{itemSize = 0, layoutType, scrollOffsetRef}: UpdateVirtualListLayoutOptions,
+	{itemSize = 0, orientation, scrollOffsetRef}: UpdateVirtualListLayoutOptions,
 	{force, scrollDelta = 0, scrollOffset}: CalculateVirtualListVisibleRangeOptions = {}
 ) => {
 	if (!(draft.layout.height || draft.layout.width)) {
@@ -34,12 +34,12 @@ const calculateVirtualListVisibleRange = (
 	const nextScrollOffset = scrollOffset ?? scrollOffsetRef?.current ?? draft.scrollOffset ?? 0
 	const baseStartIndex = Math.max(0, Math.floor(nextScrollOffset / itemSize))
 	const dataSize = draft.virtualListData?.length ?? 0
-	const windowSize = Math.max(
-		layoutType === LAYOUT.VERTICAL ? (draft.layout.height ?? 0) : (draft.layout.width ?? 0),
+	const viewportSize = Math.max(
+		orientation === ORIENTATION.VERTICAL ? (draft.layout.height ?? 0) : (draft.layout.width ?? 0),
 		0
 	)
 
-	const visibleItemCount = Math.ceil(windowSize / itemSize)
+	const visibleItemCount = Math.ceil(viewportSize / itemSize)
 	const bufferItemCount = Math.max(20, Math.floor(visibleItemCount / 2))
 	const deltaItemCount = itemSize > 0 ? Math.ceil((Math.abs(scrollDelta) / itemSize) * 2) : 0
 	const extraBufferItemCount = Math.min(deltaItemCount, visibleItemCount + bufferItemCount)
@@ -77,8 +77,8 @@ const calculateVirtualListVisibleRange = (
 }
 
 export const updateVirtualListLayout =
-	(setState: Updater<VirtualListState>, {itemSize, layoutType, scrollOffsetRef}: UpdateVirtualListLayoutOptions) =>
-	({height = 0, left, top, width = 0}: Partial<LayoutRectangle>) => {
+	(setState: Updater<VirtualListState>, {itemSize, orientation, scrollOffsetRef}: UpdateVirtualListLayoutOptions) =>
+	({height = 0, left, top, width = 0}: Partial<MeasuredLayoutRectangle>) => {
 		setState(draft => {
 			if (!(width > 0 || height > 0)) {
 				return
@@ -94,21 +94,21 @@ export const updateVirtualListLayout =
 				draft.layout.height = height
 				draft.layout.width = width
 
-				calculateVirtualListVisibleRange(draft, {itemSize, layoutType, scrollOffsetRef})
+				calculateVirtualListVisibleRange(draft, {itemSize, orientation, scrollOffsetRef})
 			}
 		})
 	}
 
 export const handleVirtualListStateChange = (
-	event: StateEvent,
-	onVirtualListLayoutChange: (layout: LayoutRectangle) => void,
-	{eventName}: HandleStateEventChangeOptions
+	event: InteractionEvent,
+	onVirtualListLayoutChange: (layout: MeasuredLayoutRectangle) => void,
+	{eventName}: HandleInteractionStateChangeOptions
 ) => {
 	if (eventName !== EVENT_NAME.LAYOUT) {
 		return
 	}
 
-	onVirtualListLayoutChange((event as LayoutChangeEvent).nativeEvent.layout as LayoutRectangle)
+	onVirtualListLayoutChange((event as LayoutChangeEvent).nativeEvent.layout as MeasuredLayoutRectangle)
 }
 
 export const handleVirtualListScroll =
@@ -117,9 +117,9 @@ export const handleVirtualListScroll =
 		{
 			endReachedThreshold = 0.1,
 			itemSize,
-			layoutType,
 			onEndReached,
 			onScroll,
+			orientation,
 			scrollOffsetRef
 		}: HandleVirtualListScrollOptions
 	) =>
@@ -127,7 +127,7 @@ export const handleVirtualListScroll =
 		const {contentInset, contentOffset, contentSize, layoutMeasurement, targetContentOffset, velocity, zoomScale} =
 			event.nativeEvent
 
-		const scrollOffset = layoutType === LAYOUT.VERTICAL ? contentOffset.y : contentOffset.x
+		const scrollOffset = orientation === ORIENTATION.VERTICAL ? contentOffset.y : contentOffset.x
 		const prevScrollOffset = scrollOffsetRef?.current
 		const scrollDelta = typeof prevScrollOffset === 'number' ? scrollOffset - prevScrollOffset : 0
 
@@ -136,12 +136,12 @@ export const handleVirtualListScroll =
 		}
 
 		const distanceFromEnd =
-			layoutType === LAYOUT.VERTICAL ?
+			orientation === ORIENTATION.VERTICAL ?
 				contentSize.height - layoutMeasurement.height - scrollOffset
 			:	contentSize.width - layoutMeasurement.width - scrollOffset
 
 		const thresholdDistance =
-			layoutType === LAYOUT.VERTICAL ?
+			orientation === ORIENTATION.VERTICAL ?
 				layoutMeasurement.height * endReachedThreshold
 			:	layoutMeasurement.width * endReachedThreshold
 
@@ -164,70 +164,77 @@ export const handleVirtualListScroll =
 				draft.pendingEndReachedEvent = true
 			}
 
-			calculateVirtualListVisibleRange(draft, {itemSize, layoutType}, {scrollDelta, scrollOffset})
+			calculateVirtualListVisibleRange(draft, {itemSize, orientation}, {scrollDelta, scrollOffset})
 		})
 	}
 
 const triggerVirtualListClose = (
 	draft: WritableDraft<VirtualListState>,
-	indexKey: string,
-	{activeKey, enableAutoSelect, onClose}: TriggerVirtualListCloseOptions
+	itemKey: string,
+	{activeKey, autoSelectAdjacentOnClose, onClose}: TriggerVirtualListCloseOptions
 ) => {
-	if (enableAutoSelect && indexKey === activeKey && onClose) {
+	if (autoSelectAdjacentOnClose && itemKey === activeKey && onClose) {
 		const data = draft.virtualListData ?? []
-		const datumIndex = data.findIndex(datum => datum.indexKey === indexKey)
-		const nextActiveKey = data[datumIndex + 1]?.indexKey ?? data[datumIndex - 1]?.indexKey
+		const datumIndex = data.findIndex(datum => datum.itemKey === itemKey)
+		const nextActiveKey = data[datumIndex + 1]?.itemKey ?? data[datumIndex - 1]?.itemKey
 
-		draft.pendingCloseEvent = {activeKey: nextActiveKey, indexKey}
+		draft.pendingCloseEvent = {itemKey, nextActiveKey}
 
 		return
 	}
 
 	if (onClose) {
-		draft.pendingCloseEvent = {indexKey}
+		draft.pendingCloseEvent = {itemKey}
 	}
 }
 
 export const closeVirtualList =
 	(
 		setState: Updater<VirtualListState>,
-		{activeKey, enableAutoSelect, itemSize = 0, layoutType, onClose, scrollOffsetRef}: CloseVirtualListOptions
+		{
+			activeKey,
+			autoSelectAdjacentOnClose,
+			itemSize = 0,
+			onClose,
+			orientation,
+			scrollOffsetRef
+		}: CloseVirtualListOptions
 	) =>
-	(indexKey?: string) => {
-		if (!indexKey) {
+	(itemKey?: string) => {
+		if (!itemKey) {
 			return
 		}
 
 		setState(draft => {
-			triggerVirtualListClose(draft, indexKey, {activeKey, enableAutoSelect, onClose})
+			triggerVirtualListClose(draft, itemKey, {activeKey, autoSelectAdjacentOnClose, onClose})
 
 			draft.virtualListData = draft.virtualListData
-				?.filter(item => item.indexKey !== indexKey)
+				?.filter(item => item.itemKey !== itemKey)
 				.map((item, index) => ({...item, index}))
 
-			calculateVirtualListVisibleRange(draft, {itemSize, layoutType, scrollOffsetRef})
+			calculateVirtualListVisibleRange(draft, {itemSize, orientation, scrollOffsetRef})
 		})
 	}
 
-export const updateVirtualListData = (setState: Updater<VirtualListState>) => (data?: VirtualListData[]) =>
+export const updateVirtualListData = (setState: Updater<VirtualListState>) => (data?: VirtualListItemData[]) =>
 	setState(draft => {
 		draft.status = COMPONENT_STATUS.LOADING
 		draft.virtualListData = data?.map((item, index) => ({...item, index}))
 	})
 
 export const updateVirtualListVisibleRangeData =
-	(setState: Updater<VirtualListState>, {itemSize, layoutType, scrollOffsetRef}: UpdateVirtualListLayoutOptions) =>
-	(virtualListData?: VirtualListData[]) =>
+	(setState: Updater<VirtualListState>, {itemSize, orientation, scrollOffsetRef}: UpdateVirtualListLayoutOptions) =>
+	(virtualListData?: VirtualListItemData[]) =>
 		virtualListData &&
 		setState(draft => {
-			const isCalculate = (draft.layout.height || draft.layout.width) && !draft.dragging
+			const shouldRecalculateRange = (draft.layout.height || draft.layout.width) && !draft.dragging
 
-			if (isCalculate) {
-				calculateVirtualListVisibleRange(draft, {itemSize, layoutType, scrollOffsetRef}, {force: true})
+			if (shouldRecalculateRange) {
+				calculateVirtualListVisibleRange(draft, {itemSize, orientation, scrollOffsetRef}, {force: true})
 			}
 		})
 
-export const animateVirtualList = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
+export const animateVirtualList = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTimingFactory) => {
 	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.STANDARD)
 
 	return (contentSize: number) => animateSharedValueTo(contentSize)
@@ -236,16 +243,16 @@ export const animateVirtualList = (sharedValue: SharedValue<number>, animatedTim
 export const handleVirtualListDragUpdate =
 	(
 		setState: Updater<VirtualListState>,
-		{itemSize = 0, layoutType, onDragUpdate}: HandleVirtualListDragUpdateOptions
+		{itemSize = 0, onDragUpdate, orientation}: HandleVirtualListDragUpdateOptions
 	) =>
-	({indexKey, ...event}: NativeDragEvent) => {
+	({itemKey, ...event}: VirtualListDragEvent) => {
 		setState(draft => {
 			if (!(draft.virtualListData && draft.visibleRangeData)) {
 				return
 			}
 
 			const dragItemAbsolute =
-				layoutType === LAYOUT.HORIZONTAL ?
+				orientation === ORIENTATION.HORIZONTAL ?
 					event.absoluteX - (draft.layout.left ?? 0)
 				:	event.absoluteY - (draft.layout.top ?? 0)
 
@@ -253,12 +260,12 @@ export const handleVirtualListDragUpdate =
 			const virtualListData = draft.virtualListData
 			const visibleRangeData = draft.visibleRangeData
 			const updateVisibleRangeData = (itemIndexKey: string) => {
-				if (itemIndexKey === indexKey) {
+				if (itemIndexKey === itemKey) {
 					return
 				}
 
-				const visibleRangeDraggedIndex = visibleRangeData.findIndex(item => item.indexKey === indexKey)
-				const visibleRangeOverIndex = visibleRangeData.findIndex(item => item.indexKey === itemIndexKey)
+				const visibleRangeDraggedIndex = visibleRangeData.findIndex(item => item.itemKey === itemKey)
+				const visibleRangeOverIndex = visibleRangeData.findIndex(item => item.itemKey === itemIndexKey)
 				const isUpdateVisibleRangeData = visibleRangeDraggedIndex !== -1 && visibleRangeOverIndex !== -1
 
 				if (isUpdateVisibleRangeData) {
@@ -268,8 +275,8 @@ export const handleVirtualListDragUpdate =
 							visibleRangeData[visibleRangeDraggedIndex].index
 						]
 
-					const virtualListDraggedIndex = virtualListData.findIndex(item => item.indexKey === indexKey)
-					const virtualListOverIndex = virtualListData.findIndex(item => item.indexKey === itemIndexKey)
+					const virtualListDraggedIndex = virtualListData.findIndex(item => item.itemKey === itemKey)
+					const virtualListOverIndex = virtualListData.findIndex(item => item.itemKey === itemIndexKey)
 
 					;[virtualListData[virtualListDraggedIndex].index, virtualListData[virtualListOverIndex].index] = [
 						virtualListData[virtualListOverIndex].index,
@@ -279,14 +286,14 @@ export const handleVirtualListDragUpdate =
 					if (onDragUpdate) {
 						draft.pendingDragUpdateEvent = {
 							...extractDragEventPayload(event),
-							indexKey,
+							itemKey,
 							targetKey: itemIndexKey
 						}
 					}
 				}
 			}
 
-			for (const {index = 0, indexKey: itemIndexKey} of visibleRangeData) {
+			for (const {index = 0, itemKey: itemIndexKey} of visibleRangeData) {
 				const itemOffset = itemSize * index - scrollOffset
 				const isOverItem = dragItemAbsolute > itemOffset && dragItemAbsolute < itemOffset + itemSize
 
@@ -300,8 +307,8 @@ export const handleVirtualListDragUpdate =
 	}
 
 export const handleVirtualListDragStart =
-	(setState: Updater<VirtualListState>, {scrollOffsetRef}: HandleVirtualListDragStartConfig = {}) =>
-	(_event: NativeDragEvent) =>
+	(setState: Updater<VirtualListState>, {scrollOffsetRef}: HandleVirtualListDragStartOptions = {}) =>
+	(_event: VirtualListDragEvent) =>
 		setState(draft => {
 			draft.dragging = true
 			draft.dragScrollOffset = scrollOffsetRef?.current ?? draft.scrollOffset
@@ -310,14 +317,14 @@ export const handleVirtualListDragStart =
 export const handleVirtualListDragEnd =
 	(
 		setState: Updater<VirtualListState>,
-		onDragEnd?: (event: NativeDragEvent) => void,
+		onDragEnd?: (event: VirtualListDragEvent) => void,
 		options?: HandleVirtualListDragEndOptions
 	) =>
-	({indexKey, ...event}: NativeDragEvent) =>
+	({itemKey, ...event}: VirtualListDragEvent) =>
 		setState(draft => {
 			draft.dragging = false
 
 			if (onDragEnd) {
-				draft.pendingDragEndEvent = {...options, ...extractDragEventPayload(event), indexKey}
+				draft.pendingDragEndEvent = {...options, ...extractDragEventPayload(event), itemKey}
 			}
 		})

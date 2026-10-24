@@ -14,10 +14,10 @@ export const useSearchTextInputAnimated = ({disabled, expanded}: UseSearchTextIn
 	const borderBottomRadiusSharedValue = useSharedValue(1)
 	const borderTopRadiusSharedValue = useSharedValue(1)
 	const colorSharedValue = useSharedValue(animatedValue)
-	const disabledBackgroundColor = hexToRGBA(token.scheme.onSurface, token.opacity.level2)
-	const disabledColor = hexToRGBA(token.scheme.onSurface, token.opacity.level5)
+	const disabledBackgroundColor = hexToRGBA(token.colors.onSurface, token.opacity.level2)
+	const disabledColor = hexToRGBA(token.colors.onSurface, token.opacity.level5)
 	const backgroundSharedValueOutputRanges = useMemo(
-		() => [disabledBackgroundColor, hexToRGBA(token.scheme.surfaceContainerHigh, token.opacity.level10)],
+		() => [disabledBackgroundColor, hexToRGBA(token.colors.surfaceContainerHigh, token.opacity.level10)],
 		[disabledBackgroundColor, token]
 	)
 
@@ -48,7 +48,7 @@ export const useSearchTextInputAnimated = ({disabled, expanded}: UseSearchTextIn
 	}))
 
 	const inputColorSharedValueOutputRanges = useMemo(
-		() => [disabledColor, hexToRGBA(token.scheme.onSurface, token.opacity.level10)],
+		() => [disabledColor, hexToRGBA(token.colors.onSurface, token.opacity.level10)],
 		[disabledColor, token]
 	)
 

@@ -1,6 +1,6 @@
 import type {ClassValue} from 'clsx'
 
-import type {LayoutType} from '../../constants'
+import type {Orientation} from '../../constants'
 import type {DensitySize, DensityType} from '../density'
 import type {RadiusType, ShapeType} from '../shape'
 import type {TypographySize, TypographyType} from '../typography'
@@ -11,10 +11,10 @@ export interface TypographyClassesOptions {
 }
 
 export interface Classes {
-	classesName: (...inputs: ClassValue[]) => string
+	classNames: (...inputs: ClassValue[]) => string
 	densityClasses: (
 		type: Exclude<DensityType, 'LAYOUT'>,
-		layout?: LayoutType
+		orientation?: Orientation
 	) => (size?: Exclude<DensitySize, 'TIGHT' | 'SNUG'> | number) => string
 
 	shapeClasses: (shape?: ShapeType) => (radius?: RadiusType) => string

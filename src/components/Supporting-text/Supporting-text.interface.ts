@@ -15,4 +15,4 @@ export interface RenderSupportingTextProps extends Omit<SupportingTextProps, 'er
 	textAnimatedStyle: AnimatedStyle<TextStyle>
 }
 
-export type UseSupportingTextOptions = Pick<SupportingTextProps, 'disabled' | 'error'>
+export type UseSupportingTextAnimatedOptions = Pick<SupportingTextProps, 'disabled' | 'error'>

@@ -1,7 +1,7 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
+import type {AnimatedTimingFactory, HandleInteractionStateChangeOptions, InteractionEvent} from '../../../hooks'
 import type {
 	AnimateTouchableRippleOptions,
 	TouchableRippleProps,
@@ -17,35 +17,35 @@ import {ANIMATED_TIMING} from '../../../theme'
 // panel, responsive sidebar), a stale position would be visibly wrong.
 export const compareTouchableRippleProps = (prevProps: TouchableRippleProps, nextProps: TouchableRippleProps) => {
 	const {
-		centered: isPrevCentered,
 		containerLayout: prevContainerLayout,
-		indexKey: prevIndexKey,
+		rippleCentered: isPrevRippleCentered,
+		rippleKey: prevRippleKey,
 		shape: prevShape,
 		underlayColor: prevUnderlayColor
 	} = prevProps
 
 	const {
-		centered: isNextPrevCentered,
 		containerLayout: nextContainerLayout,
-		indexKey: nextIndexKey,
+		rippleCentered: isNextRippleCentered,
+		rippleKey: nextRippleKey,
 		shape: nextShape,
 		underlayColor: nextUnderlayColor
 	} = nextProps
 
 	return ![
-		prevIndexKey !== nextIndexKey,
+		prevRippleKey !== nextRippleKey,
 		prevContainerLayout?.width !== nextContainerLayout?.width,
 		prevContainerLayout?.height !== nextContainerLayout?.height,
-		isPrevCentered !== isNextPrevCentered,
+		isPrevRippleCentered !== isNextRippleCentered,
 		prevShape !== nextShape,
 		prevUnderlayColor !== nextUnderlayColor
 	].some(Boolean)
 }
 
 export const handleTouchableRippleStateChange = (
-	_event: StateEvent,
+	_event: InteractionEvent,
 	setState: Updater<TouchableRippleState>,
-	{eventName}: HandleStateEventChangeOptions
+	{eventName}: HandleInteractionStateChangeOptions
 ) => {
 	if (eventName !== EVENT_NAME.LAYOUT) {
 		return
@@ -60,15 +60,15 @@ export const handleTouchableRippleStateChange = (
 
 export const animateTouchableRipple = (
 	[opacitySharedValue, scaleSharedValue]: [SharedValue<number>, SharedValue<number>],
-	animatedTiming: AnimatedTiming,
-	{indexKey, onAnimateFinished}: AnimateTouchableRippleOptions
+	animatedTiming: AnimatedTimingFactory,
+	{onAnimationFinished, rippleKey}: AnimateTouchableRippleOptions
 ) => {
 	const entryAnimateSharedValueTo = animatedTiming(scaleSharedValue, ANIMATED_TIMING.ENTER)
 
 	const exitAnimateSharedValueTo = animatedTiming(opacitySharedValue, {
 		...ANIMATED_TIMING.FADE_OUT,
-		callback: (finished?: boolean) => finished && indexKey && onAnimateFinished?.(indexKey),
-		delay: 75
+		delay: 75,
+		onFinish: (finished?: boolean) => finished && rippleKey && onAnimationFinished?.(rippleKey)
 	})
 
 	return () => {

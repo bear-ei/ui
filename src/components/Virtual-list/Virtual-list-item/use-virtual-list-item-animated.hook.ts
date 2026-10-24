@@ -5,33 +5,33 @@ import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 're
 
 import type {UseVirtualListItemAnimatedOptions} from './Virtual-list-item.interface'
 
-import {COMPONENT_STATUS, LAYOUT} from '../../../constants'
+import {COMPONENT_STATUS, ORIENTATION} from '../../../constants'
 import {useAnimatedTiming} from '../../../hooks'
-import {platformValue} from '../../../utils'
+import {toPlatformUnit} from '../../../utils'
 import {animateVirtualListItemScale, animateVirtualListItemTranslate} from './Virtual-list-item.handler'
 
 export const useVirtualListItemAnimated = ({
 	dragging,
-	layoutType,
 	offset = 0,
 	onAnimationFinished,
+	orientation,
 	status
 }: UseVirtualListItemAnimatedOptions) => {
 	const animatedTiming = useAnimatedTiming()
 	const translateSharedValue = useSharedValue(offset)
 	const scaleSharedValue = useSharedValue(0)
 	const containerAnimatedStyle = useAnimatedStyle(() => ({
-		...(layoutType === LAYOUT.VERTICAL &&
+		...(orientation === ORIENTATION.VERTICAL &&
 			({
 				transform: [
-					{translateY: platformValue(translateSharedValue.value)},
+					{translateY: toPlatformUnit(translateSharedValue.value)},
 					{scale: interpolate(scaleSharedValue.value, [0, 1], [1, 0.99])}
 				]
 			} as ViewStyle)),
-		...(layoutType === LAYOUT.HORIZONTAL &&
+		...(orientation === ORIENTATION.HORIZONTAL &&
 			({
 				transform: [
-					{translateX: platformValue(translateSharedValue.value)},
+					{translateX: toPlatformUnit(translateSharedValue.value)},
 					{scale: interpolate(scaleSharedValue.value, [0, 1], [1, 0.99])}
 				]
 			} as ViewStyle))

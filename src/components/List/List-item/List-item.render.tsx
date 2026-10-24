@@ -4,24 +4,24 @@ import {Pressable, Text, View} from 'react-native'
 
 import type {RenderListItemProps, RenderListItemTrailingProps} from './List-item.interface'
 
-import {EVENT_NAME, LAYOUT, TRIGGER_ON} from '../../../constants'
+import {EVENT_NAME, ORIENTATION, TRIGGER_ON} from '../../../constants'
 import {useTheme} from '../../../hooks'
 import {
 	DENSITY_SIZE,
 	DENSITY_TYPE,
 	ENTRY_EXIT,
-	densitySizeMapTypographySize,
+	toTypographySize,
 	stepDownDensitySize,
 	TYPOGRAPHY,
 	type DensitySizeScale
 } from '../../../theme'
-import {platformValue} from '../../../utils'
+import {toPlatformUnit} from '../../../utils'
 import {AnimatedText, AnimatedView} from '../../Animated'
 import {Divider} from '../../Divider'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
-import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
+import {LAYOUT_ANIMATION, LayoutAnimated} from '../../Layout-animated'
 import {Skeleton} from '../../Skeleton'
-import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
+import {ACTIVE_ANIMATION, Underlay} from '../../Underlay'
 import {ListAfterAffordance} from '../List-after-affordance'
 import {LIST_TYPE} from '../List.enum'
 
@@ -33,17 +33,17 @@ const XX_SMALL_DENSITY_SIZE_SCALES = [
 
 export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	afterAffordance,
-	closeTrailing,
 	disabled,
+	enableTrailingClose,
 	id,
 	interactionHandlers,
-	onTrailingVisible,
+	onTrailingHoverIn,
 	size = DENSITY_SIZE.MEDIUM,
 	trailing,
 	trailingTriggerOn
 }) => {
-	const onHoverIn = useCallback(() => onTrailingVisible?.(EVENT_NAME.HOVER_IN), [onTrailingVisible])
-	const defaultTrailingType = closeTrailing ? 'closeTrailing' : 'standard'
+	const onHoverIn = useCallback(() => onTrailingHoverIn?.(EVENT_NAME.HOVER_IN), [onTrailingHoverIn])
+	const defaultTrailingType = enableTrailingClose ? 'enableTrailingClose' : 'standard'
 	const trailingSize = stepDownDensitySize(size)
 	const trailingType = afterAffordance ? 'afterAffordance' : defaultTrailingType
 	const trailingProps = {
@@ -64,7 +64,7 @@ export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 			),
 			trailingProps
 		),
-		closeTrailing: cloneElement(
+		enableTrailingClose: cloneElement(
 			trailing ?? (
 				<IconButton
 					icon={<X testID={`listItem__trailingIconMoreHoriz--${id}`} />}
@@ -90,22 +90,22 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 	afterAffordanceVisible,
 	beforeAffordance,
 	className,
-	closeTrailing,
 	contentAnimatedStyle,
 	contentStyle,
 	disabled,
 	divider,
+	enableTrailingClose,
 	enableUnderlay,
 	enableUnderlayActive,
 	eventName,
 	headline,
 	headlineTextAnimatedStyle,
 	id,
-	indexKey,
 	interactionHandlers,
+	itemKey,
 	leadingElement,
-	onConfirm,
-	onSecondaryAction,
+	onPrimaryAction,
+	onSecondaryPress,
 	panResponder,
 	primaryButtonDisabled,
 	primaryButtonLabelText,
@@ -116,10 +116,10 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 	secondaryButtonLabelText,
 	secondaryButtonLoading,
 	secondaryButtonStyle,
-	selectType,
+	selectionType,
 	shape,
 	size = DENSITY_SIZE.MEDIUM,
-	skeletonDuration = 300,
+	skeletonAutoHideDelay = 300,
 	skeletonElement,
 	supporting,
 	supportingTextNumberOfLines,
@@ -131,22 +131,22 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 	...touchableProps
 }) => {
 	const {token} = useTheme()
-	const {classesName, densityClasses, shapeClasses, typographyClasses} = token.classes
+	const {classNames, densityClasses, shapeClasses, typographyClasses} = token.classes
 	const underlayEventName = disabled ? EVENT_NAME.NONE : eventName
 	const densityControlClasses = densityClasses(DENSITY_TYPE.CONTROL)
-	const densityHorizontalInsetClasses = densityClasses(DENSITY_TYPE.INSET, LAYOUT.HORIZONTAL)
-	const densityHorizontalSpacingClasses = densityClasses(DENSITY_TYPE.SPACING, LAYOUT.HORIZONTAL)
+	const densityHorizontalInsetClasses = densityClasses(DENSITY_TYPE.INSET, ORIENTATION.HORIZONTAL)
+	const densityHorizontalSpacingClasses = densityClasses(DENSITY_TYPE.SPACING, ORIENTATION.HORIZONTAL)
 	const densityInlineClasses = densityClasses(DENSITY_TYPE.INLINE)
-	const densityVerticalInsetClasses = densityClasses(DENSITY_TYPE.INSET, LAYOUT.VERTICAL)
-	const activeColor = token.scheme.secondaryContainer
+	const densityVerticalInsetClasses = densityClasses(DENSITY_TYPE.INSET, ORIENTATION.VERTICAL)
+	const activeColor = token.colors.secondaryContainer
 	const isSupportingTextShow = !!supporting
 	const isTrailingShow = !!trailingElement
 	const isLeadingShow = !!leadingElement
-	const underlayColor = active ? token.scheme.onSecondaryContainer : token.scheme.onSurface
-	const underlayProps = selectType &&
+	const underlayColor = active ? token.colors.onSecondaryContainer : token.colors.onSurface
+	const underlayProps = selectionType &&
 		enableUnderlayActive && {
 			active,
-			activeAnimatedType: ACTIVE_ANIMATED.SCALE_X,
+			activeAnimation: ACTIVE_ANIMATION.SCALE_X,
 			activeColor
 		}
 
@@ -155,7 +155,7 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 	const iconSize = token.density.icon[stepDownDensitySize(densityInlineSize)]
 	const isLabelType = type === LIST_TYPE.MENU || type === LIST_TYPE.LABEL
 	const typographyType = isLabelType ? TYPOGRAPHY.LABEL : TYPOGRAPHY.BODY
-	const typographySize = densitySizeMapTypographySize(isLabelType ? DENSITY_SIZE.MEDIUM : size)
+	const typographySize = toTypographySize(isLabelType ? DENSITY_SIZE.MEDIUM : size)
 	const {entry, exit} = ENTRY_EXIT.SHORT
 
 	const animatedViewStyle = [contentStyle, contentAnimatedStyle]
@@ -171,7 +171,7 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 			)}
 
 			<AnimatedView
-				className={classesName('absolute bottom-0 left-0 right-0 top-0 z-20', {
+				className={classNames('absolute bottom-0 left-0 right-0 top-0 z-20', {
 					['bg-[--color-surface-container]']: type !== LIST_TYPE.STANDARD,
 					['bg-[--color-surface]']: type === LIST_TYPE.STANDARD
 				})}
@@ -181,7 +181,7 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 				<Pressable
 					{...touchableProps}
 					{...interactionHandlers}
-					className={classesName(
+					className={classNames(
 						'flex flex-1 flex-col items-center justify-center self-stretch outline-none',
 						className
 					)}
@@ -189,7 +189,7 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 					testID={`listItem__touchable--${id}`}
 				>
 					<View
-						className={classesName(
+						className={classNames(
 							'relative z-10 flex flex-1 flex-row items-center justify-start self-stretch',
 							densityHorizontalInsetClasses(size),
 							{
@@ -212,7 +212,7 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 					>
 						{leadingElement && (
 							<View
-								className={classesName(
+								className={classNames(
 									'flex flex-col items-center justify-center',
 									densityInlineClasses(densityInlineSize),
 									{
@@ -229,15 +229,15 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 								testID={`listItem__leading--${id}`}
 							>
 								{cloneElement(leadingElement, {
-									color: token.scheme.onSurfaceVariant,
-									size: platformValue(iconSize),
+									color: token.colors.onSurfaceVariant,
+									size: toPlatformUnit(iconSize),
 									testID: `listItem__leadingIcon--${id}`
 								})}
 							</View>
 						)}
 
 						<View
-							className={classesName('pointer-events-none flex flex-1 flex-col justify-center', {
+							className={classNames('pointer-events-none flex flex-1 flex-col justify-center', {
 								['min-h-[--density-inline-medium]']: isSupportingTextShow
 							})}
 							testID={`listItem__mainInner--${id}`}
@@ -272,7 +272,7 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 
 						{trailingElement && (
 							<View
-								className={classesName(
+								className={classNames(
 									'flex flex-col items-center justify-center',
 									densityInlineClasses(densityInlineSize),
 									{
@@ -289,13 +289,13 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 								testID={`listItem__trailingLayout--${id}`}
 							>
 								<LayoutAnimated
-									animatedType={LAYOUT_ANIMATED.FADE}
+									animation={LAYOUT_ANIMATION.FADE}
 									defaultVisible={!trailingTriggerOn}
 									entry={entry}
 									exit={exit}
-									lazy={closeTrailing}
+									lazyMount={enableTrailingClose}
 									testID={`listItem__trailing--${id}`}
-									unmount={true}
+									unmountOnHide={true}
 									visible={trailingVisible}
 								>
 									{trailingElement}
@@ -308,7 +308,7 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 				{enableUnderlay && (
 					<Underlay
 						{...underlayProps}
-						eventName={underlayEventName}
+						interactionEventName={underlayEventName}
 						testID={`listItem__underlay--${id}`}
 						underlayColor={underlayColor}
 					/>
@@ -317,16 +317,16 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 
 			{afterAffordance && (
 				<View
-					className={classesName('flex flex-1 flex-row justify-center self-end', {
+					className={classNames('flex flex-1 flex-row justify-center self-end', {
 						['z-10']: afterAffordanceExpanded
 					})}
 					testID={`listItem__afterAffordanceLayout--${id}`}
 				>
 					{typeof afterAffordance === 'boolean' ?
 						<ListAfterAffordance
-							indexKey={indexKey}
-							onConfirm={onConfirm}
-							onSecondaryAction={onSecondaryAction}
+							itemKey={itemKey}
+							onPrimaryAction={onPrimaryAction}
+							onSecondaryPress={onSecondaryPress}
 							primaryButtonDisabled={primaryButtonDisabled}
 							primaryButtonLabelText={primaryButtonLabelText}
 							primaryButtonLoading={primaryButtonLoading}
@@ -349,7 +349,7 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 					testID={`listItem__dividerLayout--${id}`}
 				>
 					<Divider
-						layoutType={LAYOUT.HORIZONTAL}
+						orientation={ORIENTATION.HORIZONTAL}
 						size={DENSITY_SIZE.LARGE}
 						testID={`listItem__divider--${id}`}
 					/>
@@ -363,7 +363,7 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 			{...panResponder?.panHandlers}
 			accessibilityLabel={accessibilityLabel ?? (typeof headline === 'string' ? headline : 'headline')}
 			accessibilityRole='menuitem'
-			className={classesName(
+			className={classNames(
 				'relative flex min-w-20 flex-col self-stretch overflow-hidden ',
 				`${densityControlClasses(size)} w-auto`,
 				shapeClasses(shape)(radius)
@@ -373,8 +373,8 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 		>
 			{skeletonElement ?
 				<Skeleton
-					duration={skeletonDuration}
-					layoutType={LAYOUT.HORIZONTAL}
+					autoHideDelay={skeletonAutoHideDelay}
+					orientation={ORIENTATION.HORIZONTAL}
 					skeleton={skeletonElement}
 					testID={`listItem__skeleton--${id}`}
 				>

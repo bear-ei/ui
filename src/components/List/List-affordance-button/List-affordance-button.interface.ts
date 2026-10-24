@@ -2,11 +2,11 @@ import type {TextStyle, ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {EventName} from '../../../constants'
-import type {HandleStateEventChangeOptions, InteractionHandlers} from '../../../hooks'
-import type {ThemeProps} from '../../../theme'
+import type {InteractionHandlers} from '../../../hooks'
+import type {ThemeableProps} from '../../../theme'
 import type {TouchableProps} from '../../Touchable'
 
-export interface ListAffordanceButtonProps extends TouchableProps, ThemeProps {
+export interface ListAffordanceButtonProps extends TouchableProps, ThemeableProps {
 	backgroundVisible?: boolean
 	icon?: React.JSX.Element
 	labelText?: string
@@ -30,5 +30,3 @@ export type UseListAffordanceButtonAnimatedOptions = Pick<
 	RenderListAffordanceButtonProps,
 	'disabled' | 'backgroundVisible'
 >
-
-export type HandleListAffordanceButtonStateChangeOptions = HandleStateEventChangeOptions

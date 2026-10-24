@@ -2,10 +2,10 @@ import type {Updater} from 'use-immer'
 
 import {original} from 'immer'
 
-import type {Portal, PortalState} from './Portal-provider.interface'
+import type {PortalEntry, PortalState} from './Portal-provider.interface'
 
-export const updatePortals = (setState: Updater<PortalState>) => (portal: Portal) => {
-	const {id, props, unmount: isUnmount} = portal
+export const handlePortalChange = (setState: Updater<PortalState>) => (portal: PortalEntry) => {
+	const {id, props, shouldUnmount: isUnmount} = portal
 
 	setState(draft => {
 		if (isUnmount) {

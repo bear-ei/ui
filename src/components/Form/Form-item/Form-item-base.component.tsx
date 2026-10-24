@@ -10,7 +10,7 @@ import {COMPONENT_STATUS} from '../../../constants'
 import {useFormContext} from '../use-form-context.hook'
 import {
 	applyFormItemStatusInitToDraft,
-	triggerFormItemShouldUpdate,
+	triggerFormItemUpdate,
 	updateFormFieldValueIfChanged,
 	validateFormFieldOnBlur
 } from './Form-item.handler'
@@ -24,16 +24,16 @@ export const FormItemBase: FC<FormItemBaseProps> = ({
 	validatorOptions,
 	...renderFormItemProps
 }) => {
-	const [{status}, setState] = useImmer<FormItemState>({shouldUpdate: {}, status: COMPONENT_STATUS.IDLE})
+	const [{status}, setState] = useImmer<FormItemState>({renderToken: {}, status: COMPONENT_STATUS.IDLE})
 	const id = useId()
-	const {getFieldsError, getFieldsValue, getInitialValues, setFieldsValue, signInField, validateFields} =
+	const {getFieldsError, getFieldsValue, getInitialValues, registerField, setFieldsValue, validateFields} =
 		useFormContext()
 
 	const errors = getFieldsError(name) as ValidationError[] | undefined
 	const errorMessage = Object.entries(errors?.[0]?.constraints ?? {})[0]?.[1]
 	const storeValue = getFieldsValue(name)
 	const value = storeValue ?? (status === COMPONENT_STATUS.IDLE ? getInitialValues(name) : storeValue)
-	const onComponentUpdate = useMemo(() => triggerFormItemShouldUpdate(setState), [setState])
+	const onComponentUpdate = useMemo(() => triggerFormItemUpdate(setState), [setState])
 	const onValueChange = useMemo(
 		() => updateFormFieldValueIfChanged(name, {setFieldsValue, storeValue}),
 		[name, setFieldsValue, storeValue]
@@ -47,19 +47,19 @@ export const FormItemBase: FC<FormItemBaseProps> = ({
 		() =>
 			applyFormItemStatusInitToDraft(setState, {
 				onComponentUpdate,
+				registerField,
 				rule,
-				signInField,
 				validatorOptions
 			}),
-		[onComponentUpdate, rule, setState, signInField, validatorOptions]
+		[onComponentUpdate, rule, setState, registerField, validatorOptions]
 	)
 
 	const controlElement = renderControl?.({errorMessage, labelText, onBlur, onValueChange, value})
 
 	useEffect(() => {
-		const signOut = runApplyStatusInitToDraft(name)
+		const unregister = runApplyStatusInitToDraft(name)
 
-		return () => signOut?.()
+		return () => unregister?.()
 	}, [runApplyStatusInitToDraft, name])
 
 	return (

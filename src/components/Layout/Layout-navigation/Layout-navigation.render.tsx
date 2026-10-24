@@ -14,13 +14,13 @@ export const RenderLayoutNavigation: FC<RenderLayoutNavigationProps> = ({
 	...containerProps
 }) => {
 	const {token} = useTheme()
-	const {classesName} = token.classes
+	const {classNames} = token.classes
 	const {entry, exit} = ENTRY_EXIT.EMPHASIZED
 
 	return (
 		<LayoutAnimated
 			{...containerProps}
-			className={classesName(
+			className={classNames(
 				'flex min-w-[--density-layout-navigation] max-w-[--density-layout-sidebar] flex-col self-stretch bg-[--color-surface-container]',
 				className
 			)}

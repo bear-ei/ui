@@ -7,42 +7,42 @@ import type {UseIconButtonAnimatedOptions} from './Icon-button.interface'
 
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {BORDER_SIZE, hexToRGBA} from '../../theme'
-import {platformValue} from '../../utils'
+import {toPlatformUnit} from '../../utils'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 import {animateIconButton} from './Icon-button.handler'
 
 export const useIconButtonAnimated = ({disabled, type = ICON_BUTTON_TYPE.FILLED}: UseIconButtonAnimatedOptions) => {
 	const {token} = useTheme()
-	const {border, opacity, scheme} = token
+	const {border, colors, opacity} = token
 	const animatedValue = disabled ? 0 : 1
 	const borderSharedValue = useSharedValue(animatedValue)
 	const colorSharedValue = useSharedValue(animatedValue)
 	const animatedTiming = useAnimatedTiming()
-	const disabledBackgroundColor = hexToRGBA(scheme.onSurface, opacity.level2)
+	const disabledBackgroundColor = hexToRGBA(colors.onSurface, opacity.level2)
 	const backgroundColorType = useMemo(
 		() => ({
-			[ICON_BUTTON_TYPE.ACTIVE]: {
-				inputRanges: [0, 1],
-				outputRanges: [hexToRGBA(scheme.primary, opacity.level0), hexToRGBA(scheme.primary, opacity.level0)]
-			},
 			[ICON_BUTTON_TYPE.FILLED]: {
 				inputRanges: [0, 1],
-				outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.primary, opacity.level10)]
+				outputRanges: [disabledBackgroundColor, hexToRGBA(colors.primary, opacity.level10)]
 			},
 			[ICON_BUTTON_TYPE.OUTLINED]: {
 				inputRanges: [0, 1],
-				outputRanges: [hexToRGBA(scheme.primary, opacity.level0), hexToRGBA(scheme.primary, opacity.level0)]
+				outputRanges: [hexToRGBA(colors.primary, opacity.level0), hexToRGBA(colors.primary, opacity.level0)]
+			},
+			[ICON_BUTTON_TYPE.SELECTED]: {
+				inputRanges: [0, 1],
+				outputRanges: [hexToRGBA(colors.primary, opacity.level0), hexToRGBA(colors.primary, opacity.level0)]
 			},
 			[ICON_BUTTON_TYPE.STANDARD]: {
 				inputRanges: [0, 1],
-				outputRanges: [hexToRGBA(scheme.primary, opacity.level0), hexToRGBA(scheme.primary, opacity.level0)]
+				outputRanges: [hexToRGBA(colors.primary, opacity.level0), hexToRGBA(colors.primary, opacity.level0)]
 			},
 			[ICON_BUTTON_TYPE.TONAL]: {
 				inputRanges: [0, 1],
-				outputRanges: [disabledBackgroundColor, hexToRGBA(scheme.secondaryContainer, opacity.level10)]
+				outputRanges: [disabledBackgroundColor, hexToRGBA(colors.secondaryContainer, opacity.level10)]
 			}
 		}),
-		[disabledBackgroundColor, opacity, scheme]
+		[disabledBackgroundColor, opacity, colors]
 	)
 
 	const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
@@ -56,10 +56,10 @@ export const useIconButtonAnimated = ({disabled, type = ICON_BUTTON_TYPE.FILLED}
 				borderColor: interpolateColor(
 					borderSharedValue.value,
 					[0, 1],
-					[disabledBackgroundColor, scheme.outline]
+					[disabledBackgroundColor, colors.outline]
 				),
 				borderStyle: 'solid',
-				borderWidth: platformValue(border[BORDER_SIZE.SMALL])
+				borderWidth: toPlatformUnit(border[BORDER_SIZE.SMALL])
 			} as ViewStyle))
 	}))
 

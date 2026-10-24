@@ -2,20 +2,20 @@ import type {LayoutChangeEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import type {AnimatedTiming, StateEvent} from '../../hooks'
+import type {AnimatedTimingFactory, InteractionEvent} from '../../hooks'
 import type {
 	AnimateLayoutAnimatedOptions,
 	FinalizeLayoutAnimatedVisibleChangeOptions,
-	HandleLayoutAnimatedStateChangeOptions,
+	HandleLayoutAnimatedInteractionStateChangeOptions,
 	LayoutAnimatedState
 } from './Layout-animated.interface'
 
-import {COMPONENT_STATUS, EVENT_NAME, type LayoutRectangle, type PartialSize} from '../../constants'
+import {COMPONENT_STATUS, EVENT_NAME, type MeasuredLayoutRectangle, type PartialSize} from '../../constants'
 import {EASING} from '../../theme'
-import {LAYOUT_ANIMATED} from './Layout-animated.enum'
+import {LAYOUT_ANIMATION} from './Layout-animated.enum'
 
 export const updateLayoutAnimatedSize =
-	(setState: Updater<LayoutAnimatedState>, contentSize?: PartialSize) => (layout?: LayoutRectangle) => {
+	(setState: Updater<LayoutAnimatedState>, contentSize?: PartialSize) => (layout?: MeasuredLayoutRectangle) => {
 		const {height, width} = contentSize ?? layout ?? {}
 
 		setState(draft => {
@@ -37,24 +37,24 @@ export const updateLayoutAnimatedSize =
 	}
 
 export const handleLayoutAnimatedStateChange = (
-	event: StateEvent,
-	{eventName, onLayoutChange}: HandleLayoutAnimatedStateChangeOptions
+	event: InteractionEvent,
+	{eventName, onLayoutChange}: HandleLayoutAnimatedInteractionStateChangeOptions
 ) => {
 	if (eventName !== EVENT_NAME.LAYOUT) {
 		return
 	}
 
-	onLayoutChange((event as LayoutChangeEvent).nativeEvent.layout as LayoutRectangle)
+	onLayoutChange((event as LayoutChangeEvent).nativeEvent.layout as MeasuredLayoutRectangle)
 }
 
 export const finalizeLayoutAnimatedVisibleChange =
 	(
 		setState: Updater<LayoutAnimatedState>,
-		{onAnimationFinished, onUnmount, unmount}: FinalizeLayoutAnimatedVisibleChangeOptions
+		{onAnimationFinished, onUnmount, unmountOnHide}: FinalizeLayoutAnimatedVisibleChangeOptions
 	) =>
 	(visible?: boolean) =>
 		setState(draft => {
-			if (unmount && !visible) {
+			if (unmountOnHide && !visible) {
 				draft.status = COMPONENT_STATUS.IDLE
 
 				if (onUnmount) {
@@ -68,17 +68,17 @@ export const finalizeLayoutAnimatedVisibleChange =
 		})
 
 export const updateLayoutAnimatedStatus =
-	(setState: Updater<LayoutAnimatedState>, lazy?: boolean) => (visible?: boolean) =>
+	(setState: Updater<LayoutAnimatedState>, lazyMount?: boolean) => (visible?: boolean) =>
 		setState(draft => {
 			if (draft.status === COMPONENT_STATUS.SUCCEEDED) {
 				return
 			}
 
-			draft.status = lazy && !visible ? COMPONENT_STATUS.IDLE : COMPONENT_STATUS.LOADING
+			draft.status = lazyMount && !visible ? COMPONENT_STATUS.IDLE : COMPONENT_STATUS.LOADING
 		})
 
 export const updateLayoutAnimatedVisible =
-	(setState: Updater<LayoutAnimatedState>, onVisible?: (visible?: boolean) => void) => (visible?: boolean) => {
+	(setState: Updater<LayoutAnimatedState>, onVisibleChange?: (visible?: boolean) => void) => (visible?: boolean) => {
 		if (typeof visible !== 'boolean') {
 			return
 		}
@@ -90,7 +90,7 @@ export const updateLayoutAnimatedVisible =
 
 			draft.visible = visible
 
-			if (onVisible) {
+			if (onVisibleChange) {
 				draft.pendingVisibleEvent = visible
 			}
 		})
@@ -98,23 +98,23 @@ export const updateLayoutAnimatedVisible =
 
 export const animateLayoutAnimated = (
 	sharedValue: SharedValue<number>,
-	animatedTiming: AnimatedTiming,
-	{animatedType, entry, exit, onAnimationFinished}: AnimateLayoutAnimatedOptions
+	animatedTiming: AnimatedTimingFactory,
+	{animation, entry, exit, onAnimationFinished}: AnimateLayoutAnimatedOptions
 ) => {
 	const entryAnimateSharedValueTo = animatedTiming(sharedValue, {
 		easing: EASING.STANDARD_DECELERATE,
 		...entry,
-		callback: (finished?: boolean) => finished && onAnimationFinished(true)
+		onFinish: (finished?: boolean) => finished && onAnimationFinished(true)
 	})
 
 	const exitAnimateSharedValueTo = animatedTiming(sharedValue, {
 		easing: EASING.STANDARD_ACCELERATE,
 		...exit,
-		callback: (finished?: boolean) => finished && onAnimationFinished(false)
+		onFinish: (finished?: boolean) => finished && onAnimationFinished(false)
 	})
 
 	return (visible?: boolean) => {
-		if (animatedType === LAYOUT_ANIMATED.NONE || typeof visible !== 'boolean') {
+		if (animation === LAYOUT_ANIMATION.NONE || typeof visible !== 'boolean') {
 			return
 		}
 

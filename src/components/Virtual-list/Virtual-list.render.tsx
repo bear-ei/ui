@@ -2,17 +2,17 @@ import {cloneElement, type FC} from 'react'
 import {Text, View, type ViewStyle} from 'react-native'
 import Animated from 'react-native-reanimated'
 
-import type {RenderVirtualListItemOptions, RenderVirtualListProps} from './Virtual-list.interface'
+import type {RenderVirtualListItemsProps, RenderVirtualListProps} from './Virtual-list.interface'
 
-import {COMPONENT_STATUS, LAYOUT} from '../../constants'
+import {COMPONENT_STATUS, ORIENTATION} from '../../constants'
 import {useTheme} from '../../hooks'
 import {ENTRY_EXIT, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '../../theme'
-import {platformValue} from '../../utils'
+import {toPlatformUnit} from '../../utils'
 import {AnimatedView} from '../Animated'
-import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
+import {LAYOUT_ANIMATION, LayoutAnimated} from '../Layout-animated'
 import {VirtualListItem} from './Virtual-list-item'
 
-export const RenderVirtualListItem = ({
+export const RenderVirtualListItems = ({
 	containerLayout,
 	data,
 	draggable,
@@ -20,7 +20,7 @@ export const RenderVirtualListItem = ({
 	onLoadEnd,
 	renderItem,
 	...virtualListItemProps
-}: RenderVirtualListItemOptions) => {
+}: RenderVirtualListItemsProps) => {
 	if (data?.length === 0) {
 		onLoadEnd?.()
 
@@ -36,7 +36,7 @@ export const RenderVirtualListItem = ({
 					{...(draggable && {containerLayout})}
 					draggable={draggable}
 					item={item}
-					key={item.indexKey}
+					key={item.itemKey}
 					renderItem={renderItem}
 					testID={`virtualList__virtualListItem--${id}`}
 				/>
@@ -54,9 +54,9 @@ export const RenderVirtualList: FC<RenderVirtualListProps> = ({
 	id,
 	interactionHandlers,
 	itemElements,
-	layoutType,
 	loading,
 	loadingElement,
+	orientation,
 	scrollEventThrottle = 30,
 	status,
 	testID,
@@ -74,8 +74,8 @@ export const RenderVirtualList: FC<RenderVirtualListProps> = ({
 	const {height = 0, width = 0} = containerLayout
 	const isLayoutCompleted = height > 0 || width > 0
 	const contentContainerStyle = {
-		...(layoutType === LAYOUT.VERTICAL && {minHeight: platformValue(contentSize)}),
-		...(layoutType === LAYOUT.HORIZONTAL && {minWidth: platformValue(contentSize)}),
+		...(orientation === ORIENTATION.VERTICAL && {minHeight: toPlatformUnit(contentSize)}),
+		...(orientation === ORIENTATION.HORIZONTAL && {minWidth: toPlatformUnit(contentSize)}),
 		alignSelf: 'stretch',
 		flex: 1
 	} as ViewStyle
@@ -90,7 +90,7 @@ export const RenderVirtualList: FC<RenderVirtualListProps> = ({
 		>
 			{isLayoutCompleted && (
 				<LayoutAnimated
-					animatedType={LAYOUT_ANIMATED.FADE}
+					animation={LAYOUT_ANIMATION.FADE}
 					className='absolute bottom-0 left-0 right-0 top-0'
 					entry={entry}
 					exit={exit}
@@ -100,7 +100,7 @@ export const RenderVirtualList: FC<RenderVirtualListProps> = ({
 					<Animated.ScrollView
 						{...containerProps}
 						contentContainerStyle={contentContainerStyle}
-						horizontal={layoutType === LAYOUT.HORIZONTAL}
+						horizontal={orientation === ORIENTATION.HORIZONTAL}
 						scrollEventThrottle={scrollEventThrottle}
 						testID={`virtualList__animatedScrollView--${id}`}
 					>
@@ -116,11 +116,11 @@ export const RenderVirtualList: FC<RenderVirtualListProps> = ({
 			)}
 
 			<LayoutAnimated
-				animatedType={LAYOUT_ANIMATED.FADE}
+				animation={LAYOUT_ANIMATION.FADE}
 				className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center'
 				entry={entry}
 				exit={exit}
-				lazy={true}
+				lazyMount={true}
 				testID={`virtualList__emptyContentLayout--${id}`}
 				visible={isEmptyContentVisible}
 			>
@@ -135,11 +135,11 @@ export const RenderVirtualList: FC<RenderVirtualListProps> = ({
 			</LayoutAnimated>
 
 			<LayoutAnimated
-				animatedType={LAYOUT_ANIMATED.FADE}
+				animation={LAYOUT_ANIMATION.FADE}
 				className='absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center'
 				entry={entry}
 				exit={exit}
-				lazy={true}
+				lazyMount={true}
 				testID={`virtualList__loadingContentLayout--${id}`}
 				visible={loading}
 			>

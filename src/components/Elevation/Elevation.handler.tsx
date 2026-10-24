@@ -1,7 +1,7 @@
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import type {AnimatedTiming} from '../../hooks'
+import type {AnimatedTimingFactory} from '../../hooks'
 import type {
 	AnimateElevationOptions,
 	ElevationState,
@@ -11,29 +11,29 @@ import type {
 
 import {COMPONENT_STATUS} from '../../constants'
 import {ANIMATED_TIMING, EASING, hexToRGBA} from '../../theme'
-import {platformValue} from '../../utils'
+import {toPlatformUnit} from '../../utils'
 
 export const getWebBoxShadow = ({blurRadius, color, offsetX, offsetY, opacity}: GetWebBoxShadowOptions) => {
 	const shadowColor = hexToRGBA(color, opacity)
 
 	return [
 		{
-			blurRadius: platformValue(blurRadius),
+			blurRadius: toPlatformUnit(blurRadius),
 			color: shadowColor,
-			offsetX: platformValue(offsetX),
-			offsetY: platformValue(offsetY)
+			offsetX: toPlatformUnit(offsetX),
+			offsetY: toPlatformUnit(offsetY)
 		},
 		{
-			blurRadius: platformValue(blurRadius * 0.75),
+			blurRadius: toPlatformUnit(blurRadius * 0.75),
 			color: shadowColor,
-			offsetX: platformValue(offsetX * 0.66),
-			offsetY: platformValue(offsetY * 0.66)
+			offsetX: toPlatformUnit(offsetX * 0.66),
+			offsetY: toPlatformUnit(offsetY * 0.66)
 		},
 		{
-			blurRadius: platformValue(blurRadius * 0.5),
+			blurRadius: toPlatformUnit(blurRadius * 0.5),
 			color: shadowColor,
-			offsetX: platformValue(offsetX * 0.33),
-			offsetY: platformValue(offsetY * 0.33)
+			offsetX: toPlatformUnit(offsetX * 0.33),
+			offsetY: toPlatformUnit(offsetY * 0.33)
 		}
 	]
 }
@@ -81,24 +81,24 @@ export const updateElevationLevel = (setState: Updater<ElevationState>) => (leve
  */
 export const animateElevation = (
 	sharedValue: SharedValue<number>,
-	animatedTiming: AnimatedTiming,
+	animatedTiming: AnimatedTimingFactory,
 	{entry, exit, onAnimationFinished}: AnimateElevationOptions
 ) => {
 	const entryAnimateSharedValueTo = animatedTiming(sharedValue, {
 		easing: EASING.STANDARD_DECELERATE,
 		...entry,
-		callback: (finished?: boolean) => finished && onAnimationFinished?.(true)
+		onFinish: (finished?: boolean) => finished && onAnimationFinished?.(true)
 	})
 
 	const exitAnimateSharedValueTo = animatedTiming(sharedValue, {
 		easing: EASING.STANDARD_ACCELERATE,
 		...exit,
-		callback: (finished?: boolean) => finished && onAnimationFinished?.(false)
+		onFinish: (finished?: boolean) => finished && onAnimationFinished?.(false)
 	})
 
 	const animateSharedValueTo = animatedTiming(sharedValue, {
 		...ANIMATED_TIMING.STANDARD,
-		callback: (finished?: boolean) => finished && onAnimationFinished?.()
+		onFinish: (finished?: boolean) => finished && onAnimationFinished?.()
 	})
 
 	return (level: ElevationValue) => {

@@ -4,33 +4,33 @@ import type {View, ViewProps} from 'react-native'
 import type {NavigationRailItemProps} from './Navigation-rail-item'
 import type {
 	NAVIGATION_DESTINATION_POSITION,
-	NAVIGATION_RAIL_ANIMATED,
+	NAVIGATION_RAIL_ANIMATION,
 	NAVIGATION_RAIL_TYPE
 } from './Navigation-rail.enum'
 
-export type NavigationRailAnimated = (typeof NAVIGATION_RAIL_ANIMATED)[keyof typeof NAVIGATION_RAIL_ANIMATED]
+export type NavigationRailAnimationType = (typeof NAVIGATION_RAIL_ANIMATION)[keyof typeof NAVIGATION_RAIL_ANIMATION]
 export type NavigationRailType = (typeof NAVIGATION_RAIL_TYPE)[keyof typeof NAVIGATION_RAIL_TYPE]
 export type NavigationDestinationPosition =
 	(typeof NAVIGATION_DESTINATION_POSITION)[keyof typeof NAVIGATION_DESTINATION_POSITION]
 
-export interface NavigationRailData extends Pick<NavigationRailItemProps, 'icon' | 'labelText'> {
-	indexKey: string
+export interface NavigationRailDestination extends Pick<NavigationRailItemProps, 'icon' | 'labelText'> {
+	itemKey: string
 }
 
-export interface RenderNavigationRailItemOptions extends Omit<NavigationRailItemProps, 'indexKey'> {
-	data?: NavigationRailData[]
+export interface RenderNavigationRailItemsProps extends Omit<NavigationRailItemProps, 'itemKey'> {
+	data?: NavigationRailDestination[]
 }
 
 export interface NavigationRailProps extends ViewProps, RefAttributes<View> {
 	activeKey?: string
 	// TODO: Add progress type COLLAPSE
-	animatedType?: NavigationRailAnimated
-	data?: NavigationRailData[]
+	animation?: NavigationRailAnimationType
+	data?: NavigationRailDestination[]
 	defaultActiveKey?: string
 	destinationPosition?: NavigationDestinationPosition
 	fab?: React.JSX.Element
 	menu?: React.JSX.Element
-	onActive?: (activeKey?: string) => void
+	onActiveKeyChange?: (activeKey?: string) => void
 	type?: NavigationRailType
 }
 
@@ -43,10 +43,10 @@ export interface RenderNavigationRailProps extends NavigationRailProps {
 export type NavigationRailBaseProps = NavigationRailProps
 export interface NavigationRailState {
 	activeKey?: string
-	data?: NavigationRailData[]
+	data?: NavigationRailDestination[]
 	pendingActiveEvent?: string
 }
 
-export interface UpdateNavigationRailActiveKeyOptions extends Pick<NavigationRailProps, 'onActive'> {
-	triggerEvent?: boolean
+export interface UpdateNavigationRailActiveKeyOptions extends Pick<NavigationRailProps, 'onActiveKeyChange'> {
+	notify?: boolean
 }

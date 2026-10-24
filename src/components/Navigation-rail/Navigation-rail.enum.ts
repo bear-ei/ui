@@ -1,4 +1,4 @@
-export const NAVIGATION_RAIL_ANIMATED = {
+export const NAVIGATION_RAIL_ANIMATION = {
 	COLLAPSE: 'COLLAPSE',
 	NONE: 'NONE'
 } as const

@@ -2,27 +2,27 @@ import type {GestureResponderEvent} from 'react-native'
 import type {SharedValue} from 'react-native-reanimated'
 import type {Updater} from 'use-immer'
 
-import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '../../../hooks'
+import type {AnimatedTimingFactory, HandleInteractionStateChangeOptions, InteractionEvent} from '../../../hooks'
 import type {
 	ListAfterAffordancePhase,
 	ListAfterAffordanceState,
-	TriggerListAfterAffordanceConfirmOptions,
-	UpdateListAffordanceSecondaryActionStateOptions
+	TriggerListAfterAffordancePrimaryActionOptions,
+	UpdateListAffordanceSecondaryPressOptions
 } from './List-after-affordance.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
 import {ANIMATED_TIMING} from '../../../theme'
 import {LIST_AFTER_AFFORDANCE_PHASE} from './List-after-affordance.enum'
 
-export const triggerListAfterAffordanceConfirm =
-	({indexKey, onConfirm, phase}: TriggerListAfterAffordanceConfirmOptions) =>
+export const triggerListAfterAffordancePrimaryAction =
+	({itemKey, onPrimaryAction, phase}: TriggerListAfterAffordancePrimaryActionOptions) =>
 	(_event: GestureResponderEvent) =>
-		onConfirm?.({indexKey, phase})
+		onPrimaryAction?.({itemKey, phase})
 
-export const updateListAffordanceSecondaryActionState =
+export const updateListAffordanceSecondaryPressState =
 	(
 		setState: Updater<ListAfterAffordanceState>,
-		{indexKey, onSecondaryAction, phase}: UpdateListAffordanceSecondaryActionStateOptions
+		{itemKey, onSecondaryPress, phase}: UpdateListAffordanceSecondaryPressOptions
 	) =>
 	(_event: GestureResponderEvent) =>
 		setState(draft => {
@@ -31,8 +31,8 @@ export const updateListAffordanceSecondaryActionState =
 					LIST_AFTER_AFFORDANCE_PHASE.IDLE
 				:	LIST_AFTER_AFFORDANCE_PHASE.DANGER
 
-			if (onSecondaryAction) {
-				draft.pendingSecondaryActionEvent = {indexKey, phase}
+			if (onSecondaryPress) {
+				draft.pendingSecondaryPressEvent = {itemKey, phase}
 			}
 		})
 
@@ -47,7 +47,7 @@ export const resetAffordanceConfirmationOnHide =
 		})
 	}
 
-export const animateListAfterAffordance = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
+export const animateListAfterAffordance = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTimingFactory) => {
 	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.ENTER)
 
 	return (phase?: ListAfterAffordancePhase) => {
@@ -60,9 +60,9 @@ export const animateListAfterAffordance = (sharedValue: SharedValue<number>, ani
 }
 
 export const handleAffordanceStateChange = (
-	_event: StateEvent,
+	_event: InteractionEvent,
 	setState: Updater<ListAfterAffordanceState>,
-	{eventName}: HandleStateEventChangeOptions
+	{eventName}: HandleInteractionStateChangeOptions
 ) => {
 	if (eventName !== EVENT_NAME.LAYOUT) {
 		return

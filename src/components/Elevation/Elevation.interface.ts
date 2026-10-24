@@ -4,11 +4,11 @@ import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {ComponentStatus} from '../../constants'
 import type {AnimatedTimingOptions} from '../../hooks'
-import type {ThemeProps} from '../../theme'
+import type {ThemeableProps} from '../../theme'
 import type {ELEVATION_VALUE} from './Elevation.enum'
 
 export type ElevationValue = (typeof ELEVATION_VALUE)[keyof typeof ELEVATION_VALUE]
-export interface ElevationProps extends ViewProps, RefAttributes<View>, ThemeProps {
+export interface ElevationProps extends ViewProps, RefAttributes<View>, ThemeableProps {
 	defaultLevel?: ElevationValue
 	entry?: AnimatedTimingOptions
 	exit?: AnimatedTimingOptions

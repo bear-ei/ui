@@ -1,4 +1,4 @@
-export const LIST_SELECT_TYPE = {
+export const LIST_SELECTION_TYPE = {
 	MULTIPLE: 'MULTIPLE',
 	SINGLE: 'SINGLE'
 } as const

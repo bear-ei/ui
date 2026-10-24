@@ -2,13 +2,13 @@ import type {ViewStyle} from 'react-native'
 import type {AnimatedStyle} from 'react-native-reanimated'
 
 import type {EventName} from '../../constants'
-import type {HandleStateEventChangeOptions, StateEventChangeHandler} from '../../hooks'
-import type {ThemeProps} from '../../theme'
+import type {HandleInteractionStateChangeOptions, InteractionStateChangeHandler} from '../../hooks'
+import type {ThemeableProps} from '../../theme'
 import type {TouchableProps} from '../Touchable'
 import type {ICON_BUTTON_TYPE} from './Icon-button.enum'
 
 export type IconButtonType = (typeof ICON_BUTTON_TYPE)[keyof typeof ICON_BUTTON_TYPE]
-export interface IconButtonProps extends TouchableProps, ThemeProps {
+export interface IconButtonProps extends TouchableProps, ThemeableProps {
 	active?: boolean
 	defaultActive?: boolean
 	icon?: React.JSX.Element
@@ -30,7 +30,7 @@ export interface RenderIconButtonProps extends IconButtonProps {
 	backgroundUnderlayAnimatedStyle: AnimatedStyle<ViewStyle>
 	eventName: EventName
 	iconElement?: React.JSX.Element
-	onStateEventChange: StateEventChangeHandler
+	onInteractionStateChange: InteractionStateChangeHandler
 }
 
 export type IconButtonBaseProps = IconButtonProps
@@ -43,6 +43,6 @@ export type RenderIconButtonIconProps = Pick<
 	'disabled' | 'type' | 'iconColor' | 'id' | 'icon' | 'size'
 >
 
-export type HandleIconButtonStateChangeOptions = HandleStateEventChangeOptions
+export type HandleIconButtonInteractionStateChangeOptions = HandleInteractionStateChangeOptions
 export type UseIconButtonAnimatedOptions = Pick<RenderIconButtonProps, 'disabled' | 'type'>
 export type AnimateIconButtonOptions = Pick<UseIconButtonAnimatedOptions, 'type'>

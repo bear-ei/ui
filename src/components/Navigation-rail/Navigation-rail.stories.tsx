@@ -4,30 +4,30 @@ import {Circle} from 'lucide-react-native'
 
 import type {NavigationRailProps} from './Navigation-rail.interface'
 
-import {Fab} from '../FAB'
+import {FAB} from '../FAB'
 import {ICON_BUTTON_TYPE, IconButton} from '../Icon-button'
 import {NavigationRail} from './Navigation-rail.component'
-import {NAVIGATION_DESTINATION_POSITION, NAVIGATION_RAIL_ANIMATED, NAVIGATION_RAIL_TYPE} from './Navigation-rail.enum'
+import {NAVIGATION_DESTINATION_POSITION, NAVIGATION_RAIL_ANIMATION, NAVIGATION_RAIL_TYPE} from './Navigation-rail.enum'
 
 export const Standard: StoryObj<NavigationRailProps> = {
 	args: {
-		animatedType: NAVIGATION_RAIL_ANIMATED.COLLAPSE,
+		animation: NAVIGATION_RAIL_ANIMATION.COLLAPSE,
 		data: [
 			{
-				indexKey: 'A',
+				itemKey: 'A',
 				labelText: 'Bookmark'
 			},
 			{
-				indexKey: 'B',
+				itemKey: 'B',
 				labelText: 'Label2'
 			},
 			{
-				indexKey: 'C',
+				itemKey: 'C',
 				labelText: 'Label3'
 			}
 		],
 		defaultActiveKey: 'A',
-		fab: <Fab icon={<Circle />} />,
+		fab: <FAB icon={<Circle />} />,
 		menu: (
 			<IconButton
 				icon={<Circle />}
@@ -41,20 +41,20 @@ export const Block: StoryObj<NavigationRailProps> = {
 	args: {
 		data: [
 			{
-				indexKey: 'name',
+				itemKey: 'name',
 				labelText: 'Label1'
 			},
 			{
-				indexKey: 'age',
+				itemKey: 'age',
 				labelText: 'Label2'
 			},
 			{
-				indexKey: 'sex',
+				itemKey: 'sex',
 				labelText: 'Label3'
 			}
 		],
 		defaultActiveKey: 'name',
-		fab: <Fab icon={<Circle />} />,
+		fab: <FAB icon={<Circle />} />,
 		type: NAVIGATION_RAIL_TYPE.BLOCK
 	}
 }
@@ -63,21 +63,21 @@ export const Top: StoryObj<NavigationRailProps> = {
 	args: {
 		data: [
 			{
-				indexKey: 'A',
+				itemKey: 'A',
 				labelText: 'Label1'
 			},
 			{
-				indexKey: 'B',
+				itemKey: 'B',
 				labelText: 'Label2'
 			},
 			{
-				indexKey: 'C',
+				itemKey: 'C',
 				labelText: 'Label3'
 			}
 		],
 		defaultActiveKey: 'A',
 		destinationPosition: NAVIGATION_DESTINATION_POSITION.TOP,
-		fab: <Fab icon={<Circle />} />,
+		fab: <FAB icon={<Circle />} />,
 		menu: (
 			<IconButton
 				icon={<Circle />}
@@ -91,21 +91,21 @@ export const Center: StoryObj<NavigationRailProps> = {
 	args: {
 		data: [
 			{
-				indexKey: 'A',
+				itemKey: 'A',
 				labelText: 'Label1'
 			},
 			{
-				indexKey: 'B',
+				itemKey: 'B',
 				labelText: 'Label2'
 			},
 			{
-				indexKey: 'C',
+				itemKey: 'C',
 				labelText: 'Label3'
 			}
 		],
 		defaultActiveKey: 'A',
 		destinationPosition: NAVIGATION_DESTINATION_POSITION.CENTER,
-		fab: <Fab icon={<Circle />} />,
+		fab: <FAB icon={<Circle />} />,
 		menu: (
 			<IconButton
 				icon={<Circle />}
@@ -119,21 +119,21 @@ export const Bottom: StoryObj<NavigationRailProps> = {
 	args: {
 		data: [
 			{
-				indexKey: 'A',
+				itemKey: 'A',
 				labelText: 'Label1'
 			},
 			{
-				indexKey: 'B',
+				itemKey: 'B',
 				labelText: 'Label2'
 			},
 			{
-				indexKey: 'C',
+				itemKey: 'C',
 				labelText: 'Label3'
 			}
 		],
 		defaultActiveKey: 'A',
 		destinationPosition: NAVIGATION_DESTINATION_POSITION.BOTTOM,
-		fab: <Fab icon={<Circle />} />,
+		fab: <FAB icon={<Circle />} />,
 		menu: (
 			<IconButton
 				icon={<Circle />}
@@ -147,15 +147,15 @@ export const BlockCenter: StoryObj<NavigationRailProps> = {
 	args: {
 		data: [
 			{
-				indexKey: 'A',
+				itemKey: 'A',
 				labelText: 'Label1'
 			},
 			{
-				indexKey: 'B',
+				itemKey: 'B',
 				labelText: 'Label2'
 			},
 			{
-				indexKey: 'C',
+				itemKey: 'C',
 				labelText: 'Label3'
 			}
 		],

@@ -9,5 +9,3 @@ import {ProgressActiveIndicatorLinearBase} from './Progress-active-indicator-lin
 export const ProgressActiveIndicatorLinear = typedMemo((props: ProgressActiveIndicatorLinearProps) => (
 	<ProgressActiveIndicatorLinearBase {...props} />
 ))
-
-

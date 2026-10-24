@@ -2,14 +2,14 @@ import {useId, type FC} from 'react'
 
 import type {LayoutBaseProps} from './Layout.interface'
 
-import {LAYOUT} from '../../constants'
-import {LAYOUT_ANIMATED} from '../Layout-animated'
+import {ORIENTATION} from '../../constants'
+import {LAYOUT_ANIMATION} from '../Layout-animated'
 import {RenderLayout} from './Layout.render'
 
 export const LayoutBase: FC<LayoutBaseProps> = ({
-	animatedType = LAYOUT_ANIMATED.NONE,
+	animation = LAYOUT_ANIMATION.NONE,
 	defaultVisible = true,
-	layoutType = LAYOUT.HORIZONTAL,
+	orientation = ORIENTATION.HORIZONTAL,
 	...renderLayoutProps
 }) => {
 	const id = useId()
@@ -17,10 +17,10 @@ export const LayoutBase: FC<LayoutBaseProps> = ({
 	return (
 		<RenderLayout
 			{...renderLayoutProps}
-			animatedType={animatedType}
+			animation={animation}
 			defaultVisible={defaultVisible}
 			id={id}
-			layoutType={layoutType}
+			orientation={orientation}
 		/>
 	)
 }

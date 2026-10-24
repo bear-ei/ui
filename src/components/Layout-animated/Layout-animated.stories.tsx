@@ -7,7 +7,7 @@ import type {LayoutAnimatedProps} from './Layout-animated.interface'
 
 import {Button} from '../Button'
 import {LayoutAnimated} from './Layout-animated.component'
-import {LAYOUT_ANIMATED} from './Layout-animated.enum'
+import {LAYOUT_ANIMATION} from './Layout-animated.enum'
 
 const LayoutAnimatedComponent = (props: LayoutAnimatedProps) => {
 	const [isVisible, setIsVisible] = useState(true)
@@ -17,7 +17,7 @@ const LayoutAnimatedComponent = (props: LayoutAnimatedProps) => {
 			<View className='h-60 w-80'>
 				<LayoutAnimated
 					{...props}
-					unmount={true}
+					unmountOnHide={true}
 					visible={isVisible}
 				>
 					<View className='h-60 w-80 bg-red-400' />
@@ -34,15 +34,15 @@ export const Fade: StoryObj<LayoutAnimatedProps> = {
 }
 
 export const CollapseX: StoryObj<LayoutAnimatedProps> = {
-	args: {animatedType: LAYOUT_ANIMATED.COLLAPSE_X, contentSize: 200}
+	args: {animation: LAYOUT_ANIMATION.COLLAPSE_X, contentSize: 200}
 }
 
 export const CollapseYTranslate: StoryObj<LayoutAnimatedProps> = {
-	args: {animatedType: LAYOUT_ANIMATED.COLLAPSE_Y, contentSize: 200, translate: false}
+	args: {animation: LAYOUT_ANIMATION.COLLAPSE_Y, contentSize: 200, translateOnCollapse: false}
 }
 
 export const Scale: StoryObj<LayoutAnimatedProps> = {
-	args: {animatedType: LAYOUT_ANIMATED.SCALE}
+	args: {animation: LAYOUT_ANIMATION.SCALE}
 }
 
 export default {

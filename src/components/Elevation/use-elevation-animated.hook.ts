@@ -26,7 +26,7 @@ export const useElevationAnimated = ({
 	const {token} = useTheme()
 	const {elevation} = token
 	const animatedTiming = useAnimatedTiming()
-	const shadow = token.scheme.shadow
+	const shadow = token.colors.shadow
 	const shadowOpacityOutputRanges = useMemo(
 		() => [
 			elevation[ELEVATION_LEVEL.LEVEL_0].shadowOpacity,

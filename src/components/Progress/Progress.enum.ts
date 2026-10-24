@@ -3,7 +3,7 @@ export const PROGRESS_TYPE = {
 	LINEAR: 'LINEAR'
 } as const
 
-export const PROGRESS_ANIMATED = {
+export const PROGRESS_MODE = {
 	DETERMINATE: 'DETERMINATE',
 	INDETERMINATE: 'INDETERMINATE'
 } as const

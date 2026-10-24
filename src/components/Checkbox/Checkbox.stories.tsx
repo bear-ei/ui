@@ -6,7 +6,7 @@ import {DENSITY_SIZE} from '../../theme'
 import {Checkbox} from './Checkbox.component'
 
 export const Selected: StoryObj<CheckboxProps> = {
-	args: {active: true, indeterminate: false}
+	args: {checked: true, indeterminate: false}
 }
 
 export const Indeterminate: StoryObj<CheckboxProps> = {
@@ -42,7 +42,7 @@ export const ExtraSmall: StoryObj<CheckboxProps> = {
 }
 
 export default {
-	argTypes: {onActive: {action: 'active'}},
+	argTypes: {onCheckedChange: {action: 'checked'}},
 	component: Checkbox,
 	title: 'components/Checkbox'
 } as Meta<typeof Checkbox>

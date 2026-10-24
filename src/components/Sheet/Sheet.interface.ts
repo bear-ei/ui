@@ -1,22 +1,22 @@
 import type {JSX, RefAttributes} from 'react'
 import type {ModalProps, StyleProp, View, ViewProps, ViewStyle} from 'react-native'
 
-import type {ThemeProps} from '../../theme'
-import type {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from './Sheet.enum'
+import type {ThemeableProps} from '../../theme'
+import type {SHEET_POSITION, SHEET_TYPE} from './Sheet.enum'
 
-export type SheetType = (typeof SIDE_SHEET_TYPE)[keyof typeof SIDE_SHEET_TYPE]
-export type SheetPosition = (typeof SIDE_SHEET_POSITION)[keyof typeof SIDE_SHEET_POSITION]
+export type SheetType = (typeof SHEET_TYPE)[keyof typeof SHEET_TYPE]
+export type SheetPosition = (typeof SHEET_POSITION)[keyof typeof SHEET_POSITION]
 export interface SheetProps
 	extends
 		ViewProps,
 		RefAttributes<View>,
-		ThemeProps,
+		ThemeableProps,
 		Omit<ModalProps, 'visible' | 'onRequestClose' | 'animationType' | 'transparent'> {
-	back?: boolean
-	close?: boolean
+	backButtonDisabled?: boolean
+	backButtonVisible?: boolean
+	closeButtonVisible?: boolean
 	content?: JSX.Element
 	defaultVisible?: boolean
-	disabledBack?: boolean
 	footerVisible?: boolean
 	headlineLeading?: JSX.Element
 	headlineText?: string
@@ -25,7 +25,7 @@ export interface SheetProps
 	onCancel?: () => void
 	onClose?: () => void
 	onConfirm?: () => void
-	onVisible?: (visible?: boolean) => void
+	onVisibleChange?: (visible?: boolean) => void
 	position?: SheetPosition
 	primaryButton?: JSX.Element
 	primaryButtonDisabled?: boolean
