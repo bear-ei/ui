@@ -5,6 +5,7 @@ import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '..
 import type {ListAffordanceButtonState} from './List-affordance-button.interface'
 
 import {EVENT_NAME} from '../../../constants'
+import {ANIMATED_TIMING} from '../../../theme'
 
 export const handleListAffordanceButtonStateChange = (
 	_event: StateEvent,
@@ -21,7 +22,7 @@ export const handleListAffordanceButtonStateChange = (
 }
 
 export const animateListAffordanceButton = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
-	const animateSharedValueTo = animatedTiming(sharedValue)
+	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.STANDARD)
 
 	return (value: number) => animateSharedValueTo(value)
 }
