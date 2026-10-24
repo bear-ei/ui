@@ -2,7 +2,6 @@ import {Ellipsis, X} from 'lucide-react-native'
 import {cloneElement, isValidElement, useCallback, useMemo, type FC} from 'react'
 import {Pressable, Text, View} from 'react-native'
 
-import type {ListType} from '../List.interface'
 import type {RenderListItemProps, RenderListItemTrailingProps} from './List-item.interface'
 
 import {EVENT_NAME, LAYOUT, TRIGGER_ON} from '../../../constants'
@@ -10,10 +9,10 @@ import {useTheme} from '../../../hooks'
 import {
 	DENSITY_SIZE,
 	DENSITY_TYPE,
-	stepDownDensitySize,
 	densitySizeMapTypographySize,
 	DURATION,
 	EASING,
+	stepDownDensitySize,
 	TYPOGRAPHY,
 	type DensitySizeScale
 } from '../../../theme'
@@ -25,7 +24,13 @@ import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
 import {Skeleton} from '../../Skeleton'
 import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
 import {ListAfterAffordance} from '../List-after-affordance'
-import {LIST_SELECT_TYPE, LIST_TYPE} from '../List.enum'
+import {LIST_TYPE} from '../List.enum'
+
+const XX_SMALL_DENSITY_SIZE_SCALES = [
+	DENSITY_SIZE.X_SMALL,
+	DENSITY_SIZE.SMALL,
+	DENSITY_SIZE.MEDIUM
+] as readonly DensitySizeScale[]
 
 export const RenderListItemTrailing: FC<RenderListItemTrailingProps> = ({
 	afterAffordance,
@@ -143,7 +148,6 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 	const isLeadingShow = !!leadingElement
 	const underlayColor = active ? token.scheme.onSecondaryContainer : token.scheme.onSurface
 	const underlayProps = selectType &&
-		[LIST_SELECT_TYPE.SINGLE, LIST_SELECT_TYPE.MULTIPLE].includes(selectType) &&
 		enableUnderlayActive && {
 			active,
 			activeAnimatedType: ACTIVE_ANIMATED.SCALE_X,
@@ -153,7 +157,7 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 	const isMultiline = (supportingTextNumberOfLines ?? 0) > 1
 	const densityInlineSize = stepDownDensitySize(size)
 	const iconSize = token.density.icon[stepDownDensitySize(densityInlineSize)]
-	const isLabelType = ([LIST_TYPE.MENU, LIST_TYPE.LABEL] as readonly ListType[]).includes(type)
+	const isLabelType = type === LIST_TYPE.MENU || type === LIST_TYPE.LABEL
 	const typographyType = isLabelType ? TYPOGRAPHY.LABEL : TYPOGRAPHY.BODY
 	const typographySize = densitySizeMapTypographySize(isLabelType ? DENSITY_SIZE.MEDIUM : size)
 	const {entry, exit} = useMemo(
@@ -226,13 +230,8 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 											size === DENSITY_SIZE.X_LARGE,
 										[densityHorizontalSpacingClasses(DENSITY_SIZE.X_SMALL)]:
 											size === DENSITY_SIZE.LARGE,
-										[densityHorizontalSpacingClasses(DENSITY_SIZE.XX_SMALL)]: (
-											[
-												DENSITY_SIZE.X_SMALL,
-												DENSITY_SIZE.SMALL,
-												DENSITY_SIZE.MEDIUM
-											] as readonly DensitySizeScale[]
-										).includes(size),
+										[densityHorizontalSpacingClasses(DENSITY_SIZE.XX_SMALL)]:
+											XX_SMALL_DENSITY_SIZE_SCALES.includes(size),
 										['justify-start']: isMultiline
 									},
 									'ml-0'
@@ -291,13 +290,8 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 											size === DENSITY_SIZE.X_LARGE,
 										[densityHorizontalSpacingClasses(DENSITY_SIZE.X_SMALL)]:
 											size === DENSITY_SIZE.LARGE,
-										[densityHorizontalSpacingClasses(DENSITY_SIZE.XX_SMALL)]: (
-											[
-												DENSITY_SIZE.X_SMALL,
-												DENSITY_SIZE.SMALL,
-												DENSITY_SIZE.MEDIUM
-											] as readonly DensitySizeScale[]
-										).includes(size),
+										[densityHorizontalSpacingClasses(DENSITY_SIZE.XX_SMALL)]:
+											XX_SMALL_DENSITY_SIZE_SCALES.includes(size),
 										['justify-start']: isMultiline
 									},
 									'mr-0'

@@ -3,7 +3,7 @@ import type {ViewStyle} from 'react-native'
 import {useEffect, useMemo} from 'react'
 import {cancelAnimation, interpolateColor, useAnimatedStyle, useSharedValue} from 'react-native-reanimated'
 
-import type {ButtonType, UseButtonAnimatedOptions} from './Button.interface'
+import type {UseButtonAnimatedOptions} from './Button.interface'
 
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {BORDER_SIZE, hexToRGBA} from '../../theme'
@@ -126,7 +126,7 @@ export const useButtonAnimated = ({
 		[disabledBackgroundColor, opacity, scheme]
 	)
 
-	const isBackgroundColorApplied = !([BUTTON_TYPE.TEXT, BUTTON_TYPE.LINK] as readonly ButtonType[]).includes(type)
+	const isBackgroundColorApplied = !(type === BUTTON_TYPE.TEXT || type === BUTTON_TYPE.LINK)
 	const isBorderColorApplied = type === BUTTON_TYPE.OUTLINED
 	const backgroundUnderlayAnimatedStyle = useAnimatedStyle(() => ({
 		...(isBackgroundColorApplied && {

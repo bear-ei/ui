@@ -47,7 +47,7 @@ export const RenderList: FC<RenderListProps> = ({
 				[densityHorizontalInsetClasses(DENSITY_SIZE.X_SMALL)]: layoutType === LAYOUT.HORIZONTAL,
 				[densityVerticalInsetClasses(DENSITY_SIZE.X_SMALL)]: layoutType === LAYOUT.VERTICAL
 			})}
-			style={[style]}
+			style={style}
 			testID={testID ?? `list--${id}`}
 		>
 			<VirtualList

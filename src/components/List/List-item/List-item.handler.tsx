@@ -13,11 +13,12 @@ import type {
 	TriggerListItemTrailingActionsOptions
 } from './List-item.interface'
 
-import {COMPONENT_STATUS, EVENT_NAME, type EventName, TRIGGER_ON, type TriggerOn} from '../../../constants'
+import {COMPONENT_STATUS, EVENT_NAME, type EventName, TRIGGER_EVENT_NAMES, type TriggerOn} from '../../../constants'
 import {DURATION, EASING} from '../../../theme'
 import {LIST_AFTER_AFFORDANCE_PHASE} from '../List-after-affordance/List-after-affordance.enum'
 import {LIST_TYPE} from '../List.enum'
 
+const ACTIVE_EVENT_NAMES = [EVENT_NAME.PRESS_OUT, EVENT_NAME.LONG_PRESS] as readonly EventName[]
 export const compareListItemProps = (prevProps: ListItemProps, nextProps: ListItemProps) => {
 	const {
 		activeKey: prevActiveKey,
@@ -170,19 +171,12 @@ export const updateListItemActive =
 	}
 
 export const handleTrailingTriggerEvent = (setState: Updater<ListItemState>, trailingTriggerOn?: TriggerOn) => {
-	const trigger = {
-		[TRIGGER_ON.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
-		[TRIGGER_ON.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
-		[TRIGGER_ON.NONE]: [EVENT_NAME.NONE],
-		[TRIGGER_ON.PRESS]: [EVENT_NAME.PRESS_IN]
-	} as Record<TriggerOn, readonly EventName[]>
-
 	return (eventName?: EventName) => {
 		if (!trailingTriggerOn) {
 			return
 		}
 
-		const triggerEventNames = trigger[trailingTriggerOn]
+		const triggerEventNames = TRIGGER_EVENT_NAMES[trailingTriggerOn]
 
 		if (eventName && triggerEventNames.includes(eventName)) {
 			const isVisible = eventName === EVENT_NAME.HOVER_IN
@@ -228,9 +222,7 @@ export const handleListItemStateChange = (
 			return
 		}
 
-		const activeEventNames = [EVENT_NAME.PRESS_OUT, EVENT_NAME.LONG_PRESS] as readonly EventName[]
-
-		if (activeEventNames.includes(eventName) && onActive) {
+		if (ACTIVE_EVENT_NAMES.includes(eventName) && onActive) {
 			draft.pendingActiveEvent = indexKey
 		}
 	})

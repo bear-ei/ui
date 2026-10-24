@@ -90,7 +90,7 @@ export const handleMenuKeyDownEvent =
 	(event: React.KeyboardEvent | TextInputKeyPressEvent) => {
 		const key = event.nativeEvent.key
 
-		if (['ArrowUp', 'ArrowDown'].includes(key)) {
+		if (key === 'ArrowUp' || key === 'ArrowDown') {
 			event.preventDefault()
 		}
 

@@ -84,7 +84,7 @@ export const RenderSearchTextInput: FC<RenderSearchTextInputProps> = ({
 							['pr-[--density-inset-none]']: isTrailingShow
 						}
 					)}
-					style={[contentAnimatedStyle]}
+					style={contentAnimatedStyle}
 					testID={`searchTextInput__content--${id}`}
 				>
 					<View
@@ -126,7 +126,7 @@ export const RenderSearchTextInput: FC<RenderSearchTextInputProps> = ({
 								placeholder={placeholder}
 								placeholderTextColor={placeholderTextColor}
 								ref={ref}
-								style={[inputAnimatedStyle]}
+								style={inputAnimatedStyle}
 								testID={`searchTextInput__input--${id}`}
 								value={value}
 							/>

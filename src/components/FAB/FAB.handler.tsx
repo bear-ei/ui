@@ -11,6 +11,16 @@ import {DURATION, EASING} from '../../theme'
 import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
 import {FAB_TYPE} from './FAB.enum'
 
+const ELEVATION_VALUE_MAP = {
+	[STATE.DISABLED]: ELEVATION_VALUE.LEVEL_0,
+	[STATE.ENABLED]: ELEVATION_VALUE.LEVEL_0,
+	[STATE.ERROR]: ELEVATION_VALUE.LEVEL_0,
+	[STATE.FOCUSED]: ELEVATION_VALUE.LEVEL_0,
+	[STATE.HOVERED]: ELEVATION_VALUE.LEVEL_1,
+	[STATE.LONG_PRESS]: ELEVATION_VALUE.LEVEL_0,
+	[STATE.PRESS_IN]: ELEVATION_VALUE.LEVEL_0
+}
+
 export const updateFABStatus = (setState: Updater<FABState>, disabled?: boolean) => (elevated?: boolean) =>
 	setState(draft => {
 		if (draft.status !== COMPONENT_STATUS.IDLE) {
@@ -23,16 +33,6 @@ export const updateFABStatus = (setState: Updater<FABState>, disabled?: boolean)
 
 		draft.status = COMPONENT_STATUS.SUCCEEDED
 	})
-
-const ELEVATION_VALUE_MAP = {
-	[STATE.DISABLED]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.ENABLED]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.ERROR]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.FOCUSED]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.HOVERED]: ELEVATION_VALUE.LEVEL_1,
-	[STATE.LONG_PRESS]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.PRESS_IN]: ELEVATION_VALUE.LEVEL_0
-}
 
 const applyFABElevationToDraft = (draft: WritableDraft<FABState>, elevated?: boolean, state?: State) => {
 	if (!elevated) {

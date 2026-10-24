@@ -9,6 +9,7 @@ import {platformValue} from '../../../utils'
 import {List, LIST_SELECT_TYPE, LIST_TYPE} from '../../List'
 import {POPOVER_TYPE} from '../../Popover'
 
+const PLATFORMS = ['web', 'windows', 'macos']
 export const RenderMenuList: FC<RenderMenuListProps> = ({
 	data,
 	id,
@@ -30,7 +31,7 @@ export const RenderMenuList: FC<RenderMenuListProps> = ({
 
 	return (
 		<View
-			{...(['web', 'windows', 'macos'].includes(Platform.OS) && {onKeyDown})}
+			{...(PLATFORMS.includes(Platform.OS) && {onKeyDown})}
 			className={classesName('overflow-hidden bg-[--color-surface-container] outline-none', {
 				['min-h-80']: type === POPOVER_TYPE.TEXT_INPUT_PICKER,
 				['min-w-[11.25rem]']: type === POPOVER_TYPE.CONTEXT_MENU

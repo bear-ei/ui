@@ -13,15 +13,8 @@ import type {
 } from './Popover-content.interface'
 
 import {POPOVER_CONTENT_POSITION, POPOVER_TYPE, type PopoverContentPosition} from '..'
-import {EVENT_NAME, type EventName, TRIGGER_ON, type TriggerOn} from '../../../constants'
+import {EVENT_NAME, TRIGGER_EVENT_NAMES, TRIGGER_ON} from '../../../constants'
 import {DENSITY_SIZE} from '../../../theme'
-
-const TRIGGER = {
-	[TRIGGER_ON.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
-	[TRIGGER_ON.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
-	[TRIGGER_ON.NONE]: [EVENT_NAME.NONE],
-	[TRIGGER_ON.PRESS]: [EVENT_NAME.PRESS_IN]
-} as Record<TriggerOn, readonly EventName[]>
 
 export const handlePopoverContentStateChange = (
 	event: StateEvent,
@@ -43,7 +36,7 @@ export const handlePopoverContentStateChange = (
 		return
 	}
 
-	const triggerEventNames = TRIGGER[triggerEvent]
+	const triggerEventNames = TRIGGER_EVENT_NAMES[triggerEvent]
 
 	if (triggerEventNames.includes(eventName)) {
 		onVisible?.(eventName === triggerEventNames[0])

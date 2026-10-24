@@ -9,12 +9,11 @@ import type {
 	HandlePopoverContentAnimationFinishedOptions,
 	HandlePopoverStateEventChangeOptions,
 	PopoverState,
-	PopoverType,
 	UpdatePopoverContextMenuLayoutOptions,
 	UpdatePopoverVisibleOptions
 } from './Popover.interface'
 
-import {EVENT_NAME, TRIGGER_ON, type EventName, type TriggerOn} from '../../constants'
+import {EVENT_NAME, TRIGGER_EVENT_NAMES, TRIGGER_ON} from '../../constants'
 import {emitter, PORTAL_TYPE} from '../../contexts'
 import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
 import {POPOVER_TYPE} from './Popover.enum'
@@ -23,8 +22,7 @@ export const updatePopoverVisible = (
 	setState: Updater<PopoverState>,
 	{onVisible, type}: UpdatePopoverVisibleOptions
 ) => {
-	const isMenuOrPicker =
-		type && ([POPOVER_TYPE.CONTEXT_MENU, POPOVER_TYPE.TEXT_INPUT_PICKER] as readonly PopoverType[]).includes(type)
+	const isMenuOrPicker = type && (type === POPOVER_TYPE.CONTEXT_MENU || type === POPOVER_TYPE.TEXT_INPUT_PICKER)
 
 	return (visible?: boolean) => {
 		if (typeof visible !== 'boolean') {
@@ -94,13 +92,6 @@ export const updatePopoverContextMenuLayout =
 		})
 	}
 
-const TRIGGER = {
-	[TRIGGER_ON.FOCUS]: [EVENT_NAME.FOCUS, EVENT_NAME.BLUR],
-	[TRIGGER_ON.HOVER]: [EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT],
-	[TRIGGER_ON.NONE]: [EVENT_NAME.NONE],
-	[TRIGGER_ON.PRESS]: [EVENT_NAME.PRESS_IN]
-} as Record<TriggerOn, readonly EventName[]>
-
 export const handlePopoverStateChange = (
 	_event: StateEvent,
 	setState: Updater<PopoverState>,
@@ -120,17 +111,14 @@ export const handlePopoverStateChange = (
 		return
 	}
 
-	const isTextInputPickerTriggerEvent = ([EVENT_NAME.FOCUS, EVENT_NAME.PRESS_OUT] as readonly EventName[]).includes(
-		eventName
-	)
-
+	const isTextInputPickerTriggerEvent = eventName === EVENT_NAME.FOCUS || eventName === EVENT_NAME.PRESS_OUT
 	const isFocus = type === POPOVER_TYPE.TEXT_INPUT_PICKER && childrenRef.current && isTextInputPickerTriggerEvent
 
 	if (isFocus) {
 		childrenRef.current?.focus()
 	}
 
-	const triggerEventNames = TRIGGER[triggerEvent]
+	const triggerEventNames = TRIGGER_EVENT_NAMES[triggerEvent]
 
 	setState(draft => {
 		const isUnmount = type === POPOVER_TYPE.TEXT_INPUT_PICKER && eventName === EVENT_NAME.BLUR && !draft.visible
@@ -172,7 +160,7 @@ export const emitPopoverContent =
 			return
 		}
 
-		emitter.emit('modal', {
+		emitter.emit('portal', {
 			id: `popoverContent--${id}`,
 			props: {...props, containerLayout, content, visible},
 			type: PORTAL_TYPE.POPOVER
@@ -180,7 +168,7 @@ export const emitPopoverContent =
 	}
 
 export const unmountPopoverContent = (id: string) => () =>
-	emitter.emit('modal', {
+	emitter.emit('portal', {
 		id: `popoverContent--${id}`,
 		type: PORTAL_TYPE.POPOVER,
 		unmount: true
@@ -189,7 +177,7 @@ export const unmountPopoverContent = (id: string) => () =>
 export const emitPopoverPressableLayout =
 	(id: string, containerRef: React.RefObject<View | null>) => (props: PressableProps) =>
 		containerRef.current?.measureInWindow((x, y, width, height) =>
-			emitter.emit('modal', {
+			emitter.emit('portal', {
 				id: `popoverPressableLayout--${id}`,
 				props: {...props, containerLayout: {height, width, x, y}, id},
 				type: PORTAL_TYPE.PRESSABLE_LAYOUT
@@ -197,7 +185,7 @@ export const emitPopoverPressableLayout =
 		)
 
 export const unmountPopoverPressableLayout = (id: string) => () =>
-	emitter.emit('modal', {
+	emitter.emit('portal', {
 		id: `popoverPressableLayout--${id}`,
 		type: PORTAL_TYPE.PRESSABLE_LAYOUT,
 		unmount: true
@@ -214,9 +202,7 @@ export const handlePopoverContentAnimationFinished =
 		}: HandlePopoverContentAnimationFinishedOptions
 	) =>
 	(visible?: boolean) => {
-		const isMenuOrPicker =
-			type &&
-			([POPOVER_TYPE.CONTEXT_MENU, POPOVER_TYPE.TEXT_INPUT_PICKER] as readonly PopoverType[]).includes(type)
+		const isMenuOrPicker = type && (type === POPOVER_TYPE.CONTEXT_MENU || type === POPOVER_TYPE.TEXT_INPUT_PICKER)
 
 		if (!isMenuOrPicker) {
 			if (!visible) {

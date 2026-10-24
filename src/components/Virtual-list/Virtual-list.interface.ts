@@ -14,7 +14,7 @@ export interface Item {
 }
 
 export interface RenderVirtualListItemInfo<T = Item> {
-	item: T
+	item: T & {index: number}
 }
 
 export type VirtualListData<T = Record<string, unknown>> = T & {

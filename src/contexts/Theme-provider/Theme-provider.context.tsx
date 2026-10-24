@@ -8,6 +8,8 @@ import type {Theme, ThemeProviderProps} from './Theme-provider.interface'
 import {CONTRAST, createToken, PALETTE, processStyleVariables, SCHEME, UI_DENSITY, type Token} from '../../theme'
 import {PortalProvider} from '../Portal-provider'
 
+const GESTURE_ROOT_STYLE = {flex: 1}
+
 /**
  * Sentinel value used to detect "used outside ThemeProvider".
  * MUST never be mutated — its reference identity is the entire mechanism.
@@ -15,7 +17,6 @@ import {PortalProvider} from '../Portal-provider'
  */
 export const EMPTY_THEME: Theme = {colorScheme: 'light', token: {} as Token, uiDensity: UI_DENSITY.COMPACT}
 export const ThemeContext = createContext<Theme>(EMPTY_THEME)
-const GESTURE_ROOT_STYLE = {flex: 1}
 export const ThemeProvider: FC<ThemeProviderProps> = ({children, token: rawToken, uiDensity = UI_DENSITY.COMPACT}) => {
 	const {colorScheme = 'light'} = useColorScheme()
 	const id = useId()

@@ -10,6 +10,18 @@ import {DURATION, EASING, type Token} from '../../theme'
 import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
 import {BUTTON_TYPE} from './Button.enum'
 
+const ANIMATED_TIMING_OPTIONS = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
+const ELEVATED_BUTTON_TYPES = [BUTTON_TYPE.ELEVATED, BUTTON_TYPE.FILLED, BUTTON_TYPE.TONAL] as readonly ButtonType[]
+const ELEVATION_VALUE_MAP = {
+	[STATE.DISABLED]: ELEVATION_VALUE.LEVEL_0,
+	[STATE.ENABLED]: ELEVATION_VALUE.LEVEL_0,
+	[STATE.ERROR]: ELEVATION_VALUE.LEVEL_0,
+	[STATE.FOCUSED]: ELEVATION_VALUE.LEVEL_0,
+	[STATE.HOVERED]: ELEVATION_VALUE.LEVEL_1,
+	[STATE.LONG_PRESS]: ELEVATION_VALUE.LEVEL_0,
+	[STATE.PRESS_IN]: ELEVATION_VALUE.LEVEL_0
+}
+
 export const updateButtonStatus = (setState: Updater<ButtonState>, disabled?: boolean) => (type?: ButtonType) =>
 	setState(draft => {
 		if (draft.status !== COMPONENT_STATUS.IDLE) {
@@ -22,17 +34,6 @@ export const updateButtonStatus = (setState: Updater<ButtonState>, disabled?: bo
 
 		draft.status = COMPONENT_STATUS.SUCCEEDED
 	})
-
-const ELEVATED_BUTTON_TYPES = [BUTTON_TYPE.ELEVATED, BUTTON_TYPE.FILLED, BUTTON_TYPE.TONAL] as readonly ButtonType[]
-const ELEVATION_VALUE_MAP = {
-	[STATE.DISABLED]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.ENABLED]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.ERROR]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.FOCUSED]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.HOVERED]: ELEVATION_VALUE.LEVEL_1,
-	[STATE.LONG_PRESS]: ELEVATION_VALUE.LEVEL_0,
-	[STATE.PRESS_IN]: ELEVATION_VALUE.LEVEL_0
-}
 
 export const updateButtonElevation = (draft: WritableDraft<ButtonState>, state?: State, type?: ButtonType) => {
 	const isElevated = type && ELEVATED_BUTTON_TYPES.includes(type)
@@ -111,9 +112,8 @@ export const animateButton = (
 	animatedTiming: AnimatedTiming,
 	{borderColorInputRanges, disabled, type}: AnimateButtonOptions
 ) => {
-	const animatedTimingOptions = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
-	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, animatedTimingOptions)
-	const borderAnimateSharedValueTo = animatedTiming(borderSharedValue, animatedTimingOptions)
+	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, ANIMATED_TIMING_OPTIONS)
+	const borderAnimateSharedValueTo = animatedTiming(borderSharedValue, ANIMATED_TIMING_OPTIONS)
 	const toValue = disabled ? 0 : 1
 	const animateOutlinedButton = (eventName: EventName, animateSharedValueTo: (toValue: number) => void) => {
 		const value = disabled ? 0 : borderColorInputRanges[borderColorInputRanges.length - 2]

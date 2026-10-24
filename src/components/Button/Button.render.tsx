@@ -26,6 +26,16 @@ import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {BUTTON_TYPE} from './Button.enum'
 
+const ACTIVE_INDICATOR_EVENT_NAMES = [
+	EVENT_NAME.FOCUS,
+	EVENT_NAME.HOVER_IN,
+	EVENT_NAME.LONG_PRESS,
+	EVENT_NAME.PRESS_IN,
+	EVENT_NAME.PRESS_OUT,
+	EVENT_NAME.PRESS
+] as readonly EventName[]
+
+const LOADING_EVENT_BUTTON_TYPES = [BUTTON_TYPE.LINK, BUTTON_TYPE.OUTLINED, BUTTON_TYPE.TEXT] as readonly ButtonType[]
 export const RenderButtonIcon: FC<RenderButtonIconProps> = ({
 	disabled,
 	icon,
@@ -63,15 +73,6 @@ export const RenderButtonIcon: FC<RenderButtonIconProps> = ({
 	})
 }
 
-const ACTIVE_INDICATOR_EVENT_NAMES = [
-	EVENT_NAME.FOCUS,
-	EVENT_NAME.HOVER_IN,
-	EVENT_NAME.LONG_PRESS,
-	EVENT_NAME.PRESS_IN,
-	EVENT_NAME.PRESS_OUT,
-	EVENT_NAME.PRESS
-] as readonly EventName[]
-
 export const RenderButton: FC<RenderButtonProps> = ({
 	accessibilityLabel,
 	backgroundUnderlayAnimatedStyle,
@@ -103,11 +104,7 @@ export const RenderButton: FC<RenderButtonProps> = ({
 		type === BUTTON_TYPE.LINK && ACTIVE_INDICATOR_EVENT_NAMES.includes(eventName) && !disabled
 
 	const isLink = type === BUTTON_TYPE.LINK
-	const loadingEventName =
-		([BUTTON_TYPE.LINK, BUTTON_TYPE.OUTLINED, BUTTON_TYPE.TEXT] as readonly ButtonType[]).includes(type) ?
-			EVENT_NAME.NONE
-		:	EVENT_NAME.LONG_PRESS
-
+	const loadingEventName = LOADING_EVENT_BUTTON_TYPES.includes(type) ? EVENT_NAME.NONE : EVENT_NAME.LONG_PRESS
 	const underlayEventName =
 		disabled ? EVENT_NAME.NONE
 		: loading ? loadingEventName

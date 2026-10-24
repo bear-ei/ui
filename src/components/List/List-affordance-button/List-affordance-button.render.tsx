@@ -5,13 +5,7 @@ import type {RenderListAffordanceButtonProps} from './List-affordance-button.int
 
 import {EVENT_NAME} from '../../../constants'
 import {useTheme} from '../../../hooks'
-import {
-	DENSITY_SIZE,
-	DENSITY_TYPE,
-	stepDownDensitySize,
-	densitySizeMapTypographySize,
-	TYPOGRAPHY
-} from '../../../theme'
+import {DENSITY_SIZE, DENSITY_TYPE, stepDownDensitySize, densitySizeMapTypographySize, TYPOGRAPHY} from '../../../theme'
 import {platformValue} from '../../../utils'
 import {AnimatedText, AnimatedView} from '../../Animated'
 import {Touchable} from '../../Touchable'
@@ -41,7 +35,7 @@ export const RenderListAffordanceButton: FC<RenderListAffordanceButtonProps> = (
 	const backgroundUnderlayElement = (
 		<AnimatedView
 			className='pointer-events-none absolute bottom-0 left-0 right-0 top-0 -z-10'
-			style={[backgroundUnderlayAnimatedStyle]}
+			style={backgroundUnderlayAnimatedStyle}
 			testID={`listAffordanceButton__backgroundUnderlay--${id}`}
 		/>
 	)
@@ -80,7 +74,7 @@ export const RenderListAffordanceButton: FC<RenderListAffordanceButtonProps> = (
 							)}
 							ellipsizeMode='tail'
 							numberOfLines={1}
-							style={[labelTextAnimatedStyle]}
+							style={labelTextAnimatedStyle}
 							testID={`listAffordanceButton__animatedLabelText--${id}`}
 						>
 							{labelText}

@@ -140,7 +140,7 @@ export const RenderSheetContent: FC<RenderSheetContentProps> = ({
 					{['max-w-[--density-layout-sidebar]']: type === SIDE_SHEET_TYPE.SIDEBAR},
 					shapeClasses(sheetShape)(radius)
 				)}
-				style={[style]}
+				style={style}
 				testID={`sheetContent__content--${id}`}
 			>
 				<View

@@ -23,7 +23,6 @@ export const handleUnderlayStateChange = (
 	})
 }
 
-const EVENT_NAMES = [EVENT_NAME.BLUR, EVENT_NAME.PRESS_IN] as readonly EventName[]
 export const updateUnderlayEventName =
 	(setState: Updater<UnderlayState>) =>
 	(eventName: EventName = EVENT_NAME.NONE) =>
@@ -36,7 +35,7 @@ export const updateUnderlayEventName =
 				draft.state = STATE.FOCUSED
 			}
 
-			if (EVENT_NAMES.includes(draft.eventName)) {
+			if (draft.eventName === EVENT_NAME.BLUR || draft.eventName === EVENT_NAME.PRESS_IN) {
 				draft.state = STATE.ENABLED
 			}
 

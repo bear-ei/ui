@@ -7,6 +7,7 @@ import type {HandleSearchTextInputStateChangeOptions, SearchTextInputState} from
 import {COMPONENT_STATUS, EVENT_NAME, STATE} from '../../../constants'
 import {DURATION, EASING} from '../../../theme'
 
+const ANIMATED_TIMING_OPTIONS = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
 export const handleSearchTextInputStateChange = (
 	_event: StateEvent,
 	setState: Updater<SearchTextInputState>,
@@ -57,7 +58,7 @@ export const updateSearchTextInputValue = (setState: Updater<SearchTextInputStat
 	})
 
 export const animateSearchColor = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
-	const animateSharedValueTo = animatedTiming(sharedValue, {duration: DURATION.SHORT_2, easing: EASING.STANDARD})
+	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING_OPTIONS)
 
 	return (disabled?: boolean) => animateSharedValueTo(disabled ? 0 : 1)
 }
@@ -66,9 +67,8 @@ export const animateSearchBorderRadius = (
 	[borderBottomRadiusSharedValue, borderTopRadiusSharedValue]: [SharedValue<number>, SharedValue<number>],
 	animatedTiming: AnimatedTiming
 ) => {
-	const animatedTimingOptions = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
-	const borderBottomAnimateSharedValueTo = animatedTiming(borderBottomRadiusSharedValue, animatedTimingOptions)
-	const borderTopAnimateSharedValueTo = animatedTiming(borderTopRadiusSharedValue, animatedTimingOptions)
+	const borderBottomAnimateSharedValueTo = animatedTiming(borderBottomRadiusSharedValue, ANIMATED_TIMING_OPTIONS)
+	const borderTopAnimateSharedValueTo = animatedTiming(borderTopRadiusSharedValue, ANIMATED_TIMING_OPTIONS)
 
 	return (listExpanded?: boolean) => {
 		const toValue = listExpanded ? 0 : 1

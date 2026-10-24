@@ -22,6 +22,16 @@ import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {FAB_TYPE} from './FAB.enum'
 
+const SHAPE_SIZE_MAP = {
+	[DENSITY_SIZE.LARGE]: RADIUS.LARGE,
+	[DENSITY_SIZE.MEDIUM]: RADIUS.MEDIUM,
+	[DENSITY_SIZE.SMALL]: RADIUS.MEDIUM,
+	[DENSITY_SIZE.X_LARGE]: RADIUS.LARGE,
+	[DENSITY_SIZE.X_SMALL]: RADIUS.SMALL,
+	[DENSITY_SIZE.XX_LARGE]: RADIUS.X_LARGE,
+	[DENSITY_SIZE.XX_SMALL]: RADIUS.X_SMALL
+}
+
 export const RenderFABIcon: FC<RenderFABIconProps> = ({
 	disabled,
 	extended,
@@ -57,16 +67,6 @@ export const RenderFABIcon: FC<RenderFABIconProps> = ({
 		size: platformValue(iconSize),
 		testID: `fab__icon--${id}`
 	})
-}
-
-const SHAPE_SIZE_MAP = {
-	[DENSITY_SIZE.LARGE]: RADIUS.LARGE,
-	[DENSITY_SIZE.MEDIUM]: RADIUS.MEDIUM,
-	[DENSITY_SIZE.SMALL]: RADIUS.MEDIUM,
-	[DENSITY_SIZE.X_LARGE]: RADIUS.LARGE,
-	[DENSITY_SIZE.X_SMALL]: RADIUS.SMALL,
-	[DENSITY_SIZE.XX_LARGE]: RADIUS.X_LARGE,
-	[DENSITY_SIZE.XX_SMALL]: RADIUS.X_SMALL
 }
 
 export const RenderFAB: FC<RenderFABProps> = ({

@@ -13,6 +13,7 @@ import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
 import {DURATION, EASING} from '../../../theme'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 
+const ANIMATED_TIMING_OPTIONS = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
 export const compareNavigationRailItemProps = (
 	prevProps: NavigationRailItemProps,
 	nextProps: NavigationRailItemProps
@@ -131,7 +132,6 @@ export const handleNavigationRailItemStateChange = (
 	}
 }
 
-const ANIMATED_TIMING_OPTIONS = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
 export const animateNavigationRailItem = (
 	[contentTranslateYSharedValue, labelTextSharedValue]: [SharedValue<number>, SharedValue<number>],
 	animatedTiming: AnimatedTiming,

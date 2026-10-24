@@ -14,6 +14,7 @@ import type {
 import {COMPONENT_STATUS, EVENT_NAME, STATE, type State} from '../../constants'
 import {DURATION, EASING} from '../../theme'
 
+const ANIMATED_TIMING_OPTIONS = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
 export const handleTextInputStateChange = (
 	_event: StateEvent,
 	setState: Updater<TextInputState>,
@@ -135,16 +136,15 @@ export const createAnimateTextInputEnabledState = (
 	animatedTiming: AnimatedTiming,
 	error?: boolean
 ) => {
-	const animatedTimingOptions = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
 	const activeIndicatorScaleYAnimateSharedValueTo = animatedTiming(
 		activeIndicatorScaleYSharedValue,
-		animatedTimingOptions
+		ANIMATED_TIMING_OPTIONS
 	)
 
-	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, animatedTimingOptions)
+	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, ANIMATED_TIMING_OPTIONS)
 	const headerInnerBackgroundColorAnimateSharedValueTo = animatedTiming(
 		headerInnerBackgroundColorSharedValue,
-		animatedTimingOptions
+		ANIMATED_TIMING_OPTIONS
 	)
 
 	if (error) {
@@ -164,16 +164,15 @@ export const createAnimateTextInputDisabledState = (
 	],
 	animatedTiming: AnimatedTiming
 ) => {
-	const animatedTimingOptions = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
 	const activeIndicatorScaleYAnimateSharedValueTo = animatedTiming(
 		activeIndicatorScaleYSharedValue,
-		animatedTimingOptions
+		ANIMATED_TIMING_OPTIONS
 	)
 
-	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, animatedTimingOptions)
+	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, ANIMATED_TIMING_OPTIONS)
 	const headerInnerBackgroundColorAnimateSharedValueTo = animatedTiming(
 		headerInnerBackgroundColorSharedValue,
-		animatedTimingOptions
+		ANIMATED_TIMING_OPTIONS
 	)
 
 	const toValue = 0
@@ -191,16 +190,15 @@ export const createAnimateTextInputErrorState = (
 	],
 	animatedTiming: AnimatedTiming
 ) => {
-	const animatedTimingOptions = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
 	const activeIndicatorScaleYAnimateSharedValueTo = animatedTiming(
 		activeIndicatorScaleYSharedValue,
-		animatedTimingOptions
+		ANIMATED_TIMING_OPTIONS
 	)
 
-	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, animatedTimingOptions)
+	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, ANIMATED_TIMING_OPTIONS)
 	const headerInnerBackgroundColorAnimateSharedValueTo = animatedTiming(
 		headerInnerBackgroundColorSharedValue,
-		animatedTimingOptions
+		ANIMATED_TIMING_OPTIONS
 	)
 
 	activeIndicatorScaleYAnimateSharedValueTo(1)
@@ -217,16 +215,15 @@ export const createAnimateTextInputFocusedState = (
 	animatedTiming: AnimatedTiming,
 	error?: boolean
 ) => {
-	const animatedTimingOptions = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
 	const activeIndicatorScaleYAnimateSharedValueTo = animatedTiming(
 		activeIndicatorScaleYSharedValue,
-		animatedTimingOptions
+		ANIMATED_TIMING_OPTIONS
 	)
 
-	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, animatedTimingOptions)
+	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, ANIMATED_TIMING_OPTIONS)
 	const headerInnerBackgroundColorAnimateSharedValueTo = animatedTiming(
 		headerInnerBackgroundColorSharedValue,
-		animatedTimingOptions
+		ANIMATED_TIMING_OPTIONS
 	)
 
 	if (error) {

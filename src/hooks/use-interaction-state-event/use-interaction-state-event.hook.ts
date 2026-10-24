@@ -22,7 +22,7 @@ import {
 	handleStateEventChange
 } from './use-interaction-state-event.handler'
 
-const IS_MOBILE_DEVICE = ['ios', 'android'].includes(Platform.OS)
+const IS_MOBILE_DEVICE = Platform.OS === 'ios' || Platform.OS === 'android'
 export const useInteractionStateEvent = ({
 	disabled = false,
 	onBlur: rawOnBlur,

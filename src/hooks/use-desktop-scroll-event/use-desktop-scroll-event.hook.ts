@@ -5,6 +5,7 @@ import type {UseDesktopScrollEventOptions} from './use-desktop-scroll-event.inte
 
 import {handleDesktopScroll} from './use-desktop-scroll-event.handler'
 
+const PLATFORMS = ['macos', 'web', 'windows']
 export const useDesktopScrollEvent = ({onMomentumScrollEnd, onScroll}: UseDesktopScrollEventOptions) => {
 	const momentumScrollEndTimer = useRef<ReturnType<typeof setTimeout>>(null)
 	const onDesktopScroll = useMemo(
@@ -24,6 +25,6 @@ export const useDesktopScrollEvent = ({onMomentumScrollEnd, onScroll}: UseDeskto
 
 	return {
 		onMomentumScrollEnd,
-		onScroll: ['macos', 'web', 'windows'].includes(Platform.OS) ? onDesktopScroll : onScroll
+		onScroll: PLATFORMS.includes(Platform.OS) ? onDesktopScroll : onScroll
 	}
 }

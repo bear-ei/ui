@@ -4,7 +4,7 @@ import {useImmer} from 'use-immer'
 
 import type {PopoverContentBaseProps, PopoverContentState} from './Popover-content.interface'
 
-import {POPOVER_TYPE, type PopoverType} from '..'
+import {POPOVER_TYPE} from '..'
 import {type State} from '../../../constants'
 import {
 	useInteractionStateEvent,
@@ -49,10 +49,7 @@ export const PopoverContentBase: FC<PopoverContentBaseProps> = ({
 	const mergedRef = useMergeRefs([ref, containerRef])
 	const id = useId()
 	const {token, uiDensity} = useTheme()
-	const isMenuOrPicker = (
-		[POPOVER_TYPE.CONTEXT_MENU, POPOVER_TYPE.TEXT_INPUT_PICKER] as readonly PopoverType[]
-	).includes(type)
-
+	const isMenuOrPicker = type === POPOVER_TYPE.CONTEXT_MENU || type === POPOVER_TYPE.TEXT_INPUT_PICKER
 	const position = getPopoverContentPosition(popoverContentPosition, isInvert)
 
 	// Menu width targets 180px on both densities:

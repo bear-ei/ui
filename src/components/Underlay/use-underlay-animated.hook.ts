@@ -3,7 +3,7 @@ import {cancelAnimation, interpolate, useAnimatedStyle, useSharedValue} from 're
 
 import type {UseUnderlayAnimatedOptions} from './Underlay.interface'
 
-import {COMPONENT_STATUS, EVENT_NAME, type EventName} from '../../constants'
+import {COMPONENT_STATUS, EVENT_NAME} from '../../constants'
 import {useAnimatedTiming, useTheme} from '../../hooks'
 import {debounce} from '../../utils'
 import {ACTIVE_ANIMATED} from './Underlay.enum'
@@ -89,8 +89,7 @@ export const useUnderlayAnimated = ({
 			return
 		}
 
-		const isDebounce =
-			eventName && ([EVENT_NAME.HOVER_IN, EVENT_NAME.HOVER_OUT] as readonly EventName[]).includes(eventName)
+		const isDebounce = eventName && (eventName === EVENT_NAME.HOVER_IN || eventName === EVENT_NAME.HOVER_OUT)
 
 		if (!isDebounce) {
 			runAnimateHoverState(eventName)
