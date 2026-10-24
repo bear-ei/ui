@@ -5,7 +5,7 @@ import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '..
 import type {ProgressActiveIndicatorLinearState} from './Progress-active-indicator-linear.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
-import {DURATION, EASING} from '../../../theme'
+import {ANIMATED_TIMING} from '../../../theme'
 
 // TODO: INDETERMINATE
 // const indeterminateAnimation = {
@@ -16,10 +16,7 @@ export const animateProgressActiveIndicatorLinear = (
 	sharedValue: SharedValue<number>,
 	animatedTiming: AnimatedTiming
 ) => {
-	const widthAnimateSharedValueTo = animatedTiming(sharedValue, {
-		duration: DURATION.MEDIUM_1,
-		easing: EASING.STANDARD_DECELERATE
-	})
+	const widthAnimateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.PROGRESS)
 
 	return (value?: number) => {
 		if (typeof value !== 'number') {

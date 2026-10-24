@@ -11,7 +11,7 @@ import type {
 } from './List-after-affordance.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
-import {DURATION, EASING} from '../../../theme'
+import {ANIMATED_TIMING} from '../../../theme'
 import {LIST_AFTER_AFFORDANCE_PHASE} from './List-after-affordance.enum'
 
 export const triggerListAfterAffordanceConfirm =
@@ -48,10 +48,7 @@ export const resetAffordanceConfirmationOnHide =
 	}
 
 export const animateListAfterAffordance = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
-	const animateSharedValueTo = animatedTiming(sharedValue, {
-		duration: DURATION.SHORT_2,
-		easing: EASING.STANDARD_DECELERATE
-	})
+	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.ENTER)
 
 	return (phase?: ListAfterAffordancePhase) => {
 		if (!phase) {

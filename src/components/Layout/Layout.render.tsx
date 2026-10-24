@@ -4,13 +4,8 @@ import type {RenderLayoutProps} from './Layout.interface'
 
 import {LAYOUT} from '../../constants'
 import {useTheme} from '../../hooks'
-import {DURATION, EASING} from '../../theme'
+import {ENTRY_EXIT} from '../../theme'
 import {LayoutAnimated} from '../Layout-animated'
-
-const ENTRY_EXIT = {
-	entry: {duration: DURATION.MEDIUM_3, easing: EASING.EMPHASIZED_DECELERATE},
-	exit: {duration: DURATION.SHORT_3, easing: EASING.EMPHASIZED_ACCELERATE}
-}
 
 export const RenderLayout: FC<RenderLayoutProps> = ({
 	children,
@@ -22,7 +17,7 @@ export const RenderLayout: FC<RenderLayoutProps> = ({
 }) => {
 	const {token} = useTheme()
 	const {classesName} = token.classes
-	const {entry, exit} = ENTRY_EXIT
+	const {entry, exit} = ENTRY_EXIT.EMPHASIZED
 
 	return (
 		<LayoutAnimated

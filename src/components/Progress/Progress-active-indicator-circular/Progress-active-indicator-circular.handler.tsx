@@ -6,7 +6,7 @@ import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '..
 import type {ProgressActiveIndicatorCircularState} from './Progress-active-indicator-circular.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
-import {EASING, LOOP} from '../../../theme'
+import {ANIMATED_TIMING} from '../../../theme'
 
 // TODO: DETERMINATE
 // const determinateAnimation = {
@@ -14,13 +14,12 @@ import {EASING, LOOP} from '../../../theme'
 // 	easing: EASING.STANDARD_DECELERATE
 // }
 
-const INDETERMINATE_TIMING_OPTIONS = {duration: LOOP.LOOP_2, easing: EASING.LINEAR, repeat: -1}
 export const animateProgressActiveIndicatorCircular = (
 	[circleSharedValue, containerSharedValue]: [SharedValue<number>, SharedValue<number>],
 	animatedTiming: AnimatedTiming
 ) => {
-	const circleAnimateSharedValueTo = animatedTiming(circleSharedValue, INDETERMINATE_TIMING_OPTIONS)
-	const containerAnimateSharedValueTo = animatedTiming(containerSharedValue, INDETERMINATE_TIMING_OPTIONS)
+	const circleAnimateSharedValueTo = animatedTiming(circleSharedValue, ANIMATED_TIMING.LOOP)
+	const containerAnimateSharedValueTo = animatedTiming(containerSharedValue, ANIMATED_TIMING.LOOP)
 
 	return (enableAnimated?: boolean) => {
 		if (typeof enableAnimated !== 'boolean') {

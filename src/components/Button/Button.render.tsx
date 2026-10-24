@@ -8,10 +8,9 @@ import {useTheme} from '../../hooks'
 import {
 	DENSITY_SIZE,
 	DENSITY_TYPE,
+	ENTRY_EXIT,
 	stepDownDensitySize,
 	densitySizeMapTypographySize,
-	DURATION,
-	EASING,
 	hexToRGBA,
 	RADIUS,
 	SHAPE,
@@ -25,11 +24,6 @@ import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {BUTTON_TYPE} from './Button.enum'
-
-const ENTRY_EXIT = {
-	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-}
 
 const ACTIVE_INDICATOR_EVENT_NAMES = [
 	EVENT_NAME.FOCUS,
@@ -117,7 +111,7 @@ export const RenderButton: FC<RenderButtonProps> = ({
 
 	const shape = isLink ? SHAPE.TOP : SHAPE.ALL
 	const radius = isLink ? RADIUS.X_SMALL : RADIUS.FULL
-	const {entry, exit} = ENTRY_EXIT
+	const {entry, exit} = ENTRY_EXIT.SHORT
 
 	const backgroundUnderlayElement = (
 		<AnimatedView

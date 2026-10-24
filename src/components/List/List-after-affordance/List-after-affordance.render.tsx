@@ -4,15 +4,10 @@ import {type FC} from 'react'
 import type {RenderListAfterAffordanceProps} from './List-after-affordance.interface'
 
 import {useTheme} from '../../../hooks'
-import {DENSITY_SIZE, DURATION, EASING, UI_DENSITY} from '../../../theme'
+import {DENSITY_SIZE, ENTRY_EXIT, UI_DENSITY} from '../../../theme'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
 import {ListAffordanceButton} from '../List-affordance-button'
 import {LIST_AFTER_AFFORDANCE_PHASE} from './List-after-affordance.enum'
-
-const ENTRY_EXIT = {
-	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-}
 
 export const RenderListAfterAffordance: FC<RenderListAfterAffordanceProps> = ({
 	dangerAnimatedStyle,
@@ -43,7 +38,7 @@ export const RenderListAfterAffordance: FC<RenderListAfterAffordanceProps> = ({
 	// Secondary button carries the destructive action (delete).
 	// When it's disabled, fall back to the disabled style and hide the danger block.
 	const isDangerVisible = !secondaryButtonDisabled
-	const {entry, exit} = ENTRY_EXIT
+	const {entry, exit} = ENTRY_EXIT.SHORT
 
 	return (
 		<LayoutAnimated

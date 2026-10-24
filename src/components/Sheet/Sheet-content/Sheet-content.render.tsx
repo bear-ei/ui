@@ -14,8 +14,7 @@ import {
 	BORDER_SIZE,
 	DENSITY_SIZE,
 	DENSITY_TYPE,
-	DURATION,
-	EASING,
+	ENTRY_EXIT,
 	RADIUS,
 	SHAPE,
 	TYPOGRAPHY,
@@ -26,11 +25,6 @@ import {Divider} from '../../Divider'
 import {ICON_BUTTON_TYPE, IconButton} from '../../Icon-button'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
 import {SIDE_SHEET_POSITION, SIDE_SHEET_TYPE} from '../Sheet.enum'
-
-const ENTRY_EXIT = {
-	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-}
 
 export const RenderSheetContentLeading: FC<RenderSheetContentLeadingProps> = ({
 	back,
@@ -115,7 +109,7 @@ export const RenderSheetContent: FC<RenderSheetContentProps> = ({
 	const positionShape = position === SIDE_SHEET_POSITION.HORIZONTAL_START ? SHAPE.END : SHAPE.START
 	const sheetShape = shape ?? (type === SIDE_SHEET_TYPE.SIDEBAR ? SHAPE.ALL : positionShape)
 	const buttonTabIndex = footerVisible ? 0 : -1
-	const {entry, exit} = ENTRY_EXIT
+	const {entry, exit} = ENTRY_EXIT.SHORT
 
 	return (
 		<LayoutAnimated

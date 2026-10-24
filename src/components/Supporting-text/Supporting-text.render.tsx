@@ -4,14 +4,9 @@ import type {RenderSupportingTextProps} from './Supporting-text.interface'
 
 import {ALIGNMENT, LAYOUT} from '../../constants'
 import {useTheme} from '../../hooks'
-import {DENSITY_SIZE, DENSITY_TYPE, DURATION, EASING, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '../../theme'
+import {DENSITY_SIZE, DENSITY_TYPE, ENTRY_EXIT, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '../../theme'
 import {AnimatedText} from '../Animated'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
-
-const ENTRY_EXIT = {
-	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-}
 
 export const RenderSupportingText: FC<RenderSupportingTextProps> = ({
 	alignment = ALIGNMENT.START,
@@ -25,7 +20,7 @@ export const RenderSupportingText: FC<RenderSupportingTextProps> = ({
 	const {token} = useTheme()
 	const {classesName, densityClasses, typographyClasses} = token.classes
 	const densityInsetClasses = densityClasses(DENSITY_TYPE.INSET, LAYOUT.HORIZONTAL)
-	const {entry, exit} = ENTRY_EXIT
+	const {entry, exit} = ENTRY_EXIT.SHORT
 
 	const contentSize = useMemo(
 		() => ({

@@ -19,7 +19,7 @@ import type {
 } from './Virtual-list.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME, LAYOUT, type LayoutRectangle} from '../../constants'
-import {DURATION, EASING} from '../../theme'
+import {ANIMATED_TIMING} from '../../theme'
 import {extractDragEventPayload} from './extract-drag-event-payload.utils'
 
 const calculateVirtualListVisibleRange = (
@@ -228,7 +228,7 @@ export const updateVirtualListVisibleRangeData =
 		})
 
 export const animateVirtualList = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
-	const animateSharedValueTo = animatedTiming(sharedValue, {duration: DURATION.SHORT_2, easing: EASING.STANDARD})
+	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.STANDARD)
 
 	return (contentSize: number) => animateSharedValueTo(contentSize)
 }

@@ -13,9 +13,8 @@ import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '..
 import type {DragState, UpdatePrevTranslateSharedValueOptions, UpdateTranslateScreenOptions} from './Drag.interface'
 
 import {EVENT_NAME, LAYOUT, type LayoutRectangle} from '../../constants'
-import {DURATION, EASING} from '../../theme'
+import {ANIMATED_TIMING} from '../../theme'
 
-const ANIMATED_TIMING_OPTIONS = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
 export const updateDragLayout =
 	(setState: Updater<DragState>) =>
 	({height, width}: LayoutRectangle) =>
@@ -99,8 +98,8 @@ export const animateDrag = (
 	[translateXSharedValue, translateYSharedValue]: [SharedValue<number>, SharedValue<number>],
 	animatedTiming: AnimatedTiming
 ) => {
-	const translateXAnimateSharedValueTo = animatedTiming(translateXSharedValue, ANIMATED_TIMING_OPTIONS)
-	const translateYAnimateSharedValueTo = animatedTiming(translateYSharedValue, ANIMATED_TIMING_OPTIONS)
+	const translateXAnimateSharedValueTo = animatedTiming(translateXSharedValue, ANIMATED_TIMING.STANDARD)
+	const translateYAnimateSharedValueTo = animatedTiming(translateYSharedValue, ANIMATED_TIMING.STANDARD)
 
 	return () => {
 		translateXAnimateSharedValueTo(0)

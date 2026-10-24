@@ -7,17 +7,12 @@ import type {RenderPopoverContentProps} from './Popover-content.interface'
 import {POPOVER_CONTENT_POSITION, POPOVER_TYPE} from '..'
 import {LAYOUT, OFF_SCREEN_LAYOUT} from '../../../constants'
 import {useTheme} from '../../../hooks'
-import {DENSITY_SIZE, DENSITY_TYPE, DURATION, EASING, RADIUS, SHAPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '../../../theme'
+import {DENSITY_SIZE, DENSITY_TYPE, ENTRY_EXIT, RADIUS, SHAPE, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '../../../theme'
 import {platformValue} from '../../../utils'
 import {Elevation} from '../../Elevation'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../../Layout-animated'
 import {Mask} from '../../Mask'
 import {getSafeMenuPosition} from './Popover-content.handler'
-
-const ENTRY_EXIT = {
-	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-}
 
 export const RenderPopoverContent: FC<RenderPopoverContentProps> = ({
 	containerLayout,
@@ -222,7 +217,7 @@ export const RenderPopoverContent: FC<RenderPopoverContentProps> = ({
 	)
 
 	const {animatedType, outputRanges} = positionOutputRanges[popoverContentPosition]
-	const {entry, exit} = ENTRY_EXIT
+	const {entry, exit} = ENTRY_EXIT.SHORT
 
 	const contentSize = useMemo(() => ({height, width}), [height, width])
 	const mainElement = (

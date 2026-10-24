@@ -10,10 +10,9 @@ import type {
 } from './Navigation-rail-item.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
-import {DURATION, EASING} from '../../../theme'
+import {ANIMATED_TIMING} from '../../../theme'
 import {NAVIGATION_RAIL_TYPE} from '../Navigation-rail.enum'
 
-const ANIMATED_TIMING_OPTIONS = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
 export const compareNavigationRailItemProps = (
 	prevProps: NavigationRailItemProps,
 	nextProps: NavigationRailItemProps
@@ -137,8 +136,8 @@ export const animateNavigationRailItem = (
 	animatedTiming: AnimatedTiming,
 	{type}: AnimateNavigationRailItemOptions
 ) => {
-	const contentTranslateYAnimateSharedValueTo = animatedTiming(contentTranslateYSharedValue, ANIMATED_TIMING_OPTIONS)
-	const labelTextAnimateSharedValueTo = animatedTiming(labelTextSharedValue, ANIMATED_TIMING_OPTIONS)
+	const contentTranslateYAnimateSharedValueTo = animatedTiming(contentTranslateYSharedValue, ANIMATED_TIMING.STANDARD)
+	const labelTextAnimateSharedValueTo = animatedTiming(labelTextSharedValue, ANIMATED_TIMING.STANDARD)
 
 	// Content translateY animation is SEGMENT-only (M3 selection indicator:
 	// the icon shifts up to make room for the label). BLOCK uses a fixed layout;

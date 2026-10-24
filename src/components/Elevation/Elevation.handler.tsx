@@ -10,7 +10,7 @@ import type {
 } from './Elevation.interface'
 
 import {COMPONENT_STATUS} from '../../constants'
-import {DURATION, EASING, hexToRGBA} from '../../theme'
+import {ANIMATED_TIMING, EASING, hexToRGBA} from '../../theme'
 import {platformValue} from '../../utils'
 
 export const getWebBoxShadow = ({blurRadius, color, offsetX, offsetY, opacity}: GetWebBoxShadowOptions) => {
@@ -97,9 +97,8 @@ export const animateElevation = (
 	})
 
 	const animateSharedValueTo = animatedTiming(sharedValue, {
-		callback: (finished?: boolean) => finished && onAnimationFinished?.(),
-		duration: DURATION.SHORT_2,
-		easing: EASING.STANDARD
+		...ANIMATED_TIMING.STANDARD,
+		callback: (finished?: boolean) => finished && onAnimationFinished?.()
 	})
 
 	return (level: ElevationValue) => {

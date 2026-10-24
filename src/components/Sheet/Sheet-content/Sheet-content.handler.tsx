@@ -2,10 +2,10 @@ import type {SharedValue} from 'react-native-reanimated'
 
 import type {AnimatedTiming} from '../../../hooks'
 
-import {DURATION, EASING} from '../../../theme'
+import {ANIMATED_TIMING} from '../../../theme'
 
 export const animateSheetContent = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
-	const animateSharedValueTo = animatedTiming(sharedValue, {duration: DURATION.MEDIUM_0, easing: EASING.STANDARD})
+	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.SURFACE)
 
 	return (visible?: boolean) => {
 		if (typeof visible !== 'boolean') {

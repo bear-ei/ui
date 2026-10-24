@@ -6,11 +6,10 @@ import type {AnimatedTiming, StateEvent} from '../../hooks'
 import type {AnimateButtonOptions, ButtonState, ButtonType, HandleButtonStateChangeOptions} from './Button.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME, type EventName, type State, STATE} from '../../constants'
-import {DURATION, EASING, type Token} from '../../theme'
+import {ANIMATED_TIMING, type Token} from '../../theme'
 import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
 import {BUTTON_TYPE} from './Button.enum'
 
-const ANIMATED_TIMING_OPTIONS = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
 const ELEVATED_BUTTON_TYPES = [BUTTON_TYPE.ELEVATED, BUTTON_TYPE.FILLED, BUTTON_TYPE.TONAL] as readonly ButtonType[]
 const ELEVATION_VALUE_MAP = {
 	[STATE.DISABLED]: ELEVATION_VALUE.LEVEL_0,
@@ -112,8 +111,8 @@ export const animateButton = (
 	animatedTiming: AnimatedTiming,
 	{borderColorInputRanges, disabled, type}: AnimateButtonOptions
 ) => {
-	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, ANIMATED_TIMING_OPTIONS)
-	const borderAnimateSharedValueTo = animatedTiming(borderSharedValue, ANIMATED_TIMING_OPTIONS)
+	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, ANIMATED_TIMING.STANDARD)
+	const borderAnimateSharedValueTo = animatedTiming(borderSharedValue, ANIMATED_TIMING.STANDARD)
 	const toValue = disabled ? 0 : 1
 	const animateOutlinedButton = (eventName: EventName, animateSharedValueTo: (toValue: number) => void) => {
 		const value = disabled ? 0 : borderColorInputRanges[borderColorInputRanges.length - 2]

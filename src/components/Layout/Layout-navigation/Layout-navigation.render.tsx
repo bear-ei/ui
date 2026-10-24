@@ -3,13 +3,8 @@ import {type FC} from 'react'
 import type {RenderLayoutNavigationProps} from './Layout-navigation.interface'
 
 import {useTheme} from '../../../hooks'
-import {DURATION, EASING} from '../../../theme'
+import {ENTRY_EXIT} from '../../../theme'
 import {LayoutAnimated} from '../../Layout-animated'
-
-const ENTRY_EXIT = {
-	entry: {duration: DURATION.MEDIUM_3, easing: EASING.EMPHASIZED_DECELERATE},
-	exit: {duration: DURATION.SHORT_3, easing: EASING.EMPHASIZED_ACCELERATE}
-}
 
 export const RenderLayoutNavigation: FC<RenderLayoutNavigationProps> = ({
 	children,
@@ -20,7 +15,7 @@ export const RenderLayoutNavigation: FC<RenderLayoutNavigationProps> = ({
 }) => {
 	const {token} = useTheme()
 	const {classesName} = token.classes
-	const {entry, exit} = ENTRY_EXIT
+	const {entry, exit} = ENTRY_EXIT.EMPHASIZED
 
 	return (
 		<LayoutAnimated

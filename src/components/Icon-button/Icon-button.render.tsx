@@ -10,9 +10,8 @@ import {
 	BORDER_SIZE,
 	DENSITY_SIZE,
 	DENSITY_TYPE,
+	ENTRY_EXIT,
 	stepDownDensitySize,
-	DURATION,
-	EASING,
 	hexToRGBA,
 	RADIUS,
 	SHAPE
@@ -24,11 +23,6 @@ import {Progress, PROGRESS_ANIMATED, PROGRESS_TYPE} from '../Progress'
 import {Touchable} from '../Touchable'
 import {ACTIVE_ANIMATED, Underlay} from '../Underlay'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
-
-const ENTRY_EXIT = {
-	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-}
 
 export const RenderIconButtonIcon: FC<RenderIconButtonIconProps> = ({
 	disabled,
@@ -93,7 +87,7 @@ export const RenderIconButton: FC<RenderIconButtonProps> = ({
 	const radius = RADIUS.FULL
 	const shape = SHAPE.ALL
 	const underlayEventName = disabled ? EVENT_NAME.NONE : eventName
-	const {entry, exit} = ENTRY_EXIT
+	const {entry, exit} = ENTRY_EXIT.SHORT
 
 	const backgroundUnderlayElement = (
 		<AnimatedView

@@ -11,10 +11,9 @@ import type {
 } from './Icon-button.interface'
 
 import {EVENT_NAME} from '../../constants'
-import {DURATION, EASING} from '../../theme'
+import {ANIMATED_TIMING} from '../../theme'
 import {ICON_BUTTON_TYPE} from './Icon-button.enum'
 
-const ANIMATED_TIMING_OPTIONS = {duration: DURATION.SHORT_2, easing: EASING.STANDARD}
 export const handleIconButtonStateChange = (
 	_event: StateEvent,
 	setState: Updater<IconButtonState>,
@@ -58,8 +57,8 @@ export const animateIconButton = (
 	animatedTiming: AnimatedTiming,
 	{type}: AnimateIconButtonOptions
 ) => {
-	const borderAnimateSharedValueTo = animatedTiming(borderSharedValue, ANIMATED_TIMING_OPTIONS)
-	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, ANIMATED_TIMING_OPTIONS)
+	const borderAnimateSharedValueTo = animatedTiming(borderSharedValue, ANIMATED_TIMING.STANDARD)
+	const colorAnimateSharedValueTo = animatedTiming(colorSharedValue, ANIMATED_TIMING.STANDARD)
 
 	return (disabled?: boolean) => {
 		const toValue = disabled ? 0 : 1

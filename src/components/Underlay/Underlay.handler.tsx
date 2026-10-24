@@ -5,7 +5,7 @@ import type {AnimatedTiming, HandleStateEventChangeOptions, StateEvent} from '..
 import type {UnderlayState} from './Underlay.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME, STATE, type EventName} from '../../constants'
-import {DURATION, EASING} from '../../theme'
+import {ANIMATED_TIMING} from '../../theme'
 
 export const handleUnderlayStateChange = (
 	_event: StateEvent,
@@ -65,10 +65,7 @@ export const animateUnderlayHoverState = (
 		[EVENT_NAME.PRESS_OUT]: 1
 	}
 
-	const animateSharedValueTo = animatedTiming(sharedValue, {
-		duration: DURATION.SHORT_1,
-		easing: EASING.STANDARD
-	})
+	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.HOVER)
 
 	return (eventName?: EventName) => {
 		if (!eventName) {
@@ -98,7 +95,7 @@ export const updateUnderlayActive = (setState: Updater<UnderlayState>) => (activ
 }
 
 export const animateUnderlayActiveState = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
-	const animateSharedValueTo = animatedTiming(sharedValue, {duration: DURATION.SHORT_2, easing: EASING.STANDARD})
+	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.STANDARD)
 
 	return (active?: boolean) => {
 		if (typeof active !== 'boolean') {

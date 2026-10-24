@@ -6,16 +6,11 @@ import type {RenderVirtualListItemOptions, RenderVirtualListProps} from './Virtu
 
 import {COMPONENT_STATUS, LAYOUT} from '../../constants'
 import {useTheme} from '../../hooks'
-import {DURATION, EASING, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '../../theme'
+import {ENTRY_EXIT, TYPOGRAPHY, TYPOGRAPHY_SIZE} from '../../theme'
 import {platformValue} from '../../utils'
 import {AnimatedView} from '../Animated'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 import {VirtualListItem} from './Virtual-list-item'
-
-const ENTRY_EXIT = {
-	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-}
 
 export const RenderVirtualListItem = ({
 	containerLayout,
@@ -85,7 +80,7 @@ export const RenderVirtualList: FC<RenderVirtualListProps> = ({
 		flex: 1
 	} as ViewStyle
 
-	const {entry, exit} = ENTRY_EXIT
+	const {entry, exit} = ENTRY_EXIT.SHORT
 
 	return (
 		<View

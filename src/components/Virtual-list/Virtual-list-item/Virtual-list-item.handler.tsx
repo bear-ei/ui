@@ -17,7 +17,7 @@ import type {
 } from './Virtual-list-item.interface'
 
 import {COMPONENT_STATUS} from '../../../constants'
-import {DURATION, EASING} from '../../../theme'
+import {ANIMATED_TIMING} from '../../../theme'
 import {extractDragEventPayload} from '../extract-drag-event-payload.utils'
 
 export const compareVirtualListItemProps = (prevProps: VirtualListItemProps, nextProps: VirtualListItemProps) => {
@@ -95,19 +95,15 @@ export const animateVirtualListItemTranslate = (
 	{onAnimationFinished}: AnimateVirtualListItemTranslateOptions
 ) => {
 	const animateSharedValueTo = animatedTiming(sharedValue, {
-		callback: (finished?: boolean) => finished && onAnimationFinished?.(),
-		duration: DURATION.SHORT_2,
-		easing: EASING.STANDARD
+		...ANIMATED_TIMING.STANDARD,
+		callback: (finished?: boolean) => finished && onAnimationFinished?.()
 	})
 
 	return (offsetY: number) => animateSharedValueTo(offsetY)
 }
 
 export const animateVirtualListItemScale = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
-	const animateSharedValueTo = animatedTiming(sharedValue, {
-		duration: DURATION.SHORT_2,
-		easing: EASING.STANDARD
-	})
+	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.STANDARD)
 
 	return (dragging?: boolean) => {
 		if (typeof dragging !== 'boolean') {

@@ -7,7 +7,7 @@ import type {AnimatedTiming, StateEvent} from '../../hooks'
 import type {FABState, FABType, HandleFABStateChangeOptions} from './FAB.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME, STATE, type State} from '../../constants'
-import {DURATION, EASING} from '../../theme'
+import {ANIMATED_TIMING} from '../../theme'
 import {ELEVATION_VALUE, type ElevationValue} from '../Elevation'
 import {FAB_TYPE} from './FAB.enum'
 
@@ -92,7 +92,7 @@ export const getFABUnderlayColor = (type: FABType, {token}: Theme) => {
 }
 
 export const animateFAB = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
-	const animateSharedValueTo = animatedTiming(sharedValue, {duration: DURATION.SHORT_2, easing: EASING.STANDARD})
+	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.STANDARD)
 
 	return (disabled?: boolean) => animateSharedValueTo(disabled ? 0 : 1)
 }

@@ -6,17 +6,12 @@ import type {RenderCheckboxProps} from './Checkbox.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME} from '../../constants'
 import {useTheme} from '../../hooks'
-import {DENSITY_SIZE, DENSITY_TYPE, DURATION, EASING, hexToRGBA, RADIUS, SHAPE, stepDownDensitySize} from '../../theme'
+import {DENSITY_SIZE, DENSITY_TYPE, ENTRY_EXIT, hexToRGBA, RADIUS, SHAPE, stepDownDensitySize} from '../../theme'
 import {platformValue} from '../../utils'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
 import {Touchable} from '../Touchable'
 import {Underlay} from '../Underlay'
 import {CHECKBOX_VALUE} from './Checkbox.enum'
-
-const ENTRY_EXIT = {
-	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-}
 
 export const RenderCheckbox: FC<RenderCheckboxProps> = ({
 	accessibilityLabel,
@@ -45,7 +40,7 @@ export const RenderCheckbox: FC<RenderCheckboxProps> = ({
 	const shape = SHAPE.ALL
 	const underlayColor = error ? token.scheme.error : unselectedColor
 	const underlayEventName = disabled ? EVENT_NAME.NONE : eventName
-	const {entry, exit} = ENTRY_EXIT
+	const {entry, exit} = ENTRY_EXIT.SHORT
 
 	const checked =
 		value === CHECKBOX_VALUE.SELECTED ? true

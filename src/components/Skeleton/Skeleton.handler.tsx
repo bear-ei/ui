@@ -5,7 +5,7 @@ import {cancelAnimation, type SharedValue} from 'react-native-reanimated'
 import type {AnimatedTiming} from '../../hooks'
 import type {AnimateSkeletonOptions, SkeletonState} from './Skeleton.interface'
 
-import {EASING, LOOP} from '../../theme'
+import {ANIMATED_TIMING} from '../../theme'
 
 export const updateSkeletonVisible = (setState: Updater<SkeletonState>) => {
 	let timeoutId: ReturnType<typeof setTimeout> | number | undefined
@@ -52,7 +52,7 @@ export const animateSkeleton = (
 	animatedTiming: AnimatedTiming,
 	{enableAnimated}: AnimateSkeletonOptions
 ) => {
-	const animateSharedValueTo = animatedTiming(sharedValue, {duration: LOOP.LOOP_2, easing: EASING.LINEAR, repeat: -1})
+	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.LOOP)
 
 	return (visible?: boolean) => {
 		if (!enableAnimated || !visible) {

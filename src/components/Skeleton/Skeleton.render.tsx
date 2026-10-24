@@ -4,14 +4,9 @@ import type {RenderSkeletonProps} from './Skeleton.interface'
 
 import {LAYOUT} from '../../constants'
 import {useTheme} from '../../hooks'
-import {DURATION, EASING} from '../../theme'
+import {ENTRY_EXIT} from '../../theme'
 import {AnimatedView} from '../Animated'
 import {LAYOUT_ANIMATED, LayoutAnimated} from '../Layout-animated'
-
-const ENTRY_EXIT = {
-	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-}
 
 export const RenderSkeleton: FC<RenderSkeletonProps> = ({
 	children,
@@ -28,7 +23,7 @@ export const RenderSkeleton: FC<RenderSkeletonProps> = ({
 	const {token} = useTheme()
 	const {classesName} = token.classes
 	const isSkeletonVisible = !!(skeleton && visible)
-	const {entry, exit} = ENTRY_EXIT
+	const {entry, exit} = ENTRY_EXIT.SHORT
 
 	const animatedViewStyle = [style, containerAnimatedStyle]
 

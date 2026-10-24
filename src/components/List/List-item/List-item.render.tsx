@@ -9,9 +9,8 @@ import {useTheme} from '../../../hooks'
 import {
 	DENSITY_SIZE,
 	DENSITY_TYPE,
+	ENTRY_EXIT,
 	densitySizeMapTypographySize,
-	DURATION,
-	EASING,
 	stepDownDensitySize,
 	TYPOGRAPHY,
 	type DensitySizeScale
@@ -25,11 +24,6 @@ import {Skeleton} from '../../Skeleton'
 import {ACTIVE_ANIMATED, Underlay} from '../../Underlay'
 import {ListAfterAffordance} from '../List-after-affordance'
 import {LIST_TYPE} from '../List.enum'
-
-const ENTRY_EXIT = {
-	entry: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_DECELERATE},
-	exit: {duration: DURATION.SHORT_2, easing: EASING.STANDARD_ACCELERATE}
-}
 
 const XX_SMALL_DENSITY_SIZE_SCALES = [
 	DENSITY_SIZE.X_SMALL,
@@ -162,7 +156,7 @@ export const RenderListItem: FC<RenderListItemProps> = ({
 	const isLabelType = type === LIST_TYPE.MENU || type === LIST_TYPE.LABEL
 	const typographyType = isLabelType ? TYPOGRAPHY.LABEL : TYPOGRAPHY.BODY
 	const typographySize = densitySizeMapTypographySize(isLabelType ? DENSITY_SIZE.MEDIUM : size)
-	const {entry, exit} = ENTRY_EXIT
+	const {entry, exit} = ENTRY_EXIT.SHORT
 
 	const animatedViewStyle = [contentStyle, contentAnimatedStyle]
 	const mainElement = (

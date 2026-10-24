@@ -14,7 +14,7 @@ import type {
 } from './List-item.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME, type EventName, TRIGGER_EVENT_NAMES, type TriggerOn} from '../../../constants'
-import {DURATION, EASING} from '../../../theme'
+import {ANIMATED_TIMING} from '../../../theme'
 import {LIST_AFTER_AFFORDANCE_PHASE} from '../List-after-affordance/List-after-affordance.enum'
 import {LIST_TYPE} from '../List.enum'
 
@@ -293,22 +293,16 @@ export const updateListItemTrailingVisible = (setState: Updater<ListItemState>) 
 	})
 
 export const animateListItemAffordanceVisible = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
-	const entryAnimateSharedValueTo = animatedTiming(sharedValue, {
-		duration: DURATION.SHORT_2,
-		easing: EASING.STANDARD_DECELERATE
-	})
+	const entryAnimateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.ENTER)
 
-	const exitAnimateSharedValueTo = animatedTiming(sharedValue, {
-		duration: DURATION.SHORT_2,
-		easing: EASING.STANDARD_ACCELERATE
-	})
+	const exitAnimateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.EXIT)
 
 	return (visible?: boolean) =>
 		typeof visible === 'boolean' && (visible ? entryAnimateSharedValueTo(1) : exitAnimateSharedValueTo(0))
 }
 
 export const animateListItemActiveState = (sharedValue: SharedValue<number>, animatedTiming: AnimatedTiming) => {
-	const animateSharedValueTo = animatedTiming(sharedValue, {duration: DURATION.SHORT_2, easing: EASING.STANDARD})
+	const animateSharedValueTo = animatedTiming(sharedValue, ANIMATED_TIMING.STANDARD)
 
 	return (active?: boolean) => typeof active === 'boolean' && animateSharedValueTo(active ? 1 : 0)
 }

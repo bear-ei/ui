@@ -9,7 +9,7 @@ import type {
 } from './Touchable-ripple.interface'
 
 import {COMPONENT_STATUS, EVENT_NAME} from '../../../constants'
-import {DURATION, EASING} from '../../../theme'
+import {ANIMATED_TIMING} from '../../../theme'
 
 // Re-render the ripple when the container resizes so its center / radius
 // stay accurate. Ripples are typically short-lived, so the extra renders
@@ -63,16 +63,12 @@ export const animateTouchableRipple = (
 	animatedTiming: AnimatedTiming,
 	{indexKey, onAnimateFinished}: AnimateTouchableRippleOptions
 ) => {
-	const entryAnimateSharedValueTo = animatedTiming(scaleSharedValue, {
-		duration: DURATION.SHORT_2,
-		easing: EASING.STANDARD_DECELERATE
-	})
+	const entryAnimateSharedValueTo = animatedTiming(scaleSharedValue, ANIMATED_TIMING.ENTER)
 
 	const exitAnimateSharedValueTo = animatedTiming(opacitySharedValue, {
+		...ANIMATED_TIMING.FADE_OUT,
 		callback: (finished?: boolean) => finished && indexKey && onAnimateFinished?.(indexKey),
-		delay: 75,
-		duration: DURATION.SHORT_3,
-		easing: EASING.STANDARD_ACCELERATE
+		delay: 75
 	})
 
 	return () => {
